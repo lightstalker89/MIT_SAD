@@ -253,13 +253,25 @@ namespace WindowManagement
                 Console.Write(rightChar ?? defaultCharRight);
             }
 
+            int drawIndex = this.Left + 1;
+
             // Draw the inner rectangle
             for (int i = this.Top + 1; i < this.Top + this.Height; i++)
             {
                 for (int j = this.Left + 1; j < this.Left + this.Width; j++)
                 {
                     Console.SetCursorPosition(j, i);
-                    Console.Write(" ");
+
+                    // Draw the text
+                    if (j < this.Content.Length + this.Left + 1 && drawIndex <= this.Content.Length + this.Left)
+                    {
+                        Console.Write(this.Content[drawIndex - this.Left - 1]);
+                        drawIndex++;
+                    }
+                    else
+                    {
+                        Console.WriteLine(" ");
+                    }
                 }
             }
 
