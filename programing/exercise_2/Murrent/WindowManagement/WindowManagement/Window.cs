@@ -17,6 +17,11 @@ namespace WindowManagement
     public class Window
     {
         /// <summary>
+        /// The chars
+        /// </summary>
+        private char[] x;
+
+        /// <summary>
         /// Title of the window
         /// </summary>
         private string title;
@@ -55,6 +60,14 @@ namespace WindowManagement
         /// The width of the window
         /// </summary>
         private int width;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Window"/> class
+        /// </summary>
+        public Window()
+        {
+            this.x = System.Text.Encoding.GetEncoding("DOS-720").GetChars(new byte[] { 186, 187, 188, 200, 201, 205, 177 });
+        }
 
         /// <summary>
         /// Gets or sets the title of the window
@@ -207,16 +220,15 @@ namespace WindowManagement
             char? bottomChar = null,
             char? shadowChar = null)
         {
-            char[] x = System.Text.Encoding.GetEncoding("DOS-720").GetChars(new byte[] { 186, 187, 188, 200, 201, 205, 177 });
-            char defaultCharLeftTop = x[4];
-            char defaultCharRightTop = x[1];
-            char defaultCharLeftBottom = x[3];
-            char defaultCharRightBottom = x[2];
-            char defaultCharLeft = x[0];
-            char defaultCharRight = x[0];
-            char defaultCharTop = x[5];
-            char defaultCharBottom = x[5];
-            char defaultCharShadow = x[6];
+            char defaultCharLeftTop = this.x[4];
+            char defaultCharRightTop = this.x[1];
+            char defaultCharLeftBottom = this.x[3];
+            char defaultCharRightBottom = this.x[2];
+            char defaultCharLeft = this.x[0];
+            char defaultCharRight = this.x[0];
+            char defaultCharTop = this.x[5];
+            char defaultCharBottom = this.x[5];
+            char defaultCharShadow = this.x[6];
 
             // Set the background and foreground color
             Console.BackgroundColor = this.backgroundColor;
