@@ -5,6 +5,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheels", "BiOWheels\BiOW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsLogger", "BiOWheelsLogger\BiOWheelsLogger.csproj", "{431A1474-6DD8-47B0-A1DD-3C011BE5958F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsConfigManager", "BiOWheelsConfigManager\BiOWheelsConfigManager.csproj", "{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsCommandLineArgsParser", "BiOWheelsCommandLineArgsParser\BiOWheelsCommandLineArgsParser.csproj", "{151CAB3A-43B2-49F5-8F34-E2ABFD9E86DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsFileWatcher", "BiOWheelsFileWatcher\BiOWheelsFileWatcher.csproj", "{B209DC0C-CE94-44DE-B618-0BB1B810C480}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +25,18 @@ Global
 		{431A1474-6DD8-47B0-A1DD-3C011BE5958F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{431A1474-6DD8-47B0-A1DD-3C011BE5958F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{431A1474-6DD8-47B0-A1DD-3C011BE5958F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{151CAB3A-43B2-49F5-8F34-E2ABFD9E86DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151CAB3A-43B2-49F5-8F34-E2ABFD9E86DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151CAB3A-43B2-49F5-8F34-E2ABFD9E86DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151CAB3A-43B2-49F5-8F34-E2ABFD9E86DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B209DC0C-CE94-44DE-B618-0BB1B810C480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B209DC0C-CE94-44DE-B618-0BB1B810C480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B209DC0C-CE94-44DE-B618-0BB1B810C480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B209DC0C-CE94-44DE-B618-0BB1B810C480}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

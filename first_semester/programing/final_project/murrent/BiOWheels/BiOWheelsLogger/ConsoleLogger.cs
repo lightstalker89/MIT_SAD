@@ -1,7 +1,6 @@
 ﻿namespace BiOWheelsLogger
 {
-    public class Logger
+    public class ConsoleLogger : ILogger
     {
-
     }
 }
