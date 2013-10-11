@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace FileCompare
 {
@@ -30,13 +31,9 @@ namespace FileCompare
             //Console.WriteLine("===============================");
             //CompareWithFewerFiles(500);
             //Console.WriteLine("===============================");
-            Console.WriteLine("Syncing files parallel:");
-            SyncFilesParallel();
+            Console.WriteLine("Syncing files serial:");
+            SyncFilesSerial();
             Console.WriteLine("Syncing files finished");
-            //Console.WriteLine("===============================");
-            //Console.WriteLine("Syncing files serial:");
-            //SyncFilesSerial();
-            //Console.WriteLine("Syncing files finished");
             Console.ReadLine();
         }
 
@@ -50,28 +47,31 @@ namespace FileCompare
             Console.WriteLine(watch.ElapsedMilliseconds + "ms needed for sync");
         }
 
-        private static void SyncFilesParallel()
-        {
-            Stopwatch watch = Stopwatch.StartNew();
-
-            OutputFiles.AsParallel().ForAll(CheckFile);
-
-            watch.Stop();
-            Console.WriteLine(watch.ElapsedMilliseconds + "ms needed for sync");
-        }
-
         private static void CheckFile(string filePath)
         {
-
             if (File.Exists(InputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath)))
             {
-                Console.WriteLine("File already exists - Analyzing file...");
-                using (StreamReader str = new StreamReader(filePath))
-                {
-                    char[] buffer = new char[2048];
-                    while (str.ReadBlock(buffer, 0, buffer.Length) != 0)
-                    {
+                HashAlgorithm hash = HashAlgorithm.Create();
 
+                FileInfo fileInfoFirstFile = new FileInfo(filePath);
+                FileInfo fileInfoSeoncdFile = new FileInfo(InputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath));
+
+                if (fileInfoFirstFile.Length != fileInfoSeoncdFile.Length)
+                {
+                    byte[] fileHash1;
+                    byte[] fileHash2;
+
+                    using (FileStream fileStream1 = new FileStream(filePath, FileMode.Open),
+                         fileStream2 = new FileStream(InputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath), FileMode.Open))
+                    {
+                        fileHash1 = hash.ComputeHash(fileStream1);
+                        fileHash2 = hash.ComputeHash(fileStream2);
+                    }
+
+                    if (BitConverter.ToString(fileHash1) != BitConverter.ToString(fileHash2))
+                    {
+                        Console.WriteLine("File is different: " + InputDir + Path.DirectorySeparatorChar +
+                                          Path.GetFileName(filePath));
                     }
                 }
             }
