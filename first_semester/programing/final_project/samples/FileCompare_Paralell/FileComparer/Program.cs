@@ -41,7 +41,7 @@ namespace FileComparer
             Thread myThread = new Thread(() =>
             {
                 Stopwatch watch = Stopwatch.StartNew();
-                //OutputFiles.AsParallel().ForAll(CheckFile); Paralell
+                //InputFiles.AsParallel().ForAll(CheckFile); Paralell
                 InputFiles.ForEach(CheckFile); // Serial (ist nicht wesentlich langsamer, und quält die CPU nicht so :)
                 watch.Stop();
                 Console.WriteLine(watch.ElapsedMilliseconds + "ms needed for sync");
