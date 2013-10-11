@@ -9,52 +9,68 @@ namespace FileCompare
 {
     class Program
     {
-        private static readonly string InputDir = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "SourceFiles";
-        private static readonly string OutputDir = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "DestinationFiles";
-        private readonly static List<string> InputFiles = Directory.GetFiles(InputDir, "*.*", SearchOption.AllDirectories).ToList();
-        private static readonly List<string> OutputFiles = Directory.GetFiles(OutputDir, "*.*", SearchOption.AllDirectories).ToList();
+        private static string inputDir;
+        private static string outputDir;
+        private static List<string> inputFiles;
+        private static List<string> outputFiles;
 
         static void Main(string[] args)
         {
-            //If u need a few files :)
-            //CreateDummyFiles();
+            inputDir = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "SourceFiles";
+            outputDir = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "DestinationFiles";
 
-            //CompareWithAllFiles();
-            //Console.WriteLine("===============================");
-            //CompareWithFewerFiles(8000);
-            //Console.WriteLine("===============================");
-            //CompareWithFewerFiles(5000);
-            //Console.WriteLine("===============================");
-            //CompareWithFewerFiles(2500);
-            //Console.WriteLine("===============================");
-            //CompareWithFewerFiles(1000);
-            //Console.WriteLine("===============================");
-            //CompareWithFewerFiles(500);
-            //Console.WriteLine("===============================");
-            Console.WriteLine("Syncing files serial:");
-            SyncFilesSerial();
-            Console.WriteLine("Syncing files finished");
-            Console.ReadLine();
+            if (Directory.Exists(inputDir) && Directory.Exists(outputDir))
+            {
+                inputFiles = Directory.GetFiles(inputDir, "*.*", SearchOption.AllDirectories).ToList();
+                outputFiles = Directory.GetFiles(outputDir, "*.*", SearchOption.AllDirectories).ToList();
+                //If u need a few files :)
+                //CreateDummyFiles();
+
+                //CompareWithAllFiles();
+                //Console.WriteLine("===============================");
+                //CompareWithFewerFiles(8000);
+                //Console.WriteLine("===============================");
+                //CompareWithFewerFiles(5000);
+                //Console.WriteLine("===============================");
+                //CompareWithFewerFiles(2500);
+                //Console.WriteLine("===============================");
+                //CompareWithFewerFiles(1000);
+                //Console.WriteLine("===============================");
+                //CompareWithFewerFiles(500);
+                //Console.WriteLine("===============================");
+                Console.WriteLine("Syncing files serial:");
+                SyncFilesSerial();
+                Console.WriteLine("Syncing files finished");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("Directory does not exsist");
+                Console.ReadLine();
+            }
         }
 
         private static void SyncFilesSerial()
         {
             Stopwatch watch = Stopwatch.StartNew();
 
-            OutputFiles.ForEach(CheckFile);
+            outputFiles.ForEach(CheckFile);
 
             watch.Stop();
             Console.WriteLine(watch.ElapsedMilliseconds + "ms needed for sync");
+
         }
 
         private static void CheckFile(string filePath)
         {
-            if (File.Exists(InputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath)))
+
+            if (File.Exists(inputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath)))
             {
                 HashAlgorithm hash = HashAlgorithm.Create();
 
                 FileInfo fileInfoFirstFile = new FileInfo(filePath);
-                FileInfo fileInfoSeoncdFile = new FileInfo(InputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath));
+                FileInfo fileInfoSeoncdFile =
+                    new FileInfo(inputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath));
 
                 if (fileInfoFirstFile.Length != fileInfoSeoncdFile.Length)
                 {
@@ -62,7 +78,10 @@ namespace FileCompare
                     byte[] fileHash2;
 
                     using (FileStream fileStream1 = new FileStream(filePath, FileMode.Open),
-                         fileStream2 = new FileStream(InputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath), FileMode.Open))
+                                      fileStream2 =
+                                          new FileStream(
+                                              inputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath),
+                                              FileMode.Open))
                     {
                         fileHash1 = hash.ComputeHash(fileStream1);
                         fileHash2 = hash.ComputeHash(fileStream2);
@@ -70,7 +89,7 @@ namespace FileCompare
 
                     if (BitConverter.ToString(fileHash1) != BitConverter.ToString(fileHash2))
                     {
-                        Console.WriteLine("File is different: " + InputDir + Path.DirectorySeparatorChar +
+                        Console.WriteLine("File is different: " + inputDir + Path.DirectorySeparatorChar +
                                           Path.GetFileName(filePath));
                     }
                 }
@@ -78,8 +97,9 @@ namespace FileCompare
             else
             {
                 Console.WriteLine("Syncing file " + Path.GetFileName(filePath));
-                File.Copy(filePath, InputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath), true);
+                File.Copy(filePath, inputDir + Path.DirectorySeparatorChar + Path.GetFileName(filePath), true);
             }
+
         }
 
         private static void CreateDummyFiles()
@@ -93,7 +113,7 @@ namespace FileCompare
 
         private static void CompareWithFewerFiles(int count)
         {
-            List<string> tmpFiles = OutputFiles.GetRange(count, OutputFiles.Count - count);
+            List<string> tmpFiles = outputFiles.GetRange(count, outputFiles.Count - count);
 
             Console.WriteLine("Compare with files: " + tmpFiles.Count + " files");
 
@@ -104,7 +124,7 @@ namespace FileCompare
             Console.WriteLine(watch.ElapsedMilliseconds + " ms needed");
 
             watch.Restart();
-            OutputFiles.ForEach(f => File.ReadAllBytes(f).GetHashCode());
+            outputFiles.ForEach(f => File.ReadAllBytes(f).GetHashCode());
             watch.Stop();
 
             Console.WriteLine(watch.ElapsedMilliseconds + " ms needed");
@@ -114,16 +134,16 @@ namespace FileCompare
         private static void CompareWithAllFiles()
         {
 
-            Console.WriteLine("Compare with all files: " + OutputFiles.Count + " files");
+            Console.WriteLine("Compare with all files: " + outputFiles.Count + " files");
 
             Stopwatch watch = Stopwatch.StartNew();
-            OutputFiles.AsParallel().ForAll(f => File.ReadAllBytes(f).GetHashCode());
+            outputFiles.AsParallel().ForAll(f => File.ReadAllBytes(f).GetHashCode());
             watch.Stop();
 
             Console.WriteLine(watch.ElapsedMilliseconds + " ms needed");
 
             watch.Restart();
-            OutputFiles.ForEach(f => File.ReadAllBytes(f).GetHashCode());
+            outputFiles.ForEach(f => File.ReadAllBytes(f).GetHashCode());
             watch.Stop();
 
             Console.WriteLine(watch.ElapsedMilliseconds + " ms needed");
