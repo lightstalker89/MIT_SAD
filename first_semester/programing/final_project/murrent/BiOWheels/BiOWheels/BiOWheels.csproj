@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BiOWheelsProgram.cs" />
+    <Compile Include="SimpleContainer.cs" />
+    <Compile Include="IContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
