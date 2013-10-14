@@ -2,5 +2,8 @@
 {
     public interface IConfigurationManager
     {
+        Configuration Configuration { get; }
+
+        event ConfigurationManager.ConfigurationLoadingFailedHandler ConfigurationLoadingFailed;
     }
 }

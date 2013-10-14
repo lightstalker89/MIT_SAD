@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BiOWheelsConfigManager\BiOWheelsConfigManager.csproj">
+      <Project>{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}</Project>
+      <Name>BiOWheelsConfigManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BiOWheelsLogger\BiOWheelsLogger.csproj">
       <Project>{431a1474-6dd8-47b0-a1dd-3c011be5958f}</Project>
       <Name>BiOWheelsLogger</Name>

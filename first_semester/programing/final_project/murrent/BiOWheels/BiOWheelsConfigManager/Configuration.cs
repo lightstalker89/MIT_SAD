@@ -1,9 +1,17 @@
 ﻿namespace BiOWheelsConfigManager
 {
-    internal class Configuration
+    using System.Collections.Generic;
+
+    public class Configuration
     {
         public Configuration() { }
 
-        public DirectoryMappingInfo DirectoryMappingInfo { get; set; }
+        public List<DirectoryMappingInfo> DirectoryMappingInfo { get; internal set; }
+
+        public BlockCompareOptions BlockCompareOptions { get; internal set; }
+
+        public long LogFileSize { get; internal set; }
+
+        public bool ParallelSync { get; internal set; }
     }
 }

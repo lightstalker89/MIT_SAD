@@ -2,9 +2,14 @@
 
 namespace BiOWheelsConfigManager
 {
-    internal class DirectoryMappingInfo
+    public class DirectoryMappingInfo
     {
-        public List<string> SourceDirectories { get; set; }
-        public string DestinationDirectory { get; set; }
+        public List<string> SourceDirectories { get; internal set; }
+
+        public string DestinationDirectory { get; internal set; }
+
+        public List<string> ExcludedFromSource { get; internal set; }
+
+        public bool Recursive { get; internal set; }
     }
 }
