@@ -7,6 +7,7 @@
     {
         #region Private Fields
         private const string FileLocation = "";
+        private readonly object objectLock = new Object();
         #endregion
 
         #region Properties
@@ -17,7 +18,7 @@
         public delegate void ConfigurationLoadingFailedHandler(object sender, EventArgs data);
         public event ConfigurationLoadingFailedHandler ConfigurationLoadingFailed;
 
-        protected virtual void OnConfigurationLoadingFailed(object sender, EventArgs data)
+        protected void OnConfigurationLoadingFailed(object sender, EventArgs data)
         {
             if (ConfigurationLoadingFailed != null)
             {
@@ -26,15 +27,12 @@
         }
         #endregion
 
-        public ConfigurationManager()
-        {
-            this.Load();
-        }
+        public ConfigurationManager() { }
 
         /// <summary>
         /// Loads the configuration
         /// </summary>
-        protected void Load()
+        public void Load()
         {
             this.Configuration = new Configuration();
 
@@ -44,7 +42,7 @@
             }
             else
             {
-                this.OnConfigurationLoadingFailed(this, new EventArgs());
+                OnConfigurationLoadingFailed(this, new EventArgs());
             }
         }
     }

@@ -26,8 +26,7 @@ namespace BiOWheelsLogger
         {
             if (!String.IsNullOrEmpty(message) && this.IsEnabled)
             {
-                Console.WriteLine(String.Concat(String.Format("{0:MM/dd/yy H:mm:ss zzz}", DateTime.Now), " [",
-                                                messageType, "] "));
+                Console.WriteLine(message.ToLogFileString(messageType));
             }
         }
         #endregion

@@ -3,14 +3,19 @@
     public class CombinedLogger : ILogger
     {
         private readonly ILogger consoleLogger = new ConsoleLogger();
-        private readonly ILogger fileLogger = new ConsoleLogger();
+        private readonly ILogger fileLogger = new FileLogger();
 
         #region Properties
         private bool isEnabled;
         public bool IsEnabled
         {
             get { return this.isEnabled; }
-            set { this.isEnabled = value; }
+            set
+            {
+                this.isEnabled = value;
+                this.consoleLogger.IsEnabled = true;
+                this.fileLogger.IsEnabled = true;
+            }
         }
 
         private long fileSize;

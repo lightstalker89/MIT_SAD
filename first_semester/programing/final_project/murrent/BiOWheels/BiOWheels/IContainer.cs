@@ -28,12 +28,5 @@ namespace BiOWheels
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         T Resolve<T>();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contract"></param>
-        /// <returns></returns>
-        object Resolve(Type contract);
     }
 }

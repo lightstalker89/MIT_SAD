@@ -34,7 +34,7 @@ namespace BiOWheels
         }
 
         /// <inheritdoc/>
-        public object Resolve(Type contract)
+        private object Resolve(Type contract)
         {
             if (TypeInstances.ContainsKey(contract))
             {

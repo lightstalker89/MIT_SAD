@@ -6,7 +6,7 @@ namespace BiOWheelsConfigManager
     {
         public List<string> SourceDirectories { get; internal set; }
 
-        public string DestinationDirectory { get; internal set; }
+        public List<string> DestinationDirectory { get; internal set; }
 
         public List<string> ExcludedFromSource { get; internal set; }
 

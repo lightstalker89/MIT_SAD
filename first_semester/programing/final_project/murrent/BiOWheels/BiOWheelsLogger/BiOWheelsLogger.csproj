@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CombinedLogger.cs" />
     <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="StringHelper.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="FileLogger.cs" />
     <Compile Include="MessageType.cs" />

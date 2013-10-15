@@ -3,7 +3,7 @@ using System.IO;
 
 namespace BiOWheelsLogger
 {
-    public class FileLogger :  ILogger
+    public class FileLogger : ILogger
     {
         #region Properties
         private bool isEnabled;
@@ -29,8 +29,7 @@ namespace BiOWheelsLogger
             {
                 using (StreamWriter streamWriter = new StreamWriter("", true))
                 {
-                    streamWriter.WriteLine(String.Concat(String.Format("{0:MM/dd/yy H:mm:ss zzz}", DateTime.Now), " [",
-                                           messageType, "] "));
+                    streamWriter.WriteLine(message.ToLogFileString(messageType));
                 }
             }
         }
