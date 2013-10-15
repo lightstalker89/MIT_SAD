@@ -1,12 +1,27 @@
 ﻿namespace BiOWheelsCommandLineArgsParser
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CommandLineArgsParser : ICommandLineArgsParser
     {
         #region Private Fields
+        /// <summary>
+        /// 
+        /// </summary>
 		private int optind;
+
+        /// <summary>
+        /// 
+        /// </summary>
 		private string nextarg = string.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
 		private string optarg = string.Empty;
-		#endregion
+
+        #endregion
 
 		#region Properties
 		public string Optarg
@@ -27,7 +42,34 @@
 		#endregion
 
 		#region Methods
-		public char Getopt(int argc, string[] argv, string optstring)
+
+        /// <summary>
+        /// Parses the commandline args
+        /// </summary>
+        /// <param name="args">commandline args</param>
+        /// <param name="options">accepted commandline arguments</param>
+        public void Parse(string[] args, string options)
+        {
+            char c;
+            while ((c = Getopt(args.Length, args, options)) != '\0')
+            {
+                switch (c)
+                {
+                    case 'd':
+                        // TODO Fire EVENT
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get an valid option
+        /// </summary>
+        /// <param name="argc"></param>
+        /// <param name="argv"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+		protected char Getopt(int argc, string[] argv, string options)
 		{
 			optarg = string.Empty;
 
@@ -69,13 +111,13 @@
 
 			char c = nextarg[0];				// get option char
 			nextarg = nextarg.Substring(1);		// skip past option char
-			int index = optstring.IndexOf(c);	// check if this is valid option char
+            int index = options.IndexOf(c);	// check if this is valid option char
 
 			if (index == -1 || c == ':')
 				return '?';
 
 			index++;
-			if ((index < optstring.Length) && (optstring[index] == ':'))
+            if ((index < options.Length) && (options[index] == ':'))
 			{
 				// option takes an arg
 				if (nextarg.Length > 0)
@@ -96,7 +138,6 @@
 
 			return c;
 		}
-
 		#endregion
     }
 }

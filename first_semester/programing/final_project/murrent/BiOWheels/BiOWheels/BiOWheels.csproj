@@ -58,9 +58,17 @@
       <Project>{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}</Project>
       <Name>BiOWheelsConfigManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BiOWheelsFileWatcher\BiOWheelsFileWatcher.csproj">
+      <Project>{B209DC0C-CE94-44DE-B618-0BB1B810C480}</Project>
+      <Name>BiOWheelsFileWatcher</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BiOWheelsLogger\BiOWheelsLogger.csproj">
       <Project>{431a1474-6dd8-47b0-a1dd-3c011be5958f}</Project>
       <Name>BiOWheelsLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BiOWheelsVisualizer\BiOWheelsVisualizer.csproj">
+      <Project>{8346B62C-A7E2-4859-A6DA-5B9803DA48CA}</Project>
+      <Name>BiOWheelsVisualizer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
