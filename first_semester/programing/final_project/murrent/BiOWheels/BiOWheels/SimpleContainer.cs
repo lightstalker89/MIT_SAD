@@ -6,10 +6,11 @@ using System.Reflection;
 namespace BiOWheels
 {
     /// <summary>
-    /// 
+    /// Test
     /// </summary>
     public class SimpleContainer : IContainer
     {
+
         public static readonly IContainer Instance = new SimpleContainer();
 
         private static readonly IDictionary<Type, Type> Types = new Dictionary<Type, Type>();
