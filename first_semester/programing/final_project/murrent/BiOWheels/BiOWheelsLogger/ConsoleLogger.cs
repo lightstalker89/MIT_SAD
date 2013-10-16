@@ -11,22 +11,18 @@ namespace BiOWheelsLogger
             get { return isEnabled; }
             set { isEnabled = value; }
         }
+        #endregion
 
-        private long fileSize;
-        public long FileSize
-        {
-            get { return fileSize; }
-            set { fileSize = value; }
-        }
-
+        #region Methods
+        /// <inheritdoc/>
         public void SetIsEnabled<T>(bool isLoggerEnabled)
         {
             this.isEnabled = isLoggerEnabled;
         }
 
-        #endregion
+        /// <inheritdoc/>
+        public void SetFileSize<T>(long logFileSize) { }
 
-        #region Methods
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)
         {

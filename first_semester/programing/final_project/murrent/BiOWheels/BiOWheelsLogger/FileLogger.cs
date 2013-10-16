@@ -14,20 +14,26 @@ namespace BiOWheelsLogger
         }
 
         private long fileSize;
-        public long FileSize
+        internal long FileSize
         {
             get { return fileSize; }
             set { fileSize = value; }
         }
+        #endregion
 
+        #region Methods
+        /// <inheritdoc/>
         public void SetIsEnabled<T>(bool isLoggerEnabled)
         {
             this.isEnabled = isLoggerEnabled;
         }
 
-        #endregion
+        /// <inheritdoc/>
+        public void SetFileSize<T>(long logFileSize)
+        {
+            this.fileSize = logFileSize;
+        }
 
-        #region Methods
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)
         {
@@ -44,6 +50,16 @@ namespace BiOWheelsLogger
         {
             FileInfo fi = new FileInfo("");
             double filesSize = fi.Length * Math.Sqrt(1024);
+
+            if(fi.Exists)
+            {
+                
+            }
+            else
+            {
+                
+            }
+
         }
 
         private void GetFileName()
