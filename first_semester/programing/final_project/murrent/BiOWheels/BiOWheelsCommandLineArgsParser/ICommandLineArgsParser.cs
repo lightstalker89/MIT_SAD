@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+
 namespace BiOWheelsCommandLineArgsParser
 {
     public interface ICommandLineArgsParser
     {
-        void Parse(string[] args, string options);
+        IList<char> Parse(string[] args, string options);
     }
 }

@@ -7,7 +7,7 @@ namespace BiOWheelsLogger
     {
         #region Properties
         private bool isEnabled;
-        public bool IsEnabled
+        internal bool IsEnabled
         {
             get { return isEnabled; }
             set { isEnabled = value; }
@@ -19,13 +19,19 @@ namespace BiOWheelsLogger
             get { return fileSize; }
             set { fileSize = value; }
         }
+
+        public void SetIsEnabled<T>(bool isLoggerEnabled)
+        {
+            this.isEnabled = isLoggerEnabled;
+        }
+
         #endregion
 
         #region Methods
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)
         {
-            if (!String.IsNullOrEmpty(message))
+            if (!String.IsNullOrEmpty(message) && this.isEnabled)
             {
                 using (StreamWriter streamWriter = new StreamWriter("", true))
                 {

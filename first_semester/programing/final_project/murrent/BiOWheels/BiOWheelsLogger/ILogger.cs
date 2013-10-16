@@ -9,8 +9,8 @@
         /// <param name="messageType">messageType for the message</param>
         void Log(string message, MessageType messageType);
 
-        bool IsEnabled { get; set; }
-
         long FileSize { get; set; }
+
+        void SetIsEnabled<T>(bool isLoggerEnabled);
     }
 }

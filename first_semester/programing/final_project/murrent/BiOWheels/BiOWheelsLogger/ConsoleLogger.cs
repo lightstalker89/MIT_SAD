@@ -6,7 +6,7 @@ namespace BiOWheelsLogger
     {
         #region Properties
         private bool isEnabled;
-        public bool IsEnabled
+        internal bool IsEnabled
         {
             get { return isEnabled; }
             set { isEnabled = value; }
@@ -18,6 +18,12 @@ namespace BiOWheelsLogger
             get { return fileSize; }
             set { fileSize = value; }
         }
+
+        public void SetIsEnabled<T>(bool isLoggerEnabled)
+        {
+            this.isEnabled = isLoggerEnabled;
+        }
+
         #endregion
 
         #region Methods

@@ -1,4 +1,6 @@
-﻿namespace BiOWheelsCommandLineArgsParser
+﻿using System.Collections.Generic;
+
+namespace BiOWheelsCommandLineArgsParser
 {
     /// <summary>
     /// 
@@ -48,18 +50,17 @@
         /// </summary>
         /// <param name="args">commandline args</param>
         /// <param name="options">accepted commandline arguments</param>
-        public void Parse(string[] args, string options)
+        public IList<char> Parse(string[] args, string options)
         {
+            IList<char> includedArgs = new List<char>();
+
             char c;
             while ((c = Getopt(args.Length, args, options)) != '\0')
             {
-                switch (c)
-                {
-                    case 'd':
-                        // TODO Fire EVENT
-                        break;
-                }
+                includedArgs.Add(c);
             }
+
+            return includedArgs;
         }
 
         /// <summary>

@@ -24,6 +24,19 @@
             get { return fileSize; }
             set { fileSize = value; }
         }
+
+        public void SetIsEnabled<T>(bool isLoggerEnabled)
+        {
+            if (typeof(T) == typeof(ConsoleLogger))
+            {
+                consoleLogger.IsEnabled = isLoggerEnabled;
+            }
+            else if (typeof(T) == typeof(FileLogger))
+            {
+                fileLogger.IsEnabled = isLoggerEnabled;
+            }
+        }
+
         #endregion
 
         /// <inheritdoc/>

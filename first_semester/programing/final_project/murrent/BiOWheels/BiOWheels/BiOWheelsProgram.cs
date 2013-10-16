@@ -1,4 +1,5 @@
-﻿using BiOWheelsFileWatcher;
+﻿using System.Collections.Generic;
+using BiOWheelsFileWatcher;
 using BiOWheelsVisualizer;
 
 namespace BiOWheels
@@ -14,7 +15,10 @@ namespace BiOWheels
     public class BiOWheelsProgram
     {
         #region Private Fields
-        private const string Options = "";
+        /// <summary>
+        /// Accepted commandline arguments
+        /// </summary>
+        private const string Options = "p";
         #endregion
 
         /// <summary>
@@ -28,7 +32,7 @@ namespace BiOWheels
             if (args.Length > 0)
             {
                 ICommandLineArgsParser parser = SimpleContainer.Instance.Resolve<CommandLineArgsParser>();
-                parser.Parse(args, Options);
+                HandleParams(parser.Parse(args, Options));
             }
             else
             {
@@ -44,11 +48,11 @@ namespace BiOWheels
         /// <param name="loadConfig"></param>
         private static void ApplicationStartUp(bool loadConfig)
         {
-            SimpleContainer.Instance.Register<IConfigurationManager, IConfigurationManager>();
+            SimpleContainer.Instance.Register<IConfigurationManager, ConfigurationManager>(new ConfigurationManager());
             SimpleContainer.Instance.Register<ILogger, CombinedLogger>(new CombinedLogger { IsEnabled = true });
-            SimpleContainer.Instance.Register<ICommandLineArgsParser, CommandLineArgsParser>();
-            SimpleContainer.Instance.Register<IVisualizer, Visualizer>();
-            SimpleContainer.Instance.Register<IFileWatcher, FileWatcher>();
+            SimpleContainer.Instance.Register<ICommandLineArgsParser, CommandLineArgsParser>(new CommandLineArgsParser());
+            SimpleContainer.Instance.Register<IVisualizer, Visualizer>(new Visualizer());
+            SimpleContainer.Instance.Register<IFileWatcher, FileWatcher>(new FileWatcher());
 
             if (loadConfig)
             {
@@ -79,6 +83,17 @@ namespace BiOWheels
         private static void Log(string message, MessageType messageType)
         {
             SimpleContainer.Instance.Resolve<ILogger>().Log(message, messageType);
+        }
+
+        private static void HandleParams(IEnumerable<char> parameter)
+        {
+            foreach (char c in parameter)
+            {
+                if(c == 'p')
+                {
+                    // parallel sync
+                }
+            }
         }
         #endregion
     }
