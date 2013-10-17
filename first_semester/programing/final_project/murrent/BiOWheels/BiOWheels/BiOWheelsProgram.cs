@@ -52,9 +52,11 @@ namespace BiOWheels
             SimpleContainer.Instance.Register<ILogger, CombinedLogger>(new CombinedLogger());
             SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<FileLogger>(true);
             SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+            SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(2);
             SimpleContainer.Instance.Register<ICommandLineArgsParser, CommandLineArgsParser>(new CommandLineArgsParser());
             SimpleContainer.Instance.Register<IVisualizer, Visualizer>(new Visualizer());
             SimpleContainer.Instance.Register<IFileWatcher, FileWatcher>(new FileWatcher());
+
 
             if (loadConfig)
             {

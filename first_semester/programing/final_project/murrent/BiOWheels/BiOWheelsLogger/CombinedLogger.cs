@@ -5,6 +5,11 @@
         private readonly ILogger consoleLogger = new ConsoleLogger();
         private readonly ILogger fileLogger = new FileLogger();
 
+        public CombinedLogger()
+        {
+            ((FileLogger) fileLogger).Init();
+        }
+
         #region Methods
         /// <inheritdoc/>
         public void SetIsEnabled<T>(bool isLoggerEnabled)
@@ -24,7 +29,7 @@
         {
             if (typeof(T) == typeof(FileLogger))
             {
-                ((FileLogger)consoleLogger).FileSize = logFileSize;
+                ((FileLogger)fileLogger).MaxFileSizeInMB = logFileSize;
             }
         }
 

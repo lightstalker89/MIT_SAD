@@ -15,7 +15,7 @@
         /// <returns></returns>
         public static string ToLogFileString(this string input, MessageType messageType)
         {
-            return String.Concat(String.Format("{0:dd.MM.yyyy H:mm:ss zzz}", DateTime.Now), " [", messageType, "] - " + input);
+            return String.Concat(String.Format("{0:dd.MM.yyyy H:mm:ss:ffff}", DateTime.Now), " [", messageType, "] - " + input);
         }
     }
 }
