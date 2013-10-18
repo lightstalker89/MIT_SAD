@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 
 namespace BiOWheelsLogger.Test
 {
@@ -19,7 +20,7 @@ namespace BiOWheelsLogger.Test
         [TestCase]
         public void LogTest()
         {
-            for(int i = 0; i < 20; i++)
+            for (int i = 0; i < 20; i++)
             {
                 logger.Log("test logging" + i, MessageType.DEBUG);
             }
@@ -30,9 +31,18 @@ namespace BiOWheelsLogger.Test
         {
             const string message = "test logging";
             string logMessage = message.ToLogFileString(MessageType.DEBUG);
-            
+
             Assert.IsNotNullOrEmpty(logMessage);
             StringAssert.Contains("[DEBUG] - test logging", logMessage);
+        }
+
+        [TestCase]
+        public void TestStreamLength()
+        {
+            Stream stream = new FileStream("BiOWheelsLogger.dll",FileMode.OpenOrCreate);
+            double length = stream.Length/1024/1024f;
+            Assert.NotNull(length);
+
         }
     }
 }

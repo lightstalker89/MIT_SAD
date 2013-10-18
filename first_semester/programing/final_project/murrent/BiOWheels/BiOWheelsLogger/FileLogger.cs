@@ -19,19 +19,19 @@ namespace BiOWheelsLogger
             {
                 LogQueueItem item = logQueue.Dequeue();
 
-                string actualFileName = await GetLogFile();
-                
+                FileInfo actualFileName = await GetLogFile();
+
                 if (!String.IsNullOrEmpty(item.Message) && this.isEnabled)
                 {
                     try
                     {
-                    await Task.Run(() =>
-                                       {
-                                           using (StreamWriter streamWriter = new StreamWriter(actualFileName,true,Encoding.UTF8))
+                        await Task.Run(() =>
                                            {
-                                               streamWriter.WriteLine(item.Message.ToLogFileString(item.MessageType));
-                                           }
-                                       });
+                                               using (StreamWriter streamWriter = actualFileName.AppendText())
+                                               {
+                                                   streamWriter.WriteLine(item.Message.ToLogFileString(item.MessageType));
+                                               }
+                                           });
                     }
                     catch (ObjectDisposedException odex)
                     {
@@ -138,44 +138,51 @@ namespace BiOWheelsLogger
             }
         }
 
-        private async Task<string> GetLogFile()
+        private async Task<FileInfo> GetLogFile()
         {
             // GET RID OF FILEINFO - NOT GOOD
+            FileInfo fi = null;
 
             string result = await Task.Run(() =>
                    {
-                       //CreateNewLogFileDirectoryIfNotExists();           
+                       CreateNewLogFileDirectoryIfNotExists();
 
-                       //if (String.IsNullOrEmpty(this.fileName))
-                       //{
-                       //    DirectoryInfo di = new DirectoryInfo(LogFileFolderName);
+                       if (String.IsNullOrEmpty(this.fileName))
+                       {
+                           DirectoryInfo di = new DirectoryInfo(LogFileFolderName);
 
-                       //    FileInfo fi = di.GetFiles("*.txt").OrderByDescending(p => p.LastWriteTime).FirstOrDefault();
+                           fi = di.GetFiles("*.txt").OrderByDescending(p => p.LastWriteTime).FirstOrDefault();
 
-                       //    if (fi != null)
-                       //    {
-                       //        if (fi.Exists && (fi.Length / 1024 / 1024 < this.MaxFileSizeInMB))
-                       //        {
-                       //            this.fileName = fi.FullName;
+                           if (fi != null)
+                           {
+                               if (fi.Exists && (fi.Length / 1024 / 1024 < this.MaxFileSizeInMB))
+                               {
+                                   this.fileName = fi.FullName;
+                                   fi = new FileInfo(this.fileName);
+                                   return this.fileName;
+                               }
+                           }
+                           else
+                           {
+                               GenerateNewFileName();
+                               //File.Create(this.fileName);
 
-                       //            return this.fileName;
-                       //        }
-                       //    }
-                       //    else
-                       //    {
-                       //        GenerateNewFileName();
-                       //        File.Create(this.fileName);
+                               fi = new FileInfo(this.fileName);
+                               fi.Create();
 
-                       //        return this.fileName;
-                       //    }
-                       //}
+                               return this.fileName;
+                           }
+                       }
+                       else
+                       {
+                           GenerateNewFileName();
+                       }
 
-                       //return LogFileFolderName + Path.DirectorySeparatorChar + this.fileName;
-
-                       return "test.txt";
+                       fi = new FileInfo(this.fileName);
+                       return this.fileName;
                    });
 
-            return result;
+            return fi;
         }
 
         private void GenerateNewFileName()
