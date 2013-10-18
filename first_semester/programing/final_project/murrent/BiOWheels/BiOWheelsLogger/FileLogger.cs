@@ -19,7 +19,7 @@ namespace BiOWheelsLogger
             {
                 LogQueueItem item = logQueue.Dequeue();
 
-                FileInfo actualFileName = await GetLogFile();
+                FileStream actualFileName = await GetLogFile();
 
                 if (!String.IsNullOrEmpty(item.Message) && this.isEnabled)
                 {
@@ -27,7 +27,7 @@ namespace BiOWheelsLogger
                     {
                         await Task.Run(() =>
                                            {
-                                               using (StreamWriter streamWriter = actualFileName.AppendText())
+                                               using (StreamWriter streamWriter = new StreamWriter(actualFileName, Encoding.UTF8))
                                                {
                                                    streamWriter.WriteLine(item.Message.ToLogFileString(item.MessageType));
                                                }
@@ -138,51 +138,62 @@ namespace BiOWheelsLogger
             }
         }
 
-        private async Task<FileInfo> GetLogFile()
+        private async Task<FileStream> GetLogFile()
         {
             // GET RID OF FILEINFO - NOT GOOD
-            FileInfo fi = null;
+            //FileInfo fi = null;
+            //FileStream fs = null;
 
-            string result = await Task.Run(() =>
-                   {
-                       CreateNewLogFileDirectoryIfNotExists();
+            //string result = await Task.Run(() =>
+            //       {
+            //           CreateNewLogFileDirectoryIfNotExists();
 
-                       if (String.IsNullOrEmpty(this.fileName))
-                       {
-                           DirectoryInfo di = new DirectoryInfo(LogFileFolderName);
+            //           if (String.IsNullOrEmpty(this.fileName))
+            //           {
+            //               DirectoryInfo di = new DirectoryInfo(LogFileFolderName);
 
-                           fi = di.GetFiles("*.txt").OrderByDescending(p => p.LastWriteTime).FirstOrDefault();
+            //               fi = di.GetFiles("*.txt").OrderByDescending(p => p.LastWriteTime).FirstOrDefault();
 
-                           if (fi != null)
-                           {
-                               if (fi.Exists && (fi.Length / 1024 / 1024 < this.MaxFileSizeInMB))
+            //               if (fi != null)
+            //               {
+            //                   if (fi.Exists && (fi.Length / 1024 / 1024 < this.MaxFileSizeInMB))
+            //                   {
+            //                       this.fileName = fi.FullName;
+            //                       fi = new FileInfo(this.fileName);
+            //                       return this.fileName;
+            //                   }
+            //               }
+            //               else
+            //               {
+            //                   GenerateNewFileName();
+            //                   //File.Create(this.fileName);
+
+            //                   //fi = new FileInfo(this.fileName);
+            //                   //fi.Create();
+
+            //                   File.Create(this.fileName);
+
+            //                   return this.fileName;
+            //               }
+            //           }
+            //           else
+            //           {
+            //               GenerateNewFileName();
+            //           }
+
+            //           //fi = new FileInfo(this.fileName);
+            //           fs = new FileStream(this.fileName,FileMode.Append);
+            //           return this.fileName;
+            //       });
+
+            await Task.Run(() =>
                                {
-                                   this.fileName = fi.FullName;
-                                   fi = new FileInfo(this.fileName);
-                                   return this.fileName;
-                               }
-                           }
-                           else
-                           {
-                               GenerateNewFileName();
-                               //File.Create(this.fileName);
-
-                               fi = new FileInfo(this.fileName);
-                               fi.Create();
-
-                               return this.fileName;
-                           }
-                       }
-                       else
-                       {
-                           GenerateNewFileName();
-                       }
-
-                       fi = new FileInfo(this.fileName);
-                       return this.fileName;
-                   });
-
-            return fi;
+                                   if (!File.Exists(this.fileName))
+                                   {
+                                       GenerateNewFileName();
+                                   }
+                               });
+            return new FileStream(this.fileName, FileMode.Append);
         }
 
         private void GenerateNewFileName()

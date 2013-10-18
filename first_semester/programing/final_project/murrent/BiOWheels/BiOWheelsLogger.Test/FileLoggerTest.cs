@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NUnit.Framework;
 
 namespace BiOWheelsLogger.Test
@@ -20,7 +21,7 @@ namespace BiOWheelsLogger.Test
         [TestCase]
         public void LogTest()
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 50; i++)
             {
                 logger.Log("test logging" + i, MessageType.DEBUG);
             }
@@ -36,13 +37,17 @@ namespace BiOWheelsLogger.Test
             StringAssert.Contains("[DEBUG] - test logging", logMessage);
         }
 
-        [TestCase]
-        public void TestStreamLength()
-        {
-            Stream stream = new FileStream("BiOWheelsLogger.dll",FileMode.OpenOrCreate);
-            double length = stream.Length/1024/1024f;
-            Assert.NotNull(length);
+        ///// <summary>
+        ///// Not testing any class method, but method for calculating the file size
+        ///// </summary>
+        //[TestCase]
+        //public void TestStreamLength()
+        //{
+        //    Stream stream = new FileStream("nunit.framework.xml",FileMode.OpenOrCreate);
+        //    double length = Math.Round(((stream.Length/1024f)/1024f),5, MidpointRounding.ToEven);
 
-        }
+        //    Assert.NotNull(length);
+        //    Assert.Less(length, 0.600);
+        //}
     }
 }
