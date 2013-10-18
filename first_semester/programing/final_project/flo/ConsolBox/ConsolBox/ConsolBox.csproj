@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B323001F-3B09-47EC-8821-DD13A012A2D0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsolBox</RootNamespace>
+    <AssemblyName>ConsolBox</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DIContainer.cs" />
+    <Compile Include="FolderSerialization\ConfigFile.cs" />
+    <Compile Include="FolderSerialization\DestinationFolder.cs" />
+    <Compile Include="FolderSerialization\DestinationFolders.cs" />
+    <Compile Include="FolderSerialization\ExceptionFolder.cs" />
+    <Compile Include="FolderSerialization\Exceptions.cs" />
+    <Compile Include="FolderSerialization\Folders.cs" />
+    <Compile Include="FolderSerialization\Mapping.cs" />
+    <Compile Include="FolderSerialization\SourceFolder.cs" />
+    <Compile Include="FolderSerialization\SourceFolders.cs" />
+    <Compile Include="IDIContainer.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleBoxConfigLoader\ConsoleBoxConfigLoader.csproj">
+      <Project>{9aaca6ec-7bde-4142-ae15-024232ac10ff}</Project>
+      <Name>ConsoleBoxConfigLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConsoleBoxFileWatcher\ConsoleBoxFileWatcher.csproj">
+      <Project>{42070756-c758-4c3d-b3dd-bdd8f791a8b6}</Project>
+      <Name>ConsoleBoxFileWatcher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConsoleBoxLogger\ConsoleBoxLogger.csproj">
+      <Project>{952e2d69-0da5-47c5-81d8-909afeed342d}</Project>
+      <Name>ConsoleBoxLogger</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
