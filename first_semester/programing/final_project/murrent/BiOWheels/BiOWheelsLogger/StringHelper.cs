@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class StringHelper
     {

@@ -64,89 +64,78 @@ namespace BiOWheelsLogger
         //    }
         //}
 
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private async void LogBackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
-        {
-            while (true)
-            {
-                if (this.logQueue.Count != 0)
-                {
-                    LogQueueItem item = logQueue.Dequeue();
+        ///// <summary>
+        ///// </summary>
+        ///// <param name="sender">
+        ///// </param>
+        ///// <param name="e">
+        ///// </param>
+        //private void LogBackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    while (IsWorkerInProgress)
+        //    {
+        //        if (this.logQueue.Count != 0)
+        //        {
+        //            LogQueueItem item = logQueue.Dequeue();
 
-                    Stream actualFileStream = null;
+        //            if (String.IsNullOrEmpty(this.fileName))
+        //            {
+        //                IEnumerable<string> files =
+        //                    Directory.GetFiles(LogFileFolderName).OrderByDescending(File.GetLastWriteTime);
 
-                    if (String.IsNullOrEmpty(this.fileName))
-                    {
-                        IEnumerable<string> files =
-                            Directory.GetFiles(LogFileFolderName).OrderByDescending(File.GetLastWriteTime);
+        //                if (files.Any())
+        //                {
+        //                    this.fileName = files.First();
+        //                }
+        //                else
+        //                {
+        //                    this.GenerateNewFileName();
+        //                }
+        //            }
 
-                        if (files.Any())
-                        {
-                            this.fileName = files.First();
-                        }
-                        else
-                        {
-                            this.GenerateNewFileName();
-                        }
-                    }
-                    else
-                    {
-                        if (!File.Exists(this.fileName))
-                        {
-                            this.GenerateNewFileName();
-                        }
-                        else
-                        {
-                            double length;
-
-                            using (actualFileStream = new FileStream(this.fileName, FileMode.Open))
-                            {
-                                length = Math.Round(
-                                    (actualFileStream.Length / 1024f) / 1024f, 5, MidpointRounding.AwayFromZero);
-                            }
+        //            //if (!File.Exists(this.fileName))
+        //            //{
+        //            //    this.GenerateNewFileName();
+        //            //}
 
 
-                            if (length > this.maxFileSizeInMB)
-                            {
-                                this.GenerateNewFileName();
-                            }
-                        }
-                    }
+        //            Stream actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.OpenOrCreate);
+        //            double length = Math.Round(
+        //                (actualFileStream.Length / 1024f) / 1024f, 5, MidpointRounding.AwayFromZero);
 
-                    if (!string.IsNullOrEmpty(item.Message) && this.isEnabled)
-                    {
-                        try
-                        {
-                            await Task.Run(
-                                () =>
-                                {
-                                    using (
-                                        StreamWriter streamWriter = new StreamWriter(
-                                            actualFileStream, Encoding.UTF8))
-                                    {
-                                        streamWriter.WriteLine(item.Message.ToLogFileString(item.MessageType));
-                                    }
-                                });
-                        }
-                        catch (ObjectDisposedException odex)
-                        {
-                            this.logQueue.Enqueue(new LogQueueItem(odex.Message, MessageType.ERROR));
-                            this.RestartLogBackgroundWorker();
-                        }
-                        catch (IOException ioex)
-                        {
-                            this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
-                            this.RestartLogBackgroundWorker();
-                        }
-                    }
-                }
-            }
-        }
+
+        //            if (length > this.maxFileSizeInMB)
+        //            {
+        //                this.GenerateNewFileName();
+        //            }
+
+        //            //if (!string.IsNullOrEmpty(item.Message) && this.isEnabled)
+        //            //{
+        //            //    try
+        //            //    {
+        //                    using (StreamWriter streamWriter = new StreamWriter(actualFileStream, Encoding.UTF8))
+        //                    {
+        //                        streamWriter.WriteLine(item.Message.ToLogFileString(item.MessageType));
+        //                    }
+
+        //                //}
+        //                //catch (ObjectDisposedException odex)
+        //                //{
+        //                //    this.logQueue.Enqueue(new LogQueueItem(odex.Message, MessageType.ERROR));
+        //                //    this.RestartLogBackgroundWorker();
+        //                //}
+        //                //catch (IOException ioex)
+        //                //{
+        //                //    this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
+        //                //    this.RestartLogBackgroundWorker();
+        //                //}
+        //            //}
+        //        }
+        //        System.Threading.Thread.Sleep(1000);
+        //    }
+
+        //    this.IsWorkerInProgress = false;
+        //}
 
         #endregion
 
@@ -155,10 +144,6 @@ namespace BiOWheelsLogger
         /// <summary>
         /// </summary>
         private Queue<LogQueueItem> logQueue;
-
-        /// <summary>
-        /// </summary>
-        private BackgroundWorker logBackgroundWorker;
 
         /// <summary>
         /// </summary>
@@ -182,33 +167,12 @@ namespace BiOWheelsLogger
         {
             get
             {
-                return isEnabled;
+                return this.isEnabled;
             }
 
             set
             {
-                isEnabled = value;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private bool isWorkerInProgress;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsWorkerInProgress
-        {
-            get
-            {
-                return isWorkerInProgress;
-            }
-
-            set
-            {
-                isWorkerInProgress = value;
+                this.isEnabled = value;
             }
         }
 
@@ -222,12 +186,12 @@ namespace BiOWheelsLogger
         {
             get
             {
-                return maxFileSizeInMB;
+                return this.maxFileSizeInMB;
             }
 
             set
             {
-                maxFileSizeInMB = value;
+                this.maxFileSizeInMB = value;
             }
         }
 
@@ -251,15 +215,7 @@ namespace BiOWheelsLogger
         {
             CreateNewLogFileDirectoryIfNotExists();
 
-            this.IsWorkerInProgress = true;
-
             logQueue = new Queue<LogQueueItem>();
-            logBackgroundWorker = new BackgroundWorker
-                {
-                    WorkerSupportsCancellation = true,
-                    WorkerReportsProgress = true
-                };
-            logBackgroundWorker.DoWork += LogBackgroundWorkerDoWork;
         }
 
         /// <inheritdoc/>
@@ -279,9 +235,60 @@ namespace BiOWheelsLogger
         {
             this.logQueue.Enqueue(new LogQueueItem(message, messageType));
 
-            if (!this.logBackgroundWorker.IsBusy)
+            this.FlushLog();
+
+        }
+
+        private void FlushLog()
+        {
+            while (logQueue.Count > 0)
             {
-                this.logBackgroundWorker.RunWorkerAsync();
+                LogQueueItem entry = logQueue.Dequeue();
+
+                if (String.IsNullOrEmpty(this.fileName))
+                {
+                    IEnumerable<string> files =
+                        Directory.GetFiles(LogFileFolderName).OrderByDescending(File.GetLastWriteTime);
+
+                    if (files.Any())
+                    {
+                        this.fileName = files.First().Replace(LogFileFolderName + "\\", String.Empty);
+                    }
+                    else
+                    {
+                        this.GenerateNewFileName();
+                    }
+                }
+
+
+                Stream actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
+                double length = Math.Round(
+                    (actualFileStream.Length / 1024f) / 1024f, 5, MidpointRounding.AwayFromZero);
+
+
+                if (length > this.maxFileSizeInMB)
+                {
+                    this.GenerateNewFileName();
+                }
+
+                if (!string.IsNullOrEmpty(entry.Message) && this.isEnabled)
+                {
+                    try
+                    {
+                        using (StreamWriter log = new StreamWriter(actualFileStream, Encoding.UTF8))
+                        {
+                            log.WriteLine(entry.ToString());
+                        }
+                    }
+                    catch (ObjectDisposedException odex)
+                    {
+                        this.logQueue.Enqueue(new LogQueueItem(odex.Message, MessageType.ERROR));
+                    }
+                    catch (IOException ioex)
+                    {
+                        this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
+                    }
+                }
             }
         }
 
@@ -296,113 +303,113 @@ namespace BiOWheelsLogger
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private void RestartLogBackgroundWorker()
-        {
-            this.logBackgroundWorker.CancelAsync();
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //private void RestartLogBackgroundWorker()
+        //{
+        //    this.logBackgroundWorker.CancelAsync();
 
-            if (!this.logBackgroundWorker.IsBusy)
-            {
-                this.logBackgroundWorker.RunWorkerAsync();
-            }
-        }
+        //    if (!this.logBackgroundWorker.IsBusy)
+        //    {
+        //        this.logBackgroundWorker.RunWorkerAsync();
+        //    }
+        //}
 
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        private async Task<string> GetLogFileName()
-        {
-            // GET RID OF FILEINFO - NOT GOOD
-            // FileInfo fi = null;
-            // FileStream fs = null;
+        ///// <summary>
+        ///// </summary>
+        ///// <returns>
+        ///// </returns>
+        //private async Task<string> GetLogFileName()
+        //{
+        //    // GET RID OF FILEINFO - NOT GOOD
+        //    // FileInfo fi = null;
+        //    // FileStream fs = null;
 
-            // string result = await Task.Run(() =>
-            // {
-            // CreateNewLogFileDirectoryIfNotExists();
+        //    // string result = await Task.Run(() =>
+        //    // {
+        //    // CreateNewLogFileDirectoryIfNotExists();
 
-            // if (String.IsNullOrEmpty(this.fileName))
-            // {
-            // DirectoryInfo di = new DirectoryInfo(LogFileFolderName);
+        //    // if (String.IsNullOrEmpty(this.fileName))
+        //    // {
+        //    // DirectoryInfo di = new DirectoryInfo(LogFileFolderName);
 
-            // fi = di.GetFiles("*.txt").OrderByDescending(p => p.LastWriteTime).FirstOrDefault();
+        //    // fi = di.GetFiles("*.txt").OrderByDescending(p => p.LastWriteTime).FirstOrDefault();
 
-            // if (fi != null)
-            // {
-            // if (fi.Exists && (fi.Length / 1024 / 1024 < this.MaxFileSizeInMB))
-            // {
-            // this.fileName = fi.FullName;
-            // fi = new FileInfo(this.fileName);
-            // return this.fileName;
-            // }
-            // }
-            // else
-            // {
-            // GenerateNewFileName();
-            // //File.Create(this.fileName);
+        //    // if (fi != null)
+        //    // {
+        //    // if (fi.Exists && (fi.Length / 1024 / 1024 < this.MaxFileSizeInMB))
+        //    // {
+        //    // this.fileName = fi.FullName;
+        //    // fi = new FileInfo(this.fileName);
+        //    // return this.fileName;
+        //    // }
+        //    // }
+        //    // else
+        //    // {
+        //    // GenerateNewFileName();
+        //    // //File.Create(this.fileName);
 
-            // //fi = new FileInfo(this.fileName);
-            // //fi.Create();
+        //    // //fi = new FileInfo(this.fileName);
+        //    // //fi.Create();
 
-            // File.Create(this.fileName);
+        //    // File.Create(this.fileName);
 
-            // return this.fileName;
-            // }
-            // }
-            // else
-            // {
-            // GenerateNewFileName();
-            // }
+        //    // return this.fileName;
+        //    // }
+        //    // }
+        //    // else
+        //    // {
+        //    // GenerateNewFileName();
+        //    // }
 
-            // //fi = new FileInfo(this.fileName);
-            // fs = new FileStream(this.fileName,FileMode.Append);
-            // return this.fileName;
-            // });
-            await Task.Run(
-                () =>
-                {
-                    if (String.IsNullOrEmpty(this.fileName))
-                    {
-                        IEnumerable<string> files = Directory.GetFiles(LogFileFolderName).OrderByDescending(File.GetLastWriteTime);
+        //    // //fi = new FileInfo(this.fileName);
+        //    // fs = new FileStream(this.fileName,FileMode.Append);
+        //    // return this.fileName;
+        //    // });
+        //    await Task.Run(
+        //        () =>
+        //        {
+        //            if (String.IsNullOrEmpty(this.fileName))
+        //            {
+        //                IEnumerable<string> files = Directory.GetFiles(LogFileFolderName).OrderByDescending(File.GetLastWriteTime);
 
-                        if (files.Any())
-                        {
-                            this.fileName = files.First();
-                        }
-                        else
-                        {
-                            this.GenerateNewFileName();
-                        }
-                    }
-                    else
-                    {
-                        if (!File.Exists(this.fileName))
-                        {
-                            this.GenerateNewFileName();
-                        }
-                        else
-                        {
-                            double length;
+        //                if (files.Any())
+        //                {
+        //                    this.fileName = files.First();
+        //                }
+        //                else
+        //                {
+        //                    this.GenerateNewFileName();
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (!File.Exists(this.fileName))
+        //                {
+        //                    this.GenerateNewFileName();
+        //                }
+        //                else
+        //                {
+        //                    double length;
 
-                            using (Stream stream = new FileStream(this.fileName, FileMode.Open))
-                            {
-                                length = Math.Round(
-                                    (stream.Length / 1024f) / 1024f, 5, MidpointRounding.AwayFromZero);
-                            }
+        //                    using (Stream stream = new FileStream(this.fileName, FileMode.Open))
+        //                    {
+        //                        length = Math.Round(
+        //                            (stream.Length / 1024f) / 1024f, 5, MidpointRounding.AwayFromZero);
+        //                    }
 
 
-                            if (length > this.maxFileSizeInMB)
-                            {
-                                this.GenerateNewFileName();
-                            }
-                        }
-                    }
-                });
+        //                    if (length > this.maxFileSizeInMB)
+        //                    {
+        //                        this.GenerateNewFileName();
+        //                    }
+        //                }
+        //            }
+        //        });
 
-            return this.FullQualifiedFileName;
-        }
+        //    return this.FullQualifiedFileName;
+        //}
 
         /// <summary>
         /// </summary>
