@@ -24,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9637DE
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "BiOWheelsDiagrams", "BiOWheelsDiagrams\BiOWheelsDiagrams.modelproj", "{74A75714-6EA6-4AC7-A632-9AB9E2581CC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsVisualizer.Test", "BiOWheelsVisualizer.Test\BiOWheelsVisualizer.Test.csproj", "{4C27CA52-D285-4595-8EB6-5BAD2C973209}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +66,14 @@ Global
 		{DEA30745-93C0-4575-ADC2-F3C83030E679}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEA30745-93C0-4575-ADC2-F3C83030E679}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEA30745-93C0-4575-ADC2-F3C83030E679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74A75714-6EA6-4AC7-A632-9AB9E2581CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74A75714-6EA6-4AC7-A632-9AB9E2581CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74A75714-6EA6-4AC7-A632-9AB9E2581CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74A75714-6EA6-4AC7-A632-9AB9E2581CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C27CA52-D285-4595-8EB6-5BAD2C973209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C27CA52-D285-4595-8EB6-5BAD2C973209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C27CA52-D285-4595-8EB6-5BAD2C973209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C27CA52-D285-4595-8EB6-5BAD2C973209}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

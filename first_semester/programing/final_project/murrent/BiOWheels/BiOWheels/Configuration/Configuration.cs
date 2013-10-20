@@ -1,7 +1,8 @@
-﻿namespace BiOWheelsConfigManager
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BiOWheelsConfigManager;
 
+namespace BiOWheels.Configuration
+{
     public class Configuration
     {
         public Configuration() { }

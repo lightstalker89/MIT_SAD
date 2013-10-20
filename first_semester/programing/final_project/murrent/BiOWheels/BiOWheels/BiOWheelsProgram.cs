@@ -36,8 +36,6 @@ namespace BiOWheels
             }
             else
             {
-                Configuration config = SimpleContainer.Instance.Resolve<IConfigurationManager>().Configuration;
-
                 Log("BiOWheels was started without any commandline arguments...", MessageType.INFO);
             }
         }
@@ -61,8 +59,6 @@ namespace BiOWheels
             if (loadConfig)
             {
                 IConfigurationManager configurationManager = SimpleContainer.Instance.Resolve<IConfigurationManager>();
-                configurationManager.ConfigurationLoadingFailed += configurationManager_OnConfigurationLoadingFailed;
-                configurationManager.Load();
             }
         }
 

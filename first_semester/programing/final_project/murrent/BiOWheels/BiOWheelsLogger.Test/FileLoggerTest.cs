@@ -4,8 +4,6 @@ using NUnit.Framework;
 
 namespace BiOWheelsLogger.Test
 {
-    using System.Threading;
-
     [TestFixture]
     public class FileLoggerTest
     {
@@ -23,20 +21,22 @@ namespace BiOWheelsLogger.Test
         [TestCase]
         public void LogTest()
         {
-            for (int i = 0; i < 15000; i++)
+            for (int i = 0; i < 25000; i++)
             {
                 logger.Log("test logging" + i, MessageType.DEBUG);
             }
-        }
 
-        [TestCase]
-        public void StringHelperTest()
-        {
-            const string Message = "test logging";
-            string logMessage = Message.ToLogFileString(MessageType.DEBUG);
+            Assert.IsTrue(Directory.Exists("log"));
+            Assert.IsNotEmpty(Directory.GetFiles("log"));
 
-            Assert.IsNotNullOrEmpty(logMessage);
-            StringAssert.Contains("[DEBUG] - test logging", logMessage);
+            foreach(string file in Directory.GetFiles("log"))
+            {
+                Stream actualFileStream = new FileStream(file, FileMode.Open);
+                double length = Math.Round(
+                    (actualFileStream.Length / 1024f) / 1024f, 5, MidpointRounding.AwayFromZero);
+
+                Assert.IsTrue(length <= 1.001);
+            }
         }
     }
 }

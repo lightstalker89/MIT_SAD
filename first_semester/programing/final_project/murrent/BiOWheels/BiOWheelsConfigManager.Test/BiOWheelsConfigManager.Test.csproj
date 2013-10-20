@@ -56,6 +56,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BiOWheelsConfigManager\BiOWheelsConfigManager.csproj">
+      <Project>{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}</Project>
+      <Name>BiOWheelsConfigManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BiOWheels\BiOWheels.csproj">
+      <Project>{93fea69c-640d-4187-9e15-aa3d60a96f3b}</Project>
+      <Name>BiOWheels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
