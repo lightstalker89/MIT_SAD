@@ -4,6 +4,8 @@ using NUnit.Framework;
 
 namespace BiOWheelsLogger.Test
 {
+    using System.Threading;
+
     [TestFixture]
     public class FileLoggerTest
     {
@@ -13,9 +15,10 @@ namespace BiOWheelsLogger.Test
         public void Init()
         {
             logger = new FileLogger();
-            logger.Init();
             logger.SetIsEnabled<FileLogger>(true);
             logger.SetFileSize<FileLogger>(2);
+            logger.Init();
+
         }
 
         [TestCase]
@@ -24,17 +27,36 @@ namespace BiOWheelsLogger.Test
             for (int i = 0; i < 50; i++)
             {
                 logger.Log("test logging" + i, MessageType.DEBUG);
+                //WaitForCondition(() => logger.IsWorkerInProgress == false);
             }
         }
 
         [TestCase]
         public void StringHelperTest()
         {
-            const string message = "test logging";
-            string logMessage = message.ToLogFileString(MessageType.DEBUG);
+            const string Message = "test logging";
+            string logMessage = Message.ToLogFileString(MessageType.DEBUG);
 
             Assert.IsNotNullOrEmpty(logMessage);
             StringAssert.Contains("[DEBUG] - test logging", logMessage);
+        }
+
+        internal delegate bool WaitCondition();
+        internal static void WaitForCondition(WaitCondition condition)
+        {
+            const int TotalTimeout = 60000;
+            const int Step = 1000;
+            int currentTimeout = 0;
+            while (condition() == false && currentTimeout < TotalTimeout)
+            {
+                Thread.Sleep(Step);
+                currentTimeout += Step;
+            }
+
+            if (currentTimeout >= TotalTimeout)
+            {
+                Assert.Fail("Timeout reached.");
+            }
         }
 
         ///// <summary>
