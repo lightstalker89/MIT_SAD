@@ -4,7 +4,6 @@ using BiOWheelsVisualizer;
 
 namespace BiOWheels
 {
-    using System;
     using BiOWheelsCommandLineArgsParser;
     using BiOWheelsConfigManager;
     using BiOWheelsLogger;

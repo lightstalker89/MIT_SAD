@@ -22,7 +22,6 @@ namespace BiOWheelsCommandLineArgsParser
         /// 
         /// </summary>
 		private string optarg = string.Empty;
-
         #endregion
 
 		#region Properties
@@ -44,7 +43,6 @@ namespace BiOWheelsCommandLineArgsParser
 		#endregion
 
 		#region Methods
-
         /// <summary>
         /// Parses the commandline args
         /// </summary>
