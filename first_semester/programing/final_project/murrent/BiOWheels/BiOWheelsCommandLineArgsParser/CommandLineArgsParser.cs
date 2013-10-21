@@ -1,59 +1,83 @@
-﻿using System.Collections.Generic;
-
+﻿// *******************************************************
+// * <copyright file="CommandLineArgsParser.cs" company="MDMCoWorks">
+// * Copyright (c) Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace BiOWheelsCommandLineArgsParser
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// 
     /// </summary>
     public class CommandLineArgsParser : ICommandLineArgsParser
     {
         #region Private Fields
-        /// <summary>
-        /// 
-        /// </summary>
-		private int optind;
 
         /// <summary>
         /// 
         /// </summary>
-		private string nextarg = string.Empty;
+        private int optind;
 
         /// <summary>
         /// 
         /// </summary>
-		private string optarg = string.Empty;
+        private string nextarg = string.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private string optarg = string.Empty;
+
         #endregion
 
-		#region Properties
-		public string Optarg
-		{
-			get
-			{
-				return optarg;
-			}
-		}
+        #region Properties
 
-		public int Optind
-		{
-			get
-			{
-				return optind;
-			}
-		}
-		#endregion
+        /// <summary>
+        /// </summary>
+        public string Optarg
+        {
+            get
+            {
+                return this.optarg;
+            }
+        }
 
-		#region Methods
+        /// <summary>
+        /// </summary>
+        public int Optind
+        {
+            get
+            {
+                return this.optind;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Parses the commandline args
         /// </summary>
-        /// <param name="args">commandline args</param>
-        /// <param name="options">accepted commandline arguments</param>
+        /// <param name="args">
+        /// commandline args
+        /// </param>
+        /// <param name="options">
+        /// accepted commandline arguments
+        /// </param>
+        /// <returns>
+        /// </returns>
         public IList<char> Parse(string[] args, string options)
         {
             IList<char> includedArgs = new List<char>();
 
             char c;
-            while ((c = Getopt(args.Length, args, options)) != '\0')
+            while ((c = this.Getopt(args.Length, args, options)) != '\0')
             {
                 includedArgs.Add(c);
             }
@@ -64,79 +88,97 @@ namespace BiOWheelsCommandLineArgsParser
         /// <summary>
         /// Get an valid option
         /// </summary>
-        /// <param name="argc"></param>
-        /// <param name="argv"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
-		protected char Getopt(int argc, string[] argv, string options)
-		{
-			optarg = string.Empty;
+        /// <param name="argc">
+        /// </param>
+        /// <param name="argv">
+        /// </param>
+        /// <param name="options">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        protected char Getopt(int argc, string[] argv, string options)
+        {
+            this.optarg = string.Empty;
 
-			if (argc < 0)
-				return '?';
+            if (argc < 0)
+            {
+                return '?';
+            }
 
-			if (optind == 0)
-				nextarg = string.Empty;
+            if (this.optind == 0)
+            {
+                this.nextarg = string.Empty;
+            }
 
-			if (nextarg.Length == 0)
-			{
-				if (optind >= argc || argv[optind][0] != '-' || argv[optind].Length < 2)
-				{
-					// no more options
-					optarg = string.Empty;
-					if (optind < argc)
-						optarg = argv[optind];	// return leftover arg
-					return '\0';
-				}
+            if (this.nextarg.Length == 0)
+            {
+                if (this.optind >= argc || argv[this.optind][0] != '-' || argv[this.optind].Length < 2)
+                {
+                    // no more options
+                    this.optarg = string.Empty;
+                    if (this.optind < argc)
+                    {
+                        this.optarg = argv[this.optind]; // return leftover arg
+                    }
 
-				if (argv[optind] == "--")
-				{
-					// 'end of options' flag
-					optind++;
-					optarg = string.Empty;
-					if (optind < argc)
-						optarg = argv[optind];
-					return '\0';
-				}
+                    return '\0';
+                }
 
-				nextarg = string.Empty;
-				if (optind < argc)
-				{
-					nextarg = argv[optind];
-					nextarg = nextarg.Substring(1);		// skip past -
-				}
-				optind++;
-			}
+                if (argv[this.optind] == "--")
+                {
+                    // 'end of options' flag
+                    this.optind++;
+                    this.optarg = string.Empty;
+                    if (this.optind < argc)
+                    {
+                        this.optarg = argv[this.optind];
+                    }
 
-			char c = nextarg[0];				// get option char
-			nextarg = nextarg.Substring(1);		// skip past option char
-            int index = options.IndexOf(c);	// check if this is valid option char
+                    return '\0';
+                }
 
-			if (index == -1 || c == ':')
-				return '?';
+                this.nextarg = string.Empty;
+                if (this.optind < argc)
+                {
+                    this.nextarg = argv[this.optind];
+                    this.nextarg = this.nextarg.Substring(1); // skip past -
+                }
 
-			index++;
+                this.optind++;
+            }
+
+            char c = nextarg[0]; // get option char
+            this.nextarg = this.nextarg.Substring(1); // skip past option char
+            int index = options.IndexOf(c); // check if this is valid option char
+
+            if (index == -1 || c == ':')
+            {
+                return '?';
+            }
+
+            index++;
             if ((index < options.Length) && (options[index] == ':'))
-			{
-				// option takes an arg
-				if (nextarg.Length > 0)
-				{
-					optarg = nextarg;
-					nextarg = string.Empty;
-				}
-				else if (optind < argc)
-				{
-					optarg = argv[optind];
-					optind++;
-				}
-				else
-				{
-					return '?';
-				}
-			}
+            {
+                // option takes an arg
+                if (this.nextarg.Length > 0)
+                {
+                    this.optarg = this.nextarg;
+                    this.nextarg = string.Empty;
+                }
+                else if (this.optind < argc)
+                {
+                    this.optarg = argv[this.optind];
+                    this.optind++;
+                }
+                else
+                {
+                    return '?';
+                }
+            }
 
-			return c;
-		}
-		#endregion
+            return c;
+        }
+
+        #endregion
     }
 }

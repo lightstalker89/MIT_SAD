@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="WriterStatus.cs" company="MDMCoWorks">
+// * <copyright file="Configuration.cs" company="MDMCoWorks">
 // * Copyright (c) Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -7,34 +7,28 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-namespace BiOWheelsConfigManager
+namespace BiOWheels.BiOWheelsConfiguration
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// </summary>
-    public enum WriterStatus
+    public class Configuration
     {
         /// <summary>
         /// </summary>
-        TYPEMISSMATCH, 
+        public List<DirectoryMappingInfo> DirectoryMappingInfo { get; set; }
 
         /// <summary>
         /// </summary>
-        SUCCESSFULL, 
+        public BlockCompareOptions BlockCompareOptions { get; set; }
 
         /// <summary>
         /// </summary>
-        FAILED, 
+        public LogFileOptions LogFileOptions { get; set; }
 
         /// <summary>
         /// </summary>
-        PATHISNULL, 
-
-        /// <summary>
-        /// </summary>
-        ACCESSERROR, 
-
-        /// <summary>
-        /// </summary>
-        PATHERROR
+        public bool ParallelSync { get; set; }
     }
 }

@@ -32,9 +32,11 @@ namespace BiOWheelsLogger
         /// <summary>
         /// </summary>
         private string fileName;
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// </summary>
         private bool isEnabled;
@@ -82,9 +84,11 @@ namespace BiOWheelsLogger
                 return LogFileFolderName + Path.DirectorySeparatorChar + this.fileName;
             }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Initialize the logger
         /// </summary>
@@ -124,7 +128,7 @@ namespace BiOWheelsLogger
             {
                 LogQueueItem entry = logQueue.Dequeue();
 
-                if (String.IsNullOrEmpty(this.fileName))
+                if (string.IsNullOrEmpty(this.fileName))
                 {
                     this.CheckIfLastFileExists();
                 }
@@ -135,8 +139,7 @@ namespace BiOWheelsLogger
                 try
                 {
                     actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
-                    length = Math.Round(
-                        (actualFileStream.Length/1024f)/1024f, 2, MidpointRounding.AwayFromZero);
+                    length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
                 }
                 catch (IOException ioex)
                 {
@@ -144,7 +147,7 @@ namespace BiOWheelsLogger
                 }
                 catch (NotSupportedException nex)
                 {
-                    this.logQueue.Enqueue(new LogQueueItem(nex.Message, MessageType.ERROR));      
+                    this.logQueue.Enqueue(new LogQueueItem(nex.Message, MessageType.ERROR));
                 }
 
                 if (length > this.maxFileSizeInMB)
@@ -167,8 +170,12 @@ namespace BiOWheelsLogger
         /// <summary>
         /// Writes the message to the logfile
         /// </summary>
-        /// <param name="entry">The LogQueueItem from the queue</param>
-        /// <param name="streamToWrite">File as stream</param>
+        /// <param name="entry">
+        /// The LogQueueItem from the queue
+        /// </param>
+        /// <param name="streamToWrite">
+        /// File as stream
+        /// </param>
         private void WriteToLogFile(LogQueueItem entry, Stream streamToWrite)
         {
             if (!string.IsNullOrEmpty(entry.Message) && this.isEnabled)
@@ -204,12 +211,11 @@ namespace BiOWheelsLogger
         /// </summary>
         private void CheckIfLastFileExists()
         {
-            IEnumerable<string> files =
-                     Directory.GetFiles(LogFileFolderName).OrderByDescending(File.GetLastWriteTime);
+            IEnumerable<string> files = Directory.GetFiles(LogFileFolderName).OrderByDescending(File.GetLastWriteTime);
 
             if (files.Any())
             {
-                this.fileName = files.First().Replace(LogFileFolderName + "\\", String.Empty);
+                this.fileName = files.First().Replace(LogFileFolderName + "\\", string.Empty);
             }
             else
             {
@@ -233,15 +239,15 @@ namespace BiOWheelsLogger
         /// </summary>
         private void GenerateNewFileName()
         {
-            this.fileName = String.Format(
-                    "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt",
-                    DateTime.Now.Year,
-                    DateTime.Now.Month,
-                    DateTime.Now.Day,
-                    DateTime.Now.Hour,
-                    DateTime.Now.Minute,
-                    DateTime.Now.Second,
-                    DateTime.Now.Millisecond);
+            this.fileName = string.Format(
+                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt", 
+                DateTime.Now.Year, 
+                DateTime.Now.Month, 
+                DateTime.Now.Day, 
+                DateTime.Now.Hour, 
+                DateTime.Now.Minute, 
+                DateTime.Now.Second, 
+                DateTime.Now.Millisecond);
         }
 
         #endregion

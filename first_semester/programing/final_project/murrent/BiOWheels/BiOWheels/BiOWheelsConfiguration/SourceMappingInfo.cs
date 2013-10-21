@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="Visualizer.cs" company="MDMCoWorks">
+// * <copyright file="SourceMappingInfo.cs" company="MDMCoWorks">
 // * Copyright (c) Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -7,16 +7,21 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-namespace BiOWheelsVisualizer
+namespace BiOWheels.BiOWheelsConfiguration
 {
+    using System.Xml.Serialization;
+
     /// <summary>
     /// </summary>
-    public class Visualizer : IVisualizer
+    public class SourceMappingInfo
     {
         /// <summary>
         /// </summary>
-        public void GetMenu()
-        {
-        }
+        [XmlAttribute]
+        public bool Recursive { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public string SourceDirectory { get; set; }
     }
 }

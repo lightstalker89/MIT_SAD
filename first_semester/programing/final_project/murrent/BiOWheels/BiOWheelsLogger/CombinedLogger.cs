@@ -1,16 +1,35 @@
-﻿namespace BiOWheelsLogger
+﻿// *******************************************************
+// * <copyright file="CombinedLogger.cs" company="MDMCoWorks">
+// * Copyright (c) Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
+namespace BiOWheelsLogger
 {
+    /// <summary>
+    /// </summary>
     public class CombinedLogger : ILogger
     {
+        /// <summary>
+        /// </summary>
         private readonly ILogger consoleLogger = new ConsoleLogger();
+
+        /// <summary>
+        /// </summary>
         private readonly ILogger fileLogger = new FileLogger();
 
+        /// <summary>
+        /// </summary>
         public CombinedLogger()
         {
-            ((FileLogger) fileLogger).Init();
+            ((FileLogger)fileLogger).Init();
         }
 
         #region Methods
+
         /// <inheritdoc/>
         public void SetIsEnabled<T>(bool isLoggerEnabled)
         {
@@ -39,6 +58,7 @@
             consoleLogger.Log(message, messageType);
             fileLogger.Log(message, messageType);
         }
+
         #endregion
     }
 }

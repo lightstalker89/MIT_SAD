@@ -42,11 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BiOWheelsProgram.cs" />
-    <Compile Include="Configuration\BlockCompareOptions.cs" />
-    <Compile Include="Configuration\Configuration.cs" />
-    <Compile Include="Configuration\DirectoryMappingInfo.cs" />
-    <Compile Include="Configuration\LogFileOptions.cs" />
-    <Compile Include="Configuration\SourceMappingInfo.cs" />
+    <Compile Include="BiOWheelsConfiguration\BlockCompareOptions.cs" />
+    <Compile Include="BiOWheelsConfiguration\Configuration.cs" />
+    <Compile Include="BiOWheelsConfiguration\DirectoryMappingInfo.cs" />
+    <Compile Include="BiOWheelsConfiguration\LogFileOptions.cs" />
+    <Compile Include="BiOWheelsConfiguration\SourceMappingInfo.cs" />
     <Compile Include="SimpleContainer.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

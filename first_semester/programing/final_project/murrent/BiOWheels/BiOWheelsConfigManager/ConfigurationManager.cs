@@ -1,20 +1,26 @@
-﻿using System.Xml.Serialization;
-
+﻿// *******************************************************
+// * <copyright file="ConfigurationManager.cs" company="MDMCoWorks">
+// * Copyright (c) Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace BiOWheelsConfigManager
 {
     using System;
     using System.IO;
+    using System.Xml.Serialization;
 
+    /// <summary>
+    /// </summary>
     public class ConfigurationManager : IConfigurationManager
     {
-        public ConfigurationManager() { }
-
-        /// <summary>
-        /// Loads the configuration
-        /// </summary>
-        public T Load<T>(string configFileName)
+        /// <inheritdoc/>
+        public object Load<T>(string configFileName)
         {
-            object deserializedObject = null;
+            object deserializedObject;
 
             if (File.Exists(configFileName))
             {
@@ -27,31 +33,36 @@ namespace BiOWheelsConfigManager
                         deserializedObject = serializer.Deserialize(str.BaseStream);
                     }
                 }
-                catch (InvalidOperationException)
+                catch (InvalidOperationException ivoex)
                 {
-                    
+                    return new LoaderException(ivoex.Message, typeof(InvalidOperationException));
                 }
-                catch(IOException)
+                catch (IOException ioex)
                 {
-                    
+                    return new LoaderException(ioex.Message, typeof(IOException));
                 }
-                catch (ArgumentNullException)
+                catch (ArgumentNullException anex)
                 {
-                    
+                    return new LoaderException(anex.Message, typeof(IOException));
                 }
-                catch (UnauthorizedAccessException)
+                catch (UnauthorizedAccessException uaex)
                 {
-
+                    return new LoaderException(uaex.Message, typeof(IOException));
                 }
-                catch (ArgumentException)
+                catch (ArgumentException aex)
                 {
-
+                    return new LoaderException(aex.Message, typeof(IOException));
                 }
+            }
+            else
+            {
+                return new LoaderException("File not found", typeof(FileNotFoundException));
             }
 
             return (T)deserializedObject;
         }
 
+        /// <inheritdoc/>
         public WriterStatus Write<T>(string configFilename, T configurationObject)
         {
             if (typeof(T) == configurationObject.GetType())
@@ -68,7 +79,7 @@ namespace BiOWheelsConfigManager
                 {
                     return WriterStatus.FAILED;
                 }
-                catch(IOException)
+                catch (IOException)
                 {
                     return WriterStatus.FAILED;
                 }
@@ -76,7 +87,7 @@ namespace BiOWheelsConfigManager
                 {
                     return WriterStatus.PATHISNULL;
                 }
-                catch(UnauthorizedAccessException)
+                catch (UnauthorizedAccessException)
                 {
                     return WriterStatus.ACCESSERROR;
                 }

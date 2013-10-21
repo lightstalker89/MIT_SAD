@@ -1,29 +1,51 @@
-﻿using System.Collections.Generic;
-using BiOWheelsFileWatcher;
-using BiOWheelsVisualizer;
-
+﻿// *******************************************************
+// * <copyright file="BiOWheelsProgram.cs" company="MDMCoWorks">
+// * Copyright (c) Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace BiOWheels
 {
+    using System.Collections.Generic;
+
+    using BiOWheels.BiOWheelsConfiguration;
+
     using BiOWheelsCommandLineArgsParser;
+
     using BiOWheelsConfigManager;
+
+    using BiOWheelsFileWatcher;
+
     using BiOWheelsLogger;
 
+    using BiOWheelsVisualizer;
+
     /// <summary>
-    /// 
+    /// Represents the BiOWheelsProgram class which contains the entry point of the application.
     /// </summary>
     public class BiOWheelsProgram
     {
         #region Private Fields
         /// <summary>
-        /// Accepted commandline arguments
+        /// The configuration for the application
+        /// </summary>
+        private static BiOWheelsConfiguration.Configuration configuration;
+
+        /// <summary>
+        /// Accepted command line arguments
         /// </summary>
         private const string Options = "p";
         #endregion
 
         /// <summary>
-        /// 
+        /// The entry point of the application
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">
+        /// Specified command line arguments
+        /// </param>
         public static void Main(string[] args)
         {
             ApplicationStartUp(args.Length > 0);
@@ -42,48 +64,85 @@ namespace BiOWheels
         }
 
         /// <summary>
-        /// Register Moduels in the SimpleContainer
+        /// Register modules in the SimpleContainer
         /// </summary>
-        /// <param name="loadConfig"></param>
+        /// <param name="loadConfig">
+        /// Specifies if the configuration should be loaded
+        /// </param>
         private static void ApplicationStartUp(bool loadConfig)
         {
             SimpleContainer.Instance.Register<IConfigurationManager, ConfigurationManager>(new ConfigurationManager());
             SimpleContainer.Instance.Register<ILogger, CombinedLogger>(new CombinedLogger());
             SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<FileLogger>(true);
             SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
-            SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(2);
-            SimpleContainer.Instance.Register<ICommandLineArgsParser, CommandLineArgsParser>(new CommandLineArgsParser());
+            SimpleContainer.Instance.Register<ICommandLineArgsParser, CommandLineArgsParser>(
+                new CommandLineArgsParser());
             SimpleContainer.Instance.Register<IVisualizer, Visualizer>(new Visualizer());
             SimpleContainer.Instance.Register<IFileWatcher, FileWatcher>(new FileWatcher());
-
 
             if (loadConfig)
             {
                 IConfigurationManager configurationManager = SimpleContainer.Instance.Resolve<IConfigurationManager>();
+                object config = configurationManager.Load<Configuration>("BiOWheelsConfig.xml");
+
+                if(config.GetType() == typeof(Configuration))
+                {
+                    configuration = config as Configuration;
+
+                    if (configuration == null)
+                    {
+                        Log("Error while loading the configuration for BiOWheels", MessageType.ERROR);
+                    }
+                    else
+                    {
+                        SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(configuration.LogFileOptions.LogFileSizeInMB);
+                    }
+                }
+                else
+                {
+                    LoaderException loaderException = config as LoaderException;
+
+                    if (loaderException != null)
+                    {
+                        Log(
+                            "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType + " occured: " + loaderException.Message,
+                            MessageType.ERROR);
+                    }
+                }     
             }
         }
 
         #region Methods
+
         /// <summary>
-        /// 
+        /// Logs a message with the given parameters
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="messageType"></param>
+        /// <param name="message">
+        /// The message to log
+        /// </param>
+        /// <param name="messageType">
+        /// The type of log message
+        /// </param>
         private static void Log(string message, MessageType messageType)
         {
             SimpleContainer.Instance.Resolve<ILogger>().Log(message, messageType);
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="parameter">
+        /// </param>
         private static void HandleParams(IEnumerable<char> parameter)
         {
             foreach (char c in parameter)
             {
-                if(c == 'p')
+                if (c == 'p')
                 {
                     // parallel sync
                 }
             }
         }
+
         #endregion
     }
 }

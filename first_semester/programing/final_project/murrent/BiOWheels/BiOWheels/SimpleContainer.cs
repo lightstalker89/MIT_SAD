@@ -1,19 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-
+﻿// *******************************************************
+// * <copyright file="SimpleContainer.cs" company="MDMCoWorks">
+// * Copyright (c) Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace BiOWheels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
     /// <summary>
     /// Test
     /// </summary>
     public class SimpleContainer : IContainer
     {
-
+        /// <summary>
+        /// </summary>
         public static readonly IContainer Instance = new SimpleContainer();
 
+        /// <summary>
+        /// </summary>
         private static readonly IDictionary<Type, Type> Types = new Dictionary<Type, Type>();
+
+        /// <summary>
+        /// </summary>
         private static readonly IDictionary<Type, object> TypeInstances = new Dictionary<Type, object>();
 
         /// <inheritdoc/>
@@ -49,6 +64,7 @@ namespace BiOWheels
             {
                 return Activator.CreateInstance(implementation);
             }
+
             List<object> parameters = new List<object>(constructorParameters.Length);
             parameters.AddRange(constructorParameters.Select(parameterInfo => Resolve(parameterInfo.ParameterType)));
             return constructor.Invoke(parameters.ToArray());
