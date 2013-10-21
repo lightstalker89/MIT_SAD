@@ -27,12 +27,12 @@ namespace BiOWheelsLogger
         {
             get
             {
-                return isEnabled;
+                return this.isEnabled;
             }
 
             set
             {
-                isEnabled = value;
+                this.isEnabled = value;
             }
         }
 

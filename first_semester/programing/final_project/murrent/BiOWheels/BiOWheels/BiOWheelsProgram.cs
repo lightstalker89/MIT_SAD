@@ -7,11 +7,14 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System;
+
 namespace BiOWheels
 {
     using System.Collections.Generic;
 
-    using BiOWheels.BiOWheelsConfiguration;
+    using BiOWheelsConfiguration;
 
     using BiOWheelsCommandLineArgsParser;
 
@@ -32,12 +35,17 @@ namespace BiOWheels
         /// <summary>
         /// The configuration for the application
         /// </summary>
-        private static BiOWheelsConfiguration.Configuration configuration;
+        private static Configuration configuration;
 
         /// <summary>
         /// Accepted command line arguments
         /// </summary>
-        private const string Options = "p";
+        private const string Options = "px";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static bool isSyncing = true;
         #endregion
 
         /// <summary>
@@ -48,6 +56,8 @@ namespace BiOWheels
         /// </param>
         public static void Main(string[] args)
         {
+            SetUpConsoleEvents();
+
             ApplicationStartUp(args.Length > 0);
 
             if (args.Length > 0)
@@ -61,8 +71,23 @@ namespace BiOWheels
             {
                 Log("BiOWheels was started without any commandline arguments...", MessageType.INFO);
             }
+
+            StartSync();
         }
 
+        #region Events
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected static void ConsoleCancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
+            CloseApplication();
+        }
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Register modules in the SimpleContainer
         /// </summary>
@@ -95,7 +120,7 @@ namespace BiOWheels
                     }
                     else
                     {
-                        SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(configuration.LogFileOptions.LogFileSizeInMB);
+                        DistributeConfigurationValues();
                     }
                 }
                 else
@@ -112,7 +137,24 @@ namespace BiOWheels
             }
         }
 
-        #region Methods
+        /// <summary>
+        /// Start the sync process
+        /// </summary>
+        private static void StartSync()
+        {
+            while (isSyncing)
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+            }
+        }
+
+        /// <summary>
+        /// Set up events for the console window
+        /// </summary>
+        private static void SetUpConsoleEvents()
+        {
+            Console.CancelKeyPress += ConsoleCancelKeyPress;
+        }
 
         /// <summary>
         /// Logs a message with the given parameters
@@ -129,6 +171,19 @@ namespace BiOWheels
         }
 
         /// <summary>
+        /// Distribute configuration to the modules
+        /// </summary>
+        private static void DistributeConfigurationValues()
+        {
+            SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(configuration.LogFileOptions.LogFileSizeInMB);
+
+            foreach (DirectoryMappingInfo directoryMappingInfo in configuration.DirectoryMappingInfo)
+            {
+               
+            }
+        }
+
+        /// <summary>
         /// </summary>
         /// <param name="parameter">
         /// </param>
@@ -140,9 +195,20 @@ namespace BiOWheels
                 {
                     // parallel sync
                 }
+                else if (c == 'x')
+                {
+                    CloseApplication();
+                }
             }
         }
 
+        /// <summary>
+        /// Close the application
+        /// </summary>
+        private static void CloseApplication()
+        {
+            
+        }
         #endregion
     }
 }

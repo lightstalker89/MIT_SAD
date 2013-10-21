@@ -111,12 +111,16 @@ namespace BiOWheelsLogger
             this.maxFileSizeInMB = logFileSize;
         }
 
+        static System.Threading.Semaphore locking = new System.Threading.Semaphore(1, 1);
+
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)
         {
             this.logQueue.Enqueue(new LogQueueItem(message, messageType));
 
+            locking.WaitOne();
             this.FinalizeQueue();
+            locking.Release();
         }
 
         /// <summary>
@@ -240,13 +244,13 @@ namespace BiOWheelsLogger
         private void GenerateNewFileName()
         {
             this.fileName = string.Format(
-                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt", 
-                DateTime.Now.Year, 
-                DateTime.Now.Month, 
-                DateTime.Now.Day, 
-                DateTime.Now.Hour, 
-                DateTime.Now.Minute, 
-                DateTime.Now.Second, 
+                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt",
+                DateTime.Now.Year,
+                DateTime.Now.Month,
+                DateTime.Now.Day,
+                DateTime.Now.Hour,
+                DateTime.Now.Minute,
+                DateTime.Now.Second,
                 DateTime.Now.Millisecond);
         }
 

@@ -7,6 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Threading;
+
 namespace BiOWheelsLogger.Test
 {
     using System;
@@ -79,7 +82,7 @@ namespace BiOWheelsLogger.Test
                 this.logger.Log("test logging" + i, MessageType.DEBUG);
 
                 Random rnd = new Random();
-                System.Threading.Thread.Sleep(rnd.Next(1,600));
+                Thread.Sleep(rnd.Next(1, 600));
             }
 
             Assert.IsTrue(Directory.Exists("log"));
