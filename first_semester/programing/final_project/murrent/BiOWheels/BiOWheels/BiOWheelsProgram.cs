@@ -31,6 +31,8 @@ namespace BiOWheels
 
             if (args.Length > 0)
             {
+                Log("BiOWheels was started with commandline arguments...", MessageType.INFO);
+
                 ICommandLineArgsParser parser = SimpleContainer.Instance.Resolve<CommandLineArgsParser>();
                 HandleParams(parser.Parse(args, Options));
             }
@@ -61,18 +63,6 @@ namespace BiOWheels
                 IConfigurationManager configurationManager = SimpleContainer.Instance.Resolve<IConfigurationManager>();
             }
         }
-
-        #region Events
-        /// <summary>
-        /// Event raised when the loading of the configuration failed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void configurationManager_OnConfigurationLoadingFailed(object sender, EventArgs e)
-        {
-            Log("Error while loading the configuration", MessageType.ERROR);
-        }
-        #endregion
 
         #region Methods
         /// <summary>

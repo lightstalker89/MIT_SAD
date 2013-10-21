@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using NUnit.Framework;
 
 namespace BiOWheelsLogger.Test
@@ -8,13 +9,14 @@ namespace BiOWheelsLogger.Test
     public class FileLoggerTest
     {
         private FileLogger logger;
+        private const double FileSize = 0.5;
 
         [SetUp]
         public void Init()
         {
             logger = new FileLogger();
             logger.SetIsEnabled<FileLogger>(true);
-            logger.SetFileSize<FileLogger>(1);
+            logger.SetFileSize<FileLogger>(FileSize);
             logger.Init();
         }
 
@@ -29,13 +31,15 @@ namespace BiOWheelsLogger.Test
             Assert.IsTrue(Directory.Exists("log"));
             Assert.IsNotEmpty(Directory.GetFiles("log"));
 
-            foreach(string file in Directory.GetFiles("log"))
-            {
-                Stream actualFileStream = new FileStream(file, FileMode.Open);
-                double length = Math.Round(
-                    (actualFileStream.Length / 1024f) / 1024f, 5, MidpointRounding.AwayFromZero);
+            string[] files = Directory.GetFiles("log");
 
-                Assert.IsTrue(length <= 1.001);
+            for (int i = 0; i < files.Count(); i++)
+            {
+                Stream actualFileStream = new FileStream(files[i], FileMode.Open);
+                double length = Math.Round(
+                    (actualFileStream.Length / 1024f) / 1024f, 1, MidpointRounding.AwayFromZero);
+
+                Assert.IsTrue(length <= FileSize);
             }
         }
     }

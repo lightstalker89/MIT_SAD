@@ -25,7 +25,7 @@
         }
 
         /// <inheritdoc/>
-        public void SetFileSize<T>(long logFileSize)
+        public void SetFileSize<T>(double logFileSize)
         {
             if (typeof(T) == typeof(FileLogger))
             {

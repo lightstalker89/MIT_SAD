@@ -21,7 +21,7 @@ namespace BiOWheelsLogger
         }
 
         /// <inheritdoc/>
-        public void SetFileSize<T>(long logFileSize) { }
+        public void SetFileSize<T>(double logFileSize) { }
 
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)

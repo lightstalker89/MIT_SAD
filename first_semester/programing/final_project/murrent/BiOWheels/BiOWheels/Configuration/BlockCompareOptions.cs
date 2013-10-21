@@ -1,9 +1,9 @@
-﻿namespace BiOWheelsConfigManager
+﻿namespace BiOWheels.Configuration
 {
     public class BlockCompareOptions
     {
-        public long BlockCompareFileSize { get; internal set; }
+        public long BlockCompareFileSizeInMB { get; set; }
 
-        public long BlockSize { get; internal set; }
+        public long BlockSizeInKB { get; set; }
     }
 }

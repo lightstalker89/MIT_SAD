@@ -10,17 +10,17 @@
         void Log(string message, MessageType messageType);
 
         /// <summary>
-        /// 
+        /// Sets the state of the logger
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="isLoggerEnabled"></param>
+        /// <typeparam name="T">Type of the logger</typeparam>
+        /// <param name="isLoggerEnabled">Status</param>
         void SetIsEnabled<T>(bool isLoggerEnabled);
 
         /// <summary>
-        /// 
+        /// Sets the filesize of the logfile
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="logFileSize"></param>
-        void SetFileSize<T>(long logFileSize);
+        /// <typeparam name="T">Type of the logger</typeparam>
+        /// <param name="logFileSize">Logfile size</param>
+        void SetFileSize<T>(double logFileSize);
     }
 }

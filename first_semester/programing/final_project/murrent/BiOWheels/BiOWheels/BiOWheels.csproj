@@ -45,6 +45,8 @@
     <Compile Include="Configuration\BlockCompareOptions.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\DirectoryMappingInfo.cs" />
+    <Compile Include="Configuration\LogFileOptions.cs" />
+    <Compile Include="Configuration\SourceMappingInfo.cs" />
     <Compile Include="SimpleContainer.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

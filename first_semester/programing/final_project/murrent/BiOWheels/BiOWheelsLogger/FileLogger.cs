@@ -56,11 +56,11 @@ namespace BiOWheelsLogger
 
         /// <summary>
         /// </summary>
-        private long maxFileSizeInMB;
+        private double maxFileSizeInMB;
 
         /// <summary>
         /// </summary>
-        internal long MaxFileSizeInMB
+        internal double MaxFileSizeInMB
         {
             get
             {
@@ -86,6 +86,7 @@ namespace BiOWheelsLogger
 
         #region Methods
         /// <summary>
+        /// Initialize the logger
         /// </summary>
         public void Init()
         {
@@ -101,7 +102,7 @@ namespace BiOWheelsLogger
         }
 
         /// <inheritdoc/>
-        public void SetFileSize<T>(long logFileSize)
+        public void SetFileSize<T>(double logFileSize)
         {
             this.maxFileSizeInMB = logFileSize;
         }
@@ -135,17 +136,28 @@ namespace BiOWheelsLogger
                 {
                     actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
                     length = Math.Round(
-                        (actualFileStream.Length / 1024f) / 1024f, 5, MidpointRounding.AwayFromZero);
-
+                        (actualFileStream.Length/1024f)/1024f, 2, MidpointRounding.AwayFromZero);
                 }
                 catch (IOException ioex)
                 {
                     this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
                 }
+                catch (NotSupportedException nex)
+                {
+                    this.logQueue.Enqueue(new LogQueueItem(nex.Message, MessageType.ERROR));      
+                }
 
                 if (length > this.maxFileSizeInMB)
                 {
+                    if (actualFileStream != null)
+                    {
+                        actualFileStream.Close();
+                    }
+
+                    this.RenameFile();
                     this.GenerateNewFileName();
+
+                    actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
                 }
 
                 this.WriteToLogFile(entry, actualFileStream);
@@ -177,6 +189,14 @@ namespace BiOWheelsLogger
                     this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
                 }
             }
+        }
+
+        /// <summary>
+        /// Renames the actual log file
+        /// </summary>
+        private void RenameFile()
+        {
+            File.Move(this.FullQualifiedFileName, this.FullQualifiedFileName + ".bak");
         }
 
         /// <summary>
