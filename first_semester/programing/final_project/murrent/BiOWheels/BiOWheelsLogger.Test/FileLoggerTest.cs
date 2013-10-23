@@ -7,14 +7,12 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Threading;
-
 namespace BiOWheelsLogger.Test
 {
     using System;
     using System.IO;
     using System.Linq;
+    using System.Threading;
 
     using NUnit.Framework;
 
@@ -57,6 +55,8 @@ namespace BiOWheelsLogger.Test
                 this.logger.Log("test logging" + i, MessageType.DEBUG);
             }
 
+            ThreadTestHelper.WaitForCondition(() => logger.IsWorkerInProgress == false, 30000, 1000);
+
             Assert.IsTrue(Directory.Exists("log"));
             Assert.IsNotEmpty(Directory.GetFiles("log"));
 
@@ -68,6 +68,42 @@ namespace BiOWheelsLogger.Test
                 double length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 1, MidpointRounding.AwayFromZero);
 
                 Assert.IsTrue(length <= FileSize);
+            }
+        }
+
+        /// <summary>
+        /// Test method for testing the Log method of the <see cref="FileLogger"/> class with different threads
+        /// </summary>
+        [TestCase]
+        public void LogTestMultipleThreads()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Thread thread = new Thread(LogSomeText);
+                thread.Start();
+            }
+
+            ThreadTestHelper.WaitForCondition(() => logger.IsWorkerInProgress == false, 60000, 1000);
+
+            Assert.IsTrue(Directory.Exists("log"));
+            Assert.IsNotEmpty(Directory.GetFiles("log"));
+
+            string[] files = Directory.GetFiles("log");
+
+            for (int i = 0; i < files.Count(); i++)
+            {
+                Stream actualFileStream = new FileStream(files[i], FileMode.Open);
+                double length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 1, MidpointRounding.AwayFromZero);
+
+                Assert.IsTrue(length <= FileSize);
+            }
+        }
+
+        internal void LogSomeText()
+        {
+            for (int i = 0; i < 25000; i++)
+            {
+                this.logger.Log("test logging" + i, MessageType.DEBUG);
             }
         }
 

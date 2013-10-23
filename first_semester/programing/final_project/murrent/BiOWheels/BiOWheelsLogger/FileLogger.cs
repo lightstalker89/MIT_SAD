@@ -7,6 +7,10 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Collections.Concurrent;
+using System.Threading;
+
 namespace BiOWheelsLogger
 {
     using System;
@@ -23,7 +27,7 @@ namespace BiOWheelsLogger
 
         /// <summary>
         /// </summary>
-        private Queue<LogQueueItem> logQueue;
+        private ConcurrentQueue<LogQueueItem> logQueue;
 
         /// <summary>
         /// </summary>
@@ -33,6 +37,9 @@ namespace BiOWheelsLogger
         /// </summary>
         private string fileName;
 
+        /// <summary>
+        /// </summary>
+        private bool isWorkerInProgress;
         #endregion
 
         #region Properties
@@ -85,18 +92,42 @@ namespace BiOWheelsLogger
             }
         }
 
+        public bool IsWorkerInProgress
+        {
+            get
+            {
+                return this.isWorkerInProgress;
+            }
+
+            private set
+            {
+                this.isWorkerInProgress = value;
+            }
+        }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        public void StartBackgroundWorker()
+        {
+            Thread workerThread = new Thread(FinalizeQueue) { IsBackground = true };
+            workerThread.Start();
+        }
 
         /// <summary>
         /// Initialize the logger
         /// </summary>
         public void Init()
         {
+            this.IsWorkerInProgress = true;
+
             CreateNewLogFileDirectoryIfNotExists();
 
-            logQueue = new Queue<LogQueueItem>();
+            logQueue = new ConcurrentQueue<LogQueueItem>();
+
+            StartBackgroundWorker();
         }
 
         /// <inheritdoc/>
@@ -117,10 +148,6 @@ namespace BiOWheelsLogger
         public void Log(string message, MessageType messageType)
         {
             this.logQueue.Enqueue(new LogQueueItem(message, messageType));
-
-            locking.WaitOne();
-            this.FinalizeQueue();
-            locking.Release();
         }
 
         /// <summary>
@@ -128,46 +155,50 @@ namespace BiOWheelsLogger
         /// </summary>
         private void FinalizeQueue()
         {
-            while (logQueue.Count > 0)
+            while (this.IsWorkerInProgress)
             {
-                LogQueueItem entry = logQueue.Dequeue();
+                LogQueueItem entry;
 
-                if (string.IsNullOrEmpty(this.fileName))
+                if (logQueue.TryDequeue(out entry))
                 {
-                    this.CheckIfLastFileExists();
-                }
 
-                Stream actualFileStream = null;
-                double length = 0.0;
-
-                try
-                {
-                    actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
-                    length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
-                }
-                catch (IOException ioex)
-                {
-                    this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
-                }
-                catch (NotSupportedException nex)
-                {
-                    this.logQueue.Enqueue(new LogQueueItem(nex.Message, MessageType.ERROR));
-                }
-
-                if (length > this.maxFileSizeInMB)
-                {
-                    if (actualFileStream != null)
+                    if (string.IsNullOrEmpty(this.fileName))
                     {
-                        actualFileStream.Close();
+                        this.CheckIfLastFileExists();
                     }
 
-                    this.RenameFile();
-                    this.GenerateNewFileName();
+                    Stream actualFileStream = null;
+                    double length = 0.0;
 
-                    actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
+                    try
+                    {
+                        actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
+                        length = Math.Round((actualFileStream.Length/1024f)/1024f, 2, MidpointRounding.AwayFromZero);
+                    }
+                    catch (IOException ioex)
+                    {
+                        this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
+                    }
+                    catch (NotSupportedException nex)
+                    {
+                        this.logQueue.Enqueue(new LogQueueItem(nex.Message, MessageType.ERROR));
+                    }
+
+                    if (length > this.maxFileSizeInMB)
+                    {
+                        if (actualFileStream != null)
+                        {
+                            actualFileStream.Close();
+                        }
+
+                        this.RenameFile();
+                        this.GenerateNewFileName();
+
+                        actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
+                    }
+
+                    this.WriteToLogFile(entry, actualFileStream);
                 }
-
-                this.WriteToLogFile(entry, actualFileStream);
             }
         }
 

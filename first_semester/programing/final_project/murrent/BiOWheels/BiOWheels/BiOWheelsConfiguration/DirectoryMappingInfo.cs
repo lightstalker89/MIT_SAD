@@ -17,7 +17,7 @@ namespace BiOWheels.BiOWheelsConfiguration
     {
         /// <summary>
         /// </summary>
-        public List<SourceMappingInfo> SourceMappingInfos { get; set; }
+        public SourceMappingInfo SourceMappingInfos { get; set; }
 
         /// <summary>
         /// </summary>
