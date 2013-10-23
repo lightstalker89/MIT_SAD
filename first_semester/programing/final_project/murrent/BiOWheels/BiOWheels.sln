@@ -28,6 +28,10 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "BiOWheelsDiagrams", "BiOWhe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsVisualizer.Test", "BiOWheelsVisualizer.Test\BiOWheelsVisualizer.Test.csproj", "{4C27CA52-D285-4595-8EB6-5BAD2C973209}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsNetworkAgent", "BiOWheelsNetworkAgent\BiOWheelsNetworkAgent.csproj", "{F04F750B-472B-4A20-BA1B-D0EC0E926894}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsListener", "BiOWheelsListener\BiOWheelsListener.csproj", "{05363104-8B65-423D-9E90-86915FC6605C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +78,14 @@ Global
 		{4C27CA52-D285-4595-8EB6-5BAD2C973209}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C27CA52-D285-4595-8EB6-5BAD2C973209}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C27CA52-D285-4595-8EB6-5BAD2C973209}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F04F750B-472B-4A20-BA1B-D0EC0E926894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F04F750B-472B-4A20-BA1B-D0EC0E926894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F04F750B-472B-4A20-BA1B-D0EC0E926894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F04F750B-472B-4A20-BA1B-D0EC0E926894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05363104-8B65-423D-9E90-86915FC6605C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05363104-8B65-423D-9E90-86915FC6605C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05363104-8B65-423D-9E90-86915FC6605C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05363104-8B65-423D-9E90-86915FC6605C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
