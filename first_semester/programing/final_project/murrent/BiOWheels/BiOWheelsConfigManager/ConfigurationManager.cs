@@ -29,30 +29,30 @@ namespace BiOWheelsConfigManager
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(T));
 
-                    using (StreamReader str = new StreamReader(configFileName))
+                    using (StreamReader streamReader = new StreamReader(configFileName))
                     {
-                        deserializedObject = serializer.Deserialize(str.BaseStream);
+                        deserializedObject = serializer.Deserialize(streamReader.BaseStream);
                     }
                 }
-                catch (InvalidOperationException ivoex)
+                catch (InvalidOperationException invalidOperationException)
                 {
-                    return new LoaderException(ivoex.Message, typeof(InvalidOperationException));
+                    return new LoaderException(invalidOperationException.Message, typeof(InvalidOperationException));
                 }
-                catch (IOException ioex)
+                catch (IOException ioException)
                 {
-                    return new LoaderException(ioex.Message, typeof(IOException));
+                    return new LoaderException(ioException.Message, typeof(IOException));
                 }
-                catch (ArgumentNullException anex)
+                catch (ArgumentNullException argumentNullException)
                 {
-                    return new LoaderException(anex.Message, typeof(IOException));
+                    return new LoaderException(argumentNullException.Message, typeof(IOException));
                 }
-                catch (UnauthorizedAccessException uaex)
+                catch (UnauthorizedAccessException unauthorizedAccessException)
                 {
-                    return new LoaderException(uaex.Message, typeof(IOException));
+                    return new LoaderException(unauthorizedAccessException.Message, typeof(IOException));
                 }
-                catch (ArgumentException aex)
+                catch (ArgumentException argumentException)
                 {
-                    return new LoaderException(aex.Message, typeof(IOException));
+                    return new LoaderException(argumentException.Message, typeof(IOException));
                 }
             }
             else

@@ -20,12 +20,12 @@ namespace BiOWheelsFileWatcher
     {
         /// <summary>
         /// </summary>
-        private IEnumerable<DirecotryMapping> mappings;
+        private IEnumerable<DirectoryMapping> mappings;
 
         /// <summary>
         /// 
         /// </summary>
-        internal IEnumerable<DirecotryMapping> Mappings
+        internal IEnumerable<DirectoryMapping> Mappings
         {
             get
             {
@@ -38,14 +38,12 @@ namespace BiOWheelsFileWatcher
             }
         }
 
-        /// <summary>
-        /// Initialize and assign all needed properties and start a monitor thread for every directory
-        /// </summary>
+        /// <inheritdoc/>
         public void Init()
         {
-            this.Mappings = new ArraySegment<DirecotryMapping>();
+            this.Mappings = new ArraySegment<DirectoryMapping>();
 
-            foreach (DirecotryMapping mapping in this.Mappings)
+            foreach (DirectoryMapping mapping in this.Mappings)
             {
                 Thread backgroundWatcherThread = new Thread(this.WatchDirectory);
                 backgroundWatcherThread.Start(mapping);
@@ -53,20 +51,20 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <inheritdoc/>
-        public void SetSourceDirectories(IEnumerable<DirecotryMapping> direcotryappings)
+        public void SetSourceDirectories(IEnumerable<DirectoryMapping> directoryMappings)
         {
-            this.mappings = direcotryappings;
+            this.mappings = directoryMappings;
         }
 
         /// <summary>
         /// Method for watching a specific directory - will be executed in a new thread
         /// </summary>
         /// <param name="mappingInfo">
-        /// Object containing the <see cref="DirecotryMapping"/> information
+        /// Object containing the <see cref="DirectoryMapping"/> information
         /// </param>
         private void WatchDirectory(object mappingInfo)
         {
-            if (mappingInfo.GetType() == typeof(DirecotryMapping))
+            if (mappingInfo.GetType() == typeof(DirectoryMapping))
             {
             }
             else

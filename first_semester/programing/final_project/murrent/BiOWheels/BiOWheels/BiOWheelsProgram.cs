@@ -7,12 +7,16 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Linq;
+using System.Threading;
+
 namespace BiOWheels
 {
     using System;
     using System.Collections.Generic;
 
-    using BiOWheels.BiOWheelsConfiguration;
+    using BiOWheelsConfiguration;
 
     using BiOWheelsCommandLineArgsParser;
 
@@ -54,25 +58,32 @@ namespace BiOWheels
         /// <param name="args">
         /// Specified command line arguments
         /// </param>
+        [STAThread]
         public static void Main(string[] args)
         {
-            SetUpConsoleEvents();
-
-            ApplicationStartUp(args.Length > 0);
-
-            if (args.Length > 0)
+            Mutex mutex = new Mutex(false, "BiOWheelsProgramMutex");
+            try
             {
-                Log("BiOWheels was started with commandline arguments...", MessageType.INFO);
+                if (mutex.WaitOne(0, false))
+                {
+                    SetUpConsoleEvents();
 
-                ICommandLineArgsParser parser = SimpleContainer.Instance.Resolve<CommandLineArgsParser>();
-                HandleParams(parser.Parse(args, Options));
+                    ApplicationStartUp(args.Length <= 0, args);
+                }
+                else
+                {
+                    Console.WriteLine("Another instance of BioWheels is already running. Press x to close BiOWheels");
+
+                    if (Console.ReadKey(true).Key == ConsoleKey.X)
+                    {
+                        Environment.Exit(89);
+                    }
+                }
             }
-            else
+            finally
             {
-                Log("BiOWheels was started without any commandline arguments...", MessageType.INFO);
+                mutex.Close();
             }
-
-            StartSync();
         }
 
         #region Events
@@ -98,7 +109,8 @@ namespace BiOWheels
         /// <param name="loadConfig">
         /// Specifies if the configuration should be loaded
         /// </param>
-        private static void ApplicationStartUp(bool loadConfig)
+        /// <param name="args">Commandline arguments</param>
+        private static void ApplicationStartUp(bool loadConfig, string[] args)
         {
             SimpleContainer.Instance.Register<IConfigurationManager, ConfigurationManager>(new ConfigurationManager());
             SimpleContainer.Instance.Register<ILogger, CombinedLogger>(new CombinedLogger());
@@ -111,6 +123,9 @@ namespace BiOWheels
 
             if (loadConfig)
             {
+                Log("BiOWheels was started without any commandline arguments...", MessageType.INFO);
+                Log("Loading configuration", MessageType.INFO);
+
                 IConfigurationManager configurationManager = SimpleContainer.Instance.Resolve<IConfigurationManager>();
                 object config = configurationManager.Load<Configuration>("BiOWheelsConfig.xml");
 
@@ -126,6 +141,8 @@ namespace BiOWheels
                     {
                         DistributeConfigurationValues();
                     }
+
+                    StartSync();
                 }
                 else
                 {
@@ -135,10 +152,20 @@ namespace BiOWheels
                     {
                         Log(
                             "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                            + " occured: " + loaderException.Message, 
+                            + " occurred: " + loaderException.Message,
                             MessageType.ERROR);
+
+                        WriteLineToConsole("Error while loading the configuration. Exit program?");
+                        Console.ReadKey(true);
                     }
                 }
+            }
+            else
+            {
+                Log("BiOWheels was started with commandline arguments...", MessageType.INFO);
+
+                ICommandLineArgsParser parser = SimpleContainer.Instance.Resolve<CommandLineArgsParser>();
+                HandleParams(parser.Parse(args, Options));
             }
         }
 
@@ -159,6 +186,15 @@ namespace BiOWheels
         private static void SetUpConsoleEvents()
         {
             Console.CancelKeyPress += ConsoleCancelKeyPress;
+        }
+
+        /// <summary>
+        /// Writes the message to the console
+        /// </summary>
+        /// <param name="text">Test to write to the console</param>
+        private static void WriteLineToConsole(string text)
+        {
+            SimpleContainer.Instance.Resolve<IVisualizer>().WriteLine(text);
         }
 
         /// <summary>
@@ -183,9 +219,18 @@ namespace BiOWheels
             SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(
                 configuration.LogFileOptions.LogFileSizeInMB);
 
-            foreach (DirectoryMappingInfo directoryMappingInfo in configuration.DirectoryMappingInfo)
-            {
-            }
+            IList<DirectoryMapping> mappings = configuration.DirectoryMappingInfo.Select(
+                 directoryMappingInfo => new DirectoryMapping
+                                              {
+                                                  DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                                                  SorceDirectory = directoryMappingInfo.SourceMappingInfos.SourceDirectory,
+                                                  Recursive = directoryMappingInfo.SourceMappingInfos.Recursive
+                                              }).ToList();
+
+            SimpleContainer.Instance.Resolve<IFileWatcher>().SetSourceDirectories(mappings);
+            SimpleContainer.Instance.Resolve<IFileWatcher>().Init();
+
+            Log("Configuration successfully loaded", MessageType.INFO);
         }
 
         /// <summary>
@@ -212,6 +257,7 @@ namespace BiOWheels
         /// </summary>
         private static void CloseApplication()
         {
+
         }
 
         #endregion

@@ -19,6 +19,11 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         /// <param name="mappings">
         /// </param>
-        void SetSourceDirectories(IEnumerable<DirecotryMapping> mappings);
+        void SetSourceDirectories(IEnumerable<DirectoryMapping> mappings);
+
+        /// <summary>
+        /// Initialize and assign all needed properties and start a monitor thread for every directory
+        /// </summary>
+        void Init();
     }
 }

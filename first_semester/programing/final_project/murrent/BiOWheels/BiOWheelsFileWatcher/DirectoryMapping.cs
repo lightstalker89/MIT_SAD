@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="DirecotryMapping.cs" company="MDMCoWorks">
+// * <copyright file="DirectoryMapping.cs" company="MDMCoWorks">
 // * Copyright (c) Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -13,7 +13,7 @@ namespace BiOWheelsFileWatcher
 
     /// <summary>
     /// </summary>
-    public class DirecotryMapping
+    public class DirectoryMapping
     {
         /// <summary>
         /// </summary>

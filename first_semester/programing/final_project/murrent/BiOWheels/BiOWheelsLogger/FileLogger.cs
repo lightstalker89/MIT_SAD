@@ -7,6 +7,11 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo(" BiOWheelsLogger.Test")]
 namespace BiOWheelsLogger
 {
     using System;
@@ -98,7 +103,7 @@ namespace BiOWheelsLogger
         /// <summary>
         /// Gets or sets the property which determines if the background thread is running
         /// </summary>
-        public bool IsWorkerInProgress
+        internal bool IsWorkerInProgress
         {
             get
             {
@@ -284,13 +289,13 @@ namespace BiOWheelsLogger
         private void GenerateNewFileName()
         {
             this.fileName = string.Format(
-                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt", 
-                DateTime.Now.Year, 
-                DateTime.Now.Month, 
-                DateTime.Now.Day, 
-                DateTime.Now.Hour, 
-                DateTime.Now.Minute, 
-                DateTime.Now.Second, 
+                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt",
+                DateTime.Now.Year,
+                DateTime.Now.Month,
+                DateTime.Now.Day,
+                DateTime.Now.Hour,
+                DateTime.Now.Minute,
+                DateTime.Now.Second,
                 DateTime.Now.Millisecond);
         }
 

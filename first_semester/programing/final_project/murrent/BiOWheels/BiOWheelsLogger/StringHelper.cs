@@ -12,7 +12,7 @@ namespace BiOWheelsLogger
     using System;
 
     /// <summary>
-    ///
+    /// Class representing the string helper methods for the <see cref="FileLogger"/>
     /// </summary>
     public static class StringHelper
     {
