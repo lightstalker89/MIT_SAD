@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsNetworkAgent", "Bi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsListener", "BiOWheelsListener\BiOWheelsListener.csproj", "{05363104-8B65-423D-9E90-86915FC6605C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsFileWatcher.Test", "BiOWheelsFileWatcher.Test\BiOWheelsFileWatcher.Test.csproj", "{691D6655-C5CB-45EC-86B1-5C76B5296E33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{05363104-8B65-423D-9E90-86915FC6605C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05363104-8B65-423D-9E90-86915FC6605C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05363104-8B65-423D-9E90-86915FC6605C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691D6655-C5CB-45EC-86B1-5C76B5296E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691D6655-C5CB-45EC-86B1-5C76B5296E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691D6655-C5CB-45EC-86B1-5C76B5296E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691D6655-C5CB-45EC-86B1-5C76B5296E33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

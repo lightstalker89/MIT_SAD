@@ -23,7 +23,7 @@ namespace BiOWheelsLogger
 
         /// <summary>
         /// </summary>
-        DEBUG,
+        DEBUG, 
 
         /// <summary>
         /// </summary>

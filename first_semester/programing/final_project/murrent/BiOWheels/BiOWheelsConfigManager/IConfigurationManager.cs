@@ -10,6 +10,7 @@
 namespace BiOWheelsConfigManager
 {
     /// <summary>
+    /// Interface representing all needed methods
     /// </summary>
     public interface IConfigurationManager
     {

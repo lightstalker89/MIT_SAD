@@ -25,10 +25,16 @@ namespace BiOWheelsLogger.Test
         /// <summary>
         /// Helper method for testing the logger background thread
         /// </summary>
-        /// <param name="condition">Delegate for delivering the boolean value</param>
-        /// <param name="totalTimeout">Expected time needed for the total progress</param>
-        /// <param name="step">Time the thread should wait till thread is continued</param>
-        static internal void WaitForCondition(WaitCondition condition, int totalTimeout, int step)
+        /// <param name="condition">
+        /// Delegate for delivering the boolean value
+        /// </param>
+        /// <param name="totalTimeout">
+        /// Expected time needed for the total progress
+        /// </param>
+        /// <param name="step">
+        /// Time the thread should wait till thread is continued
+        /// </param>
+        internal static void WaitForCondition(WaitCondition condition, int totalTimeout, int step)
         {
             int currentTimeout = 0;
 

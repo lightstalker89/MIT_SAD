@@ -99,6 +99,8 @@ namespace BiOWheelsLogger.Test
             }
         }
 
+        /// <summary>
+        /// </summary>
         internal void LogSomeText()
         {
             for (int i = 0; i < 25000; i++)

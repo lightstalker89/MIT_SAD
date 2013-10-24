@@ -7,15 +7,18 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Collections.Generic;
-
 namespace BiOWheelsFileWatcher
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// </summary>
     public interface IFileWatcher
     {
+        /// <summary>
+        /// </summary>
+        /// <param name="mappings">
+        /// </param>
         void SetSourceDirectories(IEnumerable<DirecotryMapping> mappings);
     }
 }

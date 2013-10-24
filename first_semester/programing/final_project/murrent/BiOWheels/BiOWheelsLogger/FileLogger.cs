@@ -7,19 +7,18 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Collections.Concurrent;
-using System.Threading;
-
 namespace BiOWheelsLogger
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Threading;
 
     /// <summary>
+    /// Class representing the FileLogger and interaction logic
     /// </summary>
     public class FileLogger : ILogger
     {
@@ -40,6 +39,7 @@ namespace BiOWheelsLogger
         /// <summary>
         /// </summary>
         private bool isWorkerInProgress;
+
         #endregion
 
         #region Properties
@@ -49,6 +49,7 @@ namespace BiOWheelsLogger
         private bool isEnabled;
 
         /// <summary>
+        /// Gets or sets the status of the <see cref="FileLogger"/>
         /// </summary>
         internal bool IsEnabled
         {
@@ -68,6 +69,7 @@ namespace BiOWheelsLogger
         private double maxFileSizeInMB;
 
         /// <summary>
+        /// Gets or sets the maximum file size in MB
         /// </summary>
         internal double MaxFileSizeInMB
         {
@@ -83,6 +85,7 @@ namespace BiOWheelsLogger
         }
 
         /// <summary>
+        /// Gets the full qualified name for the logfile including file path
         /// </summary>
         internal string FullQualifiedFileName
         {
@@ -92,6 +95,9 @@ namespace BiOWheelsLogger
             }
         }
 
+        /// <summary>
+        /// Gets or sets the property which determines if the background thread is running
+        /// </summary>
         public bool IsWorkerInProgress
         {
             get
@@ -104,11 +110,13 @@ namespace BiOWheelsLogger
                 this.isWorkerInProgress = value;
             }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
-        /// 
+        /// Start the thread which finalizes the queue
         /// </summary>
         public void StartBackgroundWorker()
         {
@@ -142,7 +150,9 @@ namespace BiOWheelsLogger
             this.maxFileSizeInMB = logFileSize;
         }
 
-        static System.Threading.Semaphore locking = new System.Threading.Semaphore(1, 1);
+        /// <summary>
+        /// </summary>
+        private static Semaphore locking = new System.Threading.Semaphore(1, 1);
 
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)
@@ -161,7 +171,6 @@ namespace BiOWheelsLogger
 
                 if (logQueue.TryDequeue(out entry))
                 {
-
                     if (string.IsNullOrEmpty(this.fileName))
                     {
                         this.CheckIfLastFileExists();
@@ -173,7 +182,7 @@ namespace BiOWheelsLogger
                     try
                     {
                         actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
-                        length = Math.Round((actualFileStream.Length/1024f)/1024f, 2, MidpointRounding.AwayFromZero);
+                        length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
                     }
                     catch (IOException ioex)
                     {
@@ -275,13 +284,13 @@ namespace BiOWheelsLogger
         private void GenerateNewFileName()
         {
             this.fileName = string.Format(
-                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt",
-                DateTime.Now.Year,
-                DateTime.Now.Month,
-                DateTime.Now.Day,
-                DateTime.Now.Hour,
-                DateTime.Now.Minute,
-                DateTime.Now.Second,
+                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt", 
+                DateTime.Now.Year, 
+                DateTime.Now.Month, 
+                DateTime.Now.Day, 
+                DateTime.Now.Hour, 
+                DateTime.Now.Minute, 
+                DateTime.Now.Second, 
                 DateTime.Now.Millisecond);
         }
 

@@ -14,6 +14,7 @@ namespace BiOWheelsConfigManager
     using System.Xml.Serialization;
 
     /// <summary>
+    /// Class representing the <see cref="ConfigurationManager"/> and its interaction logic
     /// </summary>
     public class ConfigurationManager : IConfigurationManager
     {

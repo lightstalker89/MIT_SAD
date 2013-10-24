@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="NetworkAgent.cs" company="MDMCoWorks">
+// * <copyright file="BiOWheelsFileWatcherTest.cs" company="MDMCoWorks">
 // * Copyright (c) Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -7,11 +7,11 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-namespace BiOWheelsNetworkAgent
+namespace BiOWheelsFileWatcher.Test
 {
     /// <summary>
     /// </summary>
-    public class NetworkAgent
+    public class BiOWheelsFileWatcherTest
     {
     }
 }

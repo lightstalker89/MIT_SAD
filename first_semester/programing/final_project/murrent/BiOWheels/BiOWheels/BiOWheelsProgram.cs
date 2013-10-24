@@ -7,14 +7,12 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System;
-
 namespace BiOWheels
 {
+    using System;
     using System.Collections.Generic;
 
-    using BiOWheelsConfiguration;
+    using BiOWheels.BiOWheelsConfiguration;
 
     using BiOWheelsCommandLineArgsParser;
 
@@ -32,6 +30,7 @@ namespace BiOWheels
     public class BiOWheelsProgram
     {
         #region Private Fields
+
         /// <summary>
         /// The configuration for the application
         /// </summary>
@@ -46,6 +45,7 @@ namespace BiOWheels
         /// 
         /// </summary>
         private static bool isSyncing = true;
+
         #endregion
 
         /// <summary>
@@ -76,18 +76,22 @@ namespace BiOWheels
         }
 
         #region Events
+
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         protected static void ConsoleCancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
             CloseApplication();
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Register modules in the SimpleContainer
         /// </summary>
@@ -110,7 +114,7 @@ namespace BiOWheels
                 IConfigurationManager configurationManager = SimpleContainer.Instance.Resolve<IConfigurationManager>();
                 object config = configurationManager.Load<Configuration>("BiOWheelsConfig.xml");
 
-                if(config.GetType() == typeof(Configuration))
+                if (config.GetType() == typeof(Configuration))
                 {
                     configuration = config as Configuration;
 
@@ -130,10 +134,11 @@ namespace BiOWheels
                     if (loaderException != null)
                     {
                         Log(
-                            "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType + " occured: " + loaderException.Message,
+                            "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
+                            + " occured: " + loaderException.Message, 
                             MessageType.ERROR);
                     }
-                }     
+                }
             }
         }
 
@@ -175,11 +180,11 @@ namespace BiOWheels
         /// </summary>
         private static void DistributeConfigurationValues()
         {
-            SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(configuration.LogFileOptions.LogFileSizeInMB);
+            SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(
+                configuration.LogFileOptions.LogFileSizeInMB);
 
             foreach (DirectoryMappingInfo directoryMappingInfo in configuration.DirectoryMappingInfo)
             {
-               
             }
         }
 
@@ -207,8 +212,8 @@ namespace BiOWheels
         /// </summary>
         private static void CloseApplication()
         {
-            
         }
+
         #endregion
     }
 }

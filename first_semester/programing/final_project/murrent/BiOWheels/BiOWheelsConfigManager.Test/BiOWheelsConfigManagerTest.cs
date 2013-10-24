@@ -42,9 +42,9 @@ namespace BiOWheelsConfigManager.Test
 
             this.config = new Configuration
                 {
-                    BlockCompareOptions = new BlockCompareOptions { BlockCompareFileSizeInMB = 20, BlockSizeInKB = 2048 },
-                    LogFileOptions = new LogFileOptions { LogFileFolder = "log", LogFileSizeInMB = 1 },
-                    ParallelSync = false,
+                    BlockCompareOptions = new BlockCompareOptions { BlockCompareFileSizeInMB = 20, BlockSizeInKB = 2048 }, 
+                    LogFileOptions = new LogFileOptions { LogFileFolder = "log", LogFileSizeInMB = 1 }, 
+                    ParallelSync = false, 
                     DirectoryMappingInfo =
                         new List<DirectoryMappingInfo>
                             {
@@ -52,7 +52,8 @@ namespace BiOWheelsConfigManager.Test
                                     {
                                         DestinationDirectories = new List<string> { "A", "B" }, 
                                         ExcludedFromSource = new List<string>(), 
-                                        SourceMappingInfos = new SourceMappingInfo{Recursive = false, SourceDirectory = "D" }
+                                        SourceMappingInfos =
+                                            new SourceMappingInfo { Recursive = false, SourceDirectory = "D" }
                                     }
                             }
                 };

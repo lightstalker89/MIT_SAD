@@ -14,11 +14,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BiOWheelsNetworkAgent")]
+[assembly: AssemblyTitle("BiOWheelsFileWatcher.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BiOWheelsNetworkAgent")]
+[assembly: AssemblyProduct("BiOWheelsFileWatcher.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("192d5e14-d063-42cd-a371-4a5f56e0890d")]
+[assembly: Guid("011f2d41-4679-48c6-9319-8c0fb13edd68")]
 
 // Version information for an assembly consists of the following four values:
 //      Major Version
