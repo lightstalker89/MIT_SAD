@@ -55,7 +55,7 @@ namespace BiOWheelsLogger.Test
                 this.logger.Log("test logging" + i, MessageType.DEBUG);
             }
 
-            ThreadTestHelper.WaitForCondition(() => logger.IsWorkerInProgress == false, 30000, 1000);
+            ThreadTestHelper.WaitForCondition(() => this.logger.IsWorkerInProgress == false, 30000, 1000);
 
             Assert.IsTrue(Directory.Exists("log"));
             Assert.IsNotEmpty(Directory.GetFiles("log"));
@@ -79,11 +79,11 @@ namespace BiOWheelsLogger.Test
         {
             for (int i = 0; i < 5; i++)
             {
-                Thread thread = new Thread(LogSomeText);
+                Thread thread = new Thread(this.LogSomeText);
                 thread.Start();
             }
 
-            ThreadTestHelper.WaitForCondition(() => logger.IsWorkerInProgress == false, 60000, 1000);
+            ThreadTestHelper.WaitForCondition(() => this.logger.IsWorkerInProgress == false, 60000, 1000);
 
             Assert.IsTrue(Directory.Exists("log"));
             Assert.IsNotEmpty(Directory.GetFiles("log"));
@@ -96,16 +96,6 @@ namespace BiOWheelsLogger.Test
                 double length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 1, MidpointRounding.AwayFromZero);
 
                 Assert.IsTrue(length <= FileSize);
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        internal void LogSomeText()
-        {
-            for (int i = 0; i < 25000; i++)
-            {
-                this.logger.Log("test logging" + i, MessageType.DEBUG);
             }
         }
 
@@ -134,6 +124,16 @@ namespace BiOWheelsLogger.Test
                 double length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 1, MidpointRounding.AwayFromZero);
 
                 Assert.IsTrue(length <= FileSize);
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        internal void LogSomeText()
+        {
+            for (int i = 0; i < 25000; i++)
+            {
+                this.logger.Log("test logging" + i, MessageType.DEBUG);
             }
         }
     }

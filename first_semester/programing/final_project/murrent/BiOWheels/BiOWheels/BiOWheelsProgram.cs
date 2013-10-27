@@ -7,16 +7,14 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Linq;
-using System.Threading;
-
 namespace BiOWheels
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
 
-    using BiOWheelsConfiguration;
+    using BiOWheels.BiOWheelsConfiguration;
 
     using BiOWheelsCommandLineArgsParser;
 
@@ -33,6 +31,15 @@ namespace BiOWheels
     /// </summary>
     public class BiOWheelsProgram
     {
+        #region Constants
+
+        /// <summary>
+        /// Accepted command line arguments
+        /// </summary>
+        private const string Options = "px";
+
+        #endregion
+
         #region Private Fields
 
         /// <summary>
@@ -41,12 +48,7 @@ namespace BiOWheels
         private static Configuration configuration;
 
         /// <summary>
-        /// Accepted command line arguments
-        /// </summary>
-        private const string Options = "px";
-
-        /// <summary>
-        /// 
+        /// Value indicating if the sync is in progress
         /// </summary>
         private static bool isSyncing = true;
 
@@ -89,10 +91,13 @@ namespace BiOWheels
         #region Events
 
         /// <summary>
+        /// Event for pressing the CTRL+C keyboard combination in the console
         /// </summary>
         /// <param name="sender">
+        /// The sender of the event
         /// </param>
         /// <param name="e">
+        /// Parameter coming from the event
         /// </param>
         protected static void ConsoleCancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
@@ -109,7 +114,9 @@ namespace BiOWheels
         /// <param name="loadConfig">
         /// Specifies if the configuration should be loaded
         /// </param>
-        /// <param name="args">Commandline arguments</param>
+        /// <param name="args">
+        /// Command line arguments
+        /// </param>
         private static void ApplicationStartUp(bool loadConfig, string[] args)
         {
             SimpleContainer.Instance.Register<IConfigurationManager, ConfigurationManager>(new ConfigurationManager());
@@ -152,7 +159,7 @@ namespace BiOWheels
                     {
                         Log(
                             "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                            + " occurred: " + loaderException.Message,
+                            + " occurred: " + loaderException.Message, 
                             MessageType.ERROR);
 
                         WriteLineToConsole("Error while loading the configuration. Exit program?");
@@ -191,7 +198,9 @@ namespace BiOWheels
         /// <summary>
         /// Writes the message to the console
         /// </summary>
-        /// <param name="text">Test to write to the console</param>
+        /// <param name="text">
+        /// Test to write to the console
+        /// </param>
         private static void WriteLineToConsole(string text)
         {
             SimpleContainer.Instance.Resolve<IVisualizer>().WriteLine(text);
@@ -219,13 +228,15 @@ namespace BiOWheels
             SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<ConsoleLogger>(
                 configuration.LogFileOptions.LogFileSizeInMB);
 
-            IList<DirectoryMapping> mappings = configuration.DirectoryMappingInfo.Select(
-                 directoryMappingInfo => new DirectoryMapping
-                                              {
-                                                  DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                                                  SorceDirectory = directoryMappingInfo.SourceMappingInfos.SourceDirectory,
-                                                  Recursive = directoryMappingInfo.SourceMappingInfos.Recursive
-                                              }).ToList();
+            IList<DirectoryMapping> mappings =
+                configuration.DirectoryMappingInfo.Select(
+                    directoryMappingInfo =>
+                    new DirectoryMapping
+                        {
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SorceDirectory = directoryMappingInfo.SourceMappingInfos.SourceDirectory, 
+                            Recursive = directoryMappingInfo.SourceMappingInfos.Recursive
+                        }).ToList();
 
             SimpleContainer.Instance.Resolve<IFileWatcher>().SetSourceDirectories(mappings);
             SimpleContainer.Instance.Resolve<IFileWatcher>().Init();
@@ -234,8 +245,10 @@ namespace BiOWheels
         }
 
         /// <summary>
+        /// Handles ever parameter coming from the command line
         /// </summary>
         /// <param name="parameter">
+        /// List of parameter from the command line
         /// </param>
         private static void HandleParams(IEnumerable<char> parameter)
         {
@@ -257,7 +270,6 @@ namespace BiOWheels
         /// </summary>
         private static void CloseApplication()
         {
-
         }
 
         #endregion

@@ -22,10 +22,11 @@ namespace BiOWheelsLogger
         private readonly ILogger fileLogger = new FileLogger();
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CombinedLogger"/> class
         /// </summary>
         public CombinedLogger()
         {
-            ((FileLogger)fileLogger).Init();
+            ((FileLogger)this.fileLogger).Init();
         }
 
         #region Methods
@@ -35,11 +36,11 @@ namespace BiOWheelsLogger
         {
             if (typeof(T) == typeof(ConsoleLogger))
             {
-                ((ConsoleLogger)consoleLogger).IsEnabled = isLoggerEnabled;
+                ((ConsoleLogger)this.consoleLogger).IsEnabled = isLoggerEnabled;
             }
             else if (typeof(T) == typeof(FileLogger))
             {
-                ((FileLogger)fileLogger).IsEnabled = isLoggerEnabled;
+                ((FileLogger)this.fileLogger).IsEnabled = isLoggerEnabled;
             }
         }
 
@@ -48,15 +49,15 @@ namespace BiOWheelsLogger
         {
             if (typeof(T) == typeof(FileLogger))
             {
-                ((FileLogger)fileLogger).MaxFileSizeInMB = logFileSize;
+                ((FileLogger)this.fileLogger).MaxFileSizeInMB = logFileSize;
             }
         }
 
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)
         {
-            consoleLogger.Log(message, messageType);
-            fileLogger.Log(message, messageType);
+            this.consoleLogger.Log(message, messageType);
+            this.fileLogger.Log(message, messageType);
         }
 
         #endregion

@@ -17,7 +17,7 @@ namespace BiOWheelsLogger
     public static class StringHelper
     {
         /// <summary>
-        /// Converts the incoming message to an human readable logfile string
+        /// Converts the incoming message to an human readable log file string
         /// </summary>
         /// <param name="input">
         /// error message
@@ -26,6 +26,7 @@ namespace BiOWheelsLogger
         /// type of the message
         /// </param>
         /// <returns>
+        /// The formatted string for a log file entry
         /// </returns>
         public static string ToLogFileString(this string input, MessageType messageType)
         {

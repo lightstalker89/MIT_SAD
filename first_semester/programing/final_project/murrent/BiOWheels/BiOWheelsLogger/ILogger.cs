@@ -10,6 +10,7 @@
 namespace BiOWheelsLogger
 {
     /// <summary>
+    /// Interface representing the must implement methods
     /// </summary>
     public interface ILogger
     {
@@ -31,18 +32,18 @@ namespace BiOWheelsLogger
         /// Type of the logger
         /// </typeparam>
         /// <param name="isLoggerEnabled">
-        /// Status
+        /// Status of the logger
         /// </param>
         void SetIsEnabled<T>(bool isLoggerEnabled);
 
         /// <summary>
-        /// Sets the filesize of the logfile
+        /// Sets the file size of the log file
         /// </summary>
         /// <typeparam name="T">
         /// Type of the logger
         /// </typeparam>
         /// <param name="logFileSize">
-        /// Logfile size
+        /// Log file size
         /// </param>
         void SetFileSize<T>(double logFileSize);
     }

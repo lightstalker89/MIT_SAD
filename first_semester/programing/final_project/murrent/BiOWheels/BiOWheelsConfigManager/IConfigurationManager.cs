@@ -17,6 +17,9 @@ namespace BiOWheelsConfigManager
         /// <summary>
         /// Loads the configuration
         /// </summary>
+        /// <typeparam name="T">
+        /// Type of the configuration
+        /// </typeparam>
         /// <param name="configFileName">
         /// The filename of the configuration file
         /// </param>
@@ -32,12 +35,13 @@ namespace BiOWheelsConfigManager
         /// Type of the configuration
         /// </typeparam>
         /// <param name="configFilename">
-        /// Name of the configurationfile
+        /// Name of the configuration file
         /// </param>
         /// <param name="configurationObject">
         /// Object of the configuration
         /// </param>
         /// <returns>
+        /// The status of the writer
         /// </returns>
         WriterStatus Write<T>(string configFilename, T configurationObject);
     }

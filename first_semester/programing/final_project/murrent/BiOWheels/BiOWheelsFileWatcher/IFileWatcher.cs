@@ -12,12 +12,15 @@ namespace BiOWheelsFileWatcher
     using System.Collections.Generic;
 
     /// <summary>
+    /// Interface representing the must implement methods
     /// </summary>
     public interface IFileWatcher
     {
         /// <summary>
+        /// Sets source directories
         /// </summary>
         /// <param name="mappings">
+        /// List of <see cref="DirectoryMapping"/> objects
         /// </param>
         void SetSourceDirectories(IEnumerable<DirectoryMapping> mappings);
 

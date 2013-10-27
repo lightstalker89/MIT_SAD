@@ -8,10 +8,10 @@
 // * <author>Mario Murrent</author>
 // *******************************************************/
 
-
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo(" BiOWheelsLogger.Test")]
+
 namespace BiOWheelsLogger
 {
     using System;
@@ -27,34 +27,48 @@ namespace BiOWheelsLogger
     /// </summary>
     public class FileLogger : ILogger
     {
+        #region Constants
+
+        /// <summary>
+        /// Constant for the log file folder name
+        /// </summary>
+        private const string LogFileFolderName = "log";
+
+        #endregion
+
         #region Private Fields
 
         /// <summary>
+        /// The list of <see cref="LogQueueItem"/>
         /// </summary>
         private ConcurrentQueue<LogQueueItem> logQueue;
 
         /// <summary>
-        /// </summary>
-        private const string LogFileFolderName = "log";
-
-        /// <summary>
+        /// String representing the file name of the log file
         /// </summary>
         private string fileName;
 
         /// <summary>
+        /// Boolean value representing the value if the worker thread is in progress
         /// </summary>
         private bool isWorkerInProgress;
+
+        /// <summary>
+        /// Double representing the maximum file size in MB
+        /// </summary>
+        private double maxFileSizeInMB;
 
         #endregion
 
         #region Properties
 
         /// <summary>
+        /// Gets or sets the value if the <see cref="FileLogger"/> is enabled or not
         /// </summary>
         private bool isEnabled;
 
         /// <summary>
-        /// Gets or sets the status of the <see cref="FileLogger"/>
+        /// Gets or sets a value indicating whether a status of the <see cref="FileLogger"/> is enabled or not
         /// </summary>
         internal bool IsEnabled
         {
@@ -68,10 +82,6 @@ namespace BiOWheelsLogger
                 this.isEnabled = value;
             }
         }
-
-        /// <summary>
-        /// </summary>
-        private double maxFileSizeInMB;
 
         /// <summary>
         /// Gets or sets the maximum file size in MB
@@ -90,7 +100,7 @@ namespace BiOWheelsLogger
         }
 
         /// <summary>
-        /// Gets the full qualified name for the logfile including file path
+        /// Gets the full qualified name for the log file including file path
         /// </summary>
         internal string FullQualifiedFileName
         {
@@ -101,7 +111,7 @@ namespace BiOWheelsLogger
         }
 
         /// <summary>
-        /// Gets or sets the property which determines if the background thread is running
+        /// Gets a value indicating whether the background thread is running
         /// </summary>
         internal bool IsWorkerInProgress
         {
@@ -125,7 +135,7 @@ namespace BiOWheelsLogger
         /// </summary>
         public void StartBackgroundWorker()
         {
-            Thread workerThread = new Thread(FinalizeQueue) { IsBackground = true };
+            Thread workerThread = new Thread(this.FinalizeQueue) { IsBackground = true };
             workerThread.Start();
         }
 
@@ -136,11 +146,11 @@ namespace BiOWheelsLogger
         {
             this.IsWorkerInProgress = true;
 
-            CreateNewLogFileDirectoryIfNotExists();
+            this.CreateNewLogFileDirectoryIfNotExists();
 
-            logQueue = new ConcurrentQueue<LogQueueItem>();
+            this.logQueue = new ConcurrentQueue<LogQueueItem>();
 
-            StartBackgroundWorker();
+            this.StartBackgroundWorker();
         }
 
         /// <inheritdoc/>
@@ -154,10 +164,6 @@ namespace BiOWheelsLogger
         {
             this.maxFileSizeInMB = logFileSize;
         }
-
-        /// <summary>
-        /// </summary>
-        private static Semaphore locking = new System.Threading.Semaphore(1, 1);
 
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)
@@ -174,7 +180,7 @@ namespace BiOWheelsLogger
             {
                 LogQueueItem entry;
 
-                if (logQueue.TryDequeue(out entry))
+                if (this.logQueue.TryDequeue(out entry))
                 {
                     if (string.IsNullOrEmpty(this.fileName))
                     {
@@ -217,7 +223,7 @@ namespace BiOWheelsLogger
         }
 
         /// <summary>
-        /// Writes the message to the logfile
+        /// Writes the message to the log file
         /// </summary>
         /// <param name="entry">
         /// The LogQueueItem from the queue
@@ -273,7 +279,7 @@ namespace BiOWheelsLogger
         }
 
         /// <summary>
-        /// Creates the log file directory if it does not exsit
+        /// Creates the log file directory if it does not exist
         /// </summary>
         private void CreateNewLogFileDirectoryIfNotExists()
         {
@@ -289,13 +295,13 @@ namespace BiOWheelsLogger
         private void GenerateNewFileName()
         {
             this.fileName = string.Format(
-                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt",
-                DateTime.Now.Year,
-                DateTime.Now.Month,
-                DateTime.Now.Day,
-                DateTime.Now.Hour,
-                DateTime.Now.Minute,
-                DateTime.Now.Second,
+                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt", 
+                DateTime.Now.Year, 
+                DateTime.Now.Month, 
+                DateTime.Now.Day, 
+                DateTime.Now.Hour, 
+                DateTime.Now.Minute, 
+                DateTime.Now.Second, 
                 DateTime.Now.Millisecond);
         }
 

@@ -7,16 +7,16 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System;
-
 namespace BiOWheelsVisualizer
 {
+    using System;
+
     /// <summary>
     /// </summary>
     public class Visualizer : IVisualizer
     {
         #region Methods
+
         /// <inheritdoc/>
         public void GetMenu()
         {

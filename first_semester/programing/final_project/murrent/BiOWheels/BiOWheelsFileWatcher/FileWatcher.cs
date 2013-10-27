@@ -7,6 +7,11 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
+
 namespace BiOWheelsFileWatcher
 {
     using System;
@@ -19,11 +24,17 @@ namespace BiOWheelsFileWatcher
     public class FileWatcher : IFileWatcher
     {
         /// <summary>
+        /// List of mappings representing <see cref="DirectoryMapping"/>
         /// </summary>
         private IEnumerable<DirectoryMapping> mappings;
 
         /// <summary>
-        /// 
+        /// Field representing the status of the <see cref="FileWatcher"/>
+        /// </summary>
+        private bool isWorkerInProgress;
+
+        /// <summary>
+        /// Gets or sets the list of mappings
         /// </summary>
         internal IEnumerable<DirectoryMapping> Mappings
         {
@@ -35,6 +46,22 @@ namespace BiOWheelsFileWatcher
             set
             {
                 this.mappings = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="FileWatcher"/> is in progress or not
+        /// </summary>
+        internal bool IsWorkerInProgress
+        {
+            get
+            {
+                return this.isWorkerInProgress;
+            }
+
+            private set
+            {
+                this.isWorkerInProgress = value;
             }
         }
 

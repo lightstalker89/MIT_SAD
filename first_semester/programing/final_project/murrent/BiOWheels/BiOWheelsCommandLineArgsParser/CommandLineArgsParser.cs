@@ -12,24 +12,24 @@ namespace BiOWheelsCommandLineArgsParser
     using System.Collections.Generic;
 
     /// <summary>
-    /// 
+    /// Class representing a <see cref="CommandLineArgsParser"/>
     /// </summary>
     public class CommandLineArgsParser : ICommandLineArgsParser
     {
         #region Private Fields
 
         /// <summary>
-        /// 
+        /// Field representing the option index
         /// </summary>
         private int optind;
 
         /// <summary>
-        /// 
+        /// Field representing the next argument
         /// </summary>
         private string nextarg = string.Empty;
 
         /// <summary>
-        /// 
+        /// Field representing the argument
         /// </summary>
         private string optarg = string.Empty;
 
@@ -38,6 +38,7 @@ namespace BiOWheelsCommandLineArgsParser
         #region Properties
 
         /// <summary>
+        /// Gets the option argument
         /// </summary>
         public string Optarg
         {
@@ -48,6 +49,7 @@ namespace BiOWheelsCommandLineArgsParser
         }
 
         /// <summary>
+        /// Gets the option index
         /// </summary>
         public int Optind
         {
@@ -62,15 +64,16 @@ namespace BiOWheelsCommandLineArgsParser
         #region Methods
 
         /// <summary>
-        /// Parses the commandline args
+        /// Parses the command line args
         /// </summary>
         /// <param name="args">
-        /// commandline args
+        /// Command line args
         /// </param>
         /// <param name="options">
-        /// accepted commandline arguments
+        /// Accepted command line arguments
         /// </param>
         /// <returns>
+        /// The list of command line arguments
         /// </returns>
         public IList<char> Parse(string[] args, string options)
         {
@@ -89,12 +92,16 @@ namespace BiOWheelsCommandLineArgsParser
         /// Get an valid option
         /// </summary>
         /// <param name="argc">
+        /// Count of the command line arguments
         /// </param>
         /// <param name="argv">
+        /// All arguments coming from the command line
         /// </param>
         /// <param name="options">
+        /// All allowed command line arguments a string
         /// </param>
         /// <returns>
+        /// The valid command line argument as char
         /// </returns>
         protected char Getopt(int argc, string[] argv, string options)
         {
@@ -147,7 +154,7 @@ namespace BiOWheelsCommandLineArgsParser
                 this.optind++;
             }
 
-            char c = nextarg[0]; // get option char
+            char c = this.nextarg[0]; // get option char
             this.nextarg = this.nextarg.Substring(1); // skip past option char
             int index = options.IndexOf(c); // check if this is valid option char
 

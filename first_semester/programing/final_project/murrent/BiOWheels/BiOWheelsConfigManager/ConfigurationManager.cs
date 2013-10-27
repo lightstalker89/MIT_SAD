@@ -38,9 +38,9 @@ namespace BiOWheelsConfigManager
                 {
                     return new LoaderException(invalidOperationException.Message, typeof(InvalidOperationException));
                 }
-                catch (IOException ioException)
+                catch (IOException systemIOException)
                 {
-                    return new LoaderException(ioException.Message, typeof(IOException));
+                    return new LoaderException(systemIOException.Message, typeof(IOException));
                 }
                 catch (ArgumentNullException argumentNullException)
                 {

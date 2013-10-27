@@ -15,7 +15,7 @@ namespace BiOWheels
     using System.Reflection;
 
     /// <summary>
-    /// Test
+    /// Class representing the <see cref="SimpleContainer"/>
     /// </summary>
     public class SimpleContainer : IContainer
     {
@@ -46,7 +46,7 @@ namespace BiOWheels
         /// <inheritdoc/>
         public T Resolve<T>()
         {
-            return (T)Resolve(typeof(T));
+            return (T)this.Resolve(typeof(T));
         }
 
         /// <inheritdoc/>
@@ -66,7 +66,8 @@ namespace BiOWheels
             }
 
             List<object> parameters = new List<object>(constructorParameters.Length);
-            parameters.AddRange(constructorParameters.Select(parameterInfo => Resolve(parameterInfo.ParameterType)));
+            parameters.AddRange(
+                constructorParameters.Select(parameterInfo => this.Resolve(parameterInfo.ParameterType)));
             return constructor.Invoke(parameters.ToArray());
         }
     }

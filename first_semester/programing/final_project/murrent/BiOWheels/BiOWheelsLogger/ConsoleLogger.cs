@@ -18,10 +18,12 @@ namespace BiOWheelsLogger
         #region Properties
 
         /// <summary>
+        /// Value indication if the <see cref="ConsoleLogger"/> is enabled or not
         /// </summary>
         private bool isEnabled;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="ConsoleLogger"/> is enabled or not
         /// </summary>
         internal bool IsEnabled
         {
