@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="ThreadTestHelper.cs" company="MDMCoWorks">
+// * <copyright file="ThreadHelper.cs" company="MDMCoWorks">
 // * Copyright (c) Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -7,7 +7,13 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-namespace BiOWheelsLogger.Test
+
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
+[assembly: InternalsVisibleTo("BiOWheelsLogger.Test")]
+
+namespace BiOWheelsTestHelper
 {
     using System.Threading;
 

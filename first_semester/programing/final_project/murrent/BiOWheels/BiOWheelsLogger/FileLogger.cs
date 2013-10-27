@@ -10,7 +10,7 @@
 
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo(" BiOWheelsLogger.Test")]
+[assembly: InternalsVisibleTo("BiOWheelsLogger.Test")]
 
 namespace BiOWheelsLogger
 {

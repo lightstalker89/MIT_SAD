@@ -55,6 +55,10 @@
       <Project>{B209DC0C-CE94-44DE-B618-0BB1B810C480}</Project>
       <Name>BiOWheelsFileWatcher</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BiOWheelsTestHelper\BiOWheelsTestHelper.csproj">
+      <Project>{EDEBD467-2D10-48A1-94AF-598C9343A26D}</Project>
+      <Name>BiOWheelsTestHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

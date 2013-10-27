@@ -14,6 +14,8 @@ namespace BiOWheelsLogger.Test
     using System.Linq;
     using System.Threading;
 
+    using BiOWheelsTestHelper;
+
     using NUnit.Framework;
 
     /// <summary>

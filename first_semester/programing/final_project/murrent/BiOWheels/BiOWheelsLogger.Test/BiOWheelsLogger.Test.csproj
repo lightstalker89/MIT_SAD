@@ -68,7 +68,6 @@
     <Compile Include="FileLoggerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringHelperTest.cs" />
-    <Compile Include="ThreadTestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -77,6 +76,10 @@
     <ProjectReference Include="..\BiOWheelsLogger\BiOWheelsLogger.csproj">
       <Project>{431A1474-6DD8-47B0-A1DD-3C011BE5958F}</Project>
       <Name>BiOWheelsLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BiOWheelsTestHelper\BiOWheelsTestHelper.csproj">
+      <Project>{EDEBD467-2D10-48A1-94AF-598C9343A26D}</Project>
+      <Name>BiOWheelsTestHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

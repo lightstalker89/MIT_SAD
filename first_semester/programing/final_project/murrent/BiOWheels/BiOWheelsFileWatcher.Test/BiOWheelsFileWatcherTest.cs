@@ -11,6 +11,8 @@ namespace BiOWheelsFileWatcher.Test
 {
     using System.Collections.Generic;
 
+    using BiOWheelsTestHelper;
+
     using NUnit.Framework;
 
     /// <summary>
@@ -21,7 +23,7 @@ namespace BiOWheelsFileWatcher.Test
     {
         /// <summary>
         /// </summary>
-        private IFileWatcher fileWatcher;
+        private FileWatcher fileWatcher;
 
         /// <summary>
         /// </summary>
@@ -34,8 +36,16 @@ namespace BiOWheelsFileWatcher.Test
         public void Init()
         {
             this.fileWatcher = new FileWatcher();
-            this.mappings = new List<DirectoryMapping> { };
-
+            this.mappings = new List<DirectoryMapping>
+                {
+                    new DirectoryMapping
+                        {
+                            SorceDirectory = "A", 
+                            DestinationDirectories = new List<string> { "B", "C" }, 
+                            Recursive = true
+                        }
+                };
+            this.fileWatcher.SetSourceDirectories(this.mappings);
         }
 
         /// <summary>
@@ -44,10 +54,8 @@ namespace BiOWheelsFileWatcher.Test
         [TestCase]
         public void TestFileWatcher()
         {
-            this.fileWatcher.SetSourceDirectories(this.mappings);
             this.fileWatcher.Init();
-            //ThreadTestHelper.WaitForCondition(() => this.fileWatcher. == false, 30000, 1000);
-
+            ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 60000, 1000);
         }
     }
 }

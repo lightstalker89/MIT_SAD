@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B209DC0C-CE94-44DE-B618-0BB1B810C480}</ProjectGuid>
+    <ProjectGuid>{EDEBD467-2D10-48A1-94AF-598C9343A26D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BiOWheelsFileWatcher</RootNamespace>
-    <AssemblyName>BiOWheelsFileWatcher</AssemblyName>
+    <RootNamespace>BiOWheelsTestHelper</RootNamespace>
+    <AssemblyName>BiOWheelsTestHelper</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,14 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BiOWheelsFileSystemWatcher.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CustomEventArgs\BiOWheelsFileSystemEventArgs.cs" />
-    <Compile Include="FileWatcher.cs" />
-    <Compile Include="IFileWatcher.cs" />
+    <Compile Include="ThreadHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DirectoryMapping.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
