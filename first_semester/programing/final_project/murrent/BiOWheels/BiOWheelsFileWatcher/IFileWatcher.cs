@@ -28,5 +28,15 @@ namespace BiOWheelsFileWatcher
         /// Initialize and assign all needed properties and start a monitor thread for every directory
         /// </summary>
         void Init();
+
+        /// <summary>
+        /// Event for updating the progress
+        /// </summary>
+        event FileWatcher.ProgressUpdateHandler ProgressUpdate;
+
+        /// <summary>
+        /// Event for catching an exception
+        /// </summary>
+        event FileWatcher.CaughtExceptionHandler CaughtException;
     }
 }

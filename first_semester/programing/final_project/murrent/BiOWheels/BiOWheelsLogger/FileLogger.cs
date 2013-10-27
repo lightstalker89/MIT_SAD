@@ -126,6 +126,20 @@ namespace BiOWheelsLogger
             }
         }
 
+        /// <summary>
+        /// Gets or sets the log queue
+        /// </summary>
+        internal ConcurrentQueue<LogQueueItem> LogQueue
+        {
+            get
+            {
+                return this.logQueue;
+            }
+            set
+            {
+                this.logQueue = value;
+            }
+        }
         #endregion
 
         #region Methods
@@ -148,7 +162,7 @@ namespace BiOWheelsLogger
 
             this.CreateNewLogFileDirectoryIfNotExists();
 
-            this.logQueue = new ConcurrentQueue<LogQueueItem>();
+            this.LogQueue = new ConcurrentQueue<LogQueueItem>();
 
             this.StartBackgroundWorker();
         }
@@ -168,7 +182,7 @@ namespace BiOWheelsLogger
         /// <inheritdoc/>
         public void Log(string message, MessageType messageType)
         {
-            this.logQueue.Enqueue(new LogQueueItem(message, messageType));
+            this.LogQueue.Enqueue(new LogQueueItem(message, messageType));
         }
 
         /// <summary>
@@ -180,7 +194,7 @@ namespace BiOWheelsLogger
             {
                 LogQueueItem entry;
 
-                if (this.logQueue.TryDequeue(out entry))
+                if (this.LogQueue.TryDequeue(out entry))
                 {
                     if (string.IsNullOrEmpty(this.fileName))
                     {
@@ -195,13 +209,13 @@ namespace BiOWheelsLogger
                         actualFileStream = new FileStream(this.FullQualifiedFileName, FileMode.Append);
                         length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
                     }
-                    catch (IOException ioex)
+                    catch (IOException systemIOException)
                     {
-                        this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
+                        this.LogQueue.Enqueue(new LogQueueItem(systemIOException.Message, MessageType.ERROR));
                     }
-                    catch (NotSupportedException nex)
+                    catch (NotSupportedException notSupportedException)
                     {
-                        this.logQueue.Enqueue(new LogQueueItem(nex.Message, MessageType.ERROR));
+                        this.LogQueue.Enqueue(new LogQueueItem(notSupportedException.Message, MessageType.ERROR));
                     }
 
                     if (length > this.maxFileSizeInMB)
@@ -242,13 +256,13 @@ namespace BiOWheelsLogger
                         log.WriteLine(entry.ToString());
                     }
                 }
-                catch (ObjectDisposedException odex)
+                catch (ObjectDisposedException objectDisposedException)
                 {
-                    this.logQueue.Enqueue(new LogQueueItem(odex.Message, MessageType.ERROR));
+                    this.LogQueue.Enqueue(new LogQueueItem(objectDisposedException.Message, MessageType.ERROR));
                 }
-                catch (IOException ioex)
+                catch (IOException systemIOException)
                 {
-                    this.logQueue.Enqueue(new LogQueueItem(ioex.Message, MessageType.ERROR));
+                    this.LogQueue.Enqueue(new LogQueueItem(systemIOException.Message, MessageType.ERROR));
                 }
             }
         }
@@ -295,13 +309,13 @@ namespace BiOWheelsLogger
         private void GenerateNewFileName()
         {
             this.fileName = string.Format(
-                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt", 
-                DateTime.Now.Year, 
-                DateTime.Now.Month, 
-                DateTime.Now.Day, 
-                DateTime.Now.Hour, 
-                DateTime.Now.Minute, 
-                DateTime.Now.Second, 
+                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt",
+                DateTime.Now.Year,
+                DateTime.Now.Month,
+                DateTime.Now.Day,
+                DateTime.Now.Hour,
+                DateTime.Now.Minute,
+                DateTime.Now.Second,
                 DateTime.Now.Millisecond);
         }
 

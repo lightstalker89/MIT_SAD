@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9637DE
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "BiOWheelsDiagrams", "BiOWheelsDiagrams\BiOWheelsDiagrams.modelproj", "{74A75714-6EA6-4AC7-A632-9AB9E2581CC5}"

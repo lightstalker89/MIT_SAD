@@ -42,11 +42,18 @@
     <Compile Include="BiOWheelsFileSystemWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomEventArgs\BiOWheelsFileSystemEventArgs.cs" />
+    <Compile Include="CustomEventArgs\CaughtExceptionEventArgs.cs" />
+    <Compile Include="CustomEventArgs\UpdateProgressEventArgs.cs" />
+    <Compile Include="CustomExceptions\MappingInvalidException.cs" />
+    <Compile Include="CustomExceptions\MappingNullException.cs" />
+    <Compile Include="FileAction.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="IFileWatcher.cs" />
+    <Compile Include="IQueueManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DirectoryMapping.cs" />
+    <Compile Include="QueueManager.cs" />
+    <Compile Include="SyncItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

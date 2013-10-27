@@ -9,6 +9,8 @@
 // *******************************************************/
 
 using System.Runtime.CompilerServices;
+using BiOWheelsFileWatcher.CustomEventArgs;
+using BiOWheelsFileWatcher.CustomExceptions;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 
@@ -24,6 +26,17 @@ namespace BiOWheelsFileWatcher
     /// </summary>
     public class FileWatcher : IFileWatcher
     {
+        public FileWatcher()
+        {
+            this.Mappings = new List<DirectoryMapping>();
+            this.queueManager = new QueueManager();
+        }
+
+        /// <summary>
+        /// Manager for the queue
+        /// </summary>
+        private readonly IQueueManager queueManager;
+
         /// <summary>
         /// List of mappings representing <see cref="DirectoryMapping"/>
         /// </summary>
@@ -33,6 +46,14 @@ namespace BiOWheelsFileWatcher
         /// Field representing the status of the <see cref="FileWatcher"/>
         /// </summary>
         private bool isWorkerInProgress;
+
+        internal QueueManager QueueManager
+        {
+            get
+            {
+                return this.queueManager as QueueManager;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the list of mappings
@@ -71,7 +92,6 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void Init()
         {
-            this.Mappings = new List<DirectoryMapping>();
             this.IsWorkerInProgress = true;
 
             foreach (DirectoryMapping mapping in this.Mappings)
@@ -79,6 +99,8 @@ namespace BiOWheelsFileWatcher
                 Thread backgroundWatcherThread = new Thread(this.WatchDirectory);
                 backgroundWatcherThread.Start(mapping);
             }
+
+            this.QueueManager.DoWork();
         }
 
         /// <inheritdoc/>
@@ -99,27 +121,39 @@ namespace BiOWheelsFileWatcher
             {
                 if (mappingInfo.GetType() == typeof(DirectoryMapping))
                 {
-                    BiOWheelsFileSystemWatcher fileSystemWatcher =
-                        new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SorceDirectory)
+                    try
+                    {
+                        BiOWheelsFileSystemWatcher fileSystemWatcher =
+                            new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SorceDirectory)
                             {
-                               IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive, 
+                                IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
+                                Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories
                             };
-                    fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
-                    fileSystemWatcher.Created += this.FileSystemWatcherCreated;
-                    fileSystemWatcher.Deleted += this.FileSystemWatcherDeleted;
-                    fileSystemWatcher.Error += this.FileSystemWatcherError;
-                    fileSystemWatcher.Renamed += this.FileSystemWatcherRenamed;
-                    fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
-                    fileSystemWatcher.EnableRaisingEvents = true;
+                        fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
+                        fileSystemWatcher.Created += this.FileSystemWatcherCreated;
+                        fileSystemWatcher.Deleted += this.FileSystemWatcherDeleted;
+                        fileSystemWatcher.Error += this.FileSystemWatcherError;
+                        fileSystemWatcher.Renamed += this.FileSystemWatcherRenamed;
+                        fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
+                        fileSystemWatcher.EnableRaisingEvents = true;
+                    }
+                    catch (PathTooLongException pathTooLongException)
+                    {
+                        this.OnCaughtException(this, new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
+                    }
+                    catch (ArgumentException argumentException)
+                    {
+                        this.OnCaughtException(this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+                    }
                 }
                 else
                 {
-                    // TODO: Custom error event implementation
+                    this.OnCaughtException(this, new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
             else
             {
-                // TODO: Custom error event implementation
+                this.OnCaughtException(this, new CaughtExceptionEventArgs(typeof(MappingNullException), "Mapping information is null"));
             }
         }
 
@@ -144,6 +178,21 @@ namespace BiOWheelsFileWatcher
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="destinations"></param>
+        /// <param name="filename"></param>
+        /// <param name="fileAction"></param>
+        private void AddQueueItem(IEnumerable<string> destinations, string filename, FileAction fileAction)
+        {
+            foreach (string folder in destinations)
+            {
+                SyncItem item = new SyncItem(folder, filename, fileAction);
+
+                this.QueueManager.Enqueue(item);
+            }
+        }
         #endregion
 
         #region Events
@@ -158,9 +207,10 @@ namespace BiOWheelsFileWatcher
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
-            if(watcher != null)
+            if (watcher != null)
             {
-                
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DIFF);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
             }
         }
 
@@ -176,7 +226,7 @@ namespace BiOWheelsFileWatcher
 
             if (watcher != null)
             {
-
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been deleted."));
             }
         }
 
@@ -192,7 +242,41 @@ namespace BiOWheelsFileWatcher
 
             if (watcher != null)
             {
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.CREATE);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
+            }
+        }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void FileSystemWatcherRenamed(object sender, RenamedEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.RENAME);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void FileSystemWatcherError(object sender, ErrorEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.OnCaughtException(this, new CaughtExceptionEventArgs(e.GetException().GetType(), e.GetException().Message));
             }
         }
 
@@ -213,37 +297,54 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// 
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FileSystemWatcherRenamed(object sender, RenamedEventArgs e)
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public delegate void CaughtExceptionHandler(object sender, CaughtExceptionEventArgs data);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public event CaughtExceptionHandler CaughtException;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        protected void OnCaughtException(object sender, CaughtExceptionEventArgs data)
         {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
+            if (this.CaughtException != null)
             {
-
+                this.CaughtException(this, data);
             }
         }
 
         /// <summary>
+        /// Delegate for the <see cref="ProgressUpdateHandler"/> event
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FileSystemWatcherError(object sender, ErrorEventArgs e)
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public delegate void ProgressUpdateHandler(object sender, UpdateProgressEventArgs data);
+
+        /// <summary>
+        /// Event for updating the progress
+        /// </summary>
+        public event ProgressUpdateHandler ProgressUpdate;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        protected void OnProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
+            if (this.ProgressUpdate != null)
             {
-
+                this.ProgressUpdate(this, data);
             }
         }
-
         #endregion
     }
 }
