@@ -13,7 +13,7 @@ namespace BiOWheelsFileWatcher.Test
     using System.Collections.Generic;
     using System.IO;
 
-    using BiOWheelsFileWatcher.CustomEventArgs;
+    using CustomEventArgs;
 
     using BiOWheelsTestHelper;
 

@@ -19,8 +19,8 @@ namespace BiOWheelsFileWatcher
     using System.IO;
     using System.Threading;
 
-    using BiOWheelsFileWatcher.CustomEventArgs;
-    using BiOWheelsFileWatcher.CustomExceptions;
+    using CustomEventArgs;
+    using CustomExceptions;
 
     /// <summary>
     /// Class representing the <see cref="FileWatcher"/> and its interaction logic
