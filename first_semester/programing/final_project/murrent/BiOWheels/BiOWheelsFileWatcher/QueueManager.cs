@@ -43,7 +43,7 @@ namespace BiOWheelsFileWatcher
             get
             {
                 return this.syncItemQueue;
-                
+
             }
             set
             {
@@ -81,11 +81,26 @@ namespace BiOWheelsFileWatcher
 
                 if (this.SyncItemQueue.TryDequeue(out item))
                 {
+                    switch (item.FileAction)
+                    {
+                        case FileAction.COPY:
+                            break;
 
+                        case FileAction.CREATE:
+                            break;
+
+                        case FileAction.DELETE:
+                            break;
+
+                        case FileAction.DIFF:
+                            break;
+
+                        case FileAction.RENAME:
+                            break;
+                    }
                 }
             }
         }
-
         #endregion
     }
 }

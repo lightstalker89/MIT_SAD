@@ -52,7 +52,7 @@ namespace BiOWheelsConfigManager.Test
                                     {
                                         DestinationDirectories = new List<string> { "A", "B" }, 
                                         ExcludedFromSource = new List<string>(), 
-                                        SourceMappingInfos =
+                                        SourceMappingInfo =
                                             new SourceMappingInfo { Recursive = false, SourceDirectory = "D" }
                                     }
                             }

@@ -19,7 +19,7 @@ namespace BiOWheels.BiOWheelsConfiguration
         /// <summary>
         /// Gets or sets the info for a source mapping
         /// </summary>
-        public SourceMappingInfo SourceMappingInfos { get; set; }
+        public SourceMappingInfo SourceMappingInfo { get; set; }
 
         /// <summary>
         /// Gets or sets the destination directories

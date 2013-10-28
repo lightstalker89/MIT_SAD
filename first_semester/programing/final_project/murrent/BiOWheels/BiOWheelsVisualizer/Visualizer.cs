@@ -40,6 +40,13 @@ namespace BiOWheelsVisualizer
             Console.Write(text);
         }
 
+        /// <inheritdoc/>
+        public void GetHelp()
+        {
+            Console.WriteLine("Options:");
+            Console.WriteLine("\t -h \t\t Shows the help");
+        }
+
         #endregion
     }
 }

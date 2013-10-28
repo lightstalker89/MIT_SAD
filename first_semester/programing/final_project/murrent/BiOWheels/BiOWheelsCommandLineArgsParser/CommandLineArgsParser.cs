@@ -21,12 +21,12 @@ namespace BiOWheelsCommandLineArgsParser
         /// <summary>
         /// Field representing the option index
         /// </summary>
-        private int optind;
+        private int optionIndex;
 
         /// <summary>
         /// Field representing the next argument
         /// </summary>
-        private string nextarg = string.Empty;
+        private string nextArgument = string.Empty;
 
         /// <summary>
         /// Field representing the argument
@@ -51,11 +51,11 @@ namespace BiOWheelsCommandLineArgsParser
         /// <summary>
         /// Gets the option index
         /// </summary>
-        public int Optind
+        public int OptionIndex
         {
             get
             {
-                return this.optind;
+                return this.optionIndex;
             }
         }
 
@@ -112,50 +112,50 @@ namespace BiOWheelsCommandLineArgsParser
                 return '?';
             }
 
-            if (this.optind == 0)
+            if (this.optionIndex == 0)
             {
-                this.nextarg = string.Empty;
+                this.nextArgument = string.Empty;
             }
 
-            if (this.nextarg.Length == 0)
+            if (this.nextArgument.Length == 0)
             {
-                if (this.optind >= argc || argv[this.optind][0] != '-' || argv[this.optind].Length < 2)
+                if (this.optionIndex >= argc || argv[this.optionIndex][0] != '-' || argv[this.optionIndex].Length < 2)
                 {
                     // no more options
                     this.optarg = string.Empty;
-                    if (this.optind < argc)
+                    if (this.optionIndex < argc)
                     {
-                        this.optarg = argv[this.optind]; // return leftover arg
+                        this.optarg = argv[this.optionIndex]; // return leftover arg
                     }
 
                     return '\0';
                 }
 
-                if (argv[this.optind] == "--")
+                if (argv[this.optionIndex] == "--")
                 {
                     // 'end of options' flag
-                    this.optind++;
+                    this.optionIndex++;
                     this.optarg = string.Empty;
-                    if (this.optind < argc)
+                    if (this.optionIndex < argc)
                     {
-                        this.optarg = argv[this.optind];
+                        this.optarg = argv[this.optionIndex];
                     }
 
                     return '\0';
                 }
 
-                this.nextarg = string.Empty;
-                if (this.optind < argc)
+                this.nextArgument = string.Empty;
+                if (this.optionIndex < argc)
                 {
-                    this.nextarg = argv[this.optind];
-                    this.nextarg = this.nextarg.Substring(1); // skip past -
+                    this.nextArgument = argv[this.optionIndex];
+                    this.nextArgument = this.nextArgument.Substring(1); // skip past -
                 }
 
-                this.optind++;
+                this.optionIndex++;
             }
 
-            char c = this.nextarg[0]; // get option char
-            this.nextarg = this.nextarg.Substring(1); // skip past option char
+            char c = this.nextArgument[0]; // get option char
+            this.nextArgument = this.nextArgument.Substring(1); // skip past option char
             int index = options.IndexOf(c); // check if this is valid option char
 
             if (index == -1 || c == ':')
@@ -167,15 +167,15 @@ namespace BiOWheelsCommandLineArgsParser
             if ((index < options.Length) && (options[index] == ':'))
             {
                 // option takes an arg
-                if (this.nextarg.Length > 0)
+                if (this.nextArgument.Length > 0)
                 {
-                    this.optarg = this.nextarg;
-                    this.nextarg = string.Empty;
+                    this.optarg = this.nextArgument;
+                    this.nextArgument = string.Empty;
                 }
-                else if (this.optind < argc)
+                else if (this.optionIndex < argc)
                 {
-                    this.optarg = argv[this.optind];
-                    this.optind++;
+                    this.optarg = argv[this.optionIndex];
+                    this.optionIndex++;
                 }
                 else
                 {

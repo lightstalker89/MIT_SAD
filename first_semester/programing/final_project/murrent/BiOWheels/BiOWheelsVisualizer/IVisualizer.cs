@@ -42,5 +42,10 @@ namespace BiOWheelsVisualizer
         /// Text which should be written to the log file
         /// </param>
         void WriteText(string text);
+
+        /// <summary>
+        /// Display help in console
+        /// </summary>
+        void GetHelp();
     }
 }

@@ -211,6 +211,7 @@ namespace BiOWheelsFileWatcher
             {
                 this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DIFF);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.Name + "--"));
             }
         }
 
@@ -226,7 +227,9 @@ namespace BiOWheelsFileWatcher
 
             if (watcher != null)
             {
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DELETE);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been deleted."));
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("Added job to queue for deleting --" + e.Name + "--"));
             }
         }
 
@@ -244,6 +247,7 @@ namespace BiOWheelsFileWatcher
             {
                 this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.CREATE);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.Name + "--"));
             }
         }
 
@@ -261,6 +265,7 @@ namespace BiOWheelsFileWatcher
             {
                 this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.RENAME);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
             }
         }
 

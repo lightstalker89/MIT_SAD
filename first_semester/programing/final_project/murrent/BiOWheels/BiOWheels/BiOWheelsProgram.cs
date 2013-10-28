@@ -278,8 +278,8 @@ namespace BiOWheels
                     new DirectoryMapping
                         {
                             DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SorceDirectory = directoryMappingInfo.SourceMappingInfos.SourceDirectory,
-                            Recursive = directoryMappingInfo.SourceMappingInfos.Recursive
+                            SorceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive
                         }).ToList();
 
             SimpleContainer.Instance.Resolve<IFileWatcher>().SetSourceDirectories(mappings);
@@ -298,13 +298,16 @@ namespace BiOWheels
         {
             foreach (char c in parameter)
             {
-                if (c == 'p')
+                if (c == 'h')
                 {
-                    // parallel sync
+                    SimpleContainer.Instance.Resolve<IVisualizer>().GetHelp();
                 }
-                else if (c == 'x')
+                else
                 {
-                    CloseApplication();
+                    if (c == 'p')
+                    {
+                        // parallel sync
+                    }
                 }
             }
         }
