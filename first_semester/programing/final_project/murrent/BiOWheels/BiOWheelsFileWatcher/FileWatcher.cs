@@ -9,8 +9,6 @@
 // *******************************************************/
 
 using System.Runtime.CompilerServices;
-using BiOWheelsFileWatcher.CustomEventArgs;
-using BiOWheelsFileWatcher.CustomExceptions;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 
@@ -21,16 +19,15 @@ namespace BiOWheelsFileWatcher
     using System.IO;
     using System.Threading;
 
+    using BiOWheelsFileWatcher.CustomEventArgs;
+    using BiOWheelsFileWatcher.CustomExceptions;
+
     /// <summary>
     /// Class representing the <see cref="FileWatcher"/> and its interaction logic
     /// </summary>
     public class FileWatcher : IFileWatcher
     {
-        public FileWatcher()
-        {
-            this.Mappings = new List<DirectoryMapping>();
-            this.queueManager = new QueueManager();
-        }
+        #region Private Fields
 
         /// <summary>
         /// Manager for the queue
@@ -47,6 +44,52 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         private bool isWorkerInProgress;
 
+        #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileWatcher"/> class
+        /// </summary>
+        public FileWatcher()
+        {
+            this.Mappings = new List<DirectoryMapping>();
+            this.queueManager = new QueueManager();
+        }
+
+        #region Delegates
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public delegate void CaughtExceptionHandler(object sender, CaughtExceptionEventArgs data);
+
+        /// <summary>
+        /// Delegate for the <see cref="ProgressUpdateHandler"/> event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public delegate void ProgressUpdateHandler(object sender, UpdateProgressEventArgs data);
+
+        #endregion
+
+        #region Event Handler
+        /// <summary>
+        /// Event handler for catching an exception
+        /// </summary>
+        public event CaughtExceptionHandler CaughtException;
+
+        /// <summary>
+        /// Event handler for updating the progress
+        /// </summary>
+        public event ProgressUpdateHandler ProgressUpdate;
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the <see cref="QueueManager"/>
+        /// </summary>
         internal QueueManager QueueManager
         {
             get
@@ -87,6 +130,8 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        #endregion
+
         #region Methods
 
         /// <inheritdoc/>
@@ -109,6 +154,149 @@ namespace BiOWheelsFileWatcher
             this.mappings = directoryMappings;
         }
 
+        #region Event Methods
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        protected void FileSystemWatcherChanged(object sender, FileSystemEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DIFF);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.Name + "--"));
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        protected void FileSystemWatcherDeleted(object sender, FileSystemEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DELETE);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been deleted."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("Added job to queue for deleting --" + e.Name + "--"));
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        protected void FileSystemWatcherCreated(object sender, FileSystemEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.CREATE);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.Name + "--"));
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        protected void FileSystemWatcherRenamed(object sender, RenamedEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.COPY);
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
+                this.OnProgressUpdate(
+                    this,
+                    new UpdateProgressEventArgs(
+                        "Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        protected void FileSystemWatcherError(object sender, ErrorEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.OnCaughtException(
+                    this, new CaughtExceptionEventArgs(e.GetException().GetType(), e.GetException().Message));
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        protected void FileSystemWatcherDisposed(object sender, EventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
+        protected void OnProgressUpdate(object sender, UpdateProgressEventArgs data)
+        {
+            if (this.ProgressUpdate != null)
+            {
+                this.ProgressUpdate(this, data);
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
+        protected void OnCaughtException(object sender, CaughtExceptionEventArgs data)
+        {
+            if (this.CaughtException != null)
+            {
+                this.CaughtException(this, data);
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Method for watching a specific directory - will be executed in a new thread
         /// </summary>
@@ -125,10 +313,10 @@ namespace BiOWheelsFileWatcher
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SorceDirectory)
-                            {
-                                IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
-                                Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories
-                            };
+                                {
+                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive, 
+                                    Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories
+                                };
                         fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
                         fileSystemWatcher.Created += this.FileSystemWatcherCreated;
                         fileSystemWatcher.Deleted += this.FileSystemWatcherDeleted;
@@ -139,21 +327,27 @@ namespace BiOWheelsFileWatcher
                     }
                     catch (PathTooLongException pathTooLongException)
                     {
-                        this.OnCaughtException(this, new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
+                        this.OnCaughtException(
+                            this, 
+                            new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
                     {
-                        this.OnCaughtException(this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+                        this.OnCaughtException(
+                            this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
                     }
                 }
                 else
                 {
-                    this.OnCaughtException(this, new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
+                    this.OnCaughtException(
+                        this, 
+                        new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
             else
             {
-                this.OnCaughtException(this, new CaughtExceptionEventArgs(typeof(MappingNullException), "Mapping information is null"));
+                this.OnCaughtException(
+                    this, new CaughtExceptionEventArgs(typeof(MappingNullException), "Mapping information is null"));
             }
         }
 
@@ -179,11 +373,13 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="destinations"></param>
-        /// <param name="filename"></param>
-        /// <param name="fileAction"></param>
+        /// <param name="destinations">
+        /// </param>
+        /// <param name="filename">
+        /// </param>
+        /// <param name="fileAction">
+        /// </param>
         private void AddQueueItem(IEnumerable<string> destinations, string filename, FileAction fileAction)
         {
             foreach (string folder in destinations)
@@ -193,163 +389,7 @@ namespace BiOWheelsFileWatcher
                 this.QueueManager.Enqueue(item);
             }
         }
-        #endregion
 
-        #region Events
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FileSystemWatcherChanged(object sender, FileSystemEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
-            {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DIFF);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.Name + "--"));
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FileSystemWatcherDeleted(object sender, FileSystemEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
-            {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DELETE);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been deleted."));
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("Added job to queue for deleting --" + e.Name + "--"));
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FileSystemWatcherCreated(object sender, FileSystemEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
-            {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.CREATE);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.Name + "--"));
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FileSystemWatcherRenamed(object sender, RenamedEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
-            {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.RENAME);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FileSystemWatcherError(object sender, ErrorEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
-            {
-                this.OnCaughtException(this, new CaughtExceptionEventArgs(e.GetException().GetType(), e.GetException().Message));
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FileSystemWatcherDisposed(object sender, EventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
-            {
-
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        public delegate void CaughtExceptionHandler(object sender, CaughtExceptionEventArgs data);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public event CaughtExceptionHandler CaughtException;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        protected void OnCaughtException(object sender, CaughtExceptionEventArgs data)
-        {
-            if (this.CaughtException != null)
-            {
-                this.CaughtException(this, data);
-            }
-        }
-
-        /// <summary>
-        /// Delegate for the <see cref="ProgressUpdateHandler"/> event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        public delegate void ProgressUpdateHandler(object sender, UpdateProgressEventArgs data);
-
-        /// <summary>
-        /// Event for updating the progress
-        /// </summary>
-        public event ProgressUpdateHandler ProgressUpdate;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        protected void OnProgressUpdate(object sender, UpdateProgressEventArgs data)
-        {
-            if (this.ProgressUpdate != null)
-            {
-                this.ProgressUpdate(this, data);
-            }
-        }
         #endregion
     }
 }

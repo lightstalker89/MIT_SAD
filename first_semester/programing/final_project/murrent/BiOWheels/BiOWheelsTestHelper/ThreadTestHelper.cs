@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="ThreadHelper.cs" company="MDMCoWorks">
+// * <copyright file="ThreadTestHelper.cs" company="MDMCoWorks">
 // * Copyright (c) Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>

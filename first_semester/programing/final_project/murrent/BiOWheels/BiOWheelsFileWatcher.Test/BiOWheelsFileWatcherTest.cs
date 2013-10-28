@@ -7,12 +7,13 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.IO;
-
 namespace BiOWheelsFileWatcher.Test
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
+
+    using BiOWheelsFileWatcher.CustomEventArgs;
 
     using BiOWheelsTestHelper;
 
@@ -24,6 +25,8 @@ namespace BiOWheelsFileWatcher.Test
     [TestFixture]
     public class BiOWheelsFileWatcherTest
     {
+        /// <summary>
+        /// </summary>
         private IQueueManager queueManager;
 
         /// <summary>
@@ -42,10 +45,10 @@ namespace BiOWheelsFileWatcher.Test
         {
             this.queueManager = new QueueManager();
             this.fileWatcher = new FileWatcher();
-            this.fileWatcher.ProgressUpdate += FileWatcherProgressUpdate;
-            this.fileWatcher.CaughtException += FileWatcherCaughtException;
+            this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
+            this.fileWatcher.CaughtException += this.FileWatcherCaughtException;
 
-            CheckDirectories();
+            this.CheckDirectories();
 
             this.mappings = new List<DirectoryMapping>
                 {
@@ -54,11 +57,11 @@ namespace BiOWheelsFileWatcher.Test
                             SorceDirectory = "A", 
                             DestinationDirectories = new List<string> { "B", "C" }, 
                             Recursive = true
-                        },
+                        }, 
                     new DirectoryMapping
                         {
-                            SorceDirectory = "D",
-                            DestinationDirectories = new List<string>{"E","F"},
+                            SorceDirectory = "D", 
+                            DestinationDirectories = new List<string> { "E", "F" }, 
                             Recursive = false
                         }
                 };
@@ -76,26 +79,27 @@ namespace BiOWheelsFileWatcher.Test
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        private void FileWatcherProgressUpdate(object sender, CustomEventArgs.UpdateProgressEventArgs data)
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
+        private void FileWatcherProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
-            using (StreamWriter streamWriter = new StreamWriter("output.txt"))
+            using (StreamWriter streamWriter = new StreamWriter("output.txt",true))
             {
-                streamWriter.WriteLine(data.Message);
+                streamWriter.WriteLine("--" + DateTime.Now.ToShortTimeString() + "-- " + data.Message);
             }
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
-        private void FileWatcherCaughtException(object sender, CustomEventArgs.CaughtExceptionEventArgs data)
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
+        private void FileWatcherCaughtException(object sender, CaughtExceptionEventArgs data)
         {
-
         }
 
         /// <summary>

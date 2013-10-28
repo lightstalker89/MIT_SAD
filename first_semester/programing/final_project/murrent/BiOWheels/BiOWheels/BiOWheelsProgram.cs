@@ -7,9 +7,6 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using BiOWheelsFileWatcher.CustomEventArgs;
-
 namespace BiOWheels
 {
     using System;
@@ -17,13 +14,14 @@ namespace BiOWheels
     using System.Linq;
     using System.Threading;
 
-    using BiOWheelsConfiguration;
+    using BiOWheels.BiOWheelsConfiguration;
 
     using BiOWheelsCommandLineArgsParser;
 
     using BiOWheelsConfigManager;
 
     using BiOWheelsFileWatcher;
+    using BiOWheelsFileWatcher.CustomEventArgs;
 
     using BiOWheelsLogger;
 
@@ -108,24 +106,27 @@ namespace BiOWheels
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
         private static void WatcherProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
             Log(data.Message, MessageType.INFO);
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
         private static void WatcherCaughtException(object sender, CaughtExceptionEventArgs data)
         {
             Log(data.ExceptionType + " occurred:" + data.ExceptionMessage, MessageType.ERROR);
         }
+
         #endregion
 
         #region Methods
@@ -201,7 +202,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Exit program?");
@@ -277,8 +278,8 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SorceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SorceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
                             Recursive = directoryMappingInfo.SourceMappingInfo.Recursive
                         }).ToList();
 

@@ -17,10 +17,7 @@ namespace BiOWheelsFileWatcher
     public class BiOWheelsFileSystemWatcher : FileSystemWatcher
     {
         /// <summary>
-        /// </summary>
-        public List<string> Destinations { get; set; }
-
-        /// <summary>
+        /// Initializes a new instance of the <see cref="BiOWheelsFileSystemWatcher"/> class
         /// </summary>
         /// <param name="path">
         /// </param>
@@ -28,5 +25,14 @@ namespace BiOWheelsFileWatcher
             : base(path)
         {
         }
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the destination folder
+        /// </summary>
+        public List<string> Destinations { get; set; }
+
+        #endregion
     }
 }
