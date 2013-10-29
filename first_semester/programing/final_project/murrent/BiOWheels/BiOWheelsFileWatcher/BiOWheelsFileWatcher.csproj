@@ -50,6 +50,7 @@
     <Compile Include="CustomExceptions\MappingNullException.cs" />
     <Compile Include="DirectoryVolumeComparator.cs" />
     <Compile Include="FileAction.cs" />
+    <Compile Include="FileComparator.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="IFileWatcher.cs" />
     <Compile Include="IQueueManager.cs" />

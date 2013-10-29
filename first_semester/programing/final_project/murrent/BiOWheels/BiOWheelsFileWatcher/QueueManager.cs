@@ -52,13 +52,26 @@ namespace BiOWheelsFileWatcher
         /// <param name="data"></param>
         public delegate void CaughtExceptionHandler(object sender, CaughtExceptionEventArgs data);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public delegate void ItemFinalizedHandler(object sender, ItemFinalizedEventArgs data);
+
         #endregion
 
         #region Event Handler
+
         /// <summary>
         /// Event handler for catching an exception
         /// </summary>
         public event CaughtExceptionHandler CaughtException;
+
+        /// <summary>
+        /// Event handler for catching an exception
+        /// </summary>
+        public event ItemFinalizedHandler ItemFinalized;
 
         #endregion
 
@@ -126,6 +139,20 @@ namespace BiOWheelsFileWatcher
             if (this.CaughtException != null)
             {
                 this.CaughtException(this, data);
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
+        protected void OnItemFinalized(object sender, ItemFinalizedEventArgs data)
+        {
+            if (this.ItemFinalized != null)
+            {
+                this.ItemFinalized(this, data);
             }
         }
 

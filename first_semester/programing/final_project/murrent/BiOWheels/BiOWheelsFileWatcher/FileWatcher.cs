@@ -59,6 +59,7 @@ namespace BiOWheelsFileWatcher
             this.Mappings = new List<DirectoryMapping>();
             this.queueManager = new QueueManager();
             this.QueueManager.CaughtException += QueueManagerCaughtException;
+            this.QueueManager.ItemFinalized += QueueManagerItemFinalized;
         }
 
         #region Delegates
@@ -321,10 +322,26 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         protected void QueueManagerCaughtException(object sender, CaughtExceptionEventArgs data)
         {
-           
+            this.CaughtException(this, data);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        protected void QueueManagerItemFinalized(object sender, ItemFinalizedEventArgs data)
+        {
+
+        }
+
         #endregion
 
         /// <summary>
