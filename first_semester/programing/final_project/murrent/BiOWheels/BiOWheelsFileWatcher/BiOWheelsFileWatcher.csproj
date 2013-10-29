@@ -48,6 +48,7 @@
     <Compile Include="CustomEventArgs\UpdateProgressEventArgs.cs" />
     <Compile Include="CustomExceptions\MappingInvalidException.cs" />
     <Compile Include="CustomExceptions\MappingNullException.cs" />
+    <Compile Include="DirectoryVolumeComparator.cs" />
     <Compile Include="FileAction.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="IFileWatcher.cs" />

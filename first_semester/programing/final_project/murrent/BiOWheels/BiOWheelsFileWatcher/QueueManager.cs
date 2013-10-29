@@ -7,6 +7,11 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System;
+using System.IO;
+using BiOWheelsFileWatcher.CustomEventArgs;
+
 namespace BiOWheelsFileWatcher
 {
     using System.Collections.Concurrent;
@@ -37,6 +42,25 @@ namespace BiOWheelsFileWatcher
         {
             this.syncItemQueue = new ConcurrentQueue<SyncItem>();
         }
+
+        #region Delegates
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
+        public delegate void CaughtExceptionHandler(object sender, CaughtExceptionEventArgs data);
+
+        #endregion
+
+        #region Event Handler
+        /// <summary>
+        /// Event handler for catching an exception
+        /// </summary>
+        public event CaughtExceptionHandler CaughtException;
+
+        #endregion
 
         #region Properties
 
@@ -89,8 +113,26 @@ namespace BiOWheelsFileWatcher
             this.SyncItemQueue.Enqueue(item);
         }
 
+        #region Event Methods
+
         /// <summary>
-        /// 
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
+        protected void OnCaughtException(object sender, CaughtExceptionEventArgs data)
+        {
+            if (this.CaughtException != null)
+            {
+                this.CaughtException(this, data);
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Finalize Queue
         /// </summary>
         private void FinalizeQueue()
         {
@@ -100,19 +142,65 @@ namespace BiOWheelsFileWatcher
 
                 if (this.SyncItemQueue.TryDequeue(out item))
                 {
-                    switch (item.FileAction)
+                    if (item.FileAction == FileAction.COPY || item.FileAction == FileAction.DELETE)
                     {
-                        case FileAction.COPY:
-                            break;
+                        try
+                        {
+                            if (item.FileAction == FileAction.DELETE)
+                            {
+                                File.Delete(item.DestinationFolder + Path.DirectorySeparatorChar +
+                                            Path.GetFileName(item.SourceFile));
+                            }
+                            else
+                            {
+                                File.Copy(item.SourceFile, item.DestinationFolder + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile), true);
+                            }
+                        }
+                        catch (UnauthorizedAccessException unauthorizedAccessException)
+                        {
+                            OnCaughtException(this,
+                                new CaughtExceptionEventArgs(unauthorizedAccessException.GetType(),
+                                    unauthorizedAccessException.Message));
+                        }
+                        catch (ArgumentException argumentException)
+                        {
+                            OnCaughtException(this,
+                                new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+                        }
+                        catch (PathTooLongException pathTooLongException)
+                        {
+                            OnCaughtException(this,
+                                new CaughtExceptionEventArgs(pathTooLongException.GetType(),
+                                    pathTooLongException.Message));
+                        }
+                        catch (DirectoryNotFoundException directoryNotFoundException)
+                        {
+                            OnCaughtException(this,
+                                new CaughtExceptionEventArgs(directoryNotFoundException.GetType(),
+                                    directoryNotFoundException.Message));
+                        }
+                        catch (FileNotFoundException fileNotFoundException)
+                        {
+                            OnCaughtException(this,
+                                new CaughtExceptionEventArgs(fileNotFoundException.GetType(),
+                                    fileNotFoundException.Message));
+                        }
+                        catch (IOException systemIOException)
+                        {
+                            OnCaughtException(this,
+                                new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
+                        }
+                        catch (NotSupportedException notSupportedException)
+                        {
+                            OnCaughtException(this,
+                                new CaughtExceptionEventArgs(notSupportedException.GetType(),
+                                    notSupportedException.Message));
+                        }
+                        break;
+                    }
+                    else if (item.FileAction == FileAction.DIFF)
+                    {
 
-                        case FileAction.CREATE:
-                            break;
-
-                        case FileAction.DELETE:
-                            break;
-
-                        case FileAction.DIFF:
-                            break;
                     }
                 }
             }

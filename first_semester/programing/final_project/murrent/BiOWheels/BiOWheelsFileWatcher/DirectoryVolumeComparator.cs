@@ -3,17 +3,24 @@ using System.Runtime.InteropServices;
 
 namespace BiOWheelsFileWatcher
 {
+    /// <summary>
+    /// Class representing the comparator for directories
+    /// 
+    /// Refer to: 
+    /// http://pinvoke.net/default.aspx/kernel32.CreateFile
+    /// http://pinvoke.net/default.aspx/kernel32.GetFileInformationByHandle
+    /// http://pinvoke.net/default.aspx/kernel32.CloseHandle
+    /// </summary>
     public class DirectoryVolumeComparator
     {
         /// <summary>
-        /// Refer to: 
-        /// http://pinvoke.net/default.aspx/kernel32.CreateFile
-        /// http://pinvoke.net/default.aspx/kernel32.GetFileInformationByHandle
-        /// http://pinvoke.net/default.aspx/kernel32.CloseHandle
+        /// Value of an invalid file handle
         /// </summary>
-
         public const short INVALID_HANDLE_VALUE = -1;
 
+        /// <summary>
+        /// See "http://msdn.microsoft.com/en-us/library/windows/desktop/aa363788%28v=vs.85%29.aspx"
+        /// </summary>
         struct BY_HANDLE_FILE_INFORMATION
         {
             public uint FileAttributes;
@@ -28,6 +35,9 @@ namespace BiOWheelsFileWatcher
             public uint FileIndexLow;
         }
 
+        /// <summary>
+        /// See http://www.pinvoke.net/search.aspx?search=EFileAccess&namespace=[All]"
+        /// </summary>
         [Flags]
         public enum EFileAccess : uint
         {
@@ -37,6 +47,9 @@ namespace BiOWheelsFileWatcher
             GenericAll = 0x10000000
         }
 
+        /// <summary>
+        /// See http://www.pinvoke.net/search.aspx?search=EFileShare&namespace=[All]
+        /// </summary>
         [Flags]
         public enum EFileShare : uint
         {
@@ -46,6 +59,9 @@ namespace BiOWheelsFileWatcher
             Delete = 0x00000004
         }
 
+        /// <summary>
+        /// See http://www.pinvoke.net/search.aspx?search=EFileAttributes&namespace=[All]
+        /// </summary>
         [Flags]
         public enum EFileAttributes : uint
         {
@@ -76,6 +92,9 @@ namespace BiOWheelsFileWatcher
             FirstPipeInstance = 0x00080000
         }
 
+        /// <summary>
+        /// See http://www.pinvoke.net/search.aspx?search=ECreationDisposition&namespace=[All]
+        /// </summary>
         public enum ECreationDisposition : uint
         {
             New = 1,
@@ -85,15 +104,40 @@ namespace BiOWheelsFileWatcher
             TruncateExisting = 5
         }
 
+        /// <summary>
+        /// Retrieves file information for the specified file.
+        /// See http://msdn.microsoft.com/en-us/library/windows/desktop/aa364952%28v=vs.85%29.aspx
+        /// </summary>
+        /// <param name="hFile">A handle to the file that contains the information to be retrieved. This handle should not be a pipe handle</param>
+        /// <param name="lpFileInformation">A pointer to a <see cref="BY_HANDLE_FILE_INFORMATION"/> structure that receives the file information</param>
+        /// <returns>If the function succeeds, the return value is nonzero and file information data is contained in the buffer pointed to by the lpFileInformation parameter. If the function fails, the return value is zero. To get extended error information, call GetLastError</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool GetFileInformationByHandle(IntPtr hFile, out        BY_HANDLE_FILE_INFORMATION lpFileInformation);
+        private static extern bool GetFileInformationByHandle(IntPtr hFile, out BY_HANDLE_FILE_INFORMATION lpFileInformation);
 
+        /// <summary>
+        /// Creates or opens a file or I/O device. The most commonly used I/O devices are as follows: file, file stream, directory, physical disk, volume, console buffer, tape drive, communications resource, mailslot, and pipe. The function returns a handle that can be used to access the file or device for various types of I/O depending on the file or device and the flags and attributes specified.
+        /// See http://msdn.microsoft.com/en-us/library/windows/desktop/aa363858%28v=vs.85%29.aspx
+        /// </summary>
+        /// <param name="lpFileName">The name of the file or device to be created or opened. You may use either forward slashes (/) or backslashes (\) in this name</param>
+        /// <param name="dwDesiredAccess">The requested access to the file or device, which can be summarized as read, write, both or neither zero)</param>
+        /// <param name="dwShareMode">The requested sharing mode of the file or device, which can be read, write, both, delete, all of these, or none (refer to the following table). Access requests to attributes or extended attributes are not affected by this flag</param>
+        /// <param name="lpSecurityAttributes">A pointer to a SECURITY_ATTRIBUTES structure that contains two separate but related data members: an optional security descriptor, and a Boolean value that determines whether the returned handle can be inherited by child processes</param>
+        /// <param name="dwCreationDisposition">An action to take on a file or device that exists or does not exist</param>
+        /// <param name="dwFlagsAndAttributes">The file or device attributes and flags, FILE_ATTRIBUTE_NORMAL being the most common default value for files</param>
+        /// <param name="hTemplateFile">A valid handle to a template file with the GENERIC_READ access right. The template file supplies file attributes and extended attributes for the file that is being created</param>
+        /// <returns>If the function succeeds, the return value is an open handle to the specified file, device, named pipe, or mail slot. If the function fails, the return value is INVALID_HANDLE_VALUE. To get extended error information, call GetLastError</returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-        static extern IntPtr CreateFile(String lpFileName, UInt32 dwDesiredAccess, UInt32 dwShareMode, IntPtr lpSecurityAttributes, UInt32 dwCreationDisposition, UInt32 dwFlagsAndAttributes, IntPtr hTemplateFile);
+        private static extern IntPtr CreateFile(String lpFileName, UInt32 dwDesiredAccess, UInt32 dwShareMode, IntPtr lpSecurityAttributes, UInt32 dwCreationDisposition, UInt32 dwFlagsAndAttributes, IntPtr hTemplateFile);
 
+        /// <summary>
+        /// Closes an open object handle.
+        /// See http://msdn.microsoft.com/en-us/library/windows/desktop/ms724211%28v=vs.85%29.aspx
+        /// </summary>
+        /// <param name="hObject">A valid handle to an open object</param>
+        /// <returns>If the function succeeds, the return value is nonzero.If the function fails, the return value is zero. To get extended error information, call GetLastError</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool CloseHandle(IntPtr hObject);
+        private static extern bool CloseHandle(IntPtr hObject);
 
         public bool CompareDirectories(string directory1, string directory2)
         {

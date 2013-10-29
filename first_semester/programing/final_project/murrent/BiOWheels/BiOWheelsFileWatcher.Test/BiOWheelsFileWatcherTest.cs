@@ -45,6 +45,7 @@ namespace BiOWheelsFileWatcher.Test
         {
             this.queueManager = new QueueManager();
             this.fileWatcher = new FileWatcher();
+            this.fileWatcher.SetBlockCompareFileSizeInMB(10);
             this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
             this.fileWatcher.CaughtException += this.FileWatcherCaughtException;
 

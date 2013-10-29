@@ -15,10 +15,6 @@ namespace BiOWheelsFileWatcher
     {
         /// <summary>
         /// </summary>
-        CREATE, 
-
-        /// <summary>
-        /// </summary>
         DELETE, 
 
         /// <summary>

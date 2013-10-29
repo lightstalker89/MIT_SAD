@@ -38,5 +38,11 @@ namespace BiOWheelsFileWatcher
         /// Initialize and assign all needed properties and start a monitor thread for every directory
         /// </summary>
         void Init();
+
+        /// <summary>
+        /// Sets the  minimum size for comparing files in blocks
+        /// </summary>
+        /// <param name="blockCompareFileSizeInMB">File size</param>
+        void SetBlockCompareFileSizeInMB(long blockCompareFileSizeInMB);
     }
 }

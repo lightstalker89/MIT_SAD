@@ -30,6 +30,11 @@ namespace BiOWheelsFileWatcher
         #region Private Fields
 
         /// <summary>
+        /// Minimum size for comparing files in blocks
+        /// </summary>
+        private long blockCompareFileSizeInMB;
+
+        /// <summary>
         /// Manager for the queue
         /// </summary>
         private readonly IQueueManager queueManager;
@@ -53,6 +58,7 @@ namespace BiOWheelsFileWatcher
         {
             this.Mappings = new List<DirectoryMapping>();
             this.queueManager = new QueueManager();
+            this.QueueManager.CaughtException += QueueManagerCaughtException;
         }
 
         #region Delegates
@@ -86,6 +92,21 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the minimum size for comparing files in blocks
+        /// </summary>
+        public long BlockCompareSizeInMB
+        {
+            get
+            {
+                return this.blockCompareFileSizeInMB;
+            }
+            set
+            {
+                this.blockCompareFileSizeInMB = value;
+            }
+        }
 
         /// <summary>
         /// Gets the <see cref="QueueManager"/>
@@ -154,6 +175,11 @@ namespace BiOWheelsFileWatcher
             this.mappings = directoryMappings;
         }
 
+        /// <inheritdoc/>
+        public void SetBlockCompareFileSizeInMB(long blockCompareSizeInMB)
+        {
+            this.BlockCompareSizeInMB = blockCompareSizeInMB;
+        }
         #region Event Methods
 
         /// <summary>
@@ -168,7 +194,7 @@ namespace BiOWheelsFileWatcher
 
             if (watcher != null)
             {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DIFF);
+                this.AddQueueItem(watcher.Destinations, e.FullPath, MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.Name + "--"));
@@ -206,7 +232,7 @@ namespace BiOWheelsFileWatcher
 
             if (watcher != null)
             {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.CREATE);
+                this.AddQueueItem(watcher.Destinations, e.FullPath, MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.Name + "--"));
@@ -295,6 +321,10 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        protected void QueueManagerCaughtException(object sender, CaughtExceptionEventArgs data)
+        {
+           
+        }
         #endregion
 
         /// <summary>
@@ -314,7 +344,7 @@ namespace BiOWheelsFileWatcher
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SorceDirectory)
                                 {
-                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive, 
+                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
                                     Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories
                                 };
                         fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
@@ -328,7 +358,7 @@ namespace BiOWheelsFileWatcher
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this, 
+                            this,
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -340,7 +370,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this, 
+                        this,
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
@@ -390,6 +420,27 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        /// <summary>
+        /// Checks if the file must be compared in blocks
+        /// </summary>
+        /// <param name="file">Full qualified file name</param>
+        /// <returns>A value whether the file must be compared in blocks or not</returns>
+        private bool MustCompareFileInBlocks(string file)
+        {
+            double length;
+
+            using (Stream actualFileStream = new FileStream(file, FileMode.Open))
+            {
+                length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
+            }
+
+            if (length > this.BlockCompareSizeInMB)
+            {
+                return true;
+            }
+
+            return false;
+        }
         #endregion
     }
 }

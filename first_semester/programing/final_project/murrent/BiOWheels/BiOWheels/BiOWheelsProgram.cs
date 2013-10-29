@@ -14,7 +14,7 @@ namespace BiOWheels
     using System.Linq;
     using System.Threading;
 
-    using BiOWheels.BiOWheelsConfiguration;
+    using BiOWheelsConfiguration;
 
     using BiOWheelsCommandLineArgsParser;
 
