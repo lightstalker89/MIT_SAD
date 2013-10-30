@@ -45,6 +45,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomEventArgs\CaughtExceptionEventArgs.cs" />
+    <Compile Include="CustomEventArgs\ItemFinalizedEventArgs.cs" />
     <Compile Include="CustomEventArgs\UpdateProgressEventArgs.cs" />
     <Compile Include="CustomExceptions\MappingInvalidException.cs" />
     <Compile Include="CustomExceptions\MappingNullException.cs" />

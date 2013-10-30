@@ -33,6 +33,11 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         private bool isWorkerInProgress;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private FileComparator fileComparator;
+
         #endregion
 
         /// <summary>
@@ -41,6 +46,7 @@ namespace BiOWheelsFileWatcher
         internal QueueManager()
         {
             this.syncItemQueue = new ConcurrentQueue<SyncItem>();
+            this.fileComparator = new FileComparator();
         }
 
         #region Delegates
@@ -109,6 +115,16 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="FileComparator"/> instance
+        /// </summary>
+        internal FileComparator FileComparator
+        {
+            get
+            {
+                return this.fileComparator;
+            }
+        }
         #endregion
 
         #region Methods
@@ -180,7 +196,14 @@ namespace BiOWheelsFileWatcher
                             }
                             else
                             {
-                                File.Copy(item.SourceFile, item.DestinationFolder + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile), true);
+                                if (item.IsParallelSyncAllowed)
+                                {
+
+                                }
+                                else
+                                {
+                                    File.Copy(item.SourceFile, item.DestinationFolder + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile), true);                                    
+                                }
                             }
                         }
                         catch (UnauthorizedAccessException unauthorizedAccessException)
