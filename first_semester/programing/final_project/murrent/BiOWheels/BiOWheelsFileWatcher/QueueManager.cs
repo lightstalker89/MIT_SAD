@@ -7,15 +7,14 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System;
-using System.IO;
-using BiOWheelsFileWatcher.CustomEventArgs;
-
 namespace BiOWheelsFileWatcher
 {
+    using System;
     using System.Collections.Concurrent;
+    using System.IO;
     using System.Threading;
+
+    using BiOWheelsFileWatcher.CustomEventArgs;
 
     /// <summary>
     /// </summary>
@@ -52,17 +51,17 @@ namespace BiOWheelsFileWatcher
         #region Delegates
 
         /// <summary>
-        /// 
+        /// Delegate for the <see cref="CaughtExceptionHandler"/> event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="data">Data from the event</param>
         public delegate void CaughtExceptionHandler(object sender, CaughtExceptionEventArgs data);
 
         /// <summary>
-        /// 
+        /// Delegate for the <see cref="ItemFinalizedHandler"/> event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="data">Data from the event</param>
         public delegate void ItemFinalizedHandler(object sender, ItemFinalizedEventArgs data);
 
         #endregion
@@ -125,6 +124,7 @@ namespace BiOWheelsFileWatcher
                 return this.fileComparator;
             }
         }
+
         #endregion
 
         #region Methods
@@ -191,66 +191,74 @@ namespace BiOWheelsFileWatcher
                         {
                             if (item.FileAction == FileAction.DELETE)
                             {
-                                File.Delete(item.DestinationFolder + Path.DirectorySeparatorChar +
-                                            Path.GetFileName(item.SourceFile));
+                                File.Delete(
+                                    item.DestinationFolder + Path.DirectorySeparatorChar
+                                    + Path.GetFileName(item.SourceFile));
                             }
                             else
                             {
                                 if (item.IsParallelSyncAllowed)
                                 {
-
                                 }
                                 else
                                 {
-                                    File.Copy(item.SourceFile, item.DestinationFolder + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile), true);                                    
+                                    string destinationFile = item.DestinationFolder + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+                                    File.Copy(item.SourceFile, destinationFile, true);
                                 }
                             }
                         }
                         catch (UnauthorizedAccessException unauthorizedAccessException)
                         {
-                            OnCaughtException(this,
-                                new CaughtExceptionEventArgs(unauthorizedAccessException.GetType(),
-                                    unauthorizedAccessException.Message));
+                            this.OnCaughtException(
+                                this,
+                                new CaughtExceptionEventArgs(
+                                    unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
                         }
                         catch (ArgumentException argumentException)
                         {
-                            OnCaughtException(this,
+                            this.OnCaughtException(
+                                this,
                                 new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
                         }
                         catch (PathTooLongException pathTooLongException)
                         {
-                            OnCaughtException(this,
-                                new CaughtExceptionEventArgs(pathTooLongException.GetType(),
-                                    pathTooLongException.Message));
+                            this.OnCaughtException(
+                                this,
+                                new CaughtExceptionEventArgs(
+                                    pathTooLongException.GetType(), pathTooLongException.Message));
                         }
                         catch (DirectoryNotFoundException directoryNotFoundException)
                         {
-                            OnCaughtException(this,
-                                new CaughtExceptionEventArgs(directoryNotFoundException.GetType(),
-                                    directoryNotFoundException.Message));
+                            this.OnCaughtException(
+                                this,
+                                new CaughtExceptionEventArgs(
+                                    directoryNotFoundException.GetType(), directoryNotFoundException.Message));
                         }
                         catch (FileNotFoundException fileNotFoundException)
                         {
-                            OnCaughtException(this,
-                                new CaughtExceptionEventArgs(fileNotFoundException.GetType(),
-                                    fileNotFoundException.Message));
+                            this.OnCaughtException(
+                                this,
+                                new CaughtExceptionEventArgs(
+                                    fileNotFoundException.GetType(), fileNotFoundException.Message));
                         }
                         catch (IOException systemIOException)
                         {
-                            OnCaughtException(this,
+                            this.OnCaughtException(
+                                this,
                                 new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
                         }
                         catch (NotSupportedException notSupportedException)
                         {
-                            OnCaughtException(this,
-                                new CaughtExceptionEventArgs(notSupportedException.GetType(),
-                                    notSupportedException.Message));
+                            this.OnCaughtException(
+                                this,
+                                new CaughtExceptionEventArgs(
+                                    notSupportedException.GetType(), notSupportedException.Message));
                         }
+
                         break;
                     }
                     else if (item.FileAction == FileAction.DIFF)
                     {
-
                     }
                 }
             }

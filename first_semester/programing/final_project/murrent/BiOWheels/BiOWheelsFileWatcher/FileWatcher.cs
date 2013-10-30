@@ -19,8 +19,8 @@ namespace BiOWheelsFileWatcher
     using System.IO;
     using System.Threading;
 
-    using CustomEventArgs;
-    using CustomExceptions;
+    using BiOWheelsFileWatcher.CustomEventArgs;
+    using BiOWheelsFileWatcher.CustomExceptions;
 
     /// <summary>
     /// Class representing the <see cref="FileWatcher"/> and its interaction logic
@@ -30,14 +30,14 @@ namespace BiOWheelsFileWatcher
         #region Private Fields
 
         /// <summary>
-        /// Minimum size for comparing files in blocks
-        /// </summary>
-        private long blockCompareFileSizeInMB;
-
-        /// <summary>
         /// Manager for the queue
         /// </summary>
         private readonly IQueueManager queueManager;
+
+        /// <summary>
+        /// Minimum size for comparing files in blocks
+        /// </summary>
+        private long blockCompareFileSizeInMB;
 
         /// <summary>
         /// List of mappings representing <see cref="DirectoryMapping"/>
@@ -58,29 +58,30 @@ namespace BiOWheelsFileWatcher
         {
             this.Mappings = new List<DirectoryMapping>();
             this.queueManager = new QueueManager();
-            this.QueueManager.CaughtException += QueueManagerCaughtException;
-            this.QueueManager.ItemFinalized += QueueManagerItemFinalized;
+            this.QueueManager.CaughtException += this.QueueManagerCaughtException;
+            this.QueueManager.ItemFinalized += this.QueueManagerItemFinalized;
         }
 
         #region Delegates
 
         /// <summary>
-        /// 
+        /// Delegate for the <see cref="CaughtExceptionHandler"/> event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="data">Data from the event</param>
         public delegate void CaughtExceptionHandler(object sender, CaughtExceptionEventArgs data);
 
         /// <summary>
         /// Delegate for the <see cref="ProgressUpdateHandler"/> event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="data">Data from the event</param>
         public delegate void ProgressUpdateHandler(object sender, UpdateProgressEventArgs data);
 
         #endregion
 
         #region Event Handler
+
         /// <summary>
         /// Event handler for catching an exception
         /// </summary>
@@ -90,6 +91,7 @@ namespace BiOWheelsFileWatcher
         /// Event handler for updating the progress
         /// </summary>
         public event ProgressUpdateHandler ProgressUpdate;
+
         #endregion
 
         #region Properties
@@ -103,6 +105,7 @@ namespace BiOWheelsFileWatcher
             {
                 return this.blockCompareFileSizeInMB;
             }
+
             set
             {
                 this.blockCompareFileSizeInMB = value;
@@ -181,9 +184,11 @@ namespace BiOWheelsFileWatcher
         {
             this.BlockCompareSizeInMB = blockCompareSizeInMB;
         }
+
         #region Event Methods
 
         /// <summary>
+        /// Occurs when a file or directory in the specified Path is changed.
         /// </summary>
         /// <param name="sender">
         /// </param>
@@ -195,7 +200,10 @@ namespace BiOWheelsFileWatcher
 
             if (watcher != null)
             {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
+                this.AddQueueItem(
+                    watcher.Destinations, 
+                    e.FullPath, 
+                    this.MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.Name + "--"));
@@ -203,6 +211,7 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Occurs when a file or directory in the specified Path is deleted.
         /// </summary>
         /// <param name="sender">
         /// </param>
@@ -222,6 +231,7 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Occurs when a file or directory in the specified Path is created.
         /// </summary>
         /// <param name="sender">
         /// </param>
@@ -233,7 +243,7 @@ namespace BiOWheelsFileWatcher
 
             if (watcher != null)
             {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
+                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.COPY);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.Name + "--"));
@@ -241,6 +251,7 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Occurs when a file or directory in the specified Path is renamed.
         /// </summary>
         /// <param name="sender">
         /// </param>
@@ -256,13 +267,14 @@ namespace BiOWheelsFileWatcher
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
                 this.OnProgressUpdate(
-                    this,
+                    this, 
                     new UpdateProgressEventArgs(
                         "Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
             }
         }
 
         /// <summary>
+        /// Occurs when the instance of FileSystemWatcher is unable to continue monitoring changes or when the internal buffer overflows.
         /// </summary>
         /// <param name="sender">
         /// </param>
@@ -295,6 +307,7 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Occurs when the component is disposed by a call to the Dispose method. (Inherited from Component.)
         /// </summary>
         /// <param name="sender">
         /// </param>
@@ -323,23 +336,24 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
         protected void QueueManagerCaughtException(object sender, CaughtExceptionEventArgs data)
         {
             this.CaughtException(this, data);
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="data"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="data">
+        /// </param>
         protected void QueueManagerItemFinalized(object sender, ItemFinalizedEventArgs data)
         {
-
         }
 
         #endregion
@@ -361,7 +375,7 @@ namespace BiOWheelsFileWatcher
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SorceDirectory)
                                 {
-                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
+                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive, 
                                     Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories
                                 };
                         fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
@@ -370,12 +384,13 @@ namespace BiOWheelsFileWatcher
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
                         fileSystemWatcher.Renamed += this.FileSystemWatcherRenamed;
                         fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
+                        fileSystemWatcher.Filter = string.Empty;
                         fileSystemWatcher.EnableRaisingEvents = true;
                     }
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this,
+                            this, 
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -387,7 +402,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this,
+                        this, 
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
@@ -440,8 +455,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Checks if the file must be compared in blocks
         /// </summary>
-        /// <param name="file">Full qualified file name</param>
-        /// <returns>A value whether the file must be compared in blocks or not</returns>
+        /// <param name="file">
+        /// Full qualified file name
+        /// </param>
+        /// <returns>
+        /// A value whether the file must be compared in blocks or not
+        /// </returns>
         private bool MustCompareFileInBlocks(string file)
         {
             double length;
@@ -458,6 +477,7 @@ namespace BiOWheelsFileWatcher
 
             return false;
         }
+
         #endregion
     }
 }

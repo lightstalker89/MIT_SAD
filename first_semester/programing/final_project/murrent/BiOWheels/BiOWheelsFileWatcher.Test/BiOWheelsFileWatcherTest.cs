@@ -13,7 +13,7 @@ namespace BiOWheelsFileWatcher.Test
     using System.Collections.Generic;
     using System.IO;
 
-    using CustomEventArgs;
+    using BiOWheelsFileWatcher.CustomEventArgs;
 
     using BiOWheelsTestHelper;
 
@@ -87,7 +87,7 @@ namespace BiOWheelsFileWatcher.Test
         /// </param>
         private void FileWatcherProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
-            using (StreamWriter streamWriter = new StreamWriter("output.txt",true))
+            using (StreamWriter streamWriter = new StreamWriter("output.txt", true))
             {
                 streamWriter.WriteLine("--" + DateTime.Now.ToShortTimeString() + "-- " + data.Message);
             }

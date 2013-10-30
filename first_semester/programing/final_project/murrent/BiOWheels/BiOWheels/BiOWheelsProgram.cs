@@ -14,7 +14,7 @@ namespace BiOWheels
     using System.Linq;
     using System.Threading;
 
-    using BiOWheelsConfiguration;
+    using BiOWheels.BiOWheelsConfiguration;
 
     using BiOWheelsCommandLineArgsParser;
 
@@ -95,7 +95,7 @@ namespace BiOWheels
         /// Event for pressing the CTRL+C keyboard combination in the console
         /// </summary>
         /// <param name="sender">
-        /// The sender of the event
+        /// Sender of the event
         /// </param>
         /// <param name="e">
         /// Parameter coming from the event
@@ -106,10 +106,13 @@ namespace BiOWheels
         }
 
         /// <summary>
+        /// Occurs when the progress of the file watcher updates
         /// </summary>
         /// <param name="sender">
+        /// Sender of the event
         /// </param>
         /// <param name="data">
+        /// Data from the event
         /// </param>
         private static void WatcherProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
@@ -117,10 +120,13 @@ namespace BiOWheels
         }
 
         /// <summary>
+        /// Occurs when an exception is caught from the file watcher
         /// </summary>
         /// <param name="sender">
+        /// Sender of the event
         /// </param>
         /// <param name="data">
+        /// Data from the event
         /// </param>
         private static void WatcherCaughtException(object sender, CaughtExceptionEventArgs data)
         {

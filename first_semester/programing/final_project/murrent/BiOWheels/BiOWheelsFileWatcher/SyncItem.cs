@@ -7,11 +7,10 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Collections.Generic;
-
 namespace BiOWheelsFileWatcher
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// </summary>
     internal class SyncItem
