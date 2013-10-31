@@ -38,14 +38,22 @@ namespace BiOWheelsFileWatcher.Test
         private List<DirectoryMapping> mappings;
 
         /// <summary>
+        /// 
+        /// </summary>
+        private FileComparator fileComparator;
+
+        /// <summary>
         /// Set up test environment
         /// </summary>
         [SetUp]
         public void Init()
         {
-            this.queueManager = new QueueManager();
+            this.fileComparator = new FileComparator();
+
+            this.queueManager = new QueueManager(this.fileComparator);
             this.fileWatcher = new FileWatcher();
             this.fileWatcher.SetBlockCompareFileSizeInMB(10);
+            this.fileWatcher.SetBlockSize(4096);
             this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
             this.fileWatcher.CaughtException += this.FileWatcherCaughtException;
 

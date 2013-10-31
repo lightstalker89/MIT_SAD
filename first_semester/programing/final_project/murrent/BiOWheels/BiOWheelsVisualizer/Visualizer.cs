@@ -30,7 +30,7 @@ namespace BiOWheelsVisualizer
         /// <inheritdoc/>
         public void WriteLine(string text)
         {
-            Console.WriteLine("********");
+            Console.WriteLine("**************");
             Console.WriteLine(text);
         }
 

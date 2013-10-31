@@ -39,6 +39,11 @@ namespace BiOWheels
         /// </summary>
         private const string Options = "px";
 
+        /// <summary>
+        /// Default console foreground color
+        /// </summary>
+        private const ConsoleColor DefaultConsoleForegroundColor = ConsoleColor.Gray;
+
         #endregion
 
         #region Private Fields
@@ -49,10 +54,14 @@ namespace BiOWheels
         private static Configuration configuration;
 
         /// <summary>
-        /// Value indicating if the sync is in progress
+        /// Value indicating whether the sync is in progress
         /// </summary>
         private static bool isSyncing = true;
 
+        /// <summary>
+        /// Value indicating whether the program should listen to console key input
+        /// </summary>
+        private static bool isListeningToConsoleKeyInput = true;
         #endregion
 
         /// <summary>
@@ -102,7 +111,7 @@ namespace BiOWheels
         /// </param>
         protected static void ConsoleCancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            CloseApplication();
+            CloseApplication(0);
         }
 
         /// <summary>
@@ -208,11 +217,48 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
-                    WriteLineToConsole("Error while loading the configuration. Exit program?");
-                    Console.ReadKey(true);
+                    WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
+
+                    ListenToConsoleKeyInput();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Listen to key inputs from console
+        /// </summary>
+        private static void ListenToConsoleKeyInput()
+        {
+            while (isListeningToConsoleKeyInput)
+            {
+                ConsoleKey key = Console.ReadKey(true).Key;
+
+                if (key == ConsoleKey.X)
+                {
+                    CloseApplication(0);
+                }
+                else if (key == ConsoleKey.S)
+                {
+                    //TODO: implement easter egg
+                }
+                else if (key == ConsoleKey.P)
+                {
+                    //TODO: Activate or deactivate parallel sync
+                }
+                else if (key == ConsoleKey.L)
+                {
+                    //TODO: disable console logger
+                }
+                else if (key == ConsoleKey.F)
+                {
+                    //TODO: disable file logger
+                }
+                else if (key == ConsoleKey.B)
+                {
+                    //TODO: pause process
                 }
             }
         }
@@ -222,10 +268,7 @@ namespace BiOWheels
         /// </summary>
         private static void StartSync()
         {
-            while (isSyncing)
-            {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-            }
+            ListenToConsoleKeyInput();
         }
 
         /// <summary>
@@ -284,12 +327,13 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SorceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SorceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
                             Recursive = directoryMappingInfo.SourceMappingInfo.Recursive
                         }).ToList();
 
             SimpleContainer.Instance.Resolve<IFileWatcher>().SetSourceDirectories(mappings);
+            SimpleContainer.Instance.Resolve<IFileWatcher>().SetBlockSize(configuration.BlockCompareOptions.BlockSizeInKB);
             SimpleContainer.Instance.Resolve<IFileWatcher>().Init();
 
             Log("Configuration successfully loaded", MessageType.INFO);
@@ -322,8 +366,9 @@ namespace BiOWheels
         /// <summary>
         /// Close the application
         /// </summary>
-        private static void CloseApplication()
+        private static void CloseApplication(int exitCode)
         {
+            Environment.Exit(exitCode);
         }
 
         #endregion

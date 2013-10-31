@@ -46,5 +46,11 @@ namespace BiOWheelsFileWatcher
         /// File size
         /// </param>
         void SetBlockCompareFileSizeInMB(long blockCompareFileSizeInMB);
+
+        /// <summary>
+        /// Sets the block size used for comparing files
+        /// </summary>
+        /// <param name="blockSizeInKB">Block size</param>
+        void SetBlockSize(long blockSizeInKB);
     }
 }

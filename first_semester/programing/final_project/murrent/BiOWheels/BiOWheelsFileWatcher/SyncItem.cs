@@ -27,17 +27,12 @@ namespace BiOWheelsFileWatcher
         /// <param name="fileAction">
         /// Action for the file
         /// </param>
-        public SyncItem(string destinationFolder, string sourceFile, FileAction fileAction)
+        public SyncItem(IEnumerable<string> destinationFolder, string sourceFile, FileAction fileAction)
         {
-            this.DestinationFolder = destinationFolder;
+            this.Destinations = destinationFolder;
             this.SourceFile = sourceFile;
             this.FileAction = fileAction;
         }
-
-        /// <summary>
-        /// Gets or sets the destination folder
-        /// </summary>
-        public string DestinationFolder { get; set; }
 
         /// <summary>
         /// Gets or sets the source file
@@ -57,7 +52,7 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Gets or sets the destination directories for parallel copying
         /// </summary>
-        public List<string> Destinations { get; set; }
+        public IEnumerable<string> Destinations { get; set; }
 
         /// <summary>
         /// Gets or sets the retries
