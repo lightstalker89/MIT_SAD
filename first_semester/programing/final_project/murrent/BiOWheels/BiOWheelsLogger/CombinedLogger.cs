@@ -10,14 +10,17 @@
 namespace BiOWheelsLogger
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="CombinedLogger"/> class
     /// </summary>
     public class CombinedLogger : ILogger
     {
         /// <summary>
+        /// Represents the instance of the <see cref="ConsoleLogger"/> class
         /// </summary>
         private readonly ILogger consoleLogger = new ConsoleLogger();
 
         /// <summary>
+        /// Represents the instance of the <see cref="FileLogger"/> class 
         /// </summary>
         private readonly ILogger fileLogger = new FileLogger();
 

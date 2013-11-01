@@ -9,8 +9,12 @@
 // *******************************************************/
 namespace BiOWheelsConfigManager
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1606:ElementDocumentationMustHaveSummaryText", 
+        Justification = "Reviewed.")]
     public enum WriterStatus
     {
         /// <summary>

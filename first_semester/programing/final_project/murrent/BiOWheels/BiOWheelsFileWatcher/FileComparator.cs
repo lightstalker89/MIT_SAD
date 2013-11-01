@@ -7,15 +7,16 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-
 namespace BiOWheelsFileWatcher
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+
     /// <summary>
-    /// Class representing the <see cref="FileComparator"/> and its interaction logic
+    /// Initializes a new instance of the <see cref="FileComparator"/> class
     /// </summary>
     internal class FileComparator
     {
@@ -33,6 +34,8 @@ namespace BiOWheelsFileWatcher
 
         #endregion
 
+        /// <summary>
+        /// </summary>
         public FileComparator()
         {
             this.MD5Hasher = MD5.Create();
@@ -49,6 +52,7 @@ namespace BiOWheelsFileWatcher
             {
                 return this.blockSize;
             }
+
             set
             {
                 this.blockSize = value;
@@ -64,49 +68,61 @@ namespace BiOWheelsFileWatcher
             {
                 return this.md5Hasher;
             }
+
             set
             {
                 this.md5Hasher = value;
             }
         }
-        #endregion
 
+        #endregion
 
         #region Methods
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sourceFile"></param>
-        /// <param name="destinationFile"></param>
-        /// <param name="offset"></param>
-        /// <returns></returns>
-        internal bool Compare(string sourceFile, string destinationFile, int offset)
+        /// <param name="sourceFile">
+        /// </param>
+        /// <param name="destinationFile">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        internal void Compare(string sourceFile, string destinationFile)
         {
-            //int actualOffset = offset;
+            using (Stream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read),
+             destinationStream = new FileStream(destinationFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            {
+                long fileLengthSource = sourceStream.Length;
+                long fileLengthDestination = destinationStream.Length;
 
-            //using (FileStream fileStreamSource = new FileStream(sourceFile, FileMode.Open),
-            //       fileStreamDestination = new FileStream(destinationFile, FileMode.Open))
-            //{
+                if (fileLengthSource > 0 && fileLengthDestination > 0)
+                {
+                    byte[] bufferSource = new byte[this.BlockSize];
+                    byte[] bufferDestination = new byte[this.BlockSize];
 
-            //    byte[] bufferSource = new byte[this.BlockSize];
-            //    byte[] bufferDestination = new byte[this.BlockSize];
+                    while ((sourceStream.Read(bufferSource, 0, bufferSource.Length) != 0))
+                    {
+                        destinationStream.Read(bufferDestination, 0, bufferDestination.Length);
 
-            //    actualOffset += bufferSource.Length;
+                        if (!(this.md5Hasher.ComputeHash(bufferSource).Equals(this.md5Hasher.ComputeHash(bufferDestination))))
+                        {
+                            int bufferLength = bufferSource.ToList().Count(p => p != 0);
 
-            //    int resultSource = fileStreamSource.Read(bufferSource, actualOffset, bufferSource.Length);
-            //    int resultDestination = fileStreamDestination.Read(bufferDestination, actualOffset, bufferDestination.Length);
+                            destinationStream.Position = sourceStream.Position - bufferLength;
+                            destinationStream.Write(bufferSource, 0, bufferLength);
 
-            //    if (!(this.md5Hasher.ComputeHash(bufferSource).Equals(this.md5Hasher.ComputeHash(bufferDestination))))
-            //    {
-            //        // TODO: copy;
-            //        return false;
-            //    }
 
-            //    this.Compare(sourceFile, destinationFile, actualOffset);
-            //}
+                            // TODO: trigger event to log which block has been changed
+                        }
+                    }
 
-            return true;
+                    destinationStream.Flush();
+                }
+                else
+                {
+                    // TODO: refactor QueueManager and create FileManager -> extract methods
+                }
+            }
         }
 
         #endregion

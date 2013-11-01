@@ -9,8 +9,13 @@
 // *******************************************************/
 namespace BiOWheelsFileWatcher
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
+    /// Enumeration representing the <see cref="FileAction"/> values
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1606:ElementDocumentationMustHaveSummaryText", 
+        Justification = "Reviewed.")]
     public enum FileAction
     {
         /// <summary>

@@ -9,11 +9,16 @@
 // *******************************************************/
 namespace BiOWheelsLogger
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
+    /// Enumeration representing the <see cref="MessageType"/> values
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1606:ElementDocumentationMustHaveSummaryText", 
+        Justification = "Reviewed.")]
     public enum MessageType
     {
-        /// <summary>
+        /// <summary> 
         /// </summary>
         INFO, 
 

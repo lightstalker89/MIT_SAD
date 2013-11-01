@@ -62,6 +62,7 @@ namespace BiOWheels
         /// Value indicating whether the program should listen to console key input
         /// </summary>
         private static bool isListeningToConsoleKeyInput = true;
+
         #endregion
 
         /// <summary>
@@ -217,7 +218,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -242,23 +243,23 @@ namespace BiOWheels
                 }
                 else if (key == ConsoleKey.S)
                 {
-                    //TODO: implement easter egg
+                    // TODO: implement easter egg
                 }
                 else if (key == ConsoleKey.P)
                 {
-                    //TODO: Activate or deactivate parallel sync
+                    // TODO: Activate or deactivate parallel sync
                 }
                 else if (key == ConsoleKey.L)
                 {
-                    //TODO: disable console logger
+                    // TODO: disable console logger
                 }
                 else if (key == ConsoleKey.F)
                 {
-                    //TODO: disable file logger
+                    // TODO: disable file logger
                 }
                 else if (key == ConsoleKey.B)
                 {
-                    //TODO: pause process
+                    // TODO: pause process
                 }
             }
         }
@@ -327,13 +328,14 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SorceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SorceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
                             Recursive = directoryMappingInfo.SourceMappingInfo.Recursive
                         }).ToList();
 
             SimpleContainer.Instance.Resolve<IFileWatcher>().SetSourceDirectories(mappings);
-            SimpleContainer.Instance.Resolve<IFileWatcher>().SetBlockSize(configuration.BlockCompareOptions.BlockSizeInKB);
+            SimpleContainer.Instance.Resolve<IFileWatcher>().SetBlockSize(
+                configuration.BlockCompareOptions.BlockSizeInKB);
             SimpleContainer.Instance.Resolve<IFileWatcher>().Init();
 
             Log("Configuration successfully loaded", MessageType.INFO);
@@ -366,6 +368,8 @@ namespace BiOWheels
         /// <summary>
         /// Close the application
         /// </summary>
+        /// <param name="exitCode">
+        /// </param>
         private static void CloseApplication(int exitCode)
         {
             Environment.Exit(exitCode);

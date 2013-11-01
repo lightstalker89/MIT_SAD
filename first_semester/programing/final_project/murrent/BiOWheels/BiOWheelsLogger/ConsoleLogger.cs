@@ -12,6 +12,7 @@ namespace BiOWheelsLogger
     using System;
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="FileLogger"/> class
     /// </summary>
     public class ConsoleLogger : ILogger
     {

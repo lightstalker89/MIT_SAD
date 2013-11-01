@@ -62,7 +62,7 @@ namespace BiOWheelsFileWatcher
         public FileWatcher()
         {
             this.Mappings = new List<DirectoryMapping>();
-            this.queueManager = new QueueManager(new FileComparator(){ BlockSize = this.BlockSize});
+            this.queueManager = new QueueManager(new FileComparator { BlockSize = this.BlockSize });
             this.QueueManager.CaughtException += this.QueueManagerCaughtException;
             this.QueueManager.ItemFinalized += this.QueueManagerItemFinalized;
         }
@@ -209,8 +209,9 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void SetBlockSize(long blockSizeInKB)
         {
-            this.BlockSize = blockSize;
+            this.BlockSize = blockSizeInKB;
         }
+
         #region Event Methods
 
         /// <summary>
@@ -227,8 +228,8 @@ namespace BiOWheelsFileWatcher
             if (watcher != null)
             {
                 this.AddQueueItem(
-                    watcher.Destinations,
-                    e.FullPath,
+                    watcher.Destinations, 
+                    e.FullPath, 
                     this.MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
                 this.OnProgressUpdate(
@@ -293,7 +294,7 @@ namespace BiOWheelsFileWatcher
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
                 this.OnProgressUpdate(
-                    this,
+                    this, 
                     new UpdateProgressEventArgs(
                         "Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
             }
@@ -401,7 +402,7 @@ namespace BiOWheelsFileWatcher
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SorceDirectory)
                                 {
-                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
+                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive, 
                                     Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories
                                 };
                         fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
@@ -416,7 +417,7 @@ namespace BiOWheelsFileWatcher
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this,
+                            this, 
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -428,7 +429,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this,
+                        this, 
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }

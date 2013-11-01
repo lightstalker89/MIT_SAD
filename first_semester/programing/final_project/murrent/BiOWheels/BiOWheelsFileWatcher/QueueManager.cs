@@ -7,18 +7,16 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace BiOWheelsFileWatcher
 {
     using System;
     using System.Collections.Concurrent;
     using System.IO;
+    using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
 
-    using CustomEventArgs;
+    using BiOWheelsFileWatcher.CustomEventArgs;
 
     /// <summary>
     /// </summary>
@@ -46,6 +44,8 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Initializes a new instance of the <see cref="QueueManager"/> class
         /// </summary>
+        /// <param name="fileComparator">
+        /// </param>
         internal QueueManager(FileComparator fileComparator)
         {
             this.syncItemQueue = new ConcurrentQueue<SyncItem>();
@@ -186,47 +186,54 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Copies a file to the given destinations
         /// </summary>
-        /// <param name="item">Item from the queue</param>
+        /// <param name="item">
+        /// Item from the queue
+        /// </param>
         private async void CopyFile(SyncItem item)
         {
-            if (item.IsParallelSyncAllowed)
-            {
-                //TODO: Implement parallel sync
-            }
-            else
-            {
-                foreach (string destinationFile in item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
-                {
-                    string fileToCopy = destinationFile;
+            // TODO: Parallel Sync implement
 
-                    await Task.Run(() => File.Copy(item.SourceFile, fileToCopy, true));
-                }
+            foreach (string destinationFile in
+                item.Destinations.Select(
+                    destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
+            {
+                string fileToCopy = destinationFile;
+
+                await Task.Run(() => File.Copy(item.SourceFile, fileToCopy, true));
             }
         }
 
         /// <summary>
         /// Deletes a file in all given destinations
         /// </summary>
-        /// <param name="item">Item from the queue</param>
+        /// <param name="item">
+        /// Item from the queue
+        /// </param>
         private async void DeleteFile(SyncItem item)
         {
             foreach (string destination in item.Destinations)
             {
                 string fileDestination = destination;
 
-                await Task.Run(() => File.Delete(fileDestination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)));
+                await
+                    Task.Run(
+                        () =>
+                        File.Delete(fileDestination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)));
             }
         }
 
         /// <summary>
         /// Compare files from a destination with files in all given destinations
         /// </summary>
-        /// <param name="item">Item from the queue</param>
+        /// <param name="item">
+        /// Item from the queue
+        /// </param>
         private void DiffFile(SyncItem item)
         {
-            foreach (string destinationFile in item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
+            foreach (string destinationFile in
+                item.Destinations.Select(
+                    destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
             {
-
             }
         }
 

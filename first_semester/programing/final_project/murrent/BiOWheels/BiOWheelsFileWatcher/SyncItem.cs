@@ -45,11 +45,6 @@ namespace BiOWheelsFileWatcher
         public FileAction FileAction { get; set; }
 
         /// <summary>
-        /// Gets or sets a value whether parallel copying of files is allowed or not
-        /// </summary>
-        public bool IsParallelSyncAllowed { get; set; }
-
-        /// <summary>
         /// Gets or sets the destination directories for parallel copying
         /// </summary>
         public IEnumerable<string> Destinations { get; set; }
