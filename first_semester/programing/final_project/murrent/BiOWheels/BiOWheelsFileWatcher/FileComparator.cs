@@ -35,6 +35,7 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
+        ///  Initializes a new instance of the <see cref="FileComparator"/> class
         /// </summary>
         public FileComparator()
         {
@@ -80,13 +81,14 @@ namespace BiOWheelsFileWatcher
         #region Methods
 
         /// <summary>
+        /// Compares to files in blocks
         /// </summary>
         /// <param name="sourceFile">
+        /// Destination file
         /// </param>
         /// <param name="destinationFile">
+        /// Source file
         /// </param>
-        /// <returns>
-        /// </returns>
         internal void Compare(string sourceFile, string destinationFile)
         {
             using (Stream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read),
@@ -100,20 +102,31 @@ namespace BiOWheelsFileWatcher
                     byte[] bufferSource = new byte[this.BlockSize];
                     byte[] bufferDestination = new byte[this.BlockSize];
 
-                    while ((sourceStream.Read(bufferSource, 0, bufferSource.Length) != 0))
+                    int iteration = 0;
+
+                    while (sourceStream.Read(bufferSource, 0, bufferSource.Length) != 0)
                     {
                         destinationStream.Read(bufferDestination, 0, bufferDestination.Length);
 
-                        if (!(this.md5Hasher.ComputeHash(bufferSource).Equals(this.md5Hasher.ComputeHash(bufferDestination))))
+                        if (!this.md5Hasher.ComputeHash(bufferSource).Equals(this.md5Hasher.ComputeHash(bufferDestination)))
                         {
                             int bufferLength = bufferSource.ToList().Count(p => p != 0);
 
-                            destinationStream.Position = sourceStream.Position - bufferLength;
+                            destinationStream.Position = iteration * this.BlockSize;
                             destinationStream.Write(bufferSource, 0, bufferLength);
-
 
                             // TODO: trigger event to log which block has been changed
                         }
+
+                        Array.Clear(bufferSource, 0, bufferSource.Length);
+                        Array.Clear(bufferDestination, 0, bufferDestination.Length);
+
+                        iteration++;
+                    }
+
+                    if (destinationStream.Length > sourceStream.Length)
+                    {
+                        destinationStream.SetLength(sourceStream.Length);
                     }
 
                     destinationStream.Flush();

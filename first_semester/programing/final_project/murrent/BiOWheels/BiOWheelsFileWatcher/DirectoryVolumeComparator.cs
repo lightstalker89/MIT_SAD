@@ -17,7 +17,6 @@ namespace BiOWheelsFileWatcher
 
     /// <summary>
     /// Class representing the comparator for directories
-    /// 
     /// Refer to: 
     /// http://pinvoke.net/default.aspx/kernel32.CreateFile
     /// http://pinvoke.net/default.aspx/kernel32.GetFileInformationByHandle
@@ -215,12 +214,16 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Compares two directories
         /// </summary>
         /// <param name="directory1">
+        /// First directory
         /// </param>
         /// <param name="directory2">
+        /// Second directory
         /// </param>
         /// <returns>
+        /// A value indicating whether the directories are on the same physical disc or not
         /// </returns>
         public bool CompareDirectories(string directory1, string directory2)
         {

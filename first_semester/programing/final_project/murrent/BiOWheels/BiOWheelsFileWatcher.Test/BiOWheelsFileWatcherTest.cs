@@ -26,19 +26,22 @@ namespace BiOWheelsFileWatcher.Test
     public class BiOWheelsFileWatcherTest
     {
         /// <summary>
+        /// Represents the <see cref="IQueueManager"/> instance
         /// </summary>
         private IQueueManager queueManager;
 
         /// <summary>
+        /// Represents the <see cref="FileWatcher"/> instance
         /// </summary>
         private FileWatcher fileWatcher;
 
         /// <summary>
+        /// Represents a list of <see cref="DirectoryMapping"/> objects
         /// </summary>
         private List<DirectoryMapping> mappings;
 
         /// <summary>
-        /// 
+        /// Represents the <see cref="FileComparator"/> instance
         /// </summary>
         private FileComparator fileComparator;
 

@@ -19,23 +19,24 @@ namespace BiOWheelsFileWatcher
     using BiOWheelsFileWatcher.CustomEventArgs;
 
     /// <summary>
+    /// Class representing the <see cref="QueueManager"/> and its interaction logic
     /// </summary>
     internal class QueueManager : IQueueManager
     {
         #region Private Fields
 
         /// <summary>
-        /// 
+        /// Represents an instance of the queue holding <see cref="SyncItem"/> objects
         /// </summary>
         private ConcurrentQueue<SyncItem> syncItemQueue;
 
         /// <summary>
-        /// 
+        /// A value indicating whether the worker is in progress or not
         /// </summary>
         private bool isWorkerInProgress;
 
         /// <summary>
-        /// 
+        /// Represents an instance of the <see cref="FileComparator"/> class
         /// </summary>
         private FileComparator fileComparator;
 
