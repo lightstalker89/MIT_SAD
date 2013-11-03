@@ -3,7 +3,7 @@
 // * Copyright (c) Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
-// *
+// * Using a framework like Spring.NET would be better to get rid of the unnecessary code in here ...
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
@@ -140,7 +140,7 @@ namespace BiOWheels
         /// </param>
         private static void WatcherCaughtException(object sender, CaughtExceptionEventArgs data)
         {
-            Log(data.ExceptionType + " occurred:" + data.ExceptionMessage, MessageType.ERROR);
+            Log(data.GetFormattedException(), MessageType.ERROR);
         }
 
         #endregion
@@ -218,7 +218,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -280,6 +280,7 @@ namespace BiOWheels
             IFileWatcher watcher = SimpleContainer.Instance.Resolve<IFileWatcher>();
             watcher.ProgressUpdate += WatcherProgressUpdate;
             watcher.CaughtException += WatcherCaughtException;
+            watcher.InitialScan();
         }
 
         /// <summary>
@@ -328,15 +329,15 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SorceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
+                            ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
             SimpleContainer.Instance.Resolve<IFileWatcher>().SetSourceDirectories(mappings);
             SimpleContainer.Instance.Resolve<IFileWatcher>().SetBlockSize(
                 configuration.BlockCompareOptions.BlockSizeInKB);
-            SimpleContainer.Instance.Resolve<IFileWatcher>().Init();
 
             Log("Configuration successfully loaded", MessageType.INFO);
         }

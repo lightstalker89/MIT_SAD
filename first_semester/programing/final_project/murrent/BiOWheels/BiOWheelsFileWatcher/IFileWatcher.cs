@@ -40,6 +40,11 @@ namespace BiOWheelsFileWatcher
         void Init();
 
         /// <summary>
+        /// Scan directories and add jobs to the queue when application starts
+        /// </summary>
+        void InitialScan();
+
+        /// <summary>
         /// Sets the  minimum size for comparing files in blocks
         /// </summary>
         /// <param name="blockCompareFileSizeInMB">

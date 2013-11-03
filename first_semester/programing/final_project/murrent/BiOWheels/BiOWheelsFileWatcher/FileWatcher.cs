@@ -8,6 +8,7 @@
 // * <author>Mario Murrent</author>
 // *******************************************************/
 
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
@@ -195,6 +196,19 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <inheritdoc/>
+        public void InitialScan()
+        {
+            // TODO: check directories and add them to the queue
+
+            foreach (DirectoryMapping mapping in this.Mappings)
+            {
+
+            }
+
+            this.Init();
+        }
+
+        /// <inheritdoc/>
         public void SetSourceDirectories(IEnumerable<DirectoryMapping> directoryMappings)
         {
             this.mappings = directoryMappings;
@@ -228,8 +242,8 @@ namespace BiOWheelsFileWatcher
             if (watcher != null)
             {
                 this.AddQueueItem(
-                    watcher.Destinations, 
-                    e.FullPath, 
+                    watcher.Destinations,
+                    e.FullPath,
                     this.MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
                 this.OnProgressUpdate(
@@ -294,7 +308,7 @@ namespace BiOWheelsFileWatcher
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
                 this.OnProgressUpdate(
-                    this, 
+                    this,
                     new UpdateProgressEventArgs(
                         "Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
             }
@@ -386,6 +400,28 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
+        /// Enumerate all files in the given directory including subdirectories
+        /// </summary>
+        /// <param name="directoryName">Directory name</param>
+        /// <returns>A list of all file names</returns>
+        internal IEnumerable<string> GetFilesForDirectory(string directoryName)
+        {
+            try
+            {
+                return Directory.GetFiles(directoryName, "*.*", SearchOption.AllDirectories).ToList();
+            }
+            catch (UnauthorizedAccessException unauthorizedAccessException)
+            {
+                this.CaughtException(this, new CaughtExceptionEventArgs(unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
+                                           {
+                                               CustomExceptionText = "Error while enumerating all files in the given directory"
+                                           });
+
+                return new List<string>();
+            }
+        }
+
+        /// <summary>
         /// Method for watching a specific directory - will be executed in a new thread
         /// </summary>
         /// <param name="mappingInfo">
@@ -400,9 +436,9 @@ namespace BiOWheelsFileWatcher
                     try
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
-                            new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SorceDirectory)
+                            new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SourceDirectory)
                                 {
-                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive, 
+                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
                                     Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories
                                 };
                         fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
@@ -417,7 +453,7 @@ namespace BiOWheelsFileWatcher
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this, 
+                            this,
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -429,7 +465,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this, 
+                        this,
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }

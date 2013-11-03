@@ -24,11 +24,16 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Gets or sets the source directory
         /// </summary>
-        public string SorceDirectory { get; set; }
+        public string SourceDirectory { get; set; }
 
         /// <summary>
         /// Gets or sets the destination directories
         /// </summary>
         public List<string> DestinationDirectories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the folders which should be excluded for the sync process
+        /// </summary>
+        public List<string> ExcludedDirectories { get; set; }
     }
 }

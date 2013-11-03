@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="BiOWheelsFileWatcherTest.cs" company="MDMCoWorks">
+// * <copyright file="FileWatcherTest.cs" company="MDMCoWorks">
 // * Copyright (c) Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -23,7 +23,7 @@ namespace BiOWheelsFileWatcher.Test
     /// Class representing the test for the <see cref="FileWatcher"/>
     /// </summary>
     [TestFixture]
-    public class BiOWheelsFileWatcherTest
+    public class FileWatcherTest
     {
         /// <summary>
         /// Represents the <see cref="IQueueManager"/> instance
@@ -46,6 +46,11 @@ namespace BiOWheelsFileWatcher.Test
         private FileComparator fileComparator;
 
         /// <summary>
+        /// Represents the test folder used for specific test methods
+        /// </summary>
+        private string testFolder;
+
+        /// <summary>
         /// Set up test environment
         /// </summary>
         [SetUp]
@@ -60,19 +65,21 @@ namespace BiOWheelsFileWatcher.Test
             this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
             this.fileWatcher.CaughtException += this.FileWatcherCaughtException;
 
+            this.testFolder = @"C:\Users\Mario Murrent\Pictures";
+
             this.CheckDirectories();
 
             this.mappings = new List<DirectoryMapping>
                 {
                     new DirectoryMapping
                         {
-                            SorceDirectory = "A", 
+                            SourceDirectory = "A", 
                             DestinationDirectories = new List<string> { "B", "C" }, 
                             Recursive = true
                         }, 
                     new DirectoryMapping
                         {
-                            SorceDirectory = "D", 
+                            SourceDirectory = "D", 
                             DestinationDirectories = new List<string> { "E", "F" }, 
                             Recursive = false
                         }
@@ -88,6 +95,15 @@ namespace BiOWheelsFileWatcher.Test
         {
             this.fileWatcher.Init();
             ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 60000, 1000);
+        }
+
+        [TestCase]
+        public void TestGetAllFiles()
+        {
+            IEnumerable<string> fileList = this.fileWatcher.GetFilesForDirectory(testFolder);
+
+            Assert.NotNull(fileList);
+            Assert.IsNotEmpty(fileList);
         }
 
         /// <summary>

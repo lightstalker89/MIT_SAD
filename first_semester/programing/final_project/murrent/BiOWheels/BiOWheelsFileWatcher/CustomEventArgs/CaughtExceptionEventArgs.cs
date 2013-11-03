@@ -37,5 +37,18 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         /// Gets or sets the message of the exception
         /// </summary>
         public string ExceptionMessage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the custom exception text
+        /// </summary>
+        public string CustomExceptionText { get; set; }
+
+        /// <summary>
+        /// Gets the formatted exception
+        /// </summary>
+        public string GetFormattedException()
+        {
+            return this.CustomExceptionText + " --" + "-- message: " + this.ExceptionMessage;
+        }
     }
 }

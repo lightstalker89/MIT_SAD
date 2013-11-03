@@ -9,7 +9,6 @@
 // *******************************************************/
 namespace BiOWheelsFileWatcher.Test
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -86,6 +85,15 @@ namespace BiOWheelsFileWatcher.Test
             this.fileComparator.Compare(FileNameSourceFileSame, FileNameDestinationFileSame);
 
             Assert.True(this.FileEquals(FileNameSourceFileSame, FileNameDestinationFileSame));
+        }
+
+        /// <summary>
+        /// Test the file compare method with one empty file
+        /// </summary>
+        [TestCase]
+        public void TestFileComparatorWithOnEmptyFile()
+        {
+            //TODO: Implement
         }
 
         /// <summary>
