@@ -13,7 +13,6 @@ namespace BiOWheelsFileWatcher
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
-    using System.Text;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FileComparator"/> class
@@ -91,7 +90,7 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal void Compare(string sourceFile, string destinationFile)
         {
-            using (Stream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read),
+            using (Stream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read, FileShare.Read),
              destinationStream = new FileStream(destinationFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             {
                 long fileLengthSource = sourceStream.Length;

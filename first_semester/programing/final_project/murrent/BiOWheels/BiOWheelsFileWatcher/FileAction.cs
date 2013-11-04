@@ -28,6 +28,10 @@ namespace BiOWheelsFileWatcher
 
         /// <summary>
         /// </summary>
-        DIFF
+        DIFF,
+
+        /// <summary>
+        /// </summary>
+        CREATE
     }
 }

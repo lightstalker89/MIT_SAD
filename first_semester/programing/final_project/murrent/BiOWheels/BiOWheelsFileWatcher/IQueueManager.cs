@@ -26,5 +26,10 @@ namespace BiOWheelsFileWatcher
         /// Item which will be added to the queue
         /// </param>
         void Enqueue(SyncItem item);
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an item can be added to the queue or not
+        /// </summary>
+        bool CanAddItemsToQueue  { get; set; }
     }
 }

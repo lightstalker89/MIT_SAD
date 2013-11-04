@@ -24,15 +24,24 @@ namespace BiOWheelsFileWatcher
         /// <param name="sourceFile">
         /// Source file
         /// </param>
+        /// <param name="fullQualifiedFileName">
+        /// The full qualified file name of the file
+        /// </param>
         /// <param name="fileAction">
         /// Action for the file
         /// </param>
-        public SyncItem(IEnumerable<string> destinationFolder, string sourceFile, FileAction fileAction)
+        public SyncItem(IEnumerable<string> destinationFolder, string sourceFile, string fullQualifiedFileName, FileAction fileAction)
         {
             this.Destinations = destinationFolder;
             this.SourceFile = sourceFile;
+            this.FullQualifiedSourceFileName = fullQualifiedFileName;
             this.FileAction = fileAction;
         }
+
+        /// <summary>
+        /// Gets or sets the full qualified name for the file
+        /// </summary>
+        public string FullQualifiedSourceFileName { get; set; }
 
         /// <summary>
         /// Gets or sets the source file

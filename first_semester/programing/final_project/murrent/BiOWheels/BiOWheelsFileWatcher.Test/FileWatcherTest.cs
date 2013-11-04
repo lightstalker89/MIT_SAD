@@ -7,6 +7,11 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Globalization;
+using System.Text;
+using System.Threading;
+
 namespace BiOWheelsFileWatcher.Test
 {
     using System;
@@ -28,7 +33,7 @@ namespace BiOWheelsFileWatcher.Test
         /// <summary>
         /// Represents the <see cref="IQueueManager"/> instance
         /// </summary>
-        private IQueueManager queueManager;
+        private QueueManager queueManager;
 
         /// <summary>
         /// Represents the <see cref="FileWatcher"/> instance
@@ -46,9 +51,9 @@ namespace BiOWheelsFileWatcher.Test
         private FileComparator fileComparator;
 
         /// <summary>
-        /// Represents the test folder used for specific test methods
+        /// List of notifications from the <see cref="FileWatcher"/>
         /// </summary>
-        private string testFolder;
+        private List<string> notifications;
 
         /// <summary>
         /// Set up test environment
@@ -64,8 +69,7 @@ namespace BiOWheelsFileWatcher.Test
             this.fileWatcher.SetBlockSize(4096);
             this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
             this.fileWatcher.CaughtException += this.FileWatcherCaughtException;
-
-            this.testFolder = @"C:\Users\Mario Murrent\Pictures";
+            this.notifications = new List<string>();
 
             this.CheckDirectories();
 
@@ -94,16 +98,60 @@ namespace BiOWheelsFileWatcher.Test
         public void TestFileWatcher()
         {
             this.fileWatcher.Init();
-            ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 60000, 1000);
+            ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 100000, 1000);
         }
 
+        /// <summary>
+        /// Test the <see cref="QueueManager"/>
+        /// </summary>
         [TestCase]
-        public void TestGetAllFiles()
+        public void TestQueueManager()
         {
-            IEnumerable<string> fileList = this.fileWatcher.GetFilesForDirectory(testFolder);
+            const int fileNumber = 50;
 
-            Assert.NotNull(fileList);
-            Assert.IsNotEmpty(fileList);
+            Random random = new Random();
+
+            this.CreateRandomFiles(fileNumber, "A", random.NextDouble().ToString(CultureInfo.CurrentCulture));
+
+            this.queueManager.DoWork();
+
+            string[] files = Directory.GetFiles("A");
+
+            foreach (string file in files)
+            {
+                SyncItem item = new SyncItem(new List<string> { "B", "C" }, file, "A" + Path.DirectorySeparatorChar + file, FileAction.COPY);
+
+                Thread.Sleep(random.Next(0, 1000));
+
+                this.queueManager.Enqueue(item);
+            }
+
+            ThreadTestHelper.WaitForCondition(() => this.queueManager.IsWorkerInProgress == false, 100000, 1000);
+
+            string[] syncedFiles = Directory.GetFiles("A");
+
+            Assert.NotNull(syncedFiles);
+            Assert.True(syncedFiles.Length.Equals(fileNumber));
+        }
+
+        /// <summary>
+        /// Create random files with content
+        /// </summary>
+        /// <param name="count">Indicates how many files should be created</param>
+        /// <param name="directory">Specifies the directory where the files should be saved</param>
+        /// <param name="text">Text which is placed inside the file</param>
+        private void CreateRandomFiles(int count, string directory, string text)
+        {
+            ASCIIEncoding enc = new ASCIIEncoding();
+            byte[] content = enc.GetBytes(text);
+
+            for (int i = 0; i < count; i++)
+            {
+                using (FileStream fs = File.Create(directory + Path.DirectorySeparatorChar + i + ".txt"))
+                {
+                    fs.Write(content, 0, content.Length);
+                }
+            }
         }
 
         /// <summary>
@@ -114,10 +162,20 @@ namespace BiOWheelsFileWatcher.Test
         /// </param>
         private void FileWatcherProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
-            using (StreamWriter streamWriter = new StreamWriter("output.txt", true))
+            string message = "--" + DateTime.Now.ToShortTimeString() + "-- " + data.Message;
+            try
             {
-                streamWriter.WriteLine("--" + DateTime.Now.ToShortTimeString() + "-- " + data.Message);
+                using (StreamWriter streamWriter = new StreamWriter("output.txt", true))
+                {
+                    streamWriter.WriteLine(message);
+                }
             }
+            catch (IOException)
+            {
+                this.notifications.Add(message);
+            }
+
+            this.notifications.Add(message);
         }
 
         /// <summary>

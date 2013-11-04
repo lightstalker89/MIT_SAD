@@ -7,6 +7,10 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 namespace BiOWheelsFileWatcher
 {
     using System;
@@ -14,7 +18,6 @@ namespace BiOWheelsFileWatcher
     using System.IO;
     using System.Linq;
     using System.Threading;
-    using System.Threading.Tasks;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
 
@@ -40,6 +43,11 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         private FileComparator fileComparator;
 
+        /// <summary>
+        /// A value indicating if an item can be added to the queue or not
+        /// </summary>
+        private bool canAddItemsToQueue;
+
         #endregion
 
         /// <summary>
@@ -49,7 +57,7 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal QueueManager(FileComparator fileComparator)
         {
-            this.syncItemQueue = new ConcurrentQueue<SyncItem>();
+            this.SyncItemQueue = new ConcurrentQueue<SyncItem>();
             this.FileComparator = fileComparator;
         }
 
@@ -87,10 +95,24 @@ namespace BiOWheelsFileWatcher
 
         #region Properties
 
+        /// <inheritdoc/>
+        public bool CanAddItemsToQueue
+        {
+            get
+            {
+                return this.canAddItemsToQueue;
+            }
+
+            set
+            {
+                this.canAddItemsToQueue = value;
+            }
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether the worker is in progress or not
         /// </summary>
-        public bool IsWorkerInProgress
+        internal bool IsWorkerInProgress
         {
             get
             {
@@ -142,6 +164,8 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void DoWork()
         {
+            this.IsWorkerInProgress = true;
+
             Thread workerThread = new Thread(this.FinalizeQueue) { IsBackground = true };
             workerThread.Start();
         }
@@ -190,17 +214,21 @@ namespace BiOWheelsFileWatcher
         /// <param name="item">
         /// Item from the queue
         /// </param>
-        private async void CopyFile(SyncItem item)
+        private void CopyFile(SyncItem item)
         {
             // TODO: Parallel Sync implement
 
-            foreach (string destinationFile in
-                item.Destinations.Select(
-                    destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
+            foreach (string destination in item.Destinations)
             {
-                string fileToCopy = destinationFile;
+                this.CreateDirectoryIfNotExists(destination);
 
-                await Task.Run(() => File.Copy(item.SourceFile, fileToCopy, true));
+                string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+
+                this.CreateDirectoryIfNotExists(pathToCopy);
+
+                string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+
+                File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
             }
         }
 
@@ -210,16 +238,17 @@ namespace BiOWheelsFileWatcher
         /// <param name="item">
         /// Item from the queue
         /// </param>
-        private async void DeleteFile(SyncItem item)
+        private void DeleteFile(SyncItem item)
         {
             foreach (string destination in item.Destinations)
             {
-                string fileDestination = destination;
+                string pathToDelete = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
-                await
-                    Task.Run(
-                        () =>
-                        File.Delete(fileDestination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)));
+                if (pathToDelete != null && Directory.Exists(pathToDelete))
+                {
+                    File.Delete(pathToDelete + Path.DirectorySeparatorChar +
+                                            Path.GetFileName(item.SourceFile));
+                }
             }
         }
 
@@ -241,7 +270,7 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Finalize Queue
         /// </summary>
-        private async void FinalizeQueue()
+        private void FinalizeQueue()
         {
             while (this.IsWorkerInProgress)
             {
@@ -255,11 +284,11 @@ namespace BiOWheelsFileWatcher
                         {
                             if (item.FileAction == FileAction.DELETE)
                             {
-                                await Task.Run(() => this.DeleteFile(item));
+                                this.DeleteFile(item);
                             }
                             else
                             {
-                                await Task.Run(() => this.CopyFile(item));
+                                this.CopyFile(item);
                             }
                         }
                         catch (UnauthorizedAccessException unauthorizedAccessException)
@@ -309,17 +338,26 @@ namespace BiOWheelsFileWatcher
                                 new CaughtExceptionEventArgs(
                                     notSupportedException.GetType(), notSupportedException.Message));
                         }
-
-                        break;
                     }
                     else if (item.FileAction == FileAction.DIFF)
                     {
-                        await Task.Run(() => this.DiffFile(item));
+                        this.DiffFile(item);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Creates a directory if it does not exist
+        /// </summary>
+        /// <param name="directory"></param>
+        private void CreateDirectoryIfNotExists(string directory)
+        {
+            if (directory != null && !Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+        }
         #endregion
     }
 }

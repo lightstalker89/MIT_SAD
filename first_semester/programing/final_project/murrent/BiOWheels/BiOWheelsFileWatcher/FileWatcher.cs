@@ -228,91 +228,91 @@ namespace BiOWheelsFileWatcher
 
         #region Event Methods
 
-        /// <summary>
-        /// Occurs when a file or directory in the specified Path is changed.
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        protected void FileSystemWatcherChanged(object sender, FileSystemEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+        ///// <summary>
+        ///// Occurs when a file or directory in the specified Path is changed.
+        ///// </summary>
+        ///// <param name="sender">
+        ///// </param>
+        ///// <param name="e">
+        ///// </param>
+        //protected void FileSystemWatcherChanged(object sender, FileSystemEventArgs e)
+        //{
+        //    BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
-            if (watcher != null)
-            {
-                this.AddQueueItem(
-                    watcher.Destinations,
-                    e.FullPath,
-                    this.MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
-                this.OnProgressUpdate(
-                    this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.Name + "--"));
-            }
-        }
+        //    if (watcher != null)
+        //    {
+        //        this.AddQueueItem(
+        //            watcher.Destinations,
+        //            e.FullPath,
+        //            this.MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
+        //        this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
+        //        this.OnProgressUpdate(
+        //            this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.Name + "--"));
+        //    }
+        //}
 
-        /// <summary>
-        /// Occurs when a file or directory in the specified Path is deleted.
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        protected void FileSystemWatcherDeleted(object sender, FileSystemEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+        ///// <summary>
+        ///// Occurs when a file or directory in the specified Path is deleted.
+        ///// </summary>
+        ///// <param name="sender">
+        ///// </param>
+        ///// <param name="e">
+        ///// </param>
+        //protected void FileSystemWatcherDeleted(object sender, FileSystemEventArgs e)
+        //{
+        //    BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
-            if (watcher != null)
-            {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DELETE);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been deleted."));
-                this.OnProgressUpdate(
-                    this, new UpdateProgressEventArgs("Added job to queue for deleting --" + e.Name + "--"));
-            }
-        }
+        //    if (watcher != null)
+        //    {
+        //        this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DELETE);
+        //        this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been deleted."));
+        //        this.OnProgressUpdate(
+        //            this, new UpdateProgressEventArgs("Added job to queue for deleting --" + e.Name + "--"));
+        //    }
+        //}
 
-        /// <summary>
-        /// Occurs when a file or directory in the specified Path is created.
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        protected void FileSystemWatcherCreated(object sender, FileSystemEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+        ///// <summary>
+        ///// Occurs when a file or directory in the specified Path is created.
+        ///// </summary>
+        ///// <param name="sender">
+        ///// </param>
+        ///// <param name="e">
+        ///// </param>
+        //protected void FileSystemWatcherCreated(object sender, FileSystemEventArgs e)
+        //{
+        //    BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
-            if (watcher != null)
-            {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.COPY);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
-                this.OnProgressUpdate(
-                    this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.Name + "--"));
-            }
-        }
+        //    if (watcher != null)
+        //    {
+        //        this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.COPY);
+        //        this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
+        //        this.OnProgressUpdate(
+        //            this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.Name + "--"));
+        //    }
+        //}
 
-        /// <summary>
-        /// Occurs when a file or directory in the specified Path is renamed.
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        protected void FileSystemWatcherRenamed(object sender, RenamedEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+        ///// <summary>
+        ///// Occurs when a file or directory in the specified Path is renamed.
+        ///// </summary>
+        ///// <param name="sender">
+        ///// </param>
+        ///// <param name="e">
+        ///// </param>
+        //protected void FileSystemWatcherRenamed(object sender, RenamedEventArgs e)
+        //{
+        //    BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
-            if (watcher != null)
-            {
-                this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.COPY);
-                this.OnProgressUpdate(
-                    this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
-                this.OnProgressUpdate(
-                    this,
-                    new UpdateProgressEventArgs(
-                        "Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
-            }
-        }
+        //    if (watcher != null)
+        //    {
+        //        this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.COPY);
+        //        this.OnProgressUpdate(
+        //            this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
+        //        this.OnProgressUpdate(
+        //            this,
+        //            new UpdateProgressEventArgs(
+        //                "Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
+        //    }
+        //}
 
         /// <summary>
         /// Occurs when the instance of FileSystemWatcher is unable to continue monitoring changes or when the internal buffer overflows.
@@ -351,6 +351,7 @@ namespace BiOWheelsFileWatcher
         /// Occurs when the component is disposed by a call to the Dispose method. (Inherited from Component.)
         /// </summary>
         /// <param name="sender">
+        /// Sender of the event
         /// </param>
         /// <param name="data">
         /// </param>
@@ -363,8 +364,10 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Occurs when an exception is caught
         /// </summary>
         /// <param name="sender">
+        /// Sender of the event
         /// </param>
         /// <param name="data">
         /// </param>
@@ -395,6 +398,84 @@ namespace BiOWheelsFileWatcher
         /// </param>
         protected void QueueManagerItemFinalized(object sender, ItemFinalizedEventArgs data)
         {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void FileSystemWatcherObjectChanged(object sender, CustomFileSystemEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(
+                    watcher.Destinations,
+                    e.FileName, e.FullQualifiedFileName,
+                    e.CompareInBlocks ? FileAction.DIFF : FileAction.COPY);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has changed."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.FileName + "--"));
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void FileSystemWatcherObjectRenamed(object sender, CustomRenamedEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
+                this.OnProgressUpdate(
+                    this,
+                    new UpdateProgressEventArgs(
+                        "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void FileSystemWatcherObjectDeleted(object sender, CustomFileSystemEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.DELETE);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has been deleted."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("Added job to queue for deleting --" + e.FileName + "--"));
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void FileSystemWatcherObjectCreated(object sender, CustomFileSystemEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has been created."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.FileName + "--"));
+            }
         }
 
         #endregion
@@ -439,14 +520,19 @@ namespace BiOWheelsFileWatcher
                             new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SourceDirectory)
                                 {
                                     IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
-                                    Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories
+                                    Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories,
+                                    BlockCompareFileSizeInMB = this.blockCompareFileSizeInMB
                                 };
-                        fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
-                        fileSystemWatcher.Created += this.FileSystemWatcherCreated;
-                        fileSystemWatcher.Deleted += this.FileSystemWatcherDeleted;
+                        //fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
+                        //fileSystemWatcher.Created += this.FileSystemWatcherCreated;
+                        //fileSystemWatcher.Deleted += this.FileSystemWatcherDeleted;
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
-                        fileSystemWatcher.Renamed += this.FileSystemWatcherRenamed;
+                        //fileSystemWatcher.Renamed += this.FileSystemWatcherRenamed;
                         fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
+                        fileSystemWatcher.ObjectChanged += FileSystemWatcherObjectChanged;
+                        fileSystemWatcher.ObjectCreated += FileSystemWatcherObjectCreated;
+                        fileSystemWatcher.ObjectDeleted += FileSystemWatcherObjectDeleted;
+                        fileSystemWatcher.ObjectRenamed += FileSystemWatcherObjectRenamed;
                         fileSystemWatcher.Filter = string.Empty;
                         fileSystemWatcher.EnableRaisingEvents = true;
                     }
@@ -503,11 +589,12 @@ namespace BiOWheelsFileWatcher
         /// </param>
         /// <param name="filename">
         /// </param>
+        /// <param name="fullQualifiedFileName"></param>
         /// <param name="fileAction">
         /// </param>
-        private void AddQueueItem(IEnumerable<string> destinations, string filename, FileAction fileAction)
+        private void AddQueueItem(IEnumerable<string> destinations, string filename, string fullQualifiedFileName, FileAction fileAction)
         {
-            SyncItem item = new SyncItem(destinations, filename, fileAction);
+            SyncItem item = new SyncItem(destinations, filename, fullQualifiedFileName, fileAction);
 
             this.QueueManager.Enqueue(item);
         }
@@ -525,7 +612,7 @@ namespace BiOWheelsFileWatcher
         {
             double length;
 
-            using (Stream actualFileStream = new FileStream(file, FileMode.Open))
+            using (Stream actualFileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
                 length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
             }
