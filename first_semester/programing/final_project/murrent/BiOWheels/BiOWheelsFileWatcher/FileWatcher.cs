@@ -228,92 +228,6 @@ namespace BiOWheelsFileWatcher
 
         #region Event Methods
 
-        ///// <summary>
-        ///// Occurs when a file or directory in the specified Path is changed.
-        ///// </summary>
-        ///// <param name="sender">
-        ///// </param>
-        ///// <param name="e">
-        ///// </param>
-        //protected void FileSystemWatcherChanged(object sender, FileSystemEventArgs e)
-        //{
-        //    BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-        //    if (watcher != null)
-        //    {
-        //        this.AddQueueItem(
-        //            watcher.Destinations,
-        //            e.FullPath,
-        //            this.MustCompareFileInBlocks(e.FullPath) ? FileAction.DIFF : FileAction.COPY);
-        //        this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has changed."));
-        //        this.OnProgressUpdate(
-        //            this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.Name + "--"));
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Occurs when a file or directory in the specified Path is deleted.
-        ///// </summary>
-        ///// <param name="sender">
-        ///// </param>
-        ///// <param name="e">
-        ///// </param>
-        //protected void FileSystemWatcherDeleted(object sender, FileSystemEventArgs e)
-        //{
-        //    BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-        //    if (watcher != null)
-        //    {
-        //        this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.DELETE);
-        //        this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been deleted."));
-        //        this.OnProgressUpdate(
-        //            this, new UpdateProgressEventArgs("Added job to queue for deleting --" + e.Name + "--"));
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Occurs when a file or directory in the specified Path is created.
-        ///// </summary>
-        ///// <param name="sender">
-        ///// </param>
-        ///// <param name="e">
-        ///// </param>
-        //protected void FileSystemWatcherCreated(object sender, FileSystemEventArgs e)
-        //{
-        //    BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-        //    if (watcher != null)
-        //    {
-        //        this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.COPY);
-        //        this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.Name + "-- has been created."));
-        //        this.OnProgressUpdate(
-        //            this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.Name + "--"));
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Occurs when a file or directory in the specified Path is renamed.
-        ///// </summary>
-        ///// <param name="sender">
-        ///// </param>
-        ///// <param name="e">
-        ///// </param>
-        //protected void FileSystemWatcherRenamed(object sender, RenamedEventArgs e)
-        //{
-        //    BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-        //    if (watcher != null)
-        //    {
-        //        this.AddQueueItem(watcher.Destinations, e.FullPath, FileAction.COPY);
-        //        this.OnProgressUpdate(
-        //            this, new UpdateProgressEventArgs("File --" + e.OldName + " has been renamed to --" + e.Name));
-        //        this.OnProgressUpdate(
-        //            this,
-        //            new UpdateProgressEventArgs(
-        //                "Added job to queue for renaming --" + e.OldName + "-- to --" + e.Name + "--"));
-        //    }
-        //}
-
         /// <summary>
         /// Occurs when the instance of FileSystemWatcher is unable to continue monitoring changes or when the internal buffer overflows.
         /// </summary>
@@ -521,13 +435,11 @@ namespace BiOWheelsFileWatcher
                                 {
                                     IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
                                     Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories,
-                                    BlockCompareFileSizeInMB = this.blockCompareFileSizeInMB
+                                    BlockCompareFileSizeInMB = this.blockCompareFileSizeInMB,
+                                    ExcludedDirectories = ((DirectoryMapping)mappingInfo).ExcludedDirectories
                                 };
-                        //fileSystemWatcher.Changed += this.FileSystemWatcherChanged;
-                        //fileSystemWatcher.Created += this.FileSystemWatcherCreated;
-                        //fileSystemWatcher.Deleted += this.FileSystemWatcherDeleted;
+
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
-                        //fileSystemWatcher.Renamed += this.FileSystemWatcherRenamed;
                         fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
                         fileSystemWatcher.ObjectChanged += FileSystemWatcherObjectChanged;
                         fileSystemWatcher.ObjectCreated += FileSystemWatcherObjectCreated;
@@ -597,32 +509,6 @@ namespace BiOWheelsFileWatcher
             SyncItem item = new SyncItem(destinations, filename, fullQualifiedFileName, fileAction);
 
             this.QueueManager.Enqueue(item);
-        }
-
-        /// <summary>
-        /// Checks if the file must be compared in blocks
-        /// </summary>
-        /// <param name="file">
-        /// Full qualified file name
-        /// </param>
-        /// <returns>
-        /// A value whether the file must be compared in blocks or not
-        /// </returns>
-        private bool MustCompareFileInBlocks(string file)
-        {
-            double length;
-
-            using (Stream actualFileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
-            {
-                length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
-            }
-
-            if (length > this.BlockCompareSizeInMB)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         #endregion
