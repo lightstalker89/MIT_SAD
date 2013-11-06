@@ -1,22 +1,20 @@
 ﻿// *******************************************************
 // * <copyright file="FileWatcherTest.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Globalization;
-using System.Text;
-using System.Threading;
-
 namespace BiOWheelsFileWatcher.Test
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
+    using System.Text;
+    using System.Threading;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
 
@@ -107,11 +105,11 @@ namespace BiOWheelsFileWatcher.Test
         [TestCase]
         public void TestQueueManager()
         {
-            const int fileNumber = 50;
+            const int FileNumber = 50;
 
             Random random = new Random();
 
-            this.CreateRandomFiles(fileNumber, "A", random.NextDouble().ToString(CultureInfo.CurrentCulture));
+            this.CreateRandomFiles(FileNumber, "A", random.NextDouble().ToString(CultureInfo.CurrentCulture));
 
             this.queueManager.DoWork();
 
@@ -119,7 +117,8 @@ namespace BiOWheelsFileWatcher.Test
 
             foreach (string file in files)
             {
-                SyncItem item = new SyncItem(new List<string> { "B", "C" }, file, "A" + Path.DirectorySeparatorChar + file, FileAction.COPY);
+                SyncItem item = new SyncItem(
+                    new List<string> { "B", "C" }, file, "A" + Path.DirectorySeparatorChar + file, FileAction.COPY);
 
                 Thread.Sleep(random.Next(0, 1000));
 
@@ -131,15 +130,21 @@ namespace BiOWheelsFileWatcher.Test
             string[] syncedFiles = Directory.GetFiles("A");
 
             Assert.NotNull(syncedFiles);
-            Assert.True(syncedFiles.Length.Equals(fileNumber));
+            Assert.True(syncedFiles.Length.Equals(FileNumber));
         }
 
         /// <summary>
         /// Create random files with content
         /// </summary>
-        /// <param name="count">Indicates how many files should be created</param>
-        /// <param name="directory">Specifies the directory where the files should be saved</param>
-        /// <param name="text">Text which is placed inside the file</param>
+        /// <param name="count">
+        /// Indicates how many files should be created
+        /// </param>
+        /// <param name="directory">
+        /// Specifies the directory where the files should be saved
+        /// </param>
+        /// <param name="text">
+        /// Text which is placed inside the file
+        /// </param>
         private void CreateRandomFiles(int count, string directory, string text)
         {
             ASCIIEncoding enc = new ASCIIEncoding();
@@ -157,8 +162,10 @@ namespace BiOWheelsFileWatcher.Test
         /// <summary>
         /// </summary>
         /// <param name="sender">
+        /// The sender.
         /// </param>
         /// <param name="data">
+        /// The <see cref="UpdateProgressEventArgs"/> instance containing the event data.
         /// </param>
         private void FileWatcherProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
@@ -181,8 +188,10 @@ namespace BiOWheelsFileWatcher.Test
         /// <summary>
         /// </summary>
         /// <param name="sender">
+        /// The sender.
         /// </param>
         /// <param name="data">
+        /// The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.
         /// </param>
         private void FileWatcherCaughtException(object sender, CaughtExceptionEventArgs data)
         {

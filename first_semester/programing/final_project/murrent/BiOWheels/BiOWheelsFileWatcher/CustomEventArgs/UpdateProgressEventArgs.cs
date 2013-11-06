@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="UpdateProgressEventArgs.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -20,6 +20,7 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         /// Initializes a new instance of the <see cref="UpdateProgressEventArgs"/> class
         /// </summary>
         /// <param name="message">
+        /// The message.
         /// </param>
         public UpdateProgressEventArgs(string message)
         {

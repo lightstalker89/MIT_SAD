@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="SyncItem.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -12,6 +12,7 @@ namespace BiOWheelsFileWatcher
     using System.Collections.Generic;
 
     /// <summary>
+    /// Class representing a <see cref="SyncItem"/> and its interaction logic
     /// </summary>
     internal class SyncItem
     {
@@ -30,7 +31,11 @@ namespace BiOWheelsFileWatcher
         /// <param name="fileAction">
         /// Action for the file
         /// </param>
-        public SyncItem(IEnumerable<string> destinationFolder, string sourceFile, string fullQualifiedFileName, FileAction fileAction)
+        public SyncItem(
+            IEnumerable<string> destinationFolder, 
+            string sourceFile, 
+            string fullQualifiedFileName, 
+            FileAction fileAction)
         {
             this.Destinations = destinationFolder;
             this.SourceFile = sourceFile;

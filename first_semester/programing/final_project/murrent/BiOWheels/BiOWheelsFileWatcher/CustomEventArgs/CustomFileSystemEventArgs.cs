@@ -1,14 +1,27 @@
-﻿using System.IO;
-
+﻿// *******************************************************
+// * <copyright file="CustomFileSystemEventArgs.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace BiOWheelsFileWatcher.CustomEventArgs
 {
+    /// <summary>
+    /// </summary>
     public class CustomFileSystemEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomFileSystemEventArgs"/> class
         /// </summary>
-        /// <param name="fullQualifiedFileName"></param>
-        /// <param name="fileName"></param>
+        /// <param name="fullQualifiedFileName">
+        /// Full name of the qualified file.
+        /// </param>
+        /// <param name="fileName">
+        /// Name of the file.
+        /// </param>
         public CustomFileSystemEventArgs(string fullQualifiedFileName, string fileName)
         {
             this.FullQualifiedFileName = fullQualifiedFileName;
@@ -28,7 +41,7 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         public string FileName { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indication whether the file must be compared in blocks or not
+        /// Gets or sets a value indicating whether the file must be compared in blocks or not
         /// </summary>
         public bool CompareInBlocks { get; set; }
 

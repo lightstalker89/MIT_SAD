@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="SimpleContainer.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -20,14 +20,17 @@ namespace BiOWheels
     public class SimpleContainer : IContainer
     {
         /// <summary>
+        /// The instance of <see cref="IContainer"/>
         /// </summary>
         public static readonly IContainer Instance = new SimpleContainer();
 
         /// <summary>
+        /// Dictionary containing <see cref="Type"/> mappings
         /// </summary>
         private static readonly IDictionary<Type, Type> Types = new Dictionary<Type, Type>();
 
         /// <summary>
+        /// Dictionary containing <see cref="Type"/> instances
         /// </summary>
         private static readonly IDictionary<Type, object> TypeInstances = new Dictionary<Type, object>();
 

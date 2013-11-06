@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="CaughtExceptionEventArgs.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -46,6 +46,7 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         /// <summary>
         /// Gets the formatted exception
         /// </summary>
+        /// <returns>The formatted exception</returns>
         public string GetFormattedException()
         {
             return this.CustomExceptionText + " --" + "-- message: " + this.ExceptionMessage;

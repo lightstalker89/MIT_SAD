@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="FileComparatorTest.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -20,18 +20,22 @@ namespace BiOWheelsFileWatcher.Test
     public class FileComparatorTest
     {
         /// <summary>
+        /// The file name source file
         /// </summary>
         private const string FileNameSourceFile = "A.txt";
 
         /// <summary>
+        /// The file name destination file
         /// </summary>
         private const string FileNameDestinationFile = "B.txt";
 
         /// <summary>
+        /// The file name source file same
         /// </summary>
         private const string FileNameSourceFileSame = "AI.txt";
 
         /// <summary>
+        /// The file name destination file same
         /// </summary>
         private const string FileNameDestinationFileSame = "BII.txt";
 
@@ -93,7 +97,7 @@ namespace BiOWheelsFileWatcher.Test
         [TestCase]
         public void TestFileComparatorWithOnEmptyFile()
         {
-            //TODO: Implement
+            // TODO: Implement
         }
 
         /// <summary>
@@ -131,9 +135,15 @@ namespace BiOWheelsFileWatcher.Test
         /// <summary>
         /// Checks if files are equal
         /// </summary>
-        /// <param name="path1">First file</param>
-        /// <param name="path2">Second file</param>
-        /// <returns>A boolean value indicating whether the files are equal or not</returns>
+        /// <param name="path1">
+        /// First file
+        /// </param>
+        /// <param name="path2">
+        /// Second file
+        /// </param>
+        /// <returns>
+        /// A boolean value indicating whether the files are equal or not
+        /// </returns>
         private bool FileEquals(string path1, string path2)
         {
             byte[] file1 = File.ReadAllBytes(path1);

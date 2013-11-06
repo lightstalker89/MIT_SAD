@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="QueueManager.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -11,6 +11,7 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
+
 namespace BiOWheelsFileWatcher
 {
     using System;
@@ -54,6 +55,7 @@ namespace BiOWheelsFileWatcher
         /// Initializes a new instance of the <see cref="QueueManager"/> class
         /// </summary>
         /// <param name="fileComparator">
+        /// The file comparator.
         /// </param>
         internal QueueManager(FileComparator fileComparator)
         {
@@ -110,22 +112,6 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the worker is in progress or not
-        /// </summary>
-        internal bool IsWorkerInProgress
-        {
-            get
-            {
-                return this.isWorkerInProgress;
-            }
-
-            set
-            {
-                this.isWorkerInProgress = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the queue
         /// </summary>
         public ConcurrentQueue<SyncItem> SyncItemQueue
@@ -138,6 +124,22 @@ namespace BiOWheelsFileWatcher
             set
             {
                 this.syncItemQueue = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the worker is in progress or not
+        /// </summary>
+        internal bool IsWorkerInProgress
+        {
+            get
+            {
+                return this.isWorkerInProgress;
+            }
+
+            set
+            {
+                this.isWorkerInProgress = value;
             }
         }
 
@@ -179,11 +181,10 @@ namespace BiOWheelsFileWatcher
         #region Event Methods
 
         /// <summary>
+        /// Called when an exception is caught.
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="data">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="data">The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.</param>
         protected void OnCaughtException(object sender, CaughtExceptionEventArgs data)
         {
             if (this.CaughtException != null)
@@ -193,11 +194,10 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Called when an item is finalized.
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="data">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="data">The <see cref="ItemFinalizedEventArgs"/> instance containing the event data.</param>
         protected void OnItemFinalized(object sender, ItemFinalizedEventArgs data)
         {
             if (this.ItemFinalized != null)
@@ -217,7 +217,6 @@ namespace BiOWheelsFileWatcher
         private void CopyFile(SyncItem item)
         {
             // TODO: Parallel Sync implement
-
             foreach (string destination in item.Destinations)
             {
                 this.CreateDirectoryIfNotExists(destination);
@@ -246,8 +245,7 @@ namespace BiOWheelsFileWatcher
 
                 if (pathToDelete != null && Directory.Exists(pathToDelete))
                 {
-                    File.Delete(pathToDelete + Path.DirectorySeparatorChar +
-                                            Path.GetFileName(item.SourceFile));
+                    File.Delete(pathToDelete + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile));
                 }
             }
         }
@@ -294,47 +292,47 @@ namespace BiOWheelsFileWatcher
                         catch (UnauthorizedAccessException unauthorizedAccessException)
                         {
                             this.OnCaughtException(
-                                this,
+                                this, 
                                 new CaughtExceptionEventArgs(
                                     unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
                         }
                         catch (ArgumentException argumentException)
                         {
                             this.OnCaughtException(
-                                this,
+                                this, 
                                 new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
                         }
                         catch (PathTooLongException pathTooLongException)
                         {
                             this.OnCaughtException(
-                                this,
+                                this, 
                                 new CaughtExceptionEventArgs(
                                     pathTooLongException.GetType(), pathTooLongException.Message));
                         }
                         catch (DirectoryNotFoundException directoryNotFoundException)
                         {
                             this.OnCaughtException(
-                                this,
+                                this, 
                                 new CaughtExceptionEventArgs(
                                     directoryNotFoundException.GetType(), directoryNotFoundException.Message));
                         }
                         catch (FileNotFoundException fileNotFoundException)
                         {
                             this.OnCaughtException(
-                                this,
+                                this, 
                                 new CaughtExceptionEventArgs(
                                     fileNotFoundException.GetType(), fileNotFoundException.Message));
                         }
                         catch (IOException systemIOException)
                         {
                             this.OnCaughtException(
-                                this,
+                                this, 
                                 new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
                         }
                         catch (NotSupportedException notSupportedException)
                         {
                             this.OnCaughtException(
-                                this,
+                                this, 
                                 new CaughtExceptionEventArgs(
                                     notSupportedException.GetType(), notSupportedException.Message));
                         }
@@ -350,7 +348,8 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Creates a directory if it does not exist
         /// </summary>
-        /// <param name="directory"></param>
+        /// <param name="directory">
+        /// </param>
         private void CreateDirectoryIfNotExists(string directory)
         {
             if (directory != null && !Directory.Exists(directory))
@@ -358,6 +357,7 @@ namespace BiOWheelsFileWatcher
                 Directory.CreateDirectory(directory);
             }
         }
+
         #endregion
     }
 }

@@ -1,9 +1,9 @@
 ﻿// *******************************************************
 // * <copyright file="BiOWheelsProgram.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
-// * Using a framework like Spring.NET would be better to get rid of the unnecessary code in here ...
+// *
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
@@ -218,7 +218,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -329,9 +329,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 

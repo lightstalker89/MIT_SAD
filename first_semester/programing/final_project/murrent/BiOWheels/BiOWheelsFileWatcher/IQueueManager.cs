@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="IQueueManager.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -15,6 +15,11 @@ namespace BiOWheelsFileWatcher
     internal interface IQueueManager
     {
         /// <summary>
+        /// Gets or sets a value indicating whether an item can be added to the queue or not
+        /// </summary>
+        bool CanAddItemsToQueue { get; set; }
+
+        /// <summary>
         /// Start the <see cref="QueueManager"/>
         /// </summary>
         void DoWork();
@@ -26,10 +31,5 @@ namespace BiOWheelsFileWatcher
         /// Item which will be added to the queue
         /// </param>
         void Enqueue(SyncItem item);
-
-        /// <summary>
-        /// Gets or sets a value indicating whether an item can be added to the queue or not
-        /// </summary>
-        bool CanAddItemsToQueue  { get; set; }
     }
 }

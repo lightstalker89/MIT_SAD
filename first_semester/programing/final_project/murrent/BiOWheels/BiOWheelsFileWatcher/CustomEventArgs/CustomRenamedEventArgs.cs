@@ -1,14 +1,35 @@
-﻿namespace BiOWheelsFileWatcher.CustomEventArgs
+﻿// *******************************************************
+// * <copyright file="CustomRenamedEventArgs.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
+namespace BiOWheelsFileWatcher.CustomEventArgs
 {
+    /// <summary>
+    /// </summary>
     public class CustomRenamedEventArgs
     {
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="CustomRenamedEventArgs"/> class.
         /// </summary>
-        /// <param name="fullQualifiedFileName"></param>
-        /// <param name="fileName"></param>
-        /// <param name="oldFileName"></param>
-        public CustomRenamedEventArgs(string fullQualifiedFileName, string fileName, string oldFileName, string oldFullQualifiedFileName) 
+        /// <param name="fullQualifiedFileName">
+        /// Full name of the qualified file.
+        /// </param>
+        /// <param name="fileName">
+        /// Name of the file.
+        /// </param>
+        /// <param name="oldFileName">
+        /// Old name of the file.
+        /// </param>
+        /// <param name="oldFullQualifiedFileName">
+        /// Old name of the full qualified file.
+        /// </param>
+        public CustomRenamedEventArgs(
+            string fullQualifiedFileName, string fileName, string oldFileName, string oldFullQualifiedFileName)
         {
             this.FullQualifiedFileName = fullQualifiedFileName;
             this.FileName = fileName;
@@ -39,7 +60,7 @@
         public string FileName { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indication whether the file must be compared in blocks or not
+        /// Gets or sets a value indicating whether the file must be compared in blocks or not
         /// </summary>
         public bool CompareInBlocks { get; set; }
 

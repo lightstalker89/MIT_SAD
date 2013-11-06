@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="FileComparator.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -90,8 +90,10 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal void Compare(string sourceFile, string destinationFile)
         {
-            using (Stream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read, FileShare.Read),
-             destinationStream = new FileStream(destinationFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            using (
+                Stream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read, FileShare.Read), 
+                       destinationStream = new FileStream(
+                           destinationFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             {
                 long fileLengthSource = sourceStream.Length;
                 long fileLengthDestination = destinationStream.Length;
@@ -107,7 +109,9 @@ namespace BiOWheelsFileWatcher
                     {
                         destinationStream.Read(bufferDestination, 0, bufferDestination.Length);
 
-                        if (!this.md5Hasher.ComputeHash(bufferSource).Equals(this.md5Hasher.ComputeHash(bufferDestination)))
+                        if (
+                            !this.md5Hasher.ComputeHash(bufferSource).Equals(
+                                this.md5Hasher.ComputeHash(bufferDestination)))
                         {
                             int bufferLength = bufferSource.ToList().Count(p => p != 0);
 

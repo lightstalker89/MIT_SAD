@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="FileAction.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -28,7 +28,7 @@ namespace BiOWheelsFileWatcher
 
         /// <summary>
         /// </summary>
-        DIFF,
+        DIFF, 
 
         /// <summary>
         /// </summary>

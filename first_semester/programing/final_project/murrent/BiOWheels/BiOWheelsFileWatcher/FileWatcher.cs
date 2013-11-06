@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="FileWatcher.cs" company="MDMCoWorks">
-// * Copyright (c) Mario Murrent. All rights reserved.
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -8,7 +8,6 @@
 // * <author>Mario Murrent</author>
 // *******************************************************/
 
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
@@ -18,6 +17,7 @@ namespace BiOWheelsFileWatcher
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Threading;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
@@ -199,10 +199,8 @@ namespace BiOWheelsFileWatcher
         public void InitialScan()
         {
             // TODO: check directories and add them to the queue
-
             foreach (DirectoryMapping mapping in this.Mappings)
             {
-
             }
 
             this.Init();
@@ -224,6 +222,35 @@ namespace BiOWheelsFileWatcher
         public void SetBlockSize(long blockSizeInKB)
         {
             this.BlockSize = blockSizeInKB;
+        }
+
+        /// <summary>
+        /// Enumerate all files in the given directory including subdirectories
+        /// </summary>
+        /// <param name="directoryName">
+        /// Directory name
+        /// </param>
+        /// <returns>
+        /// A list of all file names
+        /// </returns>
+        internal IEnumerable<string> GetFilesForDirectory(string directoryName)
+        {
+            try
+            {
+                return Directory.GetFiles(directoryName, "*.*", SearchOption.AllDirectories).ToList();
+            }
+            catch (UnauthorizedAccessException unauthorizedAccessException)
+            {
+                this.CaughtException(
+                    this, 
+                    new CaughtExceptionEventArgs(
+                        unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
+                        {
+                           CustomExceptionText = "Error while enumerating all files in the given directory" 
+                        });
+
+                return new List<string>();
+            }
         }
 
         #region Event Methods
@@ -268,6 +295,7 @@ namespace BiOWheelsFileWatcher
         /// Sender of the event
         /// </param>
         /// <param name="data">
+        /// The <see cref="UpdateProgressEventArgs"/> instance containing the event data.
         /// </param>
         protected void OnProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
@@ -284,6 +312,7 @@ namespace BiOWheelsFileWatcher
         /// Sender of the event
         /// </param>
         /// <param name="data">
+        /// The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.
         /// </param>
         protected void OnCaughtException(object sender, CaughtExceptionEventArgs data)
         {
@@ -294,10 +323,13 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Call when an exception is caught.
         /// </summary>
         /// <param name="sender">
+        /// The sender.
         /// </param>
         /// <param name="data">
+        /// The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.
         /// </param>
         protected void QueueManagerCaughtException(object sender, CaughtExceptionEventArgs data)
         {
@@ -305,20 +337,24 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Call when an item is finalized.
         /// </summary>
         /// <param name="sender">
+        /// The sender.
         /// </param>
         /// <param name="data">
+        /// The <see cref="ItemFinalizedEventArgs"/> instance containing the event data.
         /// </param>
         protected void QueueManagerItemFinalized(object sender, ItemFinalizedEventArgs data)
         {
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         protected void FileSystemWatcherObjectChanged(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -326,8 +362,9 @@ namespace BiOWheelsFileWatcher
             if (watcher != null)
             {
                 this.AddQueueItem(
-                    watcher.Destinations,
-                    e.FileName, e.FullQualifiedFileName,
+                    watcher.Destinations, 
+                    e.FileName, 
+                    e.FullQualifiedFileName, 
                     e.CompareInBlocks ? FileAction.DIFF : FileAction.COPY);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has changed."));
                 this.OnProgressUpdate(
@@ -336,10 +373,11 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         protected void FileSystemWatcherObjectRenamed(object sender, CustomRenamedEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -348,19 +386,21 @@ namespace BiOWheelsFileWatcher
             {
                 this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
                 this.OnProgressUpdate(
-                    this, new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
+                    this, 
+                    new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
                 this.OnProgressUpdate(
-                    this,
+                    this, 
                     new UpdateProgressEventArgs(
                         "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
             }
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         protected void FileSystemWatcherObjectDeleted(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -368,17 +408,19 @@ namespace BiOWheelsFileWatcher
             if (watcher != null)
             {
                 this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.DELETE);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has been deleted."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has been deleted."));
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("Added job to queue for deleting --" + e.FileName + "--"));
             }
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         protected void FileSystemWatcherObjectCreated(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -386,35 +428,14 @@ namespace BiOWheelsFileWatcher
             if (watcher != null)
             {
                 this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has been created."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has been created."));
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("Added job to queue for copying --" + e.FileName + "--"));
             }
         }
 
         #endregion
-
-        /// <summary>
-        /// Enumerate all files in the given directory including subdirectories
-        /// </summary>
-        /// <param name="directoryName">Directory name</param>
-        /// <returns>A list of all file names</returns>
-        internal IEnumerable<string> GetFilesForDirectory(string directoryName)
-        {
-            try
-            {
-                return Directory.GetFiles(directoryName, "*.*", SearchOption.AllDirectories).ToList();
-            }
-            catch (UnauthorizedAccessException unauthorizedAccessException)
-            {
-                this.CaughtException(this, new CaughtExceptionEventArgs(unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
-                                           {
-                                               CustomExceptionText = "Error while enumerating all files in the given directory"
-                                           });
-
-                return new List<string>();
-            }
-        }
 
         /// <summary>
         /// Method for watching a specific directory - will be executed in a new thread
@@ -433,25 +454,25 @@ namespace BiOWheelsFileWatcher
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SourceDirectory)
                                 {
-                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive,
-                                    Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories,
-                                    BlockCompareFileSizeInMB = this.blockCompareFileSizeInMB,
+                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive, 
+                                    Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories, 
+                                    BlockCompareFileSizeInMB = this.blockCompareFileSizeInMB, 
                                     ExcludedDirectories = ((DirectoryMapping)mappingInfo).ExcludedDirectories
                                 };
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
                         fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
-                        fileSystemWatcher.ObjectChanged += FileSystemWatcherObjectChanged;
-                        fileSystemWatcher.ObjectCreated += FileSystemWatcherObjectCreated;
-                        fileSystemWatcher.ObjectDeleted += FileSystemWatcherObjectDeleted;
-                        fileSystemWatcher.ObjectRenamed += FileSystemWatcherObjectRenamed;
+                        fileSystemWatcher.ObjectChanged += this.FileSystemWatcherObjectChanged;
+                        fileSystemWatcher.ObjectCreated += this.FileSystemWatcherObjectCreated;
+                        fileSystemWatcher.ObjectDeleted += this.FileSystemWatcherObjectDeleted;
+                        fileSystemWatcher.ObjectRenamed += this.FileSystemWatcherObjectRenamed;
                         fileSystemWatcher.Filter = string.Empty;
                         fileSystemWatcher.EnableRaisingEvents = true;
                     }
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this,
+                            this, 
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -463,7 +484,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this,
+                        this, 
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
@@ -496,15 +517,22 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Adds an item to the queue.
         /// </summary>
         /// <param name="destinations">
+        /// The destinations.
         /// </param>
         /// <param name="filename">
+        /// The filename.
         /// </param>
-        /// <param name="fullQualifiedFileName"></param>
+        /// <param name="fullQualifiedFileName">
+        /// Full name of the qualified file.
+        /// </param>
         /// <param name="fileAction">
+        /// The file action.
         /// </param>
-        private void AddQueueItem(IEnumerable<string> destinations, string filename, string fullQualifiedFileName, FileAction fileAction)
+        private void AddQueueItem(
+            IEnumerable<string> destinations, string filename, string fullQualifiedFileName, FileAction fileAction)
         {
             SyncItem item = new SyncItem(destinations, filename, fullQualifiedFileName, fileAction);
 
