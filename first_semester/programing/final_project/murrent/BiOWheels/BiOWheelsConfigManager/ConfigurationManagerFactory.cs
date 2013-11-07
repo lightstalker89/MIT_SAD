@@ -3,7 +3,7 @@ namespace BiOWheelsConfigManager
 {
     public class ConfigurationManagerFactory
     {
-        public static ConfigurationManager CreateConfigurationManager()
+        public static IConfigurationManager CreateConfigurationManager()
         {
             return new ConfigurationManager();
         }

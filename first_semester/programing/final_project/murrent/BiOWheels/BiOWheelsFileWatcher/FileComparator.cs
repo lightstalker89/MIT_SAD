@@ -36,8 +36,9 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         ///  Initializes a new instance of the <see cref="FileComparator"/> class
         /// </summary>
-        public FileComparator()
+        public FileComparator(long blockSize)
         {
+            this.BlockSize = blockSize;
             this.MD5Hasher = MD5.Create();
         }
 

@@ -55,7 +55,8 @@
     <Compile Include="EventInformationMapping.cs" />
     <Compile Include="FileAction.cs" />
     <Compile Include="FileComparator.cs" />
-    <Compile Include="FileSystemWatcherFactory.cs" />
+    <Compile Include="FileSystemManager.cs" />
+    <Compile Include="FileWatcherFactory.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="IFileWatcher.cs" />
     <Compile Include="IQueueManager.cs" />

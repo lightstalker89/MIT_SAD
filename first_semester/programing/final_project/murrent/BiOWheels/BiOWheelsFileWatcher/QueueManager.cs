@@ -17,7 +17,6 @@ namespace BiOWheelsFileWatcher
     using System;
     using System.Collections.Concurrent;
     using System.IO;
-    using System.Linq;
     using System.Threading;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
@@ -40,9 +39,9 @@ namespace BiOWheelsFileWatcher
         private bool isWorkerInProgress;
 
         /// <summary>
-        /// Represents an instance of the <see cref="FileComparator"/> class
+        ///  Represents an instance of the <see cref="FileSystemManager"/> class
         /// </summary>
-        private FileComparator fileComparator;
+        private FileSystemManager fileSystemManager;
 
         /// <summary>
         /// A value indicating if an item can be added to the queue or not
@@ -54,13 +53,11 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Initializes a new instance of the <see cref="QueueManager"/> class
         /// </summary>
-        /// <param name="fileComparator">
-        /// The file comparator.
-        /// </param>
-        internal QueueManager(FileComparator fileComparator)
+        /// <param name="fileSystemManager">The file system manager</param>
+        internal QueueManager(FileSystemManager fileSystemManager)
         {
             this.SyncItemQueue = new ConcurrentQueue<SyncItem>();
-            this.FileComparator = fileComparator;
+            this.FileSystemManager = fileSystemManager;
         }
 
         #region Delegates
@@ -144,21 +141,20 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="FileComparator"/> instance
+        /// Gets or sets the <see cref="FileSystemManager"/> instance
         /// </summary>
-        internal FileComparator FileComparator
+        internal FileSystemManager FileSystemManager
         {
             get
             {
-                return this.fileComparator;
+                return this.fileSystemManager;
             }
 
             set
             {
-                this.fileComparator = value;
+                this.fileSystemManager = value;
             }
         }
-
         #endregion
 
         #region Methods
@@ -209,63 +205,6 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
-        /// Copies a file to the given destinations
-        /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
-        private void CopyFile(SyncItem item)
-        {
-            // TODO: Parallel Sync implement
-            foreach (string destination in item.Destinations)
-            {
-                this.CreateDirectoryIfNotExists(destination);
-
-                string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
-
-                this.CreateDirectoryIfNotExists(pathToCopy);
-
-                string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
-
-                File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
-            }
-        }
-
-        /// <summary>
-        /// Deletes a file in all given destinations
-        /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
-        private void DeleteFile(SyncItem item)
-        {
-            foreach (string destination in item.Destinations)
-            {
-                string pathToDelete = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
-
-                if (pathToDelete != null && Directory.Exists(pathToDelete))
-                {
-                    File.Delete(pathToDelete + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Compare files from a destination with files in all given destinations
-        /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
-        private void DiffFile(SyncItem item)
-        {
-            foreach (string destinationFile in
-                item.Destinations.Select(
-                    destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
-            {
-            }
-        }
-
-        /// <summary>
         /// Finalize Queue
         /// </summary>
         private void FinalizeQueue()
@@ -276,85 +215,74 @@ namespace BiOWheelsFileWatcher
 
                 if (this.SyncItemQueue.TryDequeue(out item))
                 {
-                    if (item.FileAction == FileAction.COPY || item.FileAction == FileAction.DELETE)
+                    switch (item.FileAction)
                     {
-                        try
-                        {
-                            if (item.FileAction == FileAction.DELETE)
+                        case FileAction.DELETE:
+                        case FileAction.COPY:
+                            try
                             {
-                                this.DeleteFile(item);
+                                if (item.FileAction == FileAction.DELETE)
+                                {
+                                    this.fileSystemManager.Delete(item);
+                                }
+                                else
+                                {
+                                    this.FileSystemManager.Copy(item);
+                                }
                             }
-                            else
+                            catch (UnauthorizedAccessException unauthorizedAccessException)
                             {
-                                this.CopyFile(item);
+                                this.OnCaughtException(
+                                    this,
+                                    new CaughtExceptionEventArgs(
+                                        unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
                             }
-                        }
-                        catch (UnauthorizedAccessException unauthorizedAccessException)
-                        {
-                            this.OnCaughtException(
-                                this, 
-                                new CaughtExceptionEventArgs(
-                                    unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
-                        }
-                        catch (ArgumentException argumentException)
-                        {
-                            this.OnCaughtException(
-                                this, 
-                                new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
-                        }
-                        catch (PathTooLongException pathTooLongException)
-                        {
-                            this.OnCaughtException(
-                                this, 
-                                new CaughtExceptionEventArgs(
-                                    pathTooLongException.GetType(), pathTooLongException.Message));
-                        }
-                        catch (DirectoryNotFoundException directoryNotFoundException)
-                        {
-                            this.OnCaughtException(
-                                this, 
-                                new CaughtExceptionEventArgs(
-                                    directoryNotFoundException.GetType(), directoryNotFoundException.Message));
-                        }
-                        catch (FileNotFoundException fileNotFoundException)
-                        {
-                            this.OnCaughtException(
-                                this, 
-                                new CaughtExceptionEventArgs(
-                                    fileNotFoundException.GetType(), fileNotFoundException.Message));
-                        }
-                        catch (IOException systemIOException)
-                        {
-                            this.OnCaughtException(
-                                this, 
-                                new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
-                        }
-                        catch (NotSupportedException notSupportedException)
-                        {
-                            this.OnCaughtException(
-                                this, 
-                                new CaughtExceptionEventArgs(
-                                    notSupportedException.GetType(), notSupportedException.Message));
-                        }
-                    }
-                    else if (item.FileAction == FileAction.DIFF)
-                    {
-                        this.DiffFile(item);
+                            catch (ArgumentException argumentException)
+                            {
+                                this.OnCaughtException(
+                                    this,
+                                    new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+                            }
+                            catch (PathTooLongException pathTooLongException)
+                            {
+                                this.OnCaughtException(
+                                    this,
+                                    new CaughtExceptionEventArgs(
+                                        pathTooLongException.GetType(), pathTooLongException.Message));
+                            }
+                            catch (DirectoryNotFoundException directoryNotFoundException)
+                            {
+                                this.OnCaughtException(
+                                    this,
+                                    new CaughtExceptionEventArgs(
+                                        directoryNotFoundException.GetType(), directoryNotFoundException.Message));
+                            }
+                            catch (FileNotFoundException fileNotFoundException)
+                            {
+                                this.OnCaughtException(
+                                    this,
+                                    new CaughtExceptionEventArgs(
+                                        fileNotFoundException.GetType(), fileNotFoundException.Message));
+                            }
+                            catch (IOException systemIOException)
+                            {
+                                this.OnCaughtException(
+                                    this,
+                                    new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
+                            }
+                            catch (NotSupportedException notSupportedException)
+                            {
+                                this.OnCaughtException(
+                                    this,
+                                    new CaughtExceptionEventArgs(
+                                        notSupportedException.GetType(), notSupportedException.Message));
+                            }
+                            break;
+                        case FileAction.DIFF:
+                            this.FileSystemManager.DiffFile(item);
+                            break;
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Creates a directory if it does not exist
-        /// </summary>
-        /// <param name="directory">
-        /// </param>
-        private void CreateDirectoryIfNotExists(string directory)
-        {
-            if (directory != null && !Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
             }
         }
 

@@ -49,6 +49,11 @@ namespace BiOWheelsFileWatcher.Test
         private FileComparator fileComparator;
 
         /// <summary>
+        /// Represents the <see cref="FileSystemManager"/> instance
+        /// </summary>
+        private FileSystemManager fileSystemManager;
+
+        /// <summary>
         /// List of notifications from the <see cref="FileWatcher"/>
         /// </summary>
         private List<string> notifications;
@@ -59,9 +64,10 @@ namespace BiOWheelsFileWatcher.Test
         [SetUp]
         public void Init()
         {
-            this.fileComparator = new FileComparator();
+            this.fileComparator = new FileComparator(10);
+            this.fileSystemManager = new FileSystemManager(this.fileComparator);
 
-            this.queueManager = new QueueManager(this.fileComparator);
+            this.queueManager = new QueueManager(this.fileSystemManager);
             this.fileWatcher = new FileWatcher();
             this.fileWatcher.SetBlockCompareFileSizeInMB(10);
             this.fileWatcher.SetBlockSize(4096);

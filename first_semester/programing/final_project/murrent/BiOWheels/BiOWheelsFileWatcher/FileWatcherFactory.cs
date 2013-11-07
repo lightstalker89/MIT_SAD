@@ -2,7 +2,7 @@
 
 namespace BiOWheelsFileWatcher
 {
-    public class FileSystemWatcherFactory
+    public class FileWatcherFactory
     {
         public static BiOWheelsFileSystemWatcher CreateFileSystemWatcher(string path)
         {
@@ -20,9 +20,19 @@ namespace BiOWheelsFileWatcher
                    };
         }
 
-        public static FileWatcher CreateFileWatcher()
+        public static IFileWatcher CreateFileWatcher()
         {
             return new FileWatcher();
+        }
+
+        internal static FileComparator CreateFileComparator(long blockSize)
+        {
+            return new FileComparator(blockSize);
+        }
+
+        internal static FileSystemManager CreateFileSystemManager(long blockSize)
+        {
+            return new FileSystemManager(CreateFileComparator(blockSize));
         }
     }
 }

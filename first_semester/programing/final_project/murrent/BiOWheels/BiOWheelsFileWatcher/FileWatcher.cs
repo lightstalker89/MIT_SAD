@@ -63,7 +63,7 @@ namespace BiOWheelsFileWatcher
         internal FileWatcher()
         {
             this.Mappings = new List<DirectoryMapping>();
-            this.queueManager = new QueueManager(new FileComparator { BlockSize = this.BlockSize });
+            this.queueManager = new QueueManager(FileWatcherFactory.CreateFileSystemManager(this.blockSize));
             this.QueueManager.CaughtException += this.QueueManagerCaughtException;
             this.QueueManager.ItemFinalized += this.QueueManagerItemFinalized;
         }
@@ -452,7 +452,7 @@ namespace BiOWheelsFileWatcher
                     try
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
-                            FileSystemWatcherFactory.CreateFileSystemWatcher(
+                            FileWatcherFactory.CreateFileSystemWatcher(
                                 ((DirectoryMapping) mappingInfo).SourceDirectory,
                                 ((DirectoryMapping) mappingInfo).Recursive,
                                 ((DirectoryMapping) mappingInfo).DestinationDirectories, this.blockCompareFileSizeInMB,

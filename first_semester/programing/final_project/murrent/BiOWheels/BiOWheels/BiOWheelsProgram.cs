@@ -158,16 +158,16 @@ namespace BiOWheels
         /// </param>
         private static void ApplicationStartUp(bool loadConfig, string[] args)
         {
-            SimpleContainer.Instance.Register<IConfigurationManager, ConfigurationManager>(ConfigurationManagerFactory.CreateConfigurationManager());
-            SimpleContainer.Instance.Register<ILogger, CombinedLogger>(LoggerFactory.CreateCombinedLogger());
+            SimpleContainer.Instance.Register<IConfigurationManager, IConfigurationManager>(ConfigurationManagerFactory.CreateConfigurationManager());
+            SimpleContainer.Instance.Register<ILogger, ILogger>(LoggerFactory.CreateCombinedLogger());
 
             SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<FileLogger>(true);
             SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
 
-            SimpleContainer.Instance.Register<ICommandLineArgsParser, CommandLineArgsParser>(
-                new CommandLineArgsParser());
-            SimpleContainer.Instance.Register<IVisualizer, Visualizer>(new Visualizer());
-            SimpleContainer.Instance.Register<IFileWatcher, FileWatcher>(FileSystemWatcherFactory.CreateFileWatcher());
+            SimpleContainer.Instance.Register<ICommandLineArgsParser, ICommandLineArgsParser>(
+                CommandLineArgsParserFactory.CreateCommandLineArgsParser());
+            SimpleContainer.Instance.Register<IVisualizer, IVisualizer>(VisualizerFactory.CreateVisualizer());
+            SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(FileWatcherFactory.CreateFileWatcher());
 
             AttachFileWatcherEvents();
 

@@ -327,6 +327,8 @@ namespace BiOWheelsFileWatcher
         /// </returns>
         private bool MustCompareFileInBlocks(string file)
         {
+            if (file.IsDirectory()) return false;
+
             double length;
 
             using (Stream actualFileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
