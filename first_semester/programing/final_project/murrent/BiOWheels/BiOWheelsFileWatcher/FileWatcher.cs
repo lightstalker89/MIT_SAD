@@ -60,7 +60,7 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Initializes a new instance of the <see cref="FileWatcher"/> class
         /// </summary>
-        public FileWatcher()
+        internal FileWatcher()
         {
             this.Mappings = new List<DirectoryMapping>();
             this.queueManager = new QueueManager(new FileComparator { BlockSize = this.BlockSize });
@@ -452,13 +452,11 @@ namespace BiOWheelsFileWatcher
                     try
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
-                            new BiOWheelsFileSystemWatcher(((DirectoryMapping)mappingInfo).SourceDirectory)
-                                {
-                                    IncludeSubdirectories = ((DirectoryMapping)mappingInfo).Recursive, 
-                                    Destinations = ((DirectoryMapping)mappingInfo).DestinationDirectories, 
-                                    BlockCompareFileSizeInMB = this.blockCompareFileSizeInMB, 
-                                    ExcludedDirectories = ((DirectoryMapping)mappingInfo).ExcludedDirectories
-                                };
+                            FileSystemWatcherFactory.CreateFileSystemWatcher(
+                                ((DirectoryMapping) mappingInfo).SourceDirectory,
+                                ((DirectoryMapping) mappingInfo).Recursive,
+                                ((DirectoryMapping) mappingInfo).DestinationDirectories, this.blockCompareFileSizeInMB,
+                                ((DirectoryMapping) mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
                         fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;

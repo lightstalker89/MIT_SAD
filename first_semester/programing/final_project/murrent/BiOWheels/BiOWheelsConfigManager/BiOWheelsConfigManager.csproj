@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="ConfigurationManagerFactory.cs" />
     <Compile Include="IConfigurationManager.cs" />
     <Compile Include="LoaderException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

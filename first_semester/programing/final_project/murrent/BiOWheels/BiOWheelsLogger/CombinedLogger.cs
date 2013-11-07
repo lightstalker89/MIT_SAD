@@ -17,18 +17,21 @@ namespace BiOWheelsLogger
         /// <summary>
         /// Represents the instance of the <see cref="ConsoleLogger"/> class
         /// </summary>
-        private readonly ILogger consoleLogger = new ConsoleLogger();
+        private readonly ILogger consoleLogger;
 
         /// <summary>
         /// Represents the instance of the <see cref="FileLogger"/> class 
         /// </summary>
-        private readonly ILogger fileLogger = new FileLogger();
+        private readonly ILogger fileLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CombinedLogger"/> class
         /// </summary>
-        public CombinedLogger()
+        internal CombinedLogger(ILogger consoleLogger, ILogger fileLogger)
         {
+            this.consoleLogger = consoleLogger;
+            this.fileLogger = fileLogger;
+
             ((FileLogger)this.fileLogger).Init();
         }
 

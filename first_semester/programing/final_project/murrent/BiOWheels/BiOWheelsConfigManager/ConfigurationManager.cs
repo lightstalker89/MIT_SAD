@@ -18,6 +18,12 @@ namespace BiOWheelsConfigManager
     /// </summary>
     public class ConfigurationManager : IConfigurationManager
     {
+        internal ConfigurationManager()
+        {
+        }
+
+        #region Methods
+
         /// <inheritdoc/>
         public object Load<T>(string configFileName)
         {
@@ -104,5 +110,6 @@ namespace BiOWheelsConfigManager
 
             return WriterStatus.SUCCESSFULL;
         }
+        #endregion
     }
 }

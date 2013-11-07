@@ -16,6 +16,10 @@ namespace BiOWheelsLogger
     /// </summary>
     public class ConsoleLogger : ILogger
     {
+        internal ConsoleLogger()
+        {
+        }
+
         #region Properties
 
         /// <summary>

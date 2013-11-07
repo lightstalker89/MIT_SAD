@@ -36,7 +36,7 @@ namespace BiOWheelsFileWatcher
         /// <param name="path">
         /// The directory to monitor, in standard or Universal Naming Convention (UNC) notation.
         /// </param>
-        public BiOWheelsFileSystemWatcher(string path)
+        internal BiOWheelsFileSystemWatcher(string path)
             : base(path)
         {
             this.Changed += this.BiOWheelsFileSystemWatcherChanged;
