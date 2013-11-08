@@ -7,6 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using BiOWheelsFileWatcher.Interfaces;
+
 namespace BiOWheelsFileWatcher
 {
     using System;
@@ -17,7 +20,7 @@ namespace BiOWheelsFileWatcher
     /// <summary>
     /// Initializes a new instance of the <see cref="FileComparator"/> class
     /// </summary>
-    internal class FileComparator
+    internal class FileComparator : IFileComparator
     {
         #region Private Fields
 

@@ -9,6 +9,7 @@
 // *******************************************************/
 
 using System.Runtime.CompilerServices;
+using BiOWheelsFileWatcher.Interfaces;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 
@@ -41,7 +42,7 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         ///  Represents an instance of the <see cref="FileSystemManager"/> class
         /// </summary>
-        private FileSystemManager fileSystemManager;
+        private IFileSystemManager fileSystemManager;
 
         /// <summary>
         /// A value indicating if an item can be added to the queue or not
@@ -54,7 +55,7 @@ namespace BiOWheelsFileWatcher
         /// Initializes a new instance of the <see cref="QueueManager"/> class
         /// </summary>
         /// <param name="fileSystemManager">The file system manager</param>
-        internal QueueManager(FileSystemManager fileSystemManager)
+        internal QueueManager(IFileSystemManager fileSystemManager)
         {
             this.SyncItemQueue = new ConcurrentQueue<SyncItem>();
             this.FileSystemManager = fileSystemManager;
@@ -143,7 +144,7 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Gets or sets the <see cref="FileSystemManager"/> instance
         /// </summary>
-        internal FileSystemManager FileSystemManager
+        internal IFileSystemManager FileSystemManager
         {
             get
             {
@@ -213,74 +214,71 @@ namespace BiOWheelsFileWatcher
             {
                 SyncItem item;
 
-                if (this.SyncItemQueue.TryDequeue(out item))
+                if (this.SyncItemQueue.TryDequeue(out item) && this.CanAddItemsToQueue)
                 {
-                    switch (item.FileAction)
+                    try
                     {
-                        case FileAction.DELETE:
-                        case FileAction.COPY:
-                            try
-                            {
-                                if (item.FileAction == FileAction.DELETE)
-                                {
-                                    this.fileSystemManager.Delete(item);
-                                }
-                                else
-                                {
-                                    this.FileSystemManager.Copy(item);
-                                }
-                            }
-                            catch (UnauthorizedAccessException unauthorizedAccessException)
-                            {
-                                this.OnCaughtException(
-                                    this,
-                                    new CaughtExceptionEventArgs(
-                                        unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
-                            }
-                            catch (ArgumentException argumentException)
-                            {
-                                this.OnCaughtException(
-                                    this,
-                                    new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
-                            }
-                            catch (PathTooLongException pathTooLongException)
-                            {
-                                this.OnCaughtException(
-                                    this,
-                                    new CaughtExceptionEventArgs(
-                                        pathTooLongException.GetType(), pathTooLongException.Message));
-                            }
-                            catch (DirectoryNotFoundException directoryNotFoundException)
-                            {
-                                this.OnCaughtException(
-                                    this,
-                                    new CaughtExceptionEventArgs(
-                                        directoryNotFoundException.GetType(), directoryNotFoundException.Message));
-                            }
-                            catch (FileNotFoundException fileNotFoundException)
-                            {
-                                this.OnCaughtException(
-                                    this,
-                                    new CaughtExceptionEventArgs(
-                                        fileNotFoundException.GetType(), fileNotFoundException.Message));
-                            }
-                            catch (IOException systemIOException)
-                            {
-                                this.OnCaughtException(
-                                    this,
-                                    new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
-                            }
-                            catch (NotSupportedException notSupportedException)
-                            {
-                                this.OnCaughtException(
-                                    this,
-                                    new CaughtExceptionEventArgs(
-                                        notSupportedException.GetType(), notSupportedException.Message));
-                            }
-                            break;
-                        case FileAction.DIFF:
-                            this.FileSystemManager.DiffFile(item);
-                            break;
+                        switch (item.FileAction)
+                        {
+                            case FileAction.DELETE:
+                                this.fileSystemManager.Delete(item);
+                                break;
+
+                            case FileAction.COPY:
+                                this.FileSystemManager.Copy(item);
+                                break;
+
+                            case FileAction.DIFF:
+                                this.FileSystemManager.DiffFile(item);
+                                break;
+                        }
+                    }
+                    catch (UnauthorizedAccessException unauthorizedAccessException)
+                    {
+                        this.OnCaughtException(
+                            this,
+                            new CaughtExceptionEventArgs(
+                                unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
+                    }
+                    catch (ArgumentException argumentException)
+                    {
+                        this.OnCaughtException(
+                            this,
+                            new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+                    }
+                    catch (PathTooLongException pathTooLongException)
+                    {
+                        this.OnCaughtException(
+                            this,
+                            new CaughtExceptionEventArgs(
+                                pathTooLongException.GetType(), pathTooLongException.Message));
+                    }
+                    catch (DirectoryNotFoundException directoryNotFoundException)
+                    {
+                        this.OnCaughtException(
+                            this,
+                            new CaughtExceptionEventArgs(
+                                directoryNotFoundException.GetType(), directoryNotFoundException.Message));
+                    }
+                    catch (FileNotFoundException fileNotFoundException)
+                    {
+                        this.OnCaughtException(
+                            this,
+                            new CaughtExceptionEventArgs(
+                                fileNotFoundException.GetType(), fileNotFoundException.Message));
+                    }
+                    catch (IOException systemIOException)
+                    {
+                        this.OnCaughtException(
+                            this,
+                            new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
+                    }
+                    catch (NotSupportedException notSupportedException)
+                    {
+                        this.OnCaughtException(
+                            this,
+                            new CaughtExceptionEventArgs(
+                                notSupportedException.GetType(), notSupportedException.Message));
                     }
                 }
             }

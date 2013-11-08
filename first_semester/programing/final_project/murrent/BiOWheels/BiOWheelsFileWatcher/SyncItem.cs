@@ -14,7 +14,7 @@ namespace BiOWheelsFileWatcher
     /// <summary>
     /// Class representing a <see cref="SyncItem"/> and its interaction logic
     /// </summary>
-    internal class SyncItem
+    public class SyncItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SyncItem"/> class

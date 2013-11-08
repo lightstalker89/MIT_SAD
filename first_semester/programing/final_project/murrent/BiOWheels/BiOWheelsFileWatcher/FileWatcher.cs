@@ -9,6 +9,7 @@
 // *******************************************************/
 
 using System.Runtime.CompilerServices;
+using BiOWheelsFileWatcher.Interfaces;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 
@@ -41,11 +42,6 @@ namespace BiOWheelsFileWatcher
         private long blockCompareFileSizeInMB;
 
         /// <summary>
-        /// Block size used for comparing files
-        /// </summary>
-        private long blockSize;
-
-        /// <summary>
         /// List of mappings representing <see cref="DirectoryMapping"/>
         /// </summary>
         private IEnumerable<DirectoryMapping> mappings;
@@ -60,10 +56,11 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Initializes a new instance of the <see cref="FileWatcher"/> class
         /// </summary>
-        internal FileWatcher()
+        internal FileWatcher(IQueueManager queueManager)
         {
             this.Mappings = new List<DirectoryMapping>();
-            this.queueManager = new QueueManager(FileWatcherFactory.CreateFileSystemManager(this.blockSize));
+            //this.queueManager = new QueueManager(FileWatcherFactory.CreateFileSystemManager(this.blockSize));
+            this.queueManager = queueManager;
             this.QueueManager.CaughtException += this.QueueManagerCaughtException;
             this.QueueManager.ItemFinalized += this.QueueManagerItemFinalized;
         }
@@ -101,22 +98,6 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the block size used for comparing files
-        /// </summary>
-        public long BlockSize
-        {
-            get
-            {
-                return this.blockSize;
-            }
-
-            set
-            {
-                this.blockSize = value;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the minimum size for comparing files in blocks
@@ -216,12 +197,6 @@ namespace BiOWheelsFileWatcher
         public void SetBlockCompareFileSizeInMB(long blockCompareSizeInMB)
         {
             this.BlockCompareSizeInMB = blockCompareSizeInMB;
-        }
-
-        /// <inheritdoc/>
-        public void SetBlockSize(long blockSizeInKB)
-        {
-            this.BlockSize = blockSizeInKB;
         }
 
         /// <summary>

@@ -7,6 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using BiOWheelsFileWatcher.Interfaces;
+
 namespace BiOWheels
 {
     using System;
@@ -167,9 +170,7 @@ namespace BiOWheels
             SimpleContainer.Instance.Register<ICommandLineArgsParser, ICommandLineArgsParser>(
                 CommandLineArgsParserFactory.CreateCommandLineArgsParser());
             SimpleContainer.Instance.Register<IVisualizer, IVisualizer>(VisualizerFactory.CreateVisualizer());
-            SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(FileWatcherFactory.CreateFileWatcher());
 
-            AttachFileWatcherEvents();
 
             if (loadConfig)
             {
@@ -181,6 +182,9 @@ namespace BiOWheels
 
                 ICommandLineArgsParser parser = SimpleContainer.Instance.Resolve<CommandLineArgsParser>();
                 HandleParams(parser.Parse(args, Options));
+
+                // ToDo resolve commandline args
+                //CreateFileWatcher();
             }
         }
 
@@ -208,6 +212,7 @@ namespace BiOWheels
                     DistributeConfigurationValues();
                 }
 
+                CreateFileWatcher();
                 StartSync();
             }
             else
@@ -218,7 +223,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -226,6 +231,17 @@ namespace BiOWheels
                     ListenToConsoleKeyInput();
                 }
             }
+        }
+
+        private static void CreateFileWatcher()
+        {
+            SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(
+                FileWatcherFactory.CreateFileWatcher(
+                    FileWatcherFactory.CreateQueueManager(
+                        FileWatcherFactory.CreateFileSystemManager(
+                            FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB)))));
+
+            AttachFileWatcherEvents();
         }
 
         /// <summary>
@@ -329,15 +345,13 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
             SimpleContainer.Instance.Resolve<IFileWatcher>().SetSourceDirectories(mappings);
-            SimpleContainer.Instance.Resolve<IFileWatcher>().SetBlockSize(
-                configuration.BlockCompareOptions.BlockSizeInKB);
 
             Log("Configuration successfully loaded", MessageType.INFO);
         }

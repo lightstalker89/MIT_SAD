@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BiOWheelsFileWatcher.Interfaces;
 
 namespace BiOWheelsFileWatcher
 {
@@ -20,19 +21,24 @@ namespace BiOWheelsFileWatcher
                    };
         }
 
-        public static IFileWatcher CreateFileWatcher()
+        public static IFileWatcher CreateFileWatcher(IQueueManager queueManager)
         {
-            return new FileWatcher();
+            return new FileWatcher(queueManager);
         }
 
-        internal static FileComparator CreateFileComparator(long blockSize)
+        public static IFileComparator CreateFileComparator(long blockSize)
         {
             return new FileComparator(blockSize);
         }
 
-        internal static FileSystemManager CreateFileSystemManager(long blockSize)
+        public static IFileSystemManager CreateFileSystemManager(IFileComparator fileComparator)
         {
-            return new FileSystemManager(CreateFileComparator(blockSize));
+            return new FileSystemManager(fileComparator);
+        }
+
+        public static IQueueManager CreateQueueManager(IFileSystemManager fileSystemManager)
+        {
+            return new QueueManager(fileSystemManager);
         }
     }
 }

@@ -1,20 +1,21 @@
 ﻿using System.IO;
 using System.Linq;
+using BiOWheelsFileWatcher.Interfaces;
 
 namespace BiOWheelsFileWatcher
 {
-    internal class FileSystemManager
+    internal class FileSystemManager : IFileSystemManager
     {
         #region Private Fields
 
         /// <summary>
         /// Represents an instance of the <see cref="FileComparator"/> class
         /// </summary>
-        private FileComparator fileComparator;
+        private IFileComparator fileComparator;
 
         #endregion
 
-        internal FileSystemManager(FileComparator fileComparator)
+        internal FileSystemManager(IFileComparator fileComparator)
         {
             this.FileComparator = fileComparator;
         }
@@ -24,7 +25,7 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Gets or sets the <see cref="FileComparator"/> instance
         /// </summary>
-        internal FileComparator FileComparator
+        internal IFileComparator FileComparator
         {
             get
             {
@@ -64,13 +65,8 @@ namespace BiOWheelsFileWatcher
             }
         }
 
-        /// <summary>
-        /// Compare files from a destination with files in all given destinations
-        /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
-        internal void DiffFile(SyncItem item)
+        /// <inheritdoc/>
+        public void DiffFile(SyncItem item)
         {
             foreach (string destinationFile in
                 item.Destinations.Select(
@@ -79,13 +75,8 @@ namespace BiOWheelsFileWatcher
             }
         }
 
-        /// <summary>
-        /// Copies a directory to the given destinations
-        /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
-        internal void CopyDirectory(SyncItem item)
+        /// <inheritdoc/>
+        public void CopyDirectory(SyncItem item)
         {
             foreach (string destination in item.Destinations)
             {
@@ -97,11 +88,8 @@ namespace BiOWheelsFileWatcher
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        internal void Delete(SyncItem item)
+        /// <inheritdoc/>
+        public void Delete(SyncItem item)
         {
             foreach (string destination in item.Destinations)
             {
@@ -109,7 +97,7 @@ namespace BiOWheelsFileWatcher
 
                 if (pathToDelete.IsDirectory())
                 {
-                    Directory.Delete(pathToDelete,true);
+                    Directory.Delete(pathToDelete, true);
                 }
                 else
                 {
@@ -122,7 +110,7 @@ namespace BiOWheelsFileWatcher
         /// 
         /// </summary>
         /// <param name="item"></param>
-        internal void Copy(SyncItem item)
+        public void Copy(SyncItem item)
         {
             if (item.FullQualifiedSourceFileName.IsDirectory())
             {

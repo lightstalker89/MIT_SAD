@@ -7,12 +7,12 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-namespace BiOWheelsFileWatcher
+namespace BiOWheelsFileWatcher.Interfaces
 {
     /// <summary>
     /// Interface representing must implement methods
     /// </summary>
-    internal interface IQueueManager
+    public interface IQueueManager
     {
         /// <summary>
         /// Gets or sets a value indicating whether an item can be added to the queue or not

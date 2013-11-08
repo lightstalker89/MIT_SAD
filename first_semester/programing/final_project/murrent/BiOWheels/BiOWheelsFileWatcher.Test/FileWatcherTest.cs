@@ -7,6 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using BiOWheelsFileWatcher.Interfaces;
+
 namespace BiOWheelsFileWatcher.Test
 {
     using System;
@@ -67,10 +70,9 @@ namespace BiOWheelsFileWatcher.Test
             this.fileComparator = new FileComparator(10);
             this.fileSystemManager = new FileSystemManager(this.fileComparator);
 
-            this.queueManager = new QueueManager(this.fileSystemManager);
-            this.fileWatcher = new FileWatcher();
+            this.queueManager = new QueueManager(this.fileSystemManager) { CanAddItemsToQueue = true };
+            this.fileWatcher = new FileWatcher(this.queueManager);
             this.fileWatcher.SetBlockCompareFileSizeInMB(10);
-            this.fileWatcher.SetBlockSize(4096);
             this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
             this.fileWatcher.CaughtException += this.FileWatcherCaughtException;
             this.notifications = new List<string>();
