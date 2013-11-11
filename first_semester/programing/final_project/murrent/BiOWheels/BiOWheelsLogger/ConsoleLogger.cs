@@ -16,18 +16,23 @@ namespace BiOWheelsLogger
     /// </summary>
     public class ConsoleLogger : ILogger
     {
+        #region Private Fields
+
         /// <summary>
+        /// Value indication if the <see cref="ConsoleLogger"/> is enabled or not
+        /// </summary>
+        private bool isEnabled;
+
+        #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConsoleLogger"/> class
         /// </summary>
         internal ConsoleLogger()
         {
         }
 
         #region Properties
-
-        /// <summary>
-        /// Value indication if the <see cref="ConsoleLogger"/> is enabled or not
-        /// </summary>
-        private bool isEnabled;
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="ConsoleLogger"/> is enabled or not

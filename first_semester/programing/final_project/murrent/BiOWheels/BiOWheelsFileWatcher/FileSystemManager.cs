@@ -7,12 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System;
-using System.Threading.Tasks;
-
 namespace BiOWheelsFileWatcher
 {
+    using System;
     using System.IO;
     using System.Linq;
 
@@ -33,6 +30,7 @@ namespace BiOWheelsFileWatcher
         /// Block compare size in MB
         /// </summary>
         private long blockCompareFileSizeInMB;
+
         #endregion
 
         /// <summary>
@@ -54,7 +52,6 @@ namespace BiOWheelsFileWatcher
             get
             {
                 return this.blockCompareFileSizeInMB;
-
             }
 
             set
@@ -83,46 +80,6 @@ namespace BiOWheelsFileWatcher
 
         #region Methods
 
-        /// <summary>
-        /// Copies a file to the given destinations
-        /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
-        internal void CopyFile(SyncItem item)
-        {
-            // TODO: Parallel Sync implement
-
-            if (MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
-            {
-                this.DiffFile(item);
-            }
-            else
-            {
-                foreach (string destination in item.Destinations)
-                {
-                    this.CreateDirectoryIfNotExists(destination);
-
-                    string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
-
-                    this.CreateDirectoryIfNotExists(pathToCopy);
-
-                    string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
-
-                    File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
-                }
-            }
-        }
-
-        internal void DiffFile(SyncItem item)
-        {
-            foreach (string destinationFile in
-                item.Destinations.Select(
-                    destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
-            {
-            }
-        }
-
         /// <inheritdoc/>
         public void CopyDirectory(SyncItem item)
         {
@@ -139,7 +96,9 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void Delete(SyncItem item)
         {
-            foreach (string pathToDelete in item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
+            foreach (
+                string pathToDelete in
+                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
             {
                 if (pathToDelete.IsDirectory())
                 {
@@ -182,6 +141,50 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Copies a file to the given destinations
+        /// </summary>
+        /// <param name="item">
+        /// Item from the queue
+        /// </param>
+        internal void CopyFile(SyncItem item)
+        {
+            // TODO: Parallel Sync implement
+            if (this.MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
+            {
+                this.DiffFile(item);
+            }
+            else
+            {
+                foreach (string destination in item.Destinations)
+                {
+                    this.CreateDirectoryIfNotExists(destination);
+
+                    string pathToCopy =
+                        Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+
+                    this.CreateDirectoryIfNotExists(pathToCopy);
+
+                    string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+
+                    File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="item">
+        /// </param>
+        internal void DiffFile(SyncItem item)
+        {
+            foreach (string destinationFile in
+                item.Destinations.Select(
+                    destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
+            {
+            }
+        }
+
+        /// <summary>
         /// Checks if the file must be compared in blocks
         /// </summary>
         /// <param name="file">
@@ -204,10 +207,12 @@ namespace BiOWheelsFileWatcher
                 length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
                 actualFileStream.Close();
             }
+
             GC.Collect();
 
             return length > this.BlockCompareFileSizeInMB;
         }
+
         #endregion
     }
 }

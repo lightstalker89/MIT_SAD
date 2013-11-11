@@ -9,7 +9,6 @@
 // *******************************************************/
 
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 
@@ -244,54 +243,45 @@ namespace BiOWheelsFileWatcher
                     catch (UnauthorizedAccessException unauthorizedAccessException)
                     {
                         this.OnCaughtException(
-                            this,
+                            this, 
                             new CaughtExceptionEventArgs(
-                                unauthorizedAccessException.GetType(),
-                                unauthorizedAccessException.Message));
+                                unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
                     }
                     catch (ArgumentException argumentException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(argumentException.GetType(),
-                                argumentException.Message));
+                            this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
                     }
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(pathTooLongException.GetType(),
-                                pathTooLongException.Message));
+                            this, 
+                            new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (DirectoryNotFoundException directoryNotFoundException)
                     {
                         this.OnCaughtException(
-                            this,
+                            this, 
                             new CaughtExceptionEventArgs(
-                                directoryNotFoundException.GetType(),
-                                directoryNotFoundException.Message));
+                                directoryNotFoundException.GetType(), directoryNotFoundException.Message));
                     }
                     catch (FileNotFoundException fileNotFoundException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(fileNotFoundException.GetType(),
-                                fileNotFoundException.Message));
+                            this, 
+                            new CaughtExceptionEventArgs(fileNotFoundException.GetType(), fileNotFoundException.Message));
                     }
                     catch (IOException systemIOException)
                     {
                         this.syncItemQueue.Enqueue(item);
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(systemIOException.GetType(),
-                                systemIOException.Message));
+                            this, new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
                     }
                     catch (NotSupportedException notSupportedException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(notSupportedException.GetType(),
-                                notSupportedException.Message));
+                            this, 
+                            new CaughtExceptionEventArgs(notSupportedException.GetType(), notSupportedException.Message));
                     }
                 }
             }

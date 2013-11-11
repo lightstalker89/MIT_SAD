@@ -27,12 +27,6 @@ namespace BiOWheelsLogger
     /// </summary>
     public class FileLogger : ILogger
     {
-        /// <summary>
-        /// </summary>
-        internal FileLogger()
-        {
-        }
-
         #region Constants
 
         /// <summary>
@@ -64,14 +58,21 @@ namespace BiOWheelsLogger
         /// </summary>
         private double maxFileSizeInMB;
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
-        /// Gets or sets the value if the <see cref="FileLogger"/> is enabled or not
+        /// Represents the value if the <see cref="FileLogger"/> is enabled or not
         /// </summary>
         private bool isEnabled;
+
+        #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileLogger"/> class
+        /// </summary>
+        internal FileLogger()
+        {
+        }
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets a value indicating whether a status of the <see cref="FileLogger"/> is enabled or not
@@ -317,13 +318,13 @@ namespace BiOWheelsLogger
         private void GenerateNewFileName()
         {
             this.fileName = string.Format(
-                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt", 
-                DateTime.Now.Year, 
-                DateTime.Now.Month, 
-                DateTime.Now.Day, 
-                DateTime.Now.Hour, 
-                DateTime.Now.Minute, 
-                DateTime.Now.Second, 
+                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt",
+                DateTime.Now.Year,
+                DateTime.Now.Month,
+                DateTime.Now.Day,
+                DateTime.Now.Hour,
+                DateTime.Now.Minute,
+                DateTime.Now.Second,
                 DateTime.Now.Millisecond);
         }
 

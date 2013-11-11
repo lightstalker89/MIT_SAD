@@ -41,15 +41,12 @@ namespace BiOWheelsFileWatcher
         /// <returns>
         /// </returns>
         public static BiOWheelsFileSystemWatcher CreateFileSystemWatcher(
-            string path,
-            bool recursive,
-            List<string> destinationDirectories,
-            List<string> excludedDirectories)
+            string path, bool recursive, List<string> destinationDirectories, List<string> excludedDirectories)
         {
             return new BiOWheelsFileSystemWatcher(path)
                 {
-                    IncludeSubdirectories = recursive,
-                    Destinations = destinationDirectories,
+                    IncludeSubdirectories = recursive, 
+                    Destinations = destinationDirectories, 
                     ExcludedDirectories = excludedDirectories
                 };
         }
@@ -80,10 +77,12 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         /// <param name="fileComparator">
         /// </param>
-        /// <param name="blockCompareSizeInMB"></param>
+        /// <param name="blockCompareSizeInMB">
+        /// </param>
         /// <returns>
         /// </returns>
-        public static IFileSystemManager CreateFileSystemManager(IFileComparator fileComparator, long blockCompareSizeInMB)
+        public static IFileSystemManager CreateFileSystemManager(
+            IFileComparator fileComparator, long blockCompareSizeInMB)
         {
             return new FileSystemManager(fileComparator);
         }

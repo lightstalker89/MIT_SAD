@@ -7,9 +7,6 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Threading.Tasks;
-
 namespace BiOWheelsFileWatcher.Interfaces
 {
     /// <summary>

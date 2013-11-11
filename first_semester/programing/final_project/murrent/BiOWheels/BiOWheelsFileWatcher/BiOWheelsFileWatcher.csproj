@@ -52,7 +52,6 @@
     <Compile Include="CustomExceptions\MappingInvalidException.cs" />
     <Compile Include="CustomExceptions\MappingNullException.cs" />
     <Compile Include="DirectoryVolumeComparator.cs" />
-    <Compile Include="EventInformationMapping.cs" />
     <Compile Include="FileAction.cs" />
     <Compile Include="FileComparator.cs" />
     <Compile Include="FileSystemManager.cs" />

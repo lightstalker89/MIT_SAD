@@ -7,7 +7,6 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
 namespace BiOWheelsFileWatcher
 {
     using System.Collections.Generic;
@@ -19,10 +18,6 @@ namespace BiOWheelsFileWatcher
     /// </summary>
     public class BiOWheelsFileSystemWatcher : FileSystemWatcher
     {
-        #region Private Fields
-
-        #endregion
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BiOWheelsFileSystemWatcher"/> class
         /// </summary>
