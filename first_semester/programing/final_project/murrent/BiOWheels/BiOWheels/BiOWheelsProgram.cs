@@ -7,9 +7,6 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using BiOWheelsFileWatcher.Interfaces;
-
 namespace BiOWheels
 {
     using System;
@@ -25,6 +22,7 @@ namespace BiOWheels
 
     using BiOWheelsFileWatcher;
     using BiOWheelsFileWatcher.CustomEventArgs;
+    using BiOWheelsFileWatcher.Interfaces;
 
     using BiOWheelsLogger;
 
@@ -161,7 +159,8 @@ namespace BiOWheels
         /// </param>
         private static void ApplicationStartUp(bool loadConfig, string[] args)
         {
-            SimpleContainer.Instance.Register<IConfigurationManager, IConfigurationManager>(ConfigurationManagerFactory.CreateConfigurationManager());
+            SimpleContainer.Instance.Register<IConfigurationManager, IConfigurationManager>(
+                ConfigurationManagerFactory.CreateConfigurationManager());
             SimpleContainer.Instance.Register<ILogger, ILogger>(LoggerFactory.CreateCombinedLogger());
 
             SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<FileLogger>(true);
@@ -170,7 +169,6 @@ namespace BiOWheels
             SimpleContainer.Instance.Register<ICommandLineArgsParser, ICommandLineArgsParser>(
                 CommandLineArgsParserFactory.CreateCommandLineArgsParser());
             SimpleContainer.Instance.Register<IVisualizer, IVisualizer>(VisualizerFactory.CreateVisualizer());
-
 
             if (loadConfig)
             {
@@ -184,7 +182,7 @@ namespace BiOWheels
                 HandleParams(parser.Parse(args, Options));
 
                 // ToDo resolve commandline args
-                //CreateFileWatcher();
+                // CreateFileWatcher();
             }
         }
 
@@ -223,7 +221,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -233,6 +231,8 @@ namespace BiOWheels
             }
         }
 
+        /// <summary>
+        /// </summary>
         private static void CreateFileWatcher()
         {
             SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(
@@ -345,9 +345,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 

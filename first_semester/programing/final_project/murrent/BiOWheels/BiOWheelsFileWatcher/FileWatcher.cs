@@ -9,7 +9,6 @@
 // *******************************************************/
 
 using System.Runtime.CompilerServices;
-using BiOWheelsFileWatcher.Interfaces;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 
@@ -23,6 +22,7 @@ namespace BiOWheelsFileWatcher
 
     using BiOWheelsFileWatcher.CustomEventArgs;
     using BiOWheelsFileWatcher.CustomExceptions;
+    using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
     /// Class representing the <see cref="FileWatcher"/> and its interaction logic
@@ -56,10 +56,13 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Initializes a new instance of the <see cref="FileWatcher"/> class
         /// </summary>
+        /// <param name="queueManager">
+        /// </param>
         internal FileWatcher(IQueueManager queueManager)
         {
             this.Mappings = new List<DirectoryMapping>();
-            //this.queueManager = new QueueManager(FileWatcherFactory.CreateFileSystemManager(this.blockSize));
+
+            // this.queueManager = new QueueManager(FileWatcherFactory.CreateFileSystemManager(this.blockSize));
             this.queueManager = queueManager;
             this.QueueManager.CaughtException += this.QueueManagerCaughtException;
             this.QueueManager.ItemFinalized += this.QueueManagerItemFinalized;
@@ -428,10 +431,11 @@ namespace BiOWheelsFileWatcher
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             FileWatcherFactory.CreateFileSystemWatcher(
-                                ((DirectoryMapping) mappingInfo).SourceDirectory,
-                                ((DirectoryMapping) mappingInfo).Recursive,
-                                ((DirectoryMapping) mappingInfo).DestinationDirectories, this.blockCompareFileSizeInMB,
-                                ((DirectoryMapping) mappingInfo).ExcludedDirectories);
+                                ((DirectoryMapping)mappingInfo).SourceDirectory, 
+                                ((DirectoryMapping)mappingInfo).Recursive, 
+                                ((DirectoryMapping)mappingInfo).DestinationDirectories, 
+                                this.blockCompareFileSizeInMB, 
+                                ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
                         fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;

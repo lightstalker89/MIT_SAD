@@ -9,7 +9,6 @@
 // *******************************************************/
 
 using System.Runtime.CompilerServices;
-using BiOWheelsFileWatcher.Interfaces;
 
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 
@@ -21,6 +20,7 @@ namespace BiOWheelsFileWatcher
     using System.Threading;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
+    using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
     /// Class representing the <see cref="QueueManager"/> and its interaction logic
@@ -54,7 +54,9 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Initializes a new instance of the <see cref="QueueManager"/> class
         /// </summary>
-        /// <param name="fileSystemManager">The file system manager</param>
+        /// <param name="fileSystemManager">
+        /// The file system manager
+        /// </param>
         internal QueueManager(IFileSystemManager fileSystemManager)
         {
             this.SyncItemQueue = new ConcurrentQueue<SyncItem>();
@@ -156,6 +158,7 @@ namespace BiOWheelsFileWatcher
                 this.fileSystemManager = value;
             }
         }
+
         #endregion
 
         #region Methods
@@ -180,8 +183,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Called when an exception is caught.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="data">The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.
+        /// </param>
         protected void OnCaughtException(object sender, CaughtExceptionEventArgs data)
         {
             if (this.CaughtException != null)
@@ -193,8 +200,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Called when an item is finalized.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="data">The <see cref="ItemFinalizedEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="ItemFinalizedEventArgs"/> instance containing the event data.
+        /// </param>
         protected void OnItemFinalized(object sender, ItemFinalizedEventArgs data)
         {
             if (this.ItemFinalized != null)
@@ -236,49 +247,44 @@ namespace BiOWheelsFileWatcher
                     catch (UnauthorizedAccessException unauthorizedAccessException)
                     {
                         this.OnCaughtException(
-                            this,
+                            this, 
                             new CaughtExceptionEventArgs(
                                 unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
                     }
                     catch (ArgumentException argumentException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+                            this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
                     }
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(
-                                pathTooLongException.GetType(), pathTooLongException.Message));
+                            this, 
+                            new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (DirectoryNotFoundException directoryNotFoundException)
                     {
                         this.OnCaughtException(
-                            this,
+                            this, 
                             new CaughtExceptionEventArgs(
                                 directoryNotFoundException.GetType(), directoryNotFoundException.Message));
                     }
                     catch (FileNotFoundException fileNotFoundException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(
-                                fileNotFoundException.GetType(), fileNotFoundException.Message));
+                            this, 
+                            new CaughtExceptionEventArgs(fileNotFoundException.GetType(), fileNotFoundException.Message));
                     }
                     catch (IOException systemIOException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
+                            this, new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
                     }
                     catch (NotSupportedException notSupportedException)
                     {
                         this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(
-                                notSupportedException.GetType(), notSupportedException.Message));
+                            this, 
+                            new CaughtExceptionEventArgs(notSupportedException.GetType(), notSupportedException.Message));
                     }
                 }
             }

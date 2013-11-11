@@ -1,9 +1,21 @@
-﻿using System.IO;
-using System.Linq;
-using BiOWheelsFileWatcher.Interfaces;
-
+﻿// *******************************************************
+// * <copyright file="FileSystemManager.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace BiOWheelsFileWatcher
 {
+    using System.IO;
+    using System.Linq;
+
+    using BiOWheelsFileWatcher.Interfaces;
+
+    /// <summary>
+    /// </summary>
     internal class FileSystemManager : IFileSystemManager
     {
         #region Private Fields
@@ -15,6 +27,10 @@ namespace BiOWheelsFileWatcher
 
         #endregion
 
+        /// <summary>
+        /// </summary>
+        /// <param name="fileComparator">
+        /// </param>
         internal FileSystemManager(IFileComparator fileComparator)
         {
             this.FileComparator = fileComparator;
@@ -107,9 +123,9 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="item">
+        /// </param>
         public void Copy(SyncItem item)
         {
             if (item.FullQualifiedSourceFileName.IsDirectory())

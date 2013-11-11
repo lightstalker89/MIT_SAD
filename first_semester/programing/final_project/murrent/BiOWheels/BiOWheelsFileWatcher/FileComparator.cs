@@ -7,15 +7,14 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using BiOWheelsFileWatcher.Interfaces;
-
 namespace BiOWheelsFileWatcher
 {
     using System;
     using System.IO;
     using System.Linq;
     using System.Security.Cryptography;
+
+    using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FileComparator"/> class
@@ -37,8 +36,10 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
-        ///  Initializes a new instance of the <see cref="FileComparator"/> class
+        /// Initializes a new instance of the <see cref="FileComparator"/> class
         /// </summary>
+        /// <param name="blockSize">
+        /// </param>
         public FileComparator(long blockSize)
         {
             this.BlockSize = blockSize;

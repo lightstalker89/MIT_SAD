@@ -27,6 +27,10 @@ namespace BiOWheelsLogger
         /// <summary>
         /// Initializes a new instance of the <see cref="CombinedLogger"/> class
         /// </summary>
+        /// <param name="consoleLogger">
+        /// </param>
+        /// <param name="fileLogger">
+        /// </param>
         internal CombinedLogger(ILogger consoleLogger, ILogger fileLogger)
         {
             this.consoleLogger = consoleLogger;

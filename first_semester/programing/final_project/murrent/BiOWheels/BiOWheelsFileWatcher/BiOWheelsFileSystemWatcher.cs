@@ -327,7 +327,10 @@ namespace BiOWheelsFileWatcher
         /// </returns>
         private bool MustCompareFileInBlocks(string file)
         {
-            if (file.IsDirectory()) return false;
+            if (file.IsDirectory())
+            {
+                return false;
+            }
 
             double length;
 

@@ -42,9 +42,9 @@ namespace BiOWheelsConfigManager.Test
 
             this.config = new Configuration
                 {
-                    BlockCompareOptions = new BlockCompareOptions { BlockCompareFileSizeInMB = 20, BlockSizeInKB = 2048 },
-                    LogFileOptions = new LogFileOptions { LogFileFolder = "log", LogFileSizeInMB = 1 },
-                    ParallelSync = false,
+                    BlockCompareOptions = new BlockCompareOptions { BlockCompareFileSizeInMB = 20, BlockSizeInKB = 2048 }, 
+                    LogFileOptions = new LogFileOptions { LogFileFolder = "log", LogFileSizeInMB = 1 }, 
+                    ParallelSync = false, 
                     DirectoryMappingInfo =
                         new List<DirectoryMappingInfo>
                             {

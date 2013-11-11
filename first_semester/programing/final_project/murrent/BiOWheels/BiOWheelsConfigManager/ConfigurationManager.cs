@@ -18,6 +18,8 @@ namespace BiOWheelsConfigManager
     /// </summary>
     public class ConfigurationManager : IConfigurationManager
     {
+        /// <summary>
+        /// </summary>
         internal ConfigurationManager()
         {
         }
@@ -110,6 +112,7 @@ namespace BiOWheelsConfigManager
 
             return WriterStatus.SUCCESSFULL;
         }
+
         #endregion
     }
 }

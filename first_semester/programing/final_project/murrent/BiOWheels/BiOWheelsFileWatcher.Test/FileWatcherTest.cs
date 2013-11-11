@@ -7,9 +7,6 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using BiOWheelsFileWatcher.Interfaces;
-
 namespace BiOWheelsFileWatcher.Test
 {
     using System;
@@ -20,6 +17,7 @@ namespace BiOWheelsFileWatcher.Test
     using System.Threading;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
+    using BiOWheelsFileWatcher.Interfaces;
 
     using BiOWheelsTestHelper;
 
@@ -104,7 +102,7 @@ namespace BiOWheelsFileWatcher.Test
         public void TestFileWatcher()
         {
             this.fileWatcher.Init();
-            ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 100000, 1000);
+            ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 10000000, 1000);
         }
 
         /// <summary>

@@ -7,11 +7,10 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Collections.Generic;
-
 namespace BiOWheelsFileWatcher.Interfaces
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Interface representing the must implement methods
     /// </summary>

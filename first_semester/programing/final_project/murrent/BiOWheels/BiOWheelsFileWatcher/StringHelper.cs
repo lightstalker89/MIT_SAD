@@ -20,8 +20,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Determines whether the specified input is directory.
         /// </summary>
-        /// <param name="input">The input.</param>
-        /// <returns>A value indicating whether the string is a directory or not</returns>
+        /// <param name="input">
+        /// The input.
+        /// </param>
+        /// <returns>
+        /// A value indicating whether the string is a directory or not
+        /// </returns>
         public static bool IsDirectory(this string input)
         {
             bool retValue = false;
