@@ -40,11 +40,6 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         /// </summary>
         public string FileName { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the file must be compared in blocks or not
-        /// </summary>
-        public bool CompareInBlocks { get; set; }
-
         #endregion
     }
 }

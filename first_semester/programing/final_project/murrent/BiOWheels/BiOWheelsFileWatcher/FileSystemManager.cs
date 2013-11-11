@@ -7,6 +7,10 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System;
+using System.Threading.Tasks;
+
 namespace BiOWheelsFileWatcher
 {
     using System.IO;
@@ -25,6 +29,10 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         private IFileComparator fileComparator;
 
+        /// <summary>
+        /// Block compare size in MB
+        /// </summary>
+        private long blockCompareFileSizeInMB;
         #endregion
 
         /// <summary>
@@ -37,6 +45,23 @@ namespace BiOWheelsFileWatcher
         }
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the block size in MB
+        /// </summary>
+        public long BlockCompareFileSizeInMB
+        {
+            get
+            {
+                return this.blockCompareFileSizeInMB;
+
+            }
+
+            set
+            {
+                this.blockCompareFileSizeInMB = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the <see cref="FileComparator"/> instance
@@ -67,22 +92,29 @@ namespace BiOWheelsFileWatcher
         internal void CopyFile(SyncItem item)
         {
             // TODO: Parallel Sync implement
-            foreach (string destination in item.Destinations)
+
+            if (MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
             {
-                this.CreateDirectoryIfNotExists(destination);
+                this.DiffFile(item);
+            }
+            else
+            {
+                foreach (string destination in item.Destinations)
+                {
+                    this.CreateDirectoryIfNotExists(destination);
 
-                string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+                    string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
-                this.CreateDirectoryIfNotExists(pathToCopy);
+                    this.CreateDirectoryIfNotExists(pathToCopy);
 
-                string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+                    string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
 
-                File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
+                    File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
+                }
             }
         }
 
-        /// <inheritdoc/>
-        public void DiffFile(SyncItem item)
+        internal void DiffFile(SyncItem item)
         {
             foreach (string destinationFile in
                 item.Destinations.Select(
@@ -107,10 +139,8 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void Delete(SyncItem item)
         {
-            foreach (string destination in item.Destinations)
+            foreach (string pathToDelete in item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
             {
-                string pathToDelete = destination + Path.DirectorySeparatorChar + item.SourceFile;
-
                 if (pathToDelete.IsDirectory())
                 {
                     Directory.Delete(pathToDelete, true);
@@ -151,6 +181,33 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        /// <summary>
+        /// Checks if the file must be compared in blocks
+        /// </summary>
+        /// <param name="file">
+        /// Full qualified file name
+        /// </param>
+        /// <returns>
+        /// A value whether the file must be compared in blocks or not
+        /// </returns>
+        internal bool MustCompareFileInBlocks(string file)
+        {
+            if (file.IsDirectory())
+            {
+                return false;
+            }
+
+            double length;
+
+            using (Stream actualFileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
+                actualFileStream.Close();
+            }
+            GC.Collect();
+
+            return length > this.BlockCompareFileSizeInMB;
+        }
         #endregion
     }
 }

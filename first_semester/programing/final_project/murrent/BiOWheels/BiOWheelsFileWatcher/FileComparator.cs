@@ -144,6 +144,7 @@ namespace BiOWheelsFileWatcher
                     // TODO: refactor QueueManager and create FileManager -> extract methods
                 }
             }
+            GC.Collect();
         }
 
         #endregion

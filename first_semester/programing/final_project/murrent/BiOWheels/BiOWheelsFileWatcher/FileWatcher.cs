@@ -62,7 +62,6 @@ namespace BiOWheelsFileWatcher
         {
             this.Mappings = new List<DirectoryMapping>();
 
-            // this.queueManager = new QueueManager(FileWatcherFactory.CreateFileSystemManager(this.blockSize));
             this.queueManager = queueManager;
             this.QueueManager.CaughtException += this.QueueManagerCaughtException;
             this.QueueManager.ItemFinalized += this.QueueManagerItemFinalized;
@@ -333,29 +332,6 @@ namespace BiOWheelsFileWatcher
         /// </param>
         /// <param name="e">
         /// </param>
-        protected void FileSystemWatcherObjectChanged(object sender, CustomFileSystemEventArgs e)
-        {
-            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
-
-            if (watcher != null)
-            {
-                this.AddQueueItem(
-                    watcher.Destinations, 
-                    e.FileName, 
-                    e.FullQualifiedFileName, 
-                    e.CompareInBlocks ? FileAction.DIFF : FileAction.COPY);
-                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has changed."));
-                this.OnProgressUpdate(
-                    this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.FileName + "--"));
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
         protected void FileSystemWatcherObjectRenamed(object sender, CustomRenamedEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -434,12 +410,10 @@ namespace BiOWheelsFileWatcher
                                 ((DirectoryMapping)mappingInfo).SourceDirectory, 
                                 ((DirectoryMapping)mappingInfo).Recursive, 
                                 ((DirectoryMapping)mappingInfo).DestinationDirectories, 
-                                this.blockCompareFileSizeInMB, 
                                 ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
                         fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
-                        fileSystemWatcher.ObjectChanged += this.FileSystemWatcherObjectChanged;
                         fileSystemWatcher.ObjectCreated += this.FileSystemWatcherObjectCreated;
                         fileSystemWatcher.ObjectDeleted += this.FileSystemWatcherObjectDeleted;
                         fileSystemWatcher.ObjectRenamed += this.FileSystemWatcherObjectRenamed;

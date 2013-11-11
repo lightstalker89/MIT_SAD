@@ -7,6 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Threading.Tasks;
+
 namespace BiOWheelsFileWatcher.Interfaces
 {
     /// <summary>
@@ -26,13 +29,5 @@ namespace BiOWheelsFileWatcher.Interfaces
         /// Item from the queue
         /// </param>
         void Copy(SyncItem item);
-
-        /// <summary>
-        /// Compare files from a destination with files in all given destinations
-        /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
-        void DiffFile(SyncItem item);
     }
 }

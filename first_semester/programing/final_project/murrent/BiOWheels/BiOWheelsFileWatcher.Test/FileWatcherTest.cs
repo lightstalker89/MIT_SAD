@@ -102,6 +102,8 @@ namespace BiOWheelsFileWatcher.Test
         public void TestFileWatcher()
         {
             this.fileWatcher.Init();
+            this.CreateFolders(20,10);
+
             ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 10000000, 1000);
         }
 
@@ -137,6 +139,28 @@ namespace BiOWheelsFileWatcher.Test
 
             Assert.NotNull(syncedFiles);
             Assert.True(syncedFiles.Length.Equals(FileNumber));
+        }
+
+        /// <summary>
+        /// Create folders
+        /// </summary>
+        /// <param name="folderCount">Folder count</param>
+        /// <param name="fileCount">File count</param>
+        private void CreateFolders(int folderCount, int fileCount)
+        {
+            DirectoryInfo info = Directory.CreateDirectory("A");
+
+            for (int i = 0; i < folderCount; i++)
+            {
+                Directory.CreateDirectory(Path.Combine(info.Name,"Folder" + i));
+                Directory.CreateDirectory(Path.Combine(info.Name,"Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2"));
+                for (int x = 0; x < fileCount; x++)
+                {
+                    File.Create(Path.Combine(info.Name, "Folder" + i + Path.DirectorySeparatorChar + "File" + i + x));
+                }
+
+                File.Create(Path.Combine(info.Name,"Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar + "File" + i));
+            }
         }
 
         /// <summary>

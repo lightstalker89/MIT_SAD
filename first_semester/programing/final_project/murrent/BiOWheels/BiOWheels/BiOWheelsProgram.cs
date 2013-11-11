@@ -221,7 +221,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -239,7 +239,7 @@ namespace BiOWheels
                 FileWatcherFactory.CreateFileWatcher(
                     FileWatcherFactory.CreateQueueManager(
                         FileWatcherFactory.CreateFileSystemManager(
-                            FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB)))));
+                            FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB), configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
 
             AttachFileWatcherEvents();
         }
@@ -345,9 +345,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
