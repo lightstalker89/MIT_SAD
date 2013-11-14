@@ -242,6 +242,7 @@ namespace BiOWheelsFileWatcher
                     }
                     catch (UnauthorizedAccessException unauthorizedAccessException)
                     {
+                        this.syncItemQueue.Enqueue(item);
                         this.OnCaughtException(
                             this, 
                             new CaughtExceptionEventArgs(

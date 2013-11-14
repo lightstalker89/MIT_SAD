@@ -84,16 +84,8 @@ namespace BiOWheelsFileWatcher
 
         #region Methods
 
-        /// <summary>
-        /// Compares to files in blocks
-        /// </summary>
-        /// <param name="sourceFile">
-        /// Destination file
-        /// </param>
-        /// <param name="destinationFile">
-        /// Source file
-        /// </param>
-        internal void Compare(string sourceFile, string destinationFile)
+        /// <inheritdoc/>
+        public void Compare(string sourceFile, string destinationFile)
         {
             using (
                 Stream sourceStream = new FileStream(sourceFile, FileMode.Open, FileAccess.Read, FileShare.Read), 

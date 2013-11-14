@@ -30,9 +30,17 @@ namespace BiOWheelsFileWatcher
             this.Created += this.BiOWheelsFileSystemWatcherCreated;
             this.Deleted += this.BiOWheelsFileSystemWatcherDeleted;
             this.Renamed += this.BiOWheelsFileSystemWatcherRenamed;
+            //this.Changed += this.BiOWheelsFileSystemWatcherChanged;
         }
 
         #region Delegates
+
+        /// <summary>
+        /// Delegate for the <see cref="ObjectChangedHandler"/> event
+        /// </summary>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="data">Data from the event</param>
+        public delegate void ObjectChangedHandler(object sender, CustomFileSystemEventArgs data);
 
         /// <summary>
         /// Delegate for the <see cref="ObjectRenamedHandler"/> event
@@ -58,6 +66,11 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         #region Event Handler
+
+        /// <summary>
+        /// Event handler for an object that changed
+        /// </summary>
+        public event ObjectChangedHandler ObjectChanged;
 
         /// <summary>
         /// Event handler for an object that has been renamed
@@ -93,6 +106,19 @@ namespace BiOWheelsFileWatcher
         #region Methods
 
         #region Event Methods
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void BiOWheelsFileSystemWatcherChanged(object sender, FileSystemEventArgs e)
+        {
+            CustomFileSystemEventArgs customEventArgs = new CustomFileSystemEventArgs(e.FullPath, e.Name);
+
+            //this.OnObjectChanged(customEventArgs);
+
+        }
 
         /// <summary>
         /// </summary>
@@ -132,6 +158,18 @@ namespace BiOWheelsFileWatcher
             CustomFileSystemEventArgs customEventArgs = new CustomFileSystemEventArgs(e.FullPath, e.Name);
 
             this.OnObjectCreated(customEventArgs);
+        }
+
+        /// <summary>
+        ///  Raises the <see cref="OnObjectChanged"/> event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnObjectChanged(CustomFileSystemEventArgs e)
+        {
+            if (this.ObjectChanged != null)
+            {
+                this.ObjectChanged(this, e);
+            }
         }
 
         /// <summary>

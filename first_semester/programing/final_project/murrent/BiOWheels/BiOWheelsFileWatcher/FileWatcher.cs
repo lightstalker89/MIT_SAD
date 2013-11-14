@@ -219,11 +219,11 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.CaughtException(
-                    this, 
+                    this,
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
                         {
-                           CustomExceptionText = "Error while enumerating all files in the given directory" 
+                            CustomExceptionText = "Error while enumerating all files in the given directory"
                         });
 
                 return new List<string>();
@@ -327,6 +327,28 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Occurs when a file or directory in the specified Path is changed.
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        protected void FileSystemWatcherObjectChanged(object sender, CustomFileSystemEventArgs e)
+        {
+            BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
+
+            if (watcher != null)
+            {
+                this.AddQueueItem(
+                    watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
+                this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has changed."));
+                this.OnProgressUpdate(
+                    this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.FileName + "--"));
+            }
+        }
+
+
+        /// <summary>
         /// </summary>
         /// <param name="sender">
         /// </param>
@@ -340,10 +362,10 @@ namespace BiOWheelsFileWatcher
             {
                 this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
                 this.OnProgressUpdate(
-                    this, 
+                    this,
                     new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
                 this.OnProgressUpdate(
-                    this, 
+                    this,
                     new UpdateProgressEventArgs(
                         "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
             }
@@ -407,9 +429,9 @@ namespace BiOWheelsFileWatcher
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             FileWatcherFactory.CreateFileSystemWatcher(
-                                ((DirectoryMapping)mappingInfo).SourceDirectory, 
-                                ((DirectoryMapping)mappingInfo).Recursive, 
-                                ((DirectoryMapping)mappingInfo).DestinationDirectories, 
+                                ((DirectoryMapping)mappingInfo).SourceDirectory,
+                                ((DirectoryMapping)mappingInfo).Recursive,
+                                ((DirectoryMapping)mappingInfo).DestinationDirectories,
                                 ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
@@ -417,13 +439,14 @@ namespace BiOWheelsFileWatcher
                         fileSystemWatcher.ObjectCreated += this.FileSystemWatcherObjectCreated;
                         fileSystemWatcher.ObjectDeleted += this.FileSystemWatcherObjectDeleted;
                         fileSystemWatcher.ObjectRenamed += this.FileSystemWatcherObjectRenamed;
+                        //fileSystemWatcher.ObjectChanged += this.FileSystemWatcherObjectChanged;
                         fileSystemWatcher.Filter = string.Empty;
                         fileSystemWatcher.EnableRaisingEvents = true;
                     }
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this, 
+                            this,
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -435,7 +458,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this, 
+                        this,
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }

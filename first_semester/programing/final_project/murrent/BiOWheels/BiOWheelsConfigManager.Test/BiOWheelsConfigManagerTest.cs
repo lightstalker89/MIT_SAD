@@ -73,9 +73,9 @@ namespace BiOWheelsConfigManager.Test
         [TestCase]
         public void TestWrite()
         {
-            this.configurationManager.Write("config.xml", this.config);
+            this.configurationManager.Write("BiOWheelsConfig.xml", this.config);
 
-            FileStream fs = File.Open("config.xml", FileMode.Open);
+            FileStream fs = File.Open("BiOWheelsConfig.xml", FileMode.Open);
 
             Assert.NotNull(fs);
 
@@ -88,7 +88,7 @@ namespace BiOWheelsConfigManager.Test
         [TestCase]
         public void TestLoad()
         {
-            object loadedConfiguration = this.configurationManager.Load<Configuration>("config.xml");
+            object loadedConfiguration = this.configurationManager.Load<Configuration>("BiOWheelsConfig.xml");
 
             Assert.NotNull(this.config);
 

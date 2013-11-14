@@ -64,6 +64,16 @@ namespace BiOWheels
         /// </summary>
         private static bool isListeningToConsoleKeyInput = true;
 
+        /// <summary>
+        /// Holds some messages
+        /// </summary>
+        private static readonly List<string> egMessageList = new List<string>();
+
+        /// <summary>
+        /// Holds some click count
+        /// </summary>
+        private static int egClickCount = 0;
+
         #endregion
 
         /// <summary>
@@ -159,6 +169,8 @@ namespace BiOWheels
         /// </param>
         private static void ApplicationStartUp(bool loadConfig, string[] args)
         {
+            FillEgMessageList();
+
             SimpleContainer.Instance.Register<IConfigurationManager, IConfigurationManager>(
                 ConfigurationManagerFactory.CreateConfigurationManager());
             SimpleContainer.Instance.Register<ILogger, ILogger>(LoggerFactory.CreateCombinedLogger());
@@ -207,11 +219,10 @@ namespace BiOWheels
                 }
                 else
                 {
+                    CreateFileWatcher();
                     DistributeConfigurationValues();
+                    StartSync();
                 }
-
-                CreateFileWatcher();
-                StartSync();
             }
             else
             {
@@ -221,7 +232,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -240,7 +251,7 @@ namespace BiOWheels
                 FileWatcherFactory.CreateFileWatcher(
                     FileWatcherFactory.CreateQueueManager(
                         FileWatcherFactory.CreateFileSystemManager(
-                            FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB), 
+                            FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB),
                             configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
 
             AttachFileWatcherEvents();
@@ -261,10 +272,11 @@ namespace BiOWheels
                 }
                 else if (key == ConsoleKey.S)
                 {
-                    // TODO: implement easter egg
+                    Log(GetEasterEgg(), MessageType.INFO);
                 }
                 else if (key == ConsoleKey.P)
                 {
+                    Log("Parallel syn has been activated. This will fast copy all possible files.", MessageType.INFO);
                     // TODO: Activate or deactivate parallel sync
                 }
                 else if (key == ConsoleKey.L)
@@ -287,6 +299,8 @@ namespace BiOWheels
         /// </summary>
         private static void StartSync()
         {
+            Log("Starting to monitor files.", MessageType.INFO);
+
             ListenToConsoleKeyInput();
         }
 
@@ -347,9 +361,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
@@ -380,6 +394,37 @@ namespace BiOWheels
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Get the easter egg
+        /// </summary>
+        /// <returns>A message</returns>
+        private static string GetEasterEgg()
+        {
+            egClickCount++;
+
+            Random random = new Random();
+
+            if (egClickCount%3 == 0)
+            {
+                return "Really? Do something useful :)";
+            }
+
+            return egMessageList[random.Next(0, egMessageList.Count)];
+        }
+
+        private static void FillEgMessageList()
+        {
+            egMessageList.Add("There are exactly 10 types of people: These who know binary and these who do not.");
+            egMessageList.Add("Programming is similar to sex. If you make a mistake, you have to support it for the rest of your life.");
+            egMessageList.Add("Always borrow money from a pessimist. He won’t expect it back.");
+            egMessageList.Add("Artificial Intelligence usually beats natural stupidity.");
+            egMessageList.Add("If Python is executable pseudocode, then perl is executable line noise.");
+            egMessageList.Add("If at first you don't succeed; call it version 1.0");
+            egMessageList.Add("My software never has bugs. It just develops random features.");
+            egMessageList.Add("Microsoft: You've got questions. We've got dancing paperclips.");
+            egMessageList.Add("Those who can't write programs, write help files.");
         }
 
         /// <summary>

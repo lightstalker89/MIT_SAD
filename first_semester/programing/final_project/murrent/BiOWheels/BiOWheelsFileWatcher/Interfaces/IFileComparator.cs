@@ -13,5 +13,15 @@ namespace BiOWheelsFileWatcher.Interfaces
     /// </summary>
     public interface IFileComparator
     {
+        /// <summary>
+        /// Compares to files in blocks
+        /// </summary>
+        /// <param name="sourceFile">
+        /// Destination file
+        /// </param>
+        /// <param name="destinationFile">
+        /// Source file
+        /// </param>
+        void Compare(string sourceFile, string destinationFile);
     }
 }

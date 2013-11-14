@@ -85,13 +85,11 @@ namespace BiOWheelsFileWatcher
         {
             foreach (string destination in item.Destinations)
             {
-                this.CreateDirectoryIfNotExists(destination, null);
+                this.CreateDirectoryIfNotExists(destination);
 
                 string pathToCopy = destination + Path.DirectorySeparatorChar + item.SourceFile;
 
-                DirectoryInfo directoryInfo = new DirectoryInfo(item.SourceFile);
-
-                this.CreateDirectoryIfNotExists(pathToCopy, directoryInfo);
+                this.CreateDirectoryIfNotExists(pathToCopy);
             }
         }
 
@@ -141,8 +139,7 @@ namespace BiOWheelsFileWatcher
         /// <param name="directory">
         /// Path of the directory
         /// </param>
-        /// <param name="directoryInfo">Directory information </param>
-        internal void CreateDirectoryIfNotExists(string directory, DirectoryInfo directoryInfo)
+        internal void CreateDirectoryIfNotExists(string directory)
         {
             if (directory != null && !Directory.Exists(directory))
             {
@@ -167,12 +164,12 @@ namespace BiOWheelsFileWatcher
             {
                 foreach (string destination in item.Destinations)
                 {
-                    this.CreateDirectoryIfNotExists(destination, null);
+                    this.CreateDirectoryIfNotExists(destination);
 
                     string pathToCopy =
                         Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
-                    this.CreateDirectoryIfNotExists(pathToCopy, null);
+                    this.CreateDirectoryIfNotExists(pathToCopy);
 
                     string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
 
@@ -191,6 +188,7 @@ namespace BiOWheelsFileWatcher
                 item.Destinations.Select(
                     destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
             {
+                this.fileComparator.Compare(item.FullQualifiedSourceFileName, destinationFile);
             }
         }
 
