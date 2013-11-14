@@ -85,11 +85,13 @@ namespace BiOWheelsFileWatcher
         {
             foreach (string destination in item.Destinations)
             {
-                this.CreateDirectoryIfNotExists(destination);
+                this.CreateDirectoryIfNotExists(destination, null);
 
                 string pathToCopy = destination + Path.DirectorySeparatorChar + item.SourceFile;
 
-                this.CreateDirectoryIfNotExists(pathToCopy);
+                DirectoryInfo directoryInfo = new DirectoryInfo(item.SourceFile);
+
+                this.CreateDirectoryIfNotExists(pathToCopy, directoryInfo);
             }
         }
 
@@ -102,11 +104,17 @@ namespace BiOWheelsFileWatcher
             {
                 if (pathToDelete.IsDirectory())
                 {
-                    Directory.Delete(pathToDelete, true);
+                    if (Directory.Exists(pathToDelete))
+                    {
+                        Directory.Delete(pathToDelete, true);
+                    }
                 }
                 else
                 {
-                    File.Delete(pathToDelete);
+                    if (File.Exists(pathToDelete))
+                    {
+                        File.Delete(pathToDelete);
+                    }
                 }
             }
         }
@@ -131,8 +139,10 @@ namespace BiOWheelsFileWatcher
         /// Creates a directory if it does not exist
         /// </summary>
         /// <param name="directory">
+        /// Path of the directory
         /// </param>
-        internal void CreateDirectoryIfNotExists(string directory)
+        /// <param name="directoryInfo">Directory information </param>
+        internal void CreateDirectoryIfNotExists(string directory, DirectoryInfo directoryInfo)
         {
             if (directory != null && !Directory.Exists(directory))
             {
@@ -157,12 +167,12 @@ namespace BiOWheelsFileWatcher
             {
                 foreach (string destination in item.Destinations)
                 {
-                    this.CreateDirectoryIfNotExists(destination);
+                    this.CreateDirectoryIfNotExists(destination, null);
 
                     string pathToCopy =
                         Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
-                    this.CreateDirectoryIfNotExists(pathToCopy);
+                    this.CreateDirectoryIfNotExists(pathToCopy, null);
 
                     string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
 
