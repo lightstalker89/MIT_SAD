@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Sources>
+  <Source Path="D:\FH\Master\Programmieren\DataSync\WATCH1">
+
+    <ExcludedSources>
+      <ExcludedSource Path="D:\FH\Master\Programmieren\DataSync\WATCH1\EXCL1"/>
+    </ExcludedSources>
+
+    <Destinations>
+      <Destination Path="D:\FH\Master\Programmieren\DataSync\DEST1"/>
+      <Destination Path="D:\FH\Master\Programmieren\DataSync\DEST2"/>
+    </Destinations>
+
+  </Source>
+
+  <Source Path="D:\FH\Master\Programmieren\DataSync\WATCH2">
+
+    <ExcludedSources>
+      <ExcludedSource Path="D:\FH\Master\Programmieren\DataSync\WATCH1\EXCL2"/>
+    </ExcludedSources>
+
+    <Destinations>
+      <Destination Path="D:\FH\Master\Programmieren\DataSync\DEST3"/>
+      <Destination Path="D:\FH\Master\Programmieren\DataSync\DEST4"/>
+    </Destinations>
+
+  </Source>
+  
+</Sources>
