@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="CustomRenamedEventArgs.cs" company="MDMCoWorks">
+// * <copyright file="CustomFileRenamedEventArgs.cs" company="MDMCoWorks">
 // * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -11,10 +11,10 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
 {
     /// <summary>
     /// </summary>
-    public class CustomRenamedEventArgs
+    public class CustomFileRenamedEventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomRenamedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="CustomFileRenamedEventArgs"/> class.
         /// </summary>
         /// <param name="fullQualifiedFileName">
         /// Full name of the qualified file.
@@ -28,7 +28,7 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         /// <param name="oldFullQualifiedFileName">
         /// Old name of the full qualified file.
         /// </param>
-        public CustomRenamedEventArgs(
+        public CustomFileRenamedEventArgs(
             string fullQualifiedFileName, string fileName, string oldFileName, string oldFullQualifiedFileName)
         {
             this.FullQualifiedFileName = fullQualifiedFileName;

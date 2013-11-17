@@ -96,9 +96,8 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void Delete(SyncItem item)
         {
-            foreach (
-                string pathToDelete in
-                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
+            foreach (string pathToDelete in
+                item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
             {
                 if (pathToDelete.IsDirectory())
                 {
@@ -156,26 +155,31 @@ namespace BiOWheelsFileWatcher
         internal void CopyFile(SyncItem item)
         {
             // TODO: Parallel Sync implement
-            if (this.MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
+            // if (this.MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
+            // {
+            // this.DiffFile(item);
+            // }
+            // else
+            // {
+            foreach (string destination in item.Destinations)
             {
-                this.DiffFile(item);
+                string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+
+                this.CreateDirectoryIfNotExists(pathToCopy);
+
+                string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+
+                File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
+                //using (
+                //    FileStream sourceStream = new FileStream(
+                //        item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
+                //               destinationStream = new FileStream(fileToCopy, FileMode.OpenOrCreate, FileAccess.Write))
+                //{
+                //    sourceStream.CopyToAsync(destinationStream);
+                //}
             }
-            else
-            {
-                foreach (string destination in item.Destinations)
-                {
-                    this.CreateDirectoryIfNotExists(destination);
 
-                    string pathToCopy =
-                        Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
-
-                    this.CreateDirectoryIfNotExists(pathToCopy);
-
-                    string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
-
-                    File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
-                }
-            }
+            // }
         }
 
         /// <summary>

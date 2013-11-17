@@ -26,5 +26,11 @@ namespace BiOWheelsFileWatcher.Interfaces
         /// Item from the queue
         /// </param>
         void Copy(SyncItem item);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="item">
+        /// </param>
+        void CopyDirectory(SyncItem item);
     }
 }

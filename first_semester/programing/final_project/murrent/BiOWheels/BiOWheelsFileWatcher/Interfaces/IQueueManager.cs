@@ -15,11 +15,6 @@ namespace BiOWheelsFileWatcher.Interfaces
     public interface IQueueManager
     {
         /// <summary>
-        /// Gets or sets a value indicating whether an item can be added to the queue or not
-        /// </summary>
-        bool CanAddItemsToQueue { get; set; }
-
-        /// <summary>
         /// Start the <see cref="QueueManager"/>
         /// </summary>
         void DoWork();

@@ -171,6 +171,8 @@ namespace BiOWheelsFileWatcher
 
             foreach (DirectoryMapping mapping in this.Mappings)
             {
+                //string[] directories = Directory.GetDirectories(mapping.SourceDirectory);
+
                 Thread backgroundWatcherThread = new Thread(this.WatchDirectory);
                 backgroundWatcherThread.Start(mapping);
             }
@@ -219,11 +221,11 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.CaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
                         {
-                            CustomExceptionText = "Error while enumerating all files in the given directory"
+                           CustomExceptionText = "Error while enumerating all files in the given directory" 
                         });
 
                 return new List<string>();
@@ -339,14 +341,12 @@ namespace BiOWheelsFileWatcher
 
             if (watcher != null)
             {
-                this.AddQueueItem(
-                    watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
+                this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
                 this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has changed."));
                 this.OnProgressUpdate(
                     this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.FileName + "--"));
             }
         }
-
 
         /// <summary>
         /// </summary>
@@ -354,7 +354,7 @@ namespace BiOWheelsFileWatcher
         /// </param>
         /// <param name="e">
         /// </param>
-        protected void FileSystemWatcherObjectRenamed(object sender, CustomRenamedEventArgs e)
+        protected void FileSystemWatcherObjectRenamed(object sender, CustomFileRenamedEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
@@ -362,10 +362,10 @@ namespace BiOWheelsFileWatcher
             {
                 this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
                 this.OnProgressUpdate(
-                    this,
+                    this, 
                     new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
                 this.OnProgressUpdate(
-                    this,
+                    this, 
                     new UpdateProgressEventArgs(
                         "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
             }
@@ -425,40 +425,42 @@ namespace BiOWheelsFileWatcher
             {
                 if (mappingInfo.GetType() == typeof(DirectoryMapping))
                 {
-                    try
-                    {
-                        BiOWheelsFileSystemWatcher fileSystemWatcher =
-                            FileWatcherFactory.CreateFileSystemWatcher(
-                                ((DirectoryMapping)mappingInfo).SourceDirectory,
-                                ((DirectoryMapping)mappingInfo).Recursive,
-                                ((DirectoryMapping)mappingInfo).DestinationDirectories,
-                                ((DirectoryMapping)mappingInfo).ExcludedDirectories);
+                    // try
+                    // {
+                    BiOWheelsFileSystemWatcher fileSystemWatcher =
+                        FileWatcherFactory.CreateFileSystemWatcher(
+                            ((DirectoryMapping)mappingInfo).SourceDirectory, 
+                            ((DirectoryMapping)mappingInfo).Recursive, 
+                            ((DirectoryMapping)mappingInfo).DestinationDirectories, 
+                            ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
-                        fileSystemWatcher.Error += this.FileSystemWatcherError;
-                        fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
-                        fileSystemWatcher.ObjectCreated += this.FileSystemWatcherObjectCreated;
-                        fileSystemWatcher.ObjectDeleted += this.FileSystemWatcherObjectDeleted;
-                        fileSystemWatcher.ObjectRenamed += this.FileSystemWatcherObjectRenamed;
-                        //fileSystemWatcher.ObjectChanged += this.FileSystemWatcherObjectChanged;
-                        fileSystemWatcher.Filter = string.Empty;
-                        fileSystemWatcher.EnableRaisingEvents = true;
-                    }
-                    catch (PathTooLongException pathTooLongException)
-                    {
-                        this.OnCaughtException(
-                            this,
-                            new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
-                    }
-                    catch (ArgumentException argumentException)
-                    {
-                        this.OnCaughtException(
-                            this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
-                    }
+                    fileSystemWatcher.Error += this.FileSystemWatcherError;
+                    fileSystemWatcher.Disposed += this.FileSystemWatcherDisposed;
+                    fileSystemWatcher.ObjectCreated += this.FileSystemWatcherObjectCreated;
+                    fileSystemWatcher.ObjectDeleted += this.FileSystemWatcherObjectDeleted;
+                    fileSystemWatcher.ObjectRenamed += this.FileSystemWatcherObjectRenamed;
+                    fileSystemWatcher.ObjectChanged += this.FileSystemWatcherObjectChanged;
+                    fileSystemWatcher.Filter = string.Empty;
+                    fileSystemWatcher.InternalBufferSize = 64000;
+                    fileSystemWatcher.EnableRaisingEvents = true;
+
+                    // }
+                    // catch (PathTooLongException pathTooLongException)
+                    // {
+                    // this.OnCaughtException(
+                    // this,
+                    // new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
+                    // }
+                    // catch (ArgumentException argumentException)
+                    // {
+                    // this.OnCaughtException(
+                    // this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+                    // }
                 }
                 else
                 {
                     this.OnCaughtException(
-                        this,
+                        this, 
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }

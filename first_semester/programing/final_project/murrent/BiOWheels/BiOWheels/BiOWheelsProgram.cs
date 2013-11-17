@@ -72,7 +72,7 @@ namespace BiOWheels
         /// <summary>
         /// Holds some click count
         /// </summary>
-        private static int egClickCount = 0;
+        private static int egClickCount;
 
         #endregion
 
@@ -232,7 +232,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -251,7 +251,7 @@ namespace BiOWheels
                 FileWatcherFactory.CreateFileWatcher(
                     FileWatcherFactory.CreateQueueManager(
                         FileWatcherFactory.CreateFileSystemManager(
-                            FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB),
+                            FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB), 
                             configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
 
             AttachFileWatcherEvents();
@@ -277,6 +277,7 @@ namespace BiOWheels
                 else if (key == ConsoleKey.P)
                 {
                     Log("Parallel syn has been activated. This will fast copy all possible files.", MessageType.INFO);
+
                     // TODO: Activate or deactivate parallel sync
                 }
                 else if (key == ConsoleKey.L)
@@ -361,9 +362,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
@@ -406,7 +407,7 @@ namespace BiOWheels
 
             Random random = new Random();
 
-            if (egClickCount%3 == 0)
+            if (egClickCount % 3 == 0)
             {
                 return "Really? Do something useful :)";
             }
@@ -414,10 +415,13 @@ namespace BiOWheels
             return egMessageList[random.Next(0, egMessageList.Count)];
         }
 
+        /// <summary>
+        /// </summary>
         private static void FillEgMessageList()
         {
             egMessageList.Add("There are exactly 10 types of people: These who know binary and these who do not.");
-            egMessageList.Add("Programming is similar to sex. If you make a mistake, you have to support it for the rest of your life.");
+            egMessageList.Add(
+                "Programming is similar to sex. If you make a mistake, you have to support it for the rest of your life.");
             egMessageList.Add("Always borrow money from a pessimist. He won’t expect it back.");
             egMessageList.Add("Artificial Intelligence usually beats natural stupidity.");
             egMessageList.Add("If Python is executable pseudocode, then perl is executable line noise.");

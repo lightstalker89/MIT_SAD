@@ -18,6 +18,7 @@ namespace BiOWheelsFileWatcher
     using System.Collections.Concurrent;
     using System.IO;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
     using BiOWheelsFileWatcher.Interfaces;
@@ -47,8 +48,9 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// A value indicating if an item can be added to the queue or not
         /// </summary>
-        private bool canAddItemsToQueue;
+        private bool canDequeueItems;
 
+        private System.Object lockOject = new System.Object();
         #endregion
 
         /// <summary>
@@ -98,16 +100,16 @@ namespace BiOWheelsFileWatcher
         #region Properties
 
         /// <inheritdoc/>
-        public bool CanAddItemsToQueue
+        public bool CanDequeueItems
         {
             get
             {
-                return this.canAddItemsToQueue;
+                return this.canDequeueItems;
             }
 
             set
             {
-                this.canAddItemsToQueue = value;
+                this.canDequeueItems = value;
             }
         }
 
@@ -175,7 +177,14 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void Enqueue(SyncItem item)
         {
-            this.SyncItemQueue.Enqueue(item);
+            lock (this.lockOject)
+            {
+                this.CanDequeueItems = false;
+
+                Task taks = Task.Factory.StartNew(() => this.SyncItemQueue.Enqueue(item));
+                taks.Wait();
+                this.CanDequeueItems = true;
+            }
         }
 
         #region Event Methods
@@ -217,72 +226,81 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
+        /// </summary>
+        /// <param name="syncItem">
+        /// </param>
+        private void FinalizeQueueItem(SyncItem syncItem)
+        {
+            try
+            {
+                switch (syncItem.FileAction)
+                {
+                    case FileAction.DELETE:
+                        this.fileSystemManager.Delete(syncItem);
+                        break;
+
+                    case FileAction.COPY:
+                        this.FileSystemManager.Copy(syncItem);
+                        break;
+                }
+            }
+            catch (UnauthorizedAccessException unauthorizedAccessException)
+            {
+                this.OnCaughtException(
+                    this,
+                    new CaughtExceptionEventArgs(
+                        unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
+            }
+            catch (ArgumentException argumentException)
+            {
+                this.OnCaughtException(
+                    this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+            }
+            catch (PathTooLongException pathTooLongException)
+            {
+                this.OnCaughtException(
+                    this, new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
+            }
+            catch (DirectoryNotFoundException directoryNotFoundException)
+            {
+                this.OnCaughtException(
+                    this,
+                    new CaughtExceptionEventArgs(
+                        directoryNotFoundException.GetType(), directoryNotFoundException.Message));
+            }
+            catch (FileNotFoundException fileNotFoundException)
+            {
+                this.OnCaughtException(
+                    this, new CaughtExceptionEventArgs(fileNotFoundException.GetType(), fileNotFoundException.Message));
+            }
+            catch (IOException systemIOException)
+            {
+                this.Enqueue(syncItem);
+
+                this.OnCaughtException(
+                    this, new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
+            }
+            catch (NotSupportedException notSupportedException)
+            {
+                this.OnCaughtException(
+                    this, new CaughtExceptionEventArgs(notSupportedException.GetType(), notSupportedException.Message));
+            }
+        }
+
+        /// <summary>
         /// Finalize Queue
         /// </summary>
         private void FinalizeQueue()
         {
             while (this.IsWorkerInProgress)
             {
-                SyncItem item;
-
-                if (this.SyncItemQueue.TryDequeue(out item) && this.CanAddItemsToQueue)
+                if (this.CanDequeueItems)
                 {
-                    try
-                    {
-                        switch (item.FileAction)
-                        {
-                            case FileAction.DELETE:
-                                this.fileSystemManager.Delete(item);
-                                break;
+                    SyncItem item;
 
-                            case FileAction.COPY:
-                                this.FileSystemManager.Copy(item);
-                                break;
-                        }
-                    }
-                    catch (UnauthorizedAccessException unauthorizedAccessException)
+                    if (this.SyncItemQueue.TryDequeue(out item))
                     {
-                        this.syncItemQueue.Enqueue(item);
-                        this.OnCaughtException(
-                            this, 
-                            new CaughtExceptionEventArgs(
-                                unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
-                    }
-                    catch (ArgumentException argumentException)
-                    {
-                        this.OnCaughtException(
-                            this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
-                    }
-                    catch (PathTooLongException pathTooLongException)
-                    {
-                        this.OnCaughtException(
-                            this, 
-                            new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
-                    }
-                    catch (DirectoryNotFoundException directoryNotFoundException)
-                    {
-                        this.OnCaughtException(
-                            this, 
-                            new CaughtExceptionEventArgs(
-                                directoryNotFoundException.GetType(), directoryNotFoundException.Message));
-                    }
-                    catch (FileNotFoundException fileNotFoundException)
-                    {
-                        this.OnCaughtException(
-                            this, 
-                            new CaughtExceptionEventArgs(fileNotFoundException.GetType(), fileNotFoundException.Message));
-                    }
-                    catch (IOException systemIOException)
-                    {
-                        this.syncItemQueue.Enqueue(item);
-                        this.OnCaughtException(
-                            this, new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
-                    }
-                    catch (NotSupportedException notSupportedException)
-                    {
-                        this.OnCaughtException(
-                            this, 
-                            new CaughtExceptionEventArgs(notSupportedException.GetType(), notSupportedException.Message));
+                        this.FinalizeQueueItem(item);
                     }
                 }
             }

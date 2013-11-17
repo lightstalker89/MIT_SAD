@@ -68,7 +68,7 @@ namespace BiOWheelsFileWatcher.Test
             this.fileComparator = new FileComparator(10);
             this.fileSystemManager = new FileSystemManager(this.fileComparator);
 
-            this.queueManager = new QueueManager(this.fileSystemManager) { CanAddItemsToQueue = true };
+            this.queueManager = new QueueManager(this.fileSystemManager);
             this.fileWatcher = new FileWatcher(this.queueManager);
             this.fileWatcher.SetBlockCompareFileSizeInMB(10);
             this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
@@ -104,7 +104,7 @@ namespace BiOWheelsFileWatcher.Test
             this.fileWatcher.Init();
             this.CreateFolders(20, 10);
 
-            ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 10000000, 1000);
+            ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 10000000, 500);
         }
 
         /// <summary>
@@ -166,7 +166,11 @@ namespace BiOWheelsFileWatcher.Test
 
                 File.Create(
                     Path.Combine(
-                        info.Name, "Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar + "File" + i));
+                        info.Name, 
+                        "Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar
+                        + "File" + i));
+
+                //Thread.Sleep(200);
             }
         }
 

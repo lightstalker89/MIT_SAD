@@ -11,6 +11,7 @@ namespace BiOWheelsFileWatcher
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Threading;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
 
@@ -30,7 +31,7 @@ namespace BiOWheelsFileWatcher
             this.Created += this.BiOWheelsFileSystemWatcherCreated;
             this.Deleted += this.BiOWheelsFileSystemWatcherDeleted;
             this.Renamed += this.BiOWheelsFileSystemWatcherRenamed;
-            //this.Changed += this.BiOWheelsFileSystemWatcherChanged;
+            this.Changed += this.BiOWheelsFileSystemWatcherChanged;
         }
 
         #region Delegates
@@ -47,7 +48,7 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         /// <param name="sender">Sender of the event</param>
         /// <param name="data">Data from the event</param>
-        public delegate void ObjectRenamedHandler(object sender, CustomRenamedEventArgs data);
+        public delegate void ObjectRenamedHandler(object sender, CustomFileRenamedEventArgs data);
 
         /// <summary>
         /// Delegate for the <see cref="ObjectDeletedHandler"/> event
@@ -108,16 +109,18 @@ namespace BiOWheelsFileWatcher
         #region Event Methods
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         protected void BiOWheelsFileSystemWatcherChanged(object sender, FileSystemEventArgs e)
         {
+            //Thread.Sleep(100);
+
             CustomFileSystemEventArgs customEventArgs = new CustomFileSystemEventArgs(e.FullPath, e.Name);
 
-            //this.OnObjectChanged(customEventArgs);
-
+            this.OnObjectChanged(customEventArgs);
         }
 
         /// <summary>
@@ -128,7 +131,7 @@ namespace BiOWheelsFileWatcher
         /// </param>
         protected void BiOWheelsFileSystemWatcherRenamed(object sender, RenamedEventArgs e)
         {
-            CustomRenamedEventArgs customEventArgs = new CustomRenamedEventArgs(
+            CustomFileRenamedEventArgs customEventArgs = new CustomFileRenamedEventArgs(
                 e.FullPath, e.Name, e.OldName, e.OldFullPath);
 
             this.OnObjectRenamed(customEventArgs);
@@ -155,15 +158,18 @@ namespace BiOWheelsFileWatcher
         /// </param>
         protected void BiOWheelsFileSystemWatcherCreated(object sender, FileSystemEventArgs e)
         {
+            //Thread.Sleep(100);
+
             CustomFileSystemEventArgs customEventArgs = new CustomFileSystemEventArgs(e.FullPath, e.Name);
 
             this.OnObjectCreated(customEventArgs);
         }
 
         /// <summary>
-        ///  Raises the <see cref="OnObjectChanged"/> event.
+        /// Raises the <see cref="OnObjectChanged"/> event.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">
+        /// </param>
         protected virtual void OnObjectChanged(CustomFileSystemEventArgs e)
         {
             if (this.ObjectChanged != null)
@@ -176,9 +182,9 @@ namespace BiOWheelsFileWatcher
         /// Raises the <see cref="ObjectRenamed"/> event.
         /// </summary>
         /// <param name="e">
-        /// The <see cref="CustomRenamedEventArgs"/> instance containing the event data.
+        /// The <see cref="CustomFileRenamedEventArgs"/> instance containing the event data.
         /// </param>
-        protected virtual void OnObjectRenamed(CustomRenamedEventArgs e)
+        protected virtual void OnObjectRenamed(CustomFileRenamedEventArgs e)
         {
             if (this.ObjectRenamed != null)
             {
