@@ -268,6 +268,7 @@ namespace BiOWheels
 
                 if (key == ConsoleKey.X)
                 {
+                    Log("Closing BiOWheels", MessageType.INFO);
                     CloseApplication(0);
                 }
                 else if (key == ConsoleKey.S)
@@ -276,7 +277,7 @@ namespace BiOWheels
                 }
                 else if (key == ConsoleKey.P)
                 {
-                    Log("Parallel syn has been activated. This will fast copy all possible files.", MessageType.INFO);
+                    //Log("Parallel syn has been activated. This will fast copy all possible files.", MessageType.INFO);
 
                     // TODO: Activate or deactivate parallel sync
                 }

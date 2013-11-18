@@ -155,31 +155,23 @@ namespace BiOWheelsFileWatcher
         internal void CopyFile(SyncItem item)
         {
             // TODO: Parallel Sync implement
-            // if (this.MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
-            // {
-            // this.DiffFile(item);
-            // }
-            // else
-            // {
-            foreach (string destination in item.Destinations)
+            if (this.MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
             {
-                string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
-
-                this.CreateDirectoryIfNotExists(pathToCopy);
-
-                string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
-
-                File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
-                //using (
-                //    FileStream sourceStream = new FileStream(
-                //        item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
-                //               destinationStream = new FileStream(fileToCopy, FileMode.OpenOrCreate, FileAccess.Write))
-                //{
-                //    sourceStream.CopyToAsync(destinationStream);
-                //}
+                this.DiffFile(item);
             }
+            else
+            {
+                foreach (string destination in item.Destinations)
+                {
+                    string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
-            // }
+                    this.CreateDirectoryIfNotExists(pathToCopy);
+
+                    string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+
+                    File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
+                }
+            }
         }
 
         /// <summary>

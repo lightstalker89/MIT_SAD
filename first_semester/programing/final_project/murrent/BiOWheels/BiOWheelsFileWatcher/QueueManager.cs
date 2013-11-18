@@ -50,7 +50,15 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         private bool canDequeueItems;
 
-        private System.Object lockOject = new System.Object();
+        /// <summary>
+        /// Object used for locking
+        /// </summary>
+        private Object enQueueLockOject = new Object();
+
+        /// <summary>
+        /// Object used for locking
+        /// </summary>
+        private Object queueItemLockObject = new object();
         #endregion
 
         /// <summary>
@@ -177,12 +185,13 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void Enqueue(SyncItem item)
         {
-            lock (this.lockOject)
+            lock (this.enQueueLockOject)
             {
                 this.CanDequeueItems = false;
 
-                Task taks = Task.Factory.StartNew(() => this.SyncItemQueue.Enqueue(item));
-                taks.Wait();
+                Task enqueueTask = Task.Factory.StartNew(() => this.SyncItemQueue.Enqueue(item));
+                enqueueTask.Wait();
+
                 this.CanDequeueItems = true;
             }
         }
@@ -300,7 +309,10 @@ namespace BiOWheelsFileWatcher
 
                     if (this.SyncItemQueue.TryDequeue(out item))
                     {
-                        this.FinalizeQueueItem(item);
+                        lock (this.queueItemLockObject)
+                        {
+                            this.FinalizeQueueItem(item);
+                        }
                     }
                 }
             }

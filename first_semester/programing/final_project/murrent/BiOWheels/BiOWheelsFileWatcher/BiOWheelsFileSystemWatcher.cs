@@ -116,7 +116,7 @@ namespace BiOWheelsFileWatcher
         /// </param>
         protected void BiOWheelsFileSystemWatcherChanged(object sender, FileSystemEventArgs e)
         {
-            //Thread.Sleep(100);
+            Thread.Sleep(100);
 
             CustomFileSystemEventArgs customEventArgs = new CustomFileSystemEventArgs(e.FullPath, e.Name);
 
@@ -158,7 +158,7 @@ namespace BiOWheelsFileWatcher
         /// </param>
         protected void BiOWheelsFileSystemWatcherCreated(object sender, FileSystemEventArgs e)
         {
-            //Thread.Sleep(100);
+            Thread.Sleep(100);
 
             CustomFileSystemEventArgs customEventArgs = new CustomFileSystemEventArgs(e.FullPath, e.Name);
 

@@ -83,6 +83,7 @@ namespace BiOWheelsFileWatcher.Test
                         {
                             SourceDirectory = "A", 
                             DestinationDirectories = new List<string> { "B", "C" }, 
+                            ExcludedDirectories = new List<string>{"EFE"},
                             Recursive = true
                         }, 
                     new DirectoryMapping
@@ -162,15 +163,16 @@ namespace BiOWheelsFileWatcher.Test
                 for (int x = 0; x < fileCount; x++)
                 {
                     File.Create(Path.Combine(info.Name, "Folder" + i + Path.DirectorySeparatorChar + "File" + i + x));
+                    Thread.Sleep(200);
                 }
 
                 File.Create(
                     Path.Combine(
-                        info.Name, 
+                        info.Name,
                         "Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar
                         + "File" + i));
 
-                //Thread.Sleep(200);
+                Thread.Sleep(200);
             }
         }
 
