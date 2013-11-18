@@ -10,6 +10,7 @@
 namespace BiOWheelsFileWatcher.Interfaces
 {
     /// <summary>
+    ///  Interface representing the <see cref="IFileComparator"/>
     /// </summary>
     public interface IFileComparator
     {

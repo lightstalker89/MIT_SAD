@@ -50,6 +50,11 @@ namespace BiOWheels
         #region Private Fields
 
         /// <summary>
+        /// Holds some messages
+        /// </summary>
+        private static readonly List<string> EgMessageList = new List<string>();
+
+        /// <summary>
         /// The configuration for the application
         /// </summary>
         private static Configuration configuration;
@@ -63,11 +68,6 @@ namespace BiOWheels
         /// Value indicating whether the program should listen to console key input
         /// </summary>
         private static bool isListeningToConsoleKeyInput = true;
-
-        /// <summary>
-        /// Holds some messages
-        /// </summary>
-        private static readonly List<string> egMessageList = new List<string>();
 
         /// <summary>
         /// Holds some click count
@@ -413,30 +413,30 @@ namespace BiOWheels
                 return "Really? Do something useful :)";
             }
 
-            return egMessageList[random.Next(0, egMessageList.Count)];
+            return EgMessageList[random.Next(0, EgMessageList.Count)];
         }
 
         /// <summary>
+        /// Fills the message list.
         /// </summary>
         private static void FillEgMessageList()
         {
-            egMessageList.Add("There are exactly 10 types of people: These who know binary and these who do not.");
-            egMessageList.Add(
+            EgMessageList.Add("There are exactly 10 types of people: These who know binary and these who do not.");
+            EgMessageList.Add(
                 "Programming is similar to sex. If you make a mistake, you have to support it for the rest of your life.");
-            egMessageList.Add("Always borrow money from a pessimist. He won’t expect it back.");
-            egMessageList.Add("Artificial Intelligence usually beats natural stupidity.");
-            egMessageList.Add("If Python is executable pseudocode, then perl is executable line noise.");
-            egMessageList.Add("If at first you don't succeed; call it version 1.0");
-            egMessageList.Add("My software never has bugs. It just develops random features.");
-            egMessageList.Add("Microsoft: You've got questions. We've got dancing paperclips.");
-            egMessageList.Add("Those who can't write programs, write help files.");
+            EgMessageList.Add("Always borrow money from a pessimist. He won’t expect it back.");
+            EgMessageList.Add("Artificial Intelligence usually beats natural stupidity.");
+            EgMessageList.Add("If Python is executable pseudocode, then perl is executable line noise.");
+            EgMessageList.Add("If at first you don't succeed; call it version 1.0");
+            EgMessageList.Add("My software never has bugs. It just develops random features.");
+            EgMessageList.Add("Microsoft: You've got questions. We've got dancing paperclips.");
+            EgMessageList.Add("Those who can't write programs, write help files.");
         }
 
         /// <summary>
         /// Close the application
         /// </summary>
-        /// <param name="exitCode">
-        /// </param>
+        /// <param name="exitCode">The exit code.</param>
         private static void CloseApplication(int exitCode)
         {
             Environment.Exit(exitCode);

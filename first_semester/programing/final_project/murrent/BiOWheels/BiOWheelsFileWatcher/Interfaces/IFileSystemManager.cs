@@ -10,13 +10,19 @@
 namespace BiOWheelsFileWatcher.Interfaces
 {
     /// <summary>
+    ///  Interface representing the <see cref="IFileSystemManager"/>
     /// </summary>
     public interface IFileSystemManager
     {
         /// <summary>
+        /// Gets or sets the block size in MB
         /// </summary>
-        /// <param name="item">
-        /// </param>
+        long BlockCompareFileSizeInMB { get; set; }
+
+        /// <summary>
+        /// Deletes the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
         void Delete(SyncItem item);
 
         /// <summary>
@@ -28,9 +34,9 @@ namespace BiOWheelsFileWatcher.Interfaces
         void Copy(SyncItem item);
 
         /// <summary>
+        /// Copies the directory.
         /// </summary>
-        /// <param name="item">
-        /// </param>
+        /// <param name="item">The item.</param>
         void CopyDirectory(SyncItem item);
     }
 }

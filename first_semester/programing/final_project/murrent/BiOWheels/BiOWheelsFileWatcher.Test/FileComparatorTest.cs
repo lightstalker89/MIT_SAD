@@ -16,6 +16,7 @@ namespace BiOWheelsFileWatcher.Test
     using NUnit.Framework;
 
     /// <summary>
+    ///  Class representing the <see cref="FileComparatorTest"/>
     /// </summary>
     public class FileComparatorTest
     {

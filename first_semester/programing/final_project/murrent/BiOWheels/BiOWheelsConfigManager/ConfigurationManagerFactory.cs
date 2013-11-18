@@ -10,13 +10,14 @@
 namespace BiOWheelsConfigManager
 {
     /// <summary>
+    /// Class representing the <see cref="ConfigurationManagerFactory"/>
     /// </summary>
     public class ConfigurationManagerFactory
     {
         /// <summary>
+        /// Creates the configuration manager.
         /// </summary>
-        /// <returns>
-        /// </returns>
+        /// <returns>An instance of the <see cref="ConfigurationManager"/> class</returns>
         public static IConfigurationManager CreateConfigurationManager()
         {
             return new ConfigurationManager();

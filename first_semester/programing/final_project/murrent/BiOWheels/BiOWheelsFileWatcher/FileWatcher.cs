@@ -37,11 +37,6 @@ namespace BiOWheelsFileWatcher
         private readonly IQueueManager queueManager;
 
         /// <summary>
-        /// Minimum size for comparing files in blocks
-        /// </summary>
-        private long blockCompareFileSizeInMB;
-
-        /// <summary>
         /// List of mappings representing <see cref="DirectoryMapping"/>
         /// </summary>
         private IEnumerable<DirectoryMapping> mappings;
@@ -54,10 +49,9 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileWatcher"/> class
+        /// Initializes a new instance of the <see cref="FileWatcher" /> class
         /// </summary>
-        /// <param name="queueManager">
-        /// </param>
+        /// <param name="queueManager">The queue manager.</param>
         internal FileWatcher(IQueueManager queueManager)
         {
             this.Mappings = new List<DirectoryMapping>();
@@ -100,22 +94,6 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the minimum size for comparing files in blocks
-        /// </summary>
-        public long BlockCompareSizeInMB
-        {
-            get
-            {
-                return this.blockCompareFileSizeInMB;
-            }
-
-            set
-            {
-                this.blockCompareFileSizeInMB = value;
-            }
-        }
 
         /// <summary>
         /// Gets the <see cref="QueueManager"/>
@@ -195,12 +173,6 @@ namespace BiOWheelsFileWatcher
             this.mappings = directoryMappings;
         }
 
-        /// <inheritdoc/>
-        public void SetBlockCompareFileSizeInMB(long blockCompareSizeInMB)
-        {
-            this.BlockCompareSizeInMB = blockCompareSizeInMB;
-        }
-
         /// <summary>
         /// Enumerate all files in the given directory including subdirectories
         /// </summary>
@@ -235,10 +207,8 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Occurs when the instance of FileSystemWatcher is unable to continue monitoring changes or when the internal buffer overflows.
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ErrorEventArgs"/> instance containing the event data.</param>
         protected void FileSystemWatcherError(object sender, ErrorEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -251,11 +221,10 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Occurs when the file system watcher is disposed
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void FileSystemWatcherDisposed(object sender, EventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -329,17 +298,15 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Occurs when a file or directory in the specified Path is changed.
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.</param>
         protected void FileSystemWatcherObjectChanged(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
             if (watcher != null)
             {
-                if (IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
+                if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
                     this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
                     this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has changed."));
@@ -350,18 +317,17 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Event that occurs when a file or directory has been renamed
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="CustomFileRenamedEventArgs"/> instance containing the event data.</param>
         protected void FileSystemWatcherObjectRenamed(object sender, CustomFileRenamedEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
             if (watcher != null)
             {
-                if (IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
+                if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
                     this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
                     this.OnProgressUpdate(
@@ -376,18 +342,17 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Event that occurs when a file or directory has been deleted
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.</param>
         protected void FileSystemWatcherObjectDeleted(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
             if (watcher != null)
             {
-                if (IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
+                if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
                     this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.DELETE);
                     this.OnProgressUpdate(
@@ -399,18 +364,17 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Event that occurs when a file or directory has been created
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.</param>
         protected void FileSystemWatcherObjectCreated(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
 
             if (watcher != null)
             {
-                if (IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
+                if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
                     this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
                     this.OnProgressUpdate(
@@ -528,9 +492,9 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Check if a file or directory can be added to the queue
         /// </summary>
-        /// <param name="objectName"></param>
-        /// <param name="excludedDirectories"></param>
-        /// <returns></returns>
+        /// <param name="objectName">Name of the object.</param>
+        /// <param name="excludedDirectories">The excluded directories.</param>
+        /// <returns>A value indicating whether the item is allowed to be added to the queue or not</returns>
         private bool IsAllowedToAddItemToQueue(string objectName, IEnumerable<string> excludedDirectories)
         {
             bool isAllowedToAdd = true;

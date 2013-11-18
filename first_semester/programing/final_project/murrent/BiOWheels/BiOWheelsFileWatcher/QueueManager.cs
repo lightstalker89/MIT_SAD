@@ -53,12 +53,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Object used for locking
         /// </summary>
-        private Object enQueueLockOject = new Object();
+        private object enqueueLockOject = new object();
 
         /// <summary>
         /// Object used for locking
         /// </summary>
-        private Object queueItemLockObject = new object();
+        private object queueItemLockObject = new object();
         #endregion
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void Enqueue(SyncItem item)
         {
-            lock (this.enQueueLockOject)
+            lock (this.enqueueLockOject)
             {
                 this.CanDequeueItems = false;
 
@@ -235,9 +235,9 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
+        /// Finalizes the queue item.
         /// </summary>
-        /// <param name="syncItem">
-        /// </param>
+        /// <param name="syncItem">The synchronize item.</param>
         private void FinalizeQueueItem(SyncItem syncItem)
         {
             try

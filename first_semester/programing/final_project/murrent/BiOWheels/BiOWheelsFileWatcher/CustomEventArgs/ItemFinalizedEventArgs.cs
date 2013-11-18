@@ -12,6 +12,7 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
     using System;
 
     /// <summary>
+    ///  Class representing the <see cref="ItemFinalizedEventArgs"/>
     /// </summary>
     public class ItemFinalizedEventArgs : EventArgs
     {

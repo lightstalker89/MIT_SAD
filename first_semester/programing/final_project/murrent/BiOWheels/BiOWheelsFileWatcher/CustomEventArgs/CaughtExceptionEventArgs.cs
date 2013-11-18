@@ -12,16 +12,15 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
     using System;
 
     /// <summary>
+    ///  Class representing the <see cref="CaughtExceptionEventArgs"/>
     /// </summary>
     public class CaughtExceptionEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaughtExceptionEventArgs"/> class
+        /// Initializes a new instance of the <see cref="CaughtExceptionEventArgs" /> class
         /// </summary>
-        /// <param name="exceptionType">
-        /// </param>
-        /// <param name="exceptionMessage">
-        /// </param>
+        /// <param name="exceptionType">Type of the exception.</param>
+        /// <param name="exceptionMessage">The exception message.</param>
         public CaughtExceptionEventArgs(Type exceptionType, string exceptionMessage)
         {
             this.ExceptionType = exceptionType;

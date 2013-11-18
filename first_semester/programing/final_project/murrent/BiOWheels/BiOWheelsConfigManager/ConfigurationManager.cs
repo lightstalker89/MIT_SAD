@@ -19,6 +19,7 @@ namespace BiOWheelsConfigManager
     public class ConfigurationManager : IConfigurationManager
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationManager"/> class
         /// </summary>
         internal ConfigurationManager()
         {

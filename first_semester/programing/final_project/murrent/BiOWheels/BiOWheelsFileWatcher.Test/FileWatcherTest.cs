@@ -66,11 +66,10 @@ namespace BiOWheelsFileWatcher.Test
         public void Init()
         {
             this.fileComparator = new FileComparator(10);
-            this.fileSystemManager = new FileSystemManager(this.fileComparator);
+            this.fileSystemManager = new FileSystemManager(this.fileComparator, 10);
 
             this.queueManager = new QueueManager(this.fileSystemManager);
             this.fileWatcher = new FileWatcher(this.queueManager);
-            this.fileWatcher.SetBlockCompareFileSizeInMB(10);
             this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
             this.fileWatcher.CaughtException += this.FileWatcherCaughtException;
             this.notifications = new List<string>();
@@ -83,7 +82,7 @@ namespace BiOWheelsFileWatcher.Test
                         {
                             SourceDirectory = "A", 
                             DestinationDirectories = new List<string> { "B", "C" }, 
-                            ExcludedDirectories = new List<string>{"EFE"},
+                            ExcludedDirectories = new List<string> { "EFE" },
                             Recursive = true
                         }, 
                     new DirectoryMapping
@@ -169,8 +168,7 @@ namespace BiOWheelsFileWatcher.Test
                 File.Create(
                     Path.Combine(
                         info.Name,
-                        "Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar
-                        + "File" + i));
+                        "Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar + "File" + i));
 
                 Thread.Sleep(200);
             }
@@ -203,6 +201,7 @@ namespace BiOWheelsFileWatcher.Test
         }
 
         /// <summary>
+        /// Event occurs when the progress is updated
         /// </summary>
         /// <param name="sender">
         /// The sender.
@@ -229,13 +228,10 @@ namespace BiOWheelsFileWatcher.Test
         }
 
         /// <summary>
+        /// Event occurs when an exception is caught
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="data">
-        /// The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="data">The <see cref="CaughtExceptionEventArgs" /> instance containing the event data.</param>
         private void FileWatcherCaughtException(object sender, CaughtExceptionEventArgs data)
         {
         }

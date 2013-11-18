@@ -12,6 +12,7 @@ namespace BiOWheelsFileWatcher.CustomExceptions
     using System;
 
     /// <summary>
+    ///  Class representing the <see cref="MappingNullException"/>
     /// </summary>
     public class MappingNullException : Exception
     {

@@ -16,6 +16,7 @@ namespace BiOWheelsFileWatcher
     using BiOWheelsFileWatcher.CustomEventArgs;
 
     /// <summary>
+    ///  Class representing the <see cref="BiOWheelsFileSystemWatcher"/>
     /// </summary>
     public class BiOWheelsFileSystemWatcher : FileSystemWatcher
     {
@@ -109,11 +110,10 @@ namespace BiOWheelsFileWatcher
         #region Event Methods
 
         /// <summary>
+        /// Event occurs when a file or directory has been changed
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
         protected void BiOWheelsFileSystemWatcherChanged(object sender, FileSystemEventArgs e)
         {
             Thread.Sleep(100);
@@ -124,11 +124,10 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Event occurs when a file or directory has been renamed
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="RenamedEventArgs"/> instance containing the event data.</param>
         protected void BiOWheelsFileSystemWatcherRenamed(object sender, RenamedEventArgs e)
         {
             CustomFileRenamedEventArgs customEventArgs = new CustomFileRenamedEventArgs(
@@ -138,11 +137,10 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Event occurs when a file or directory has been deleted
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
         protected void BiOWheelsFileSystemWatcherDeleted(object sender, FileSystemEventArgs e)
         {
             CustomFileSystemEventArgs customEventArgs = new CustomFileSystemEventArgs(e.FullPath, e.Name);
@@ -151,11 +149,10 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Event occurs when a file or directory has been created
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="FileSystemEventArgs"/> instance containing the event data.</param>
         protected void BiOWheelsFileSystemWatcherCreated(object sender, FileSystemEventArgs e)
         {
             Thread.Sleep(100);
@@ -166,10 +163,9 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// Raises the <see cref="OnObjectChanged"/> event.
+        /// Raises the <see cref="OnObjectChanged" /> event.
         /// </summary>
-        /// <param name="e">
-        /// </param>
+        /// <param name="e">The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.</param>
         protected virtual void OnObjectChanged(CustomFileSystemEventArgs e)
         {
             if (this.ObjectChanged != null)

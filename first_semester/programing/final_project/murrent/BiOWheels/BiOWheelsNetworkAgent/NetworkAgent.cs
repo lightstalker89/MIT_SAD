@@ -10,6 +10,7 @@
 namespace BiOWheelsNetworkAgent
 {
     /// <summary>
+    ///  Class representing the <see cref="NetworkAgent"/>
     /// </summary>
     public class NetworkAgent
     {

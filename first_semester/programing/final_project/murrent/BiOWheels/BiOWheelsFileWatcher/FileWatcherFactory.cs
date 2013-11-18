@@ -14,32 +14,28 @@ namespace BiOWheelsFileWatcher
     using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
+    ///  Class representing the <see cref="FileWatcherFactory"/>
     /// </summary>
     public class FileWatcherFactory
     {
         /// <summary>
+        /// Creates the file system watcher.
         /// </summary>
-        /// <param name="path">
-        /// </param>
-        /// <returns>
-        /// </returns>
+        /// <param name="path">The path.</param>
+        /// <returns>An instance of the <see cref="BiOWheelsFileSystemWatcher"/> class</returns>
         public static BiOWheelsFileSystemWatcher CreateFileSystemWatcher(string path)
         {
             return new BiOWheelsFileSystemWatcher(path);
         }
 
         /// <summary>
+        /// Creates the file system watcher.
         /// </summary>
-        /// <param name="path">
-        /// </param>
-        /// <param name="recursive">
-        /// </param>
-        /// <param name="destinationDirectories">
-        /// </param>
-        /// <param name="excludedDirectories">
-        /// </param>
-        /// <returns>
-        /// </returns>
+        /// <param name="path">The path.</param>
+        /// <param name="recursive">if set to <c>true</c> [recursive].</param>
+        /// <param name="destinationDirectories">The destination directories.</param>
+        /// <param name="excludedDirectories">The excluded directories.</param>
+        /// <returns>An instance of the <see cref="BiOWheelsFileSystemWatcher"/> class</returns>
         public static BiOWheelsFileSystemWatcher CreateFileSystemWatcher(
             string path, bool recursive, List<string> destinationDirectories, List<string> excludedDirectories)
         {
@@ -52,21 +48,21 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Creates the <see cref="FileWatcher"/>.
         /// </summary>
-        /// <param name="queueManager">
-        /// </param>
-        /// <returns>
-        /// </returns>
+        /// <param name="queueManager">The queue manager.</param>
+        /// <returns>An instance of the <see cref="FileWatcher"/> class</returns>
         public static IFileWatcher CreateFileWatcher(IQueueManager queueManager)
         {
             return new FileWatcher(queueManager);
         }
 
         /// <summary>
+        /// Creates the file comparator.
         /// </summary>
-        /// <param name="blockSize">
-        /// </param>
+        /// <param name="blockSize">Size of the block.</param>
         /// <returns>
+        /// An instance of the <see cref="FileComparator" /> class
         /// </returns>
         public static IFileComparator CreateFileComparator(long blockSize)
         {
@@ -74,24 +70,25 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Creates the file system manager.
         /// </summary>
-        /// <param name="fileComparator">
-        /// </param>
-        /// <param name="blockCompareSizeInMB">
-        /// </param>
+        /// <param name="fileComparator">The file comparator.</param>
+        /// <param name="blockCompareSizeInMB">The block compare size in mb.</param>
         /// <returns>
+        /// An instance of the <see cref="FileSystemManager" /> class
         /// </returns>
         public static IFileSystemManager CreateFileSystemManager(
             IFileComparator fileComparator, long blockCompareSizeInMB)
         {
-            return new FileSystemManager(fileComparator);
+            return new FileSystemManager(fileComparator, blockCompareSizeInMB);
         }
 
         /// <summary>
+        /// Creates the queue manager.
         /// </summary>
-        /// <param name="fileSystemManager">
-        /// </param>
+        /// <param name="fileSystemManager">The file system manager.</param>
         /// <returns>
+        /// An instance of the <see cref="QueueManager" /> class
         /// </returns>
         public static IQueueManager CreateQueueManager(IFileSystemManager fileSystemManager)
         {

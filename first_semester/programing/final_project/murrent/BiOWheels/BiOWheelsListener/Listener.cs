@@ -10,6 +10,7 @@
 namespace BiOWheelsListener
 {
     /// <summary>
+    ///  Class representing the <see cref="Listener"/>
     /// </summary>
     public class Listener
     {

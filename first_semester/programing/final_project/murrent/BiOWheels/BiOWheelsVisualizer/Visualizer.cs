@@ -12,6 +12,7 @@ namespace BiOWheelsVisualizer
     using System;
 
     /// <summary>
+    ///  Class representing the <see cref="Visualizer"/>
     /// </summary>
     public class Visualizer : IVisualizer
     {

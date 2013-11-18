@@ -10,13 +10,14 @@
 namespace BiOWheelsCommandLineArgsParser
 {
     /// <summary>
+    ///  Class representing the <see cref="CommandLineArgsParserFactory"/>
     /// </summary>
     public class CommandLineArgsParserFactory
     {
         /// <summary>
+        /// Creates the command line arguments parser.
         /// </summary>
-        /// <returns>
-        /// </returns>
+        /// <returns>An instance of the <see cref="CommandLineArgsParser"/> class</returns>
         public static ICommandLineArgsParser CreateCommandLineArgsParser()
         {
             return new CommandLineArgsParser();

@@ -10,6 +10,7 @@
 namespace BiOWheelsFileWatcher.CustomEventArgs
 {
     /// <summary>
+    ///  Class representing the <see cref="CustomFileRenamedEventArgs"/>
     /// </summary>
     public class CustomFileRenamedEventArgs
     {

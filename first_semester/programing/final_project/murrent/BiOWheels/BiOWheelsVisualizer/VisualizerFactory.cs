@@ -10,13 +10,14 @@
 namespace BiOWheelsVisualizer
 {
     /// <summary>
+    ///  Class representing the <see cref="VisualizerFactory"/>
     /// </summary>
     public class VisualizerFactory
     {
         /// <summary>
+        /// Creates the visualizer.
         /// </summary>
-        /// <returns>
-        /// </returns>
+        /// <returns>An instance of the <see cref="Visualizer"/></returns>
         public static IVisualizer CreateVisualizer()
         {
             return new Visualizer();

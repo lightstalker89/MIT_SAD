@@ -16,6 +16,7 @@ namespace BiOWheelsFileWatcher
     using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
+    ///  Class representing the <see cref="FileSystemManager"/>
     /// </summary>
     internal class FileSystemManager : IFileSystemManager
     {
@@ -34,19 +35,18 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="FileSystemManager" /> class
         /// </summary>
-        /// <param name="fileComparator">
-        /// </param>
-        internal FileSystemManager(IFileComparator fileComparator)
+        /// <param name="fileComparator">The file comparator.</param>
+        /// <param name="blockCompareSizeInMB">The block compare size in mb.</param>
+        internal FileSystemManager(IFileComparator fileComparator, long blockCompareSizeInMB)
         {
             this.FileComparator = fileComparator;
+            this.BlockCompareFileSizeInMB = blockCompareSizeInMB;
         }
-
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the block size in MB
-        /// </summary>
+        /// <inheritdoc/>
         public long BlockCompareFileSizeInMB
         {
             get
@@ -117,9 +117,9 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Copies a file to the given destinations
         /// </summary>
-        /// <param name="item">
-        /// </param>
+        /// <param name="item">Item from the queue</param>
         public void Copy(SyncItem item)
         {
             if (item.FullQualifiedSourceFileName.IsDirectory())
@@ -175,9 +175,9 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Diff the file.
         /// </summary>
-        /// <param name="item">
-        /// </param>
+        /// <param name="item">The item.</param>
         internal void DiffFile(SyncItem item)
         {
             foreach (string destinationFile in
