@@ -3,15 +3,12 @@ using System.Text;
 
 namespace FTPSender
 {
+    using System.IO;
     using System.Net;
     using System.Net.Sockets;
 
     class Program
     {
-        private const string GetExtension = " HTTP/1.1\r\n\r\n";
-
-        private const string PutExtension = "";
-
         static void Main(string[] args)
         {
             Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -23,6 +20,8 @@ namespace FTPSender
             try
             {
                 clientSocket.Connect(ipep);
+
+                Console.WriteLine("Successfully connected");
             }
             catch (SocketException socketException)
             {
@@ -32,20 +31,37 @@ namespace FTPSender
 
             while (true)
             {
+                byte[] dataBuffer = null;
+
                 string message = Console.ReadLine();
+                string[] parts = null;
+
+                if (message != null)
+                {
+                    parts = message.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                }
 
                 if (message != null && message.ToLower().Contains("get"))
                 {
-                    message += GetExtension;
+                    clientSocket.Send(Encoding.ASCII.GetBytes(message));
                 }
+
                 else if (message != null && message.ToLower().Contains("put"))
                 {
-                    message += PutExtension;
+                    byte[] file = File.ReadAllBytes(parts[1]);
+                    byte[] fileName = Encoding.ASCII.GetBytes(parts[1]);
+                    byte[] whiteSpace = Encoding.ASCII.GetBytes(" ");
+
+                    dataBuffer = new byte[file.Length + fileName.Length + whiteSpace.Length];
+
+                    Array.Copy(file, dataBuffer, file.Length);
+                    Array.Copy(whiteSpace,0, dataBuffer, file.Length, whiteSpace.Length);
+                    Array.Copy(fileName,0, dataBuffer, whiteSpace.Length + file.Length, fileName.Length);
+
+                    clientSocket.Send(dataBuffer);
                 }
 
-                clientSocket.Send(Encoding.ASCII.GetBytes(message));
-
-                byte[] dataBuffer = new byte[1024];
+                dataBuffer = new byte[1024];
 
                 int len = clientSocket.Receive(dataBuffer);
 

@@ -42,6 +42,8 @@ namespace FTPServer
                     len = clientSocket.Receive(dataBuffer);
                     string inFromClient = Encoding.ASCII.GetString(dataBuffer, 0, len);
 
+                    string[] information = inFromClient.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
                     Console.WriteLine("Received from client: " + inFromClient);
                 }
                 catch (Exception)
