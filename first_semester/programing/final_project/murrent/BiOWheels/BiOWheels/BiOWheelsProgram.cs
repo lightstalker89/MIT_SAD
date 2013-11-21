@@ -52,7 +52,7 @@ namespace BiOWheels
         /// <summary>
         /// Holds some messages
         /// </summary>
-        private static readonly List<string> EgMessageList = new List<string>();
+        private static readonly List<string> EggMessageList = new List<string>();
 
         /// <summary>
         /// The configuration for the application
@@ -72,7 +72,7 @@ namespace BiOWheels
         /// <summary>
         /// Holds some click count
         /// </summary>
-        private static int egClickCount;
+        private static int eggClickCount;
 
         #endregion
 
@@ -266,32 +266,29 @@ namespace BiOWheels
             {
                 ConsoleKey key = Console.ReadKey(true).Key;
 
-                if (key == ConsoleKey.X)
-                {
-                    Log("Closing BiOWheels", MessageType.INFO);
-                    CloseApplication(0);
-                }
-                else if (key == ConsoleKey.S)
-                {
-                    Log(GetEasterEgg(), MessageType.INFO);
-                }
-                else if (key == ConsoleKey.P)
-                {
-                    //Log("Parallel syn has been activated. This will fast copy all possible files.", MessageType.INFO);
+                SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(false);
 
-                    // TODO: Activate or deactivate parallel sync
-                }
-                else if (key == ConsoleKey.L)
+                switch (key)
                 {
-                    // TODO: disable console logger
-                }
-                else if (key == ConsoleKey.F)
-                {
-                    // TODO: disable file logger
-                }
-                else if (key == ConsoleKey.B)
-                {
-                    // TODO: pause process
+                    case ConsoleKey.X:
+                        Log("Closing BiOWheels", MessageType.INFO);
+                        CloseApplication(0);
+                        break;
+                    case ConsoleKey.S:
+                        Log(GetEasterEgg(), MessageType.INFO);
+                        break;
+                    case ConsoleKey.P:
+                        break;
+                    case ConsoleKey.L:
+                        break;
+                    case ConsoleKey.F:
+                        break;
+                    case ConsoleKey.B:
+                        break;
+
+                    default:
+                        SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+                        break;
                 }
             }
         }
@@ -404,16 +401,16 @@ namespace BiOWheels
         /// <returns>A message</returns>
         private static string GetEasterEgg()
         {
-            egClickCount++;
+            eggClickCount++;
 
             Random random = new Random();
 
-            if (egClickCount % 3 == 0)
+            if (eggClickCount % 3 == 0)
             {
                 return "Really? Do something useful :)";
             }
 
-            return EgMessageList[random.Next(0, EgMessageList.Count)];
+            return EggMessageList[random.Next(0, EggMessageList.Count)];
         }
 
         /// <summary>
@@ -421,16 +418,16 @@ namespace BiOWheels
         /// </summary>
         private static void FillEgMessageList()
         {
-            EgMessageList.Add("There are exactly 10 types of people: These who know binary and these who do not.");
-            EgMessageList.Add(
+            EggMessageList.Add("There are exactly 10 types of people: These who know binary and these who do not.");
+            EggMessageList.Add(
                 "Programming is similar to sex. If you make a mistake, you have to support it for the rest of your life.");
-            EgMessageList.Add("Always borrow money from a pessimist. He won’t expect it back.");
-            EgMessageList.Add("Artificial Intelligence usually beats natural stupidity.");
-            EgMessageList.Add("If Python is executable pseudocode, then perl is executable line noise.");
-            EgMessageList.Add("If at first you don't succeed; call it version 1.0");
-            EgMessageList.Add("My software never has bugs. It just develops random features.");
-            EgMessageList.Add("Microsoft: You've got questions. We've got dancing paperclips.");
-            EgMessageList.Add("Those who can't write programs, write help files.");
+            EggMessageList.Add("Always borrow money from a pessimist. He won’t expect it back.");
+            EggMessageList.Add("Artificial Intelligence usually beats natural stupidity.");
+            EggMessageList.Add("If Python is executable pseudocode, then perl is executable line noise.");
+            EggMessageList.Add("If at first you don't succeed; call it version 1.0");
+            EggMessageList.Add("My software never has bugs. It just develops random features.");
+            EggMessageList.Add("Microsoft: You've got questions. We've got dancing paperclips.");
+            EggMessageList.Add("Those who can't write programs, write help files.");
         }
 
         /// <summary>

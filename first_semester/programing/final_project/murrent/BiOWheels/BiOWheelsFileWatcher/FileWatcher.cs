@@ -417,7 +417,6 @@ namespace BiOWheelsFileWatcher
                         fileSystemWatcher.Filter = string.Empty;
                         fileSystemWatcher.InternalBufferSize = 64000;
                         fileSystemWatcher.EnableRaisingEvents = true;
-
                     }
                     catch (PathTooLongException pathTooLongException)
                     {

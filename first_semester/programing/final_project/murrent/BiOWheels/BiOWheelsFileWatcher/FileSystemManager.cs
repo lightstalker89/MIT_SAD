@@ -209,7 +209,6 @@ namespace BiOWheelsFileWatcher
             using (Stream actualFileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
-                actualFileStream.Close();
             }
 
             GC.Collect();
