@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
 
 namespace FTPServer
 {
@@ -8,57 +10,132 @@ namespace FTPServer
 
     internal class Program
     {
+        private static readonly Socket ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        private static readonly IPEndPoint IpEndPoint = new IPEndPoint(IPAddress.Any, 10000);
+        private static Socket clientSocket;
+
+        private const string WelcomeMessage = "Welcome to MDM's FTP Server";
+
         private static void Main(string[] args)
         {
-            Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10000);
-
-            serverSocket.Bind(ipep);
-            serverSocket.Listen(5);
-
-            Console.WriteLine("Waiting for connect ...");
-
-            Socket clientSocket = serverSocket.Accept();
-
-            IPEndPoint clientAddress = clientSocket.RemoteEndPoint as IPEndPoint;
 
 
-            if (clientAddress != null)
-            {
-                IPHostEntry entry = Dns.GetHostEntry(clientAddress.Address);
+            ServerSocket.Bind(IpEndPoint);
+            ServerSocket.Listen(0);
 
-                Console.WriteLine("Connected to client {0} aka {1}", clientAddress, entry.HostName);
-            }
+            Console.WriteLine("Waiting for client connection ...");
+
+            clientSocket = ServerSocket.Accept();
+            IPEndPoint clientAddress = (IPEndPoint)clientSocket.RemoteEndPoint;
+
+            Console.WriteLine("connected to client {0}", clientAddress);
+
+            byte[] data = Encoding.ASCII.GetBytes(WelcomeMessage);
+
+            clientSocket.Send(data);
 
             while (true)
             {
-                int len;
-
-                byte[] dataBuffer = new byte[2084];
+                data = new byte[1024];
 
                 try
                 {
-                    len = clientSocket.Receive(dataBuffer);
-                    string inFromClient = Encoding.ASCII.GetString(dataBuffer, 0, len);
+                    int len = clientSocket.Receive(data);
 
-                    string[] information = inFromClient.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                    if (len == 0)
+                    {
+                        Console.WriteLine("Client has closed connection");
+                        break;
+                    }
+                    string[] parts = Encoding.ASCII.GetString(data, 0, len).Split(' ');
 
-                    Console.WriteLine("Received from client: " + inFromClient);
+                    switch (parts[0].ToLower(CultureInfo.CurrentCulture))
+                    {
+                        case "put":
+                            int length;
+                            int.TryParse(parts[1], out length);
+
+                            bool result = SaveFile(parts[2], length);
+
+                            clientSocket.Send(result
+                                ? Encoding.ASCII.GetBytes("File received")
+                                : Encoding.ASCII.GetBytes("Error while receiving the file"));
+                            break;
+
+                        case "get":
+                            SendFileToClient(parts[1]);
+                            break;
+                    }
                 }
                 catch (Exception)
                 {
                     Console.WriteLine("Lost connection to client");
-                    clientSocket.Close();
                     break;
                 }
-
-                // SEND FILE BACK
-
             }
 
             clientSocket.Close();
-            serverSocket.Close();
+            ServerSocket.Close();
+        }
+
+        private static void SendFileToClient(string fileName)
+        {
+            try
+            {
+                byte[] fileBytes = File.ReadAllBytes(fileName);
+
+                clientSocket.Send(
+                     Encoding.ASCII.GetBytes(String.Join(" ", new[] { "OK", fileBytes.Length.ToString(CultureInfo.CurrentCulture), fileName })));
+
+                clientSocket.SendFile(fileName);
+
+                Console.WriteLine("Sending data ...");
+
+            }
+            catch (FileNotFoundException)
+            {
+                clientSocket.Send(Encoding.ASCII.GetBytes(string.Join(" ", new[] { "Error", "", "" })));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Cannot send file {0} ", e.Message);
+            }
+        }
+
+        private static bool SaveFile(string fileName, int length)
+        {
+            try
+            {
+                byte[] buffer;
+
+                if (length < 104857600)
+                {
+                    Console.WriteLine("Receiving data ...");
+                    buffer = new byte[length];
+                    clientSocket.Receive(buffer, 0, buffer.Length, SocketFlags.None);
+                }
+                else
+                {
+                    Console.WriteLine("Receiving bigger data than expected ...");
+                    int readBytes = 0;
+                    buffer = new byte[5120];
+                    while (readBytes != length)
+                    {
+                        int read = clientSocket.Receive(buffer, 0, buffer.Length, SocketFlags.None);
+                        readBytes += read;
+                    }
+                }
+
+                File.WriteAllBytes(fileName, buffer);
+
+                Console.WriteLine("File successfully saved");
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

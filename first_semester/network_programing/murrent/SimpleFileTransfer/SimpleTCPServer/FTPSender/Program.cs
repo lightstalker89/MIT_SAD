@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace FTPSender
@@ -9,64 +11,131 @@ namespace FTPSender
 
     class Program
     {
+        private static readonly Socket ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        private static readonly IPEndPoint IpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10000);
+
         static void Main(string[] args)
         {
-            Socket clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10000);
-
             Console.WriteLine("Trying to connect ...");
 
             try
             {
-                clientSocket.Connect(ipep);
-
+                ClientSocket.Connect(IpEndPoint);
                 Console.WriteLine("Successfully connected");
             }
-            catch (SocketException socketException)
+            catch (SocketException)
             {
-                Console.WriteLine("Error while connecting to the server {0}", ipep);
-                Console.WriteLine("Exception: {0}", socketException.Message);
+                Console.WriteLine("Cannot connect to server {0}", IpEndPoint);
+                Console.ReadKey();
+                return;
             }
+
+            byte[] data = new byte[1024];
+
+            int len = ClientSocket.Receive(data);
+
+            Console.WriteLine(Encoding.ASCII.GetString(data, 0, len));
 
             while (true)
             {
-                byte[] dataBuffer = null;
+                string consoleInput = Console.ReadLine();
 
-                string message = Console.ReadLine();
-                string[] parts = null;
-
-                if (message != null)
+                if (consoleInput != null)
                 {
-                    parts = message.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] parts = consoleInput.Split(' ');
+
+                    switch (parts[0].ToLower(CultureInfo.CurrentCulture))
+                    {
+                        case "put":
+                            PutFile(parts[1]);
+                            break;
+                        case "get":
+                            GetFile(parts[1]);
+                            break;
+
+                        case "exit":
+                            ClientSocket.Close();
+                            break;
+                    }
                 }
-
-                if (message != null && message.ToLower().Contains("get"))
-                {
-                    clientSocket.Send(Encoding.ASCII.GetBytes(message));
-                }
-
-                else if (message != null && message.ToLower().Contains("put"))
-                {
-                    byte[] file = File.ReadAllBytes(parts[1]);
-                    byte[] fileName = Encoding.ASCII.GetBytes(parts[1]);
-                    byte[] whiteSpace = Encoding.ASCII.GetBytes(" ");
-
-                    dataBuffer = new byte[file.Length + fileName.Length + whiteSpace.Length];
-
-                    Array.Copy(file, dataBuffer, file.Length);
-                    Array.Copy(whiteSpace,0, dataBuffer, file.Length, whiteSpace.Length);
-                    Array.Copy(fileName,0, dataBuffer, whiteSpace.Length + file.Length, fileName.Length);
-
-                    clientSocket.Send(dataBuffer);
-                }
-
-                dataBuffer = new byte[1024];
-
-                int len = clientSocket.Receive(dataBuffer);
-
-                Console.WriteLine(Encoding.ASCII.GetString(dataBuffer, 0, len).Trim());
             }
+        }
+
+        private static void PutFile(string fileName)
+        {
+            try
+            {
+                byte[] fileBytes = File.ReadAllBytes(fileName);
+
+                ClientSocket.Send(Encoding.ASCII.GetBytes(string.Join(" ", new[] { "PUT", fileBytes.Length.ToString(CultureInfo.InvariantCulture), fileName })));
+
+                ClientSocket.SendFile(fileName);
+
+                Console.WriteLine("Sending data ...");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Cannot send file {0} ", e.Message);
+            }
+        }
+
+        private static void GetFile(string fileName)
+        {
+            try
+            {
+                ClientSocket.Send(Encoding.ASCII.GetBytes(string.Join(" ", new[] { "GET", fileName })));
+
+
+                byte[] data = new byte[1024];
+                int len = ClientSocket.Receive(data);
+                string[] packet = Encoding.ASCII.GetString(data, 0, len).Split(' ');
+
+                switch (packet[0])
+                {
+                    case "OK":
+                        int packetSize;
+                        int.TryParse(packet[1], out packetSize);
+                        SaveFile(packet[2], packetSize);
+                        break;
+                    default:
+                        Console.WriteLine("Error while receiving file");
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Cannot send file {0} ", e.Message);
+            }
+        }
+
+        private static void SaveFile(string fileName, int length)
+        {
+            byte[] buffer;
+
+
+            if (length < 104857600)
+            {
+                Console.WriteLine("Receiving data ...");
+                buffer = new byte[length];
+                ClientSocket.Receive(buffer, 0, buffer.Length, SocketFlags.None);
+
+            }
+            else
+            {
+                Console.WriteLine("Receiving bigger data than expected ...");
+                int readBytes = 0;
+                buffer = new byte[5120];
+                while (readBytes != length)
+                {
+                    int read = ClientSocket.Receive(buffer, 0, buffer.Length, SocketFlags.None);
+                    readBytes += read;
+                }
+            }
+
+
+            File.WriteAllBytes(fileName, buffer);
+
+            Console.WriteLine("File successfully saved");
         }
     }
 }
