@@ -1,17 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿// *******************************************************
+// * <copyright file="Program.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace SimpleUDPServer
 {
+    using System;
     using System.Net;
     using System.Net.Sockets;
+    using System.Text;
 
-    class Program
+    /// <summary>
+    /// </summary>
+    internal class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// </summary>
+        /// <param name="args">
+        /// </param>
+        private static void Main(string[] args)
         {
             Socket updSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
@@ -24,8 +35,7 @@ namespace SimpleUDPServer
             IPEndPoint broadCastIPEP = new IPEndPoint(IPAddress.Broadcast, 0);
             IPEndPoint remoteIPEP = new IPEndPoint(IPAddress.Any, 0);
 
-            EndPoint remoteEP = remoteIPEP as EndPoint;
-
+            EndPoint remoteEP = remoteIPEP;
 
             byte[] dataBuffer = new byte[1024];
             int len = 0;

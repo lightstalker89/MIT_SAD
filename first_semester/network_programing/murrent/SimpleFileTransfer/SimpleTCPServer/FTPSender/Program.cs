@@ -1,20 +1,39 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-
+﻿// *******************************************************
+// * <copyright file="Program.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace FTPSender
 {
+    using System;
+    using System.Globalization;
     using System.IO;
     using System.Net;
     using System.Net.Sockets;
+    using System.Text;
 
-    class Program
+    /// <summary>
+    /// </summary>
+    internal class Program
     {
-        private static readonly Socket ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        /// <summary>
+        /// </summary>
+        private static readonly Socket ClientSocket = new Socket(
+            AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+        /// <summary>
+        /// </summary>
         private static readonly IPEndPoint IpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10000);
 
-        static void Main(string[] args)
+        /// <summary>
+        /// Defines the entry point of the application.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        private static void Main(string[] args)
         {
             Console.WriteLine("Trying to connect ...");
 
@@ -61,13 +80,20 @@ namespace FTPSender
             }
         }
 
+        /// <summary>
+        /// Puts the file.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
         private static void PutFile(string fileName)
         {
             try
             {
                 byte[] fileBytes = File.ReadAllBytes(fileName);
 
-                ClientSocket.Send(Encoding.ASCII.GetBytes(string.Join(" ", new[] { "PUT", fileBytes.Length.ToString(CultureInfo.InvariantCulture), fileName })));
+                ClientSocket.Send(
+                    Encoding.ASCII.GetBytes(
+                        string.Join(
+                            " ", new[] { "PUT", fileBytes.Length.ToString(CultureInfo.InvariantCulture), fileName })));
 
                 ClientSocket.SendFile(fileName);
 
@@ -79,12 +105,15 @@ namespace FTPSender
             }
         }
 
+        /// <summary>
+        /// Gets the file.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
         private static void GetFile(string fileName)
         {
             try
             {
                 ClientSocket.Send(Encoding.ASCII.GetBytes(string.Join(" ", new[] { "GET", fileName })));
-
 
                 byte[] data = new byte[1024];
                 int len = ClientSocket.Receive(data);
@@ -108,17 +137,20 @@ namespace FTPSender
             }
         }
 
+        /// <summary>
+        /// Saves the file.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="length">The length.</param>
         private static void SaveFile(string fileName, int length)
         {
             byte[] buffer;
-
 
             if (length < 104857600)
             {
                 Console.WriteLine("Receiving data ...");
                 buffer = new byte[length];
                 ClientSocket.Receive(buffer, 0, buffer.Length, SocketFlags.None);
-
             }
             else
             {
@@ -131,7 +163,6 @@ namespace FTPSender
                     readBytes += read;
                 }
             }
-
 
             File.WriteAllBytes(fileName, buffer);
 

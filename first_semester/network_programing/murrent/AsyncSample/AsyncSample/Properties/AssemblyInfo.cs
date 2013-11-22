@@ -14,11 +14,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FTPServer")]
+[assembly: AssemblyTitle("AsyncSample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FTPServer")]
+[assembly: AssemblyProduct("AsyncSample")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("bd6f19ed-92ab-4fdb-9438-cf03b2adad67")]
+[assembly: Guid("bd4fad6d-b5d4-42a4-8558-a7f92b18e1d0")]
 
 // Version information for an assembly consists of the following four values:
 //      Major Version

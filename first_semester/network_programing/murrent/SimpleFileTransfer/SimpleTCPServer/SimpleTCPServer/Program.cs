@@ -30,7 +30,7 @@ namespace SimpleTCPServer
         {
             Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(args[0]), int.Parse(args[1]));
+            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10000);
 
             serverSocket.Bind(ipep);
             serverSocket.Listen(5);

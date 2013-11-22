@@ -15,6 +15,11 @@ namespace BiOWheelsFileWatcher.Interfaces
     public interface IFileSystemManager
     {
         /// <summary>
+        /// Gets or sets a value indicating whether parallel sync is activated or not
+        /// </summary>
+        bool IsParallelSyncActivated { get; set; }
+
+        /// <summary>
         /// Gets or sets the block size in MB
         /// </summary>
         long BlockCompareFileSizeInMB { get; set; }

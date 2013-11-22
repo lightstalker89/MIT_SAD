@@ -14,11 +14,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FTPServer")]
+[assembly: AssemblyTitle("TCPListenerSample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FTPServer")]
+[assembly: AssemblyProduct("TCPListenerSample")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("bd6f19ed-92ab-4fdb-9438-cf03b2adad67")]
+[assembly: Guid("1dcdb80e-43ec-4969-8912-b4998d455dd5")]
 
 // Version information for an assembly consists of the following four values:
 //      Major Version

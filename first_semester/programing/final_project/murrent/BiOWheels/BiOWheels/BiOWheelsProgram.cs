@@ -40,11 +40,6 @@ namespace BiOWheels
         /// </summary>
         private const string Options = "px";
 
-        /// <summary>
-        /// Default console foreground color
-        /// </summary>
-        private const ConsoleColor DefaultConsoleForegroundColor = ConsoleColor.Gray;
-
         #endregion
 
         #region Private Fields
@@ -232,7 +227,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -247,12 +242,21 @@ namespace BiOWheels
         /// </summary>
         private static void CreateFileWatcher()
         {
-            SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(
-                FileWatcherFactory.CreateFileWatcher(
-                    FileWatcherFactory.CreateQueueManager(
-                        FileWatcherFactory.CreateFileSystemManager(
-                            FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB), 
-                            configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
+            IFileComparator fileComparator =
+                FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB);
+            IFileSystemManager fileSystemManager = FileWatcherFactory.CreateFileSystemManager(fileComparator);
+            fileSystemManager.BlockCompareFileSizeInMB = configuration.BlockCompareOptions.BlockCompareFileSizeInMB;
+            IQueueManager queueManager = FileWatcherFactory.CreateQueueManager(fileSystemManager);
+            IFileWatcher fileWatcher = FileWatcherFactory.CreateFileWatcher(queueManager);
+
+            //SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(
+            //    FileWatcherFactory.CreateFileWatcher(
+            //        FileWatcherFactory.CreateQueueManager(
+            //            FileWatcherFactory.CreateFileSystemManager(
+            //                FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB),
+            //                configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
+
+            SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(fileWatcher);
 
             AttachFileWatcherEvents();
         }
@@ -278,6 +282,13 @@ namespace BiOWheels
                         Log(GetEasterEgg(), MessageType.INFO);
                         break;
                     case ConsoleKey.P:
+
+                        bool activated = SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated;
+
+                        SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated = !activated;
+
+                        Log("Parallel sync has been " + !activated, MessageType.INFO);
+
                         break;
                     case ConsoleKey.L:
                         break;
@@ -360,9 +371,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 

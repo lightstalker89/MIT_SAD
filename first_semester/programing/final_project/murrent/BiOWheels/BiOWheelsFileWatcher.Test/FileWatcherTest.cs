@@ -65,8 +65,9 @@ namespace BiOWheelsFileWatcher.Test
         [SetUp]
         public void Init()
         {
-            this.fileComparator = new FileComparator(10);
-            this.fileSystemManager = new FileSystemManager(this.fileComparator, 10);
+            this.fileComparator = new FileComparator(2000);
+            this.fileSystemManager = new FileSystemManager(this.fileComparator);
+            this.fileSystemManager.BlockCompareFileSizeInMB = 10;
 
             this.queueManager = new QueueManager(this.fileSystemManager);
             this.fileWatcher = new FileWatcher(this.queueManager);

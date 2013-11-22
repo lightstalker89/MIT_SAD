@@ -73,14 +73,13 @@ namespace BiOWheelsFileWatcher
         /// Creates the file system manager.
         /// </summary>
         /// <param name="fileComparator">The file comparator.</param>
-        /// <param name="blockCompareSizeInMB">The block compare size in mb.</param>
         /// <returns>
         /// An instance of the <see cref="FileSystemManager" /> class
         /// </returns>
         public static IFileSystemManager CreateFileSystemManager(
-            IFileComparator fileComparator, long blockCompareSizeInMB)
+            IFileComparator fileComparator)
         {
-            return new FileSystemManager(fileComparator, blockCompareSizeInMB);
+            return new FileSystemManager(fileComparator);
         }
 
         /// <summary>

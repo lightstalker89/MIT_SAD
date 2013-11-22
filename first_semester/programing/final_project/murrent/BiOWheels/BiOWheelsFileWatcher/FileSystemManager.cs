@@ -23,6 +23,11 @@ namespace BiOWheelsFileWatcher
         #region Private Fields
 
         /// <summary>
+        /// Value indicating whether parallel sync is activated or not
+        /// </summary>
+        private bool isParallelSyncActivated;
+
+        /// <summary>
         /// Represents an instance of the <see cref="FileComparator"/> class
         /// </summary>
         private IFileComparator fileComparator;
@@ -38,13 +43,25 @@ namespace BiOWheelsFileWatcher
         /// Initializes a new instance of the <see cref="FileSystemManager" /> class
         /// </summary>
         /// <param name="fileComparator">The file comparator.</param>
-        /// <param name="blockCompareSizeInMB">The block compare size in mb.</param>
-        internal FileSystemManager(IFileComparator fileComparator, long blockCompareSizeInMB)
+        internal FileSystemManager(IFileComparator fileComparator)
         {
             this.FileComparator = fileComparator;
-            this.BlockCompareFileSizeInMB = blockCompareSizeInMB;
         }
         #region Properties
+
+        /// <inheritdoc/>
+        public bool IsParallelSyncActivated
+        {
+            get
+            {
+                return this.isParallelSyncActivated;
+            }
+
+            set
+            {
+                this.isParallelSyncActivated = value;
+            }
+        }
 
         /// <inheritdoc/>
         public long BlockCompareFileSizeInMB
