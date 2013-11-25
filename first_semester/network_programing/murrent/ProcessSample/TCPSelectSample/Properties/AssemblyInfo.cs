@@ -14,11 +14,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("UPDClientSample")]
+[assembly: AssemblyTitle("TCPSelectSample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("UPDClientSample")]
+[assembly: AssemblyProduct("TCPSelectSample")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1a0c4fec-bbde-478f-a611-d4fb0331f43a")]
+[assembly: Guid("29cc7ea4-5060-44e8-ba84-9497980e642b")]
 
 // Version information for an assembly consists of the following four values:
 //      Major Version

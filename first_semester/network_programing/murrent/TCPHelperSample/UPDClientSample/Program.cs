@@ -1,33 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿// *******************************************************
+// * <copyright file="Program.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace UPDClientSample
 {
+    using System;
     using System.Net;
     using System.Net.Sockets;
+    using System.Text;
+    using System.Threading;
 
-    class Program
+    /// <summary>
+    /// </summary>
+    internal class Program
     {
-        private static readonly string WelcomeMessage = "Hello Master";
+        /// <summary>
+        /// </summary>
+        private const string WelcomeMessage = "Hello Master";
 
-        static void Main(string[] args)
+        /// <summary>
+        /// </summary>
+        private static UdpClient udpClient;
+
+        /// <summary>
+        /// </summary>
+        private static IPEndPoint ipEndPoint;
+
+        /// <summary>
+        /// </summary>
+        /// <param name="args">
+        /// </param>
+        private static void Main(string[] args)
         {
-            UdpClient udpClient = new UdpClient("localhost", 10000);
+            udpClient = new UdpClient("192.168.45.74", 10000);
 
+            ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
+            // byte[] data = udpClient.Receive(ref ipEndPoint);
+
+            // Console.WriteLine("Received from server: " + Encoding.ASCII.GetString(data));
+            Thread sendThread = new Thread(Send);
+            sendThread.Start();
+
+            Thread receiveThread = new Thread(Receive);
+            receiveThread.Start();
+        }
+
+        /// <summary>
+        /// </summary>
+        private static void Send()
+        {
             udpClient.Send(Encoding.ASCII.GetBytes(WelcomeMessage), WelcomeMessage.Length);
-
-            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
-
-            byte[] data = udpClient.Receive(ref ipEndPoint);
-
-            Console.WriteLine("Received from server: " + Encoding.ASCII.GetString(data));
 
             while (true)
             {
-                Console.WriteLine(string.Empty);
                 string input = Console.ReadLine();
 
                 if (input != null && input.Equals("exit"))
@@ -37,12 +68,22 @@ namespace UPDClientSample
 
                 udpClient.Send(Encoding.ASCII.GetBytes(input), input.Length);
 
-                data = udpClient.Receive(ref ipEndPoint);
-
-                Console.WriteLine(Encoding.ASCII.GetString(data));
+                // Console.WriteLine(Encoding.ASCII.GetString(data));
             }
 
             Console.WriteLine("Terminating client...");
+        }
+
+        /// <summary>
+        /// </summary>
+        private static void Receive()
+        {
+            while (true)
+            {
+                byte[] data = udpClient.Receive(ref ipEndPoint);
+
+                Console.WriteLine("Received from server: " + Encoding.ASCII.GetString(data));
+            }
         }
     }
 }
