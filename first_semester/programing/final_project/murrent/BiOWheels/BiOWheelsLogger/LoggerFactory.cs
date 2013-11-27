@@ -35,9 +35,15 @@ namespace BiOWheelsLogger
         /// <summary>
         /// Creates the combined logger.
         /// </summary>
-        /// <param name="consoleLogger">The console logger.</param>
-        /// <param name="fileLogger">The file logger.</param>
-        /// <returns>An instance of the <see cref="CombinedLogger"/> class</returns>
+        /// <param name="consoleLogger">
+        /// The console logger.
+        /// </param>
+        /// <param name="fileLogger">
+        /// The file logger.
+        /// </param>
+        /// <returns>
+        /// An instance of the <see cref="CombinedLogger"/> class
+        /// </returns>
         public static ILogger CreateCombinedLogger(ILogger consoleLogger, ILogger fileLogger)
         {
             return new CombinedLogger(consoleLogger, fileLogger);

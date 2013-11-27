@@ -26,6 +26,8 @@ namespace BiOWheels
 
     using BiOWheelsLogger;
 
+    using BiOWheelsTextToSpeechService;
+
     using BiOWheelsVisualizer;
 
     /// <summary>
@@ -166,6 +168,8 @@ namespace BiOWheels
         {
             FillEgMessageList();
 
+            SimpleContainer.Instance.Register<ITextToSpeechService, ITextToSpeechService>(
+                TextToSpeechServiceFactory.CreateTextToSpeechService());
             SimpleContainer.Instance.Register<IConfigurationManager, IConfigurationManager>(
                 ConfigurationManagerFactory.CreateConfigurationManager());
             SimpleContainer.Instance.Register<ILogger, ILogger>(LoggerFactory.CreateCombinedLogger());
@@ -227,7 +231,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -249,13 +253,12 @@ namespace BiOWheels
             IQueueManager queueManager = FileWatcherFactory.CreateQueueManager(fileSystemManager);
             IFileWatcher fileWatcher = FileWatcherFactory.CreateFileWatcher(queueManager);
 
-            //SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(
-            //    FileWatcherFactory.CreateFileWatcher(
-            //        FileWatcherFactory.CreateQueueManager(
-            //            FileWatcherFactory.CreateFileSystemManager(
-            //                FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB),
-            //                configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
-
+            // SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(
+            // FileWatcherFactory.CreateFileWatcher(
+            // FileWatcherFactory.CreateQueueManager(
+            // FileWatcherFactory.CreateFileSystemManager(
+            // FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB),
+            // configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
             SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(fileWatcher);
 
             AttachFileWatcherEvents();
@@ -279,7 +282,11 @@ namespace BiOWheels
                         CloseApplication(0);
                         break;
                     case ConsoleKey.S:
-                        Log(GetEasterEgg(), MessageType.INFO);
+
+                        // Log(GetEasterEgg(), MessageType.INFO);
+                        string message = GetEasterEgg();
+                        SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speack(message);
+
                         break;
                     case ConsoleKey.P:
 
@@ -371,9 +378,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
@@ -444,7 +451,9 @@ namespace BiOWheels
         /// <summary>
         /// Close the application
         /// </summary>
-        /// <param name="exitCode">The exit code.</param>
+        /// <param name="exitCode">
+        /// The exit code.
+        /// </param>
         private static void CloseApplication(int exitCode)
         {
             Environment.Exit(exitCode);

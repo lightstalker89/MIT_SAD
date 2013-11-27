@@ -40,13 +40,16 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileSystemManager" /> class
+        /// Initializes a new instance of the <see cref="FileSystemManager"/> class
         /// </summary>
-        /// <param name="fileComparator">The file comparator.</param>
+        /// <param name="fileComparator">
+        /// The file comparator.
+        /// </param>
         internal FileSystemManager(IFileComparator fileComparator)
         {
             this.FileComparator = fileComparator;
         }
+
         #region Properties
 
         /// <inheritdoc/>
@@ -136,7 +139,9 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Copies a file to the given destinations
         /// </summary>
-        /// <param name="item">Item from the queue</param>
+        /// <param name="item">
+        /// Item from the queue
+        /// </param>
         public void Copy(SyncItem item)
         {
             if (item.FullQualifiedSourceFileName.IsDirectory())
@@ -180,7 +185,8 @@ namespace BiOWheelsFileWatcher
             {
                 foreach (string destination in item.Destinations)
                 {
-                    string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+                    string pathToCopy =
+                        Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
                     this.CreateDirectoryIfNotExists(pathToCopy);
 
@@ -194,7 +200,9 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Diff the file.
         /// </summary>
-        /// <param name="item">The item.</param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         internal void DiffFile(SyncItem item)
         {
             foreach (string destinationFile in

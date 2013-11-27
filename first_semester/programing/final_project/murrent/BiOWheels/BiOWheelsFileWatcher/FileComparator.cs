@@ -36,9 +36,11 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileComparator" /> class
+        /// Initializes a new instance of the <see cref="FileComparator"/> class
         /// </summary>
-        /// <param name="blockSize">Size of the block.</param>
+        /// <param name="blockSize">
+        /// Size of the block.
+        /// </param>
         public FileComparator(long blockSize)
         {
             this.BlockSize = blockSize;
@@ -138,6 +140,7 @@ namespace BiOWheelsFileWatcher
 
             GC.Collect();
         }
+
         #endregion
     }
 }

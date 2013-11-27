@@ -25,10 +25,14 @@ namespace BiOWheelsLogger
         private readonly ILogger fileLogger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CombinedLogger" /> class
+        /// Initializes a new instance of the <see cref="CombinedLogger"/> class
         /// </summary>
-        /// <param name="consoleLogger">The console logger.</param>
-        /// <param name="fileLogger">The file logger.</param>
+        /// <param name="consoleLogger">
+        /// The console logger.
+        /// </param>
+        /// <param name="fileLogger">
+        /// The file logger.
+        /// </param>
         internal CombinedLogger(ILogger consoleLogger, ILogger fileLogger)
         {
             this.consoleLogger = consoleLogger;

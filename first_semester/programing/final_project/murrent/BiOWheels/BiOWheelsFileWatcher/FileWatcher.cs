@@ -49,9 +49,11 @@ namespace BiOWheelsFileWatcher
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileWatcher" /> class
+        /// Initializes a new instance of the <see cref="FileWatcher"/> class
         /// </summary>
-        /// <param name="queueManager">The queue manager.</param>
+        /// <param name="queueManager">
+        /// The queue manager.
+        /// </param>
         internal FileWatcher(IQueueManager queueManager)
         {
             this.Mappings = new List<DirectoryMapping>();
@@ -191,11 +193,11 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.CaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
                         {
-                            CustomExceptionText = "Error while enumerating all files in the given directory"
+                           CustomExceptionText = "Error while enumerating all files in the given directory" 
                         });
 
                 return new List<string>();
@@ -207,8 +209,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Occurs when the instance of FileSystemWatcher is unable to continue monitoring changes or when the internal buffer overflows.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="ErrorEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="ErrorEventArgs"/> instance containing the event data.
+        /// </param>
         protected void FileSystemWatcherError(object sender, ErrorEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -223,8 +229,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Occurs when the file system watcher is disposed
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="EventArgs"/> instance containing the event data.
+        /// </param>
         protected void FileSystemWatcherDisposed(object sender, EventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -298,8 +308,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Occurs when a file or directory in the specified Path is changed.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.
+        /// </param>
         protected void FileSystemWatcherObjectChanged(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -319,8 +333,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Event that occurs when a file or directory has been renamed
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="CustomFileRenamedEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="CustomFileRenamedEventArgs"/> instance containing the event data.
+        /// </param>
         protected void FileSystemWatcherObjectRenamed(object sender, CustomFileRenamedEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -331,10 +349,10 @@ namespace BiOWheelsFileWatcher
                 {
                     this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
                     this.OnProgressUpdate(
-                        this,
+                        this, 
                         new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
                     this.OnProgressUpdate(
-                        this,
+                        this, 
                         new UpdateProgressEventArgs(
                             "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
                 }
@@ -344,8 +362,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Event that occurs when a file or directory has been deleted
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.
+        /// </param>
         protected void FileSystemWatcherObjectDeleted(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -366,8 +388,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Event that occurs when a file or directory has been created
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="CustomFileSystemEventArgs"/> instance containing the event data.
+        /// </param>
         protected void FileSystemWatcherObjectCreated(object sender, CustomFileSystemEventArgs e)
         {
             BiOWheelsFileSystemWatcher watcher = this.GetFileSystemWatcher(sender);
@@ -403,9 +429,9 @@ namespace BiOWheelsFileWatcher
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             FileWatcherFactory.CreateFileSystemWatcher(
-                                ((DirectoryMapping)mappingInfo).SourceDirectory,
-                                ((DirectoryMapping)mappingInfo).Recursive,
-                                ((DirectoryMapping)mappingInfo).DestinationDirectories,
+                                ((DirectoryMapping)mappingInfo).SourceDirectory, 
+                                ((DirectoryMapping)mappingInfo).Recursive, 
+                                ((DirectoryMapping)mappingInfo).DestinationDirectories, 
                                 ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
@@ -421,19 +447,19 @@ namespace BiOWheelsFileWatcher
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                        this,
-                        new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
+                            this, 
+                            new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
                     {
                         this.OnCaughtException(
-                        this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
+                            this, new CaughtExceptionEventArgs(argumentException.GetType(), argumentException.Message));
                     }
                 }
                 else
                 {
                     this.OnCaughtException(
-                        this,
+                        this, 
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
@@ -491,9 +517,15 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Check if a file or directory can be added to the queue
         /// </summary>
-        /// <param name="objectName">Name of the object.</param>
-        /// <param name="excludedDirectories">The excluded directories.</param>
-        /// <returns>A value indicating whether the item is allowed to be added to the queue or not</returns>
+        /// <param name="objectName">
+        /// Name of the object.
+        /// </param>
+        /// <param name="excludedDirectories">
+        /// The excluded directories.
+        /// </param>
+        /// <returns>
+        /// A value indicating whether the item is allowed to be added to the queue or not
+        /// </returns>
         private bool IsAllowedToAddItemToQueue(string objectName, IEnumerable<string> excludedDirectories)
         {
             bool isAllowedToAdd = true;
@@ -517,7 +549,9 @@ namespace BiOWheelsFileWatcher
                     {
                         IEnumerable<string> directories = directoryName.Split(Path.DirectorySeparatorChar).ToList();
 
-                        foreach (string directory in directories.Where(directory => excludedDirectories.Any(directory.Equals)))
+                        foreach (
+                            string directory in
+                                directories.Where(directory => excludedDirectories.Any(directory.Equals)))
                         {
                             isAllowedToAdd = false;
                         }
@@ -527,6 +561,7 @@ namespace BiOWheelsFileWatcher
 
             return isAllowedToAdd;
         }
+
         #endregion
     }
 }

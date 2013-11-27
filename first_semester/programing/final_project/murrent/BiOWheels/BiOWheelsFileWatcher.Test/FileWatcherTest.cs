@@ -11,6 +11,7 @@ namespace BiOWheelsFileWatcher.Test
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Text;
@@ -26,6 +27,7 @@ namespace BiOWheelsFileWatcher.Test
     /// <summary>
     /// Class representing the test for the <see cref="FileWatcher"/>
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines", Justification = "Reviewed.")]
     [TestFixture]
     public class FileWatcherTest
     {
@@ -83,7 +85,7 @@ namespace BiOWheelsFileWatcher.Test
                         {
                             SourceDirectory = "A", 
                             DestinationDirectories = new List<string> { "B", "C" }, 
-                            ExcludedDirectories = new List<string> { "EFE" },
+                            ExcludedDirectories = new List<string> { "EFE" }, 
                             Recursive = true
                         }, 
                     new DirectoryMapping
@@ -169,7 +171,8 @@ namespace BiOWheelsFileWatcher.Test
                 File.Create(
                     Path.Combine(
                         info.Name,
-                        "Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar + "File" + i));
+                        "Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar
+                        + "File" + i));
 
                 Thread.Sleep(200);
             }
@@ -231,8 +234,12 @@ namespace BiOWheelsFileWatcher.Test
         /// <summary>
         /// Event occurs when an exception is caught
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="data">The <see cref="CaughtExceptionEventArgs" /> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.
+        /// </param>
         private void FileWatcherCaughtException(object sender, CaughtExceptionEventArgs data)
         {
         }

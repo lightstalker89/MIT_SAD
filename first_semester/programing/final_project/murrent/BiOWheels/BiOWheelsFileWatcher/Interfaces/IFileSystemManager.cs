@@ -27,7 +27,9 @@ namespace BiOWheelsFileWatcher.Interfaces
         /// <summary>
         /// Deletes the specified item.
         /// </summary>
-        /// <param name="item">The item.</param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         void Delete(SyncItem item);
 
         /// <summary>
@@ -41,7 +43,9 @@ namespace BiOWheelsFileWatcher.Interfaces
         /// <summary>
         /// Copies the directory.
         /// </summary>
-        /// <param name="item">The item.</param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         void CopyDirectory(SyncItem item);
     }
 }

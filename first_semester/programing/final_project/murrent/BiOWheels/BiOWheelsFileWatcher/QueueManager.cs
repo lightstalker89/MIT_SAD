@@ -59,6 +59,7 @@ namespace BiOWheelsFileWatcher
         /// Object used for locking
         /// </summary>
         private object queueItemLockObject = new object();
+
         #endregion
 
         /// <summary>
@@ -237,7 +238,9 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Finalizes the queue item.
         /// </summary>
-        /// <param name="syncItem">The synchronize item.</param>
+        /// <param name="syncItem">
+        /// The synchronize item.
+        /// </param>
         private void FinalizeQueueItem(SyncItem syncItem)
         {
             try
@@ -256,7 +259,7 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.OnCaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
             }
@@ -273,7 +276,7 @@ namespace BiOWheelsFileWatcher
             catch (DirectoryNotFoundException directoryNotFoundException)
             {
                 this.OnCaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         directoryNotFoundException.GetType(), directoryNotFoundException.Message));
             }
