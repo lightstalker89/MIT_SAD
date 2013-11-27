@@ -18,6 +18,11 @@ namespace BiOWheelsVisualizer
     {
         #region Methods
 
+        internal Visualizer()
+        {
+            Console.Title = "BiOWheels - (c) 2013 Mario Murrent";
+        }
+
         /// <inheritdoc/>
         public void GetMenu()
         {
@@ -48,6 +53,19 @@ namespace BiOWheelsVisualizer
             Console.WriteLine("\t -h \t\t Shows the help");
         }
 
+        /// <inheritdoc/>
+        public void SetConsoleWindowSize(int width, int height)
+        {
+            Console.WindowHeight = height;
+            Console.WindowWidth = width;
+        }
+
+        /// <inheritdoc/>
+        public void MaximizeConsoleWindow()
+        {
+            Console.WindowHeight = Console.LargestWindowHeight - 40;
+            Console.WindowWidth = Console.LargestWindowWidth - 40;
+        }
         #endregion
     }
 }

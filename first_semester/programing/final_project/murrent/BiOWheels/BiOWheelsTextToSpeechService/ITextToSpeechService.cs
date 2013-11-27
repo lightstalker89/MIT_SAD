@@ -18,6 +18,6 @@ namespace BiOWheelsTextToSpeechService
         /// Speaks the specified text.
         /// </summary>
         /// <param name="text">The text.</param>
-        void Speack(string text);
+        void Speak(string text);
     }
 }

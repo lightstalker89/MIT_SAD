@@ -40,33 +40,20 @@ namespace BiOWheelsTextToSpeechService
         public TextToSpeechService(SpeechSynthesizer speechSynthesizer)
         {
             this.speechSynthesizer = speechSynthesizer;
-            this.speechSynthesizer.SpeakCompleted += this.SpeechSynthesizerSpeakCompleted;
-        }
-
-        /// <summary>
-        /// Speeches the synthesizer speak completed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="SpeakCompletedEventArgs"/> instance containing the event data.</param>
-        protected void SpeechSynthesizerSpeakCompleted(object sender, SpeakCompletedEventArgs e)
-        {
-            this.IsInProgress = false;
+            this.speechSynthesizer.SetOutputToDefaultAudioDevice();
+            this.speechSynthesizer.Rate = 0;
+            this.speechSynthesizer.Volume = 100;
+            this.speechSynthesizer.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Adult);
         }
 
         #region Methods
 
         /// <inheritdoc/>
-        public void Speack(string text)
+        public void Speak(string text)
         {
-            if (!this.IsInProgress)
-            {
-                this.IsInProgress = true;
-                this.speechSynthesizer.SetOutputToDefaultAudioDevice();
-                this.speechSynthesizer.Rate = 0;
-                this.speechSynthesizer.Volume = 100;
-                this.speechSynthesizer.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Adult);
-                this.speechSynthesizer.SpeakAsync(text);
-            }
+            this.speechSynthesizer.SpeakAsyncCancelAll();
+
+            this.speechSynthesizer.SpeakAsync(text);
         }
 
         #endregion

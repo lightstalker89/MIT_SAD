@@ -179,7 +179,10 @@ namespace BiOWheels
 
             SimpleContainer.Instance.Register<ICommandLineArgsParser, ICommandLineArgsParser>(
                 CommandLineArgsParserFactory.CreateCommandLineArgsParser());
-            SimpleContainer.Instance.Register<IVisualizer, IVisualizer>(VisualizerFactory.CreateVisualizer());
+
+            IVisualizer visualizer = VisualizerFactory.CreateVisualizer();
+            visualizer.MaximizeConsoleWindow();
+            SimpleContainer.Instance.Register<IVisualizer, IVisualizer>(visualizer);
 
             if (loadConfig)
             {
@@ -231,7 +234,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -259,6 +262,7 @@ namespace BiOWheels
             // FileWatcherFactory.CreateFileSystemManager(
             // FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB),
             // configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
+            SimpleContainer.Instance.Register<IFileSystemManager, IFileSystemManager>(fileSystemManager);
             SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(fileWatcher);
 
             AttachFileWatcherEvents();
@@ -273,8 +277,6 @@ namespace BiOWheels
             {
                 ConsoleKey key = Console.ReadKey(true).Key;
 
-                SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(false);
-
                 switch (key)
                 {
                     case ConsoleKey.X:
@@ -282,19 +284,17 @@ namespace BiOWheels
                         CloseApplication(0);
                         break;
                     case ConsoleKey.S:
-
-                        // Log(GetEasterEgg(), MessageType.INFO);
                         string message = GetEasterEgg();
-                        SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speack(message);
+                        SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speak(message);
 
                         break;
                     case ConsoleKey.P:
-
                         bool activated = SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated;
 
                         SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated = !activated;
+                        SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speak("Parallel sync has been " + (!activated ? "activated" : "deactivated"));
 
-                        Log("Parallel sync has been " + !activated, MessageType.INFO);
+                        Log("Parallel sync has been " + (!activated ? "activated" : "deactivated"), MessageType.INFO);
 
                         break;
                     case ConsoleKey.L:
@@ -378,9 +378,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 

@@ -47,5 +47,17 @@ namespace BiOWheelsVisualizer
         /// Display help in console
         /// </summary>
         void GetHelp();
+
+        /// <summary>
+        /// Sets the size of the console window.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        void SetConsoleWindowSize(int width, int height);
+
+        /// <summary>
+        /// Maximizes the console window.
+        /// </summary>
+        void MaximizeConsoleWindow();
     }
 }
