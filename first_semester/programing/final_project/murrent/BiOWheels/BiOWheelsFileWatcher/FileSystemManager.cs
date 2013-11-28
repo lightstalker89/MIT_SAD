@@ -7,6 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Threading.Tasks;
+
 namespace BiOWheelsFileWatcher
 {
     using System;
@@ -152,6 +155,11 @@ namespace BiOWheelsFileWatcher
             {
                 this.CopyFile(item);
             }
+
+            if (item.OldFileName != string.Empty)
+            {
+                this.DeleteRenamed(item);
+            }
         }
 
         /// <summary>
@@ -176,23 +184,36 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal void CopyFile(SyncItem item)
         {
-            // TODO: Parallel Sync implement
             if (this.MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
             {
-                this.DiffFile(item);
+                if (this.IsParallelSyncActivated)
+                {
+                    this.DiffParallel(item);
+                }
+                else
+                {
+                    this.DiffFile(item);
+                }
             }
             else
             {
-                foreach (string destination in item.Destinations)
+                if (this.isParallelSyncActivated)
                 {
-                    string pathToCopy =
-                        Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+                    Parallel.ForEach(item.Destinations, destination =>
+                    {
+                        // TODO: implement
+                    });
+                }
+                else
+                {
+                    foreach (string pathToCopy in item.Destinations.Select(destination => Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile)))
+                    {
+                        this.CreateDirectoryIfNotExists(pathToCopy);
 
-                    this.CreateDirectoryIfNotExists(pathToCopy);
+                        string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
 
-                    string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
-
-                    File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
+                        File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
+                    }
                 }
             }
         }
@@ -210,6 +231,44 @@ namespace BiOWheelsFileWatcher
                     destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
             {
                 this.fileComparator.Compare(item.FullQualifiedSourceFileName, destinationFile);
+            }
+        }
+
+        /// <summary>
+        /// Diff files parallel
+        /// </summary>
+        /// <param name="item">The item</param>
+        internal void DiffParallel(SyncItem item)
+        {
+
+        }
+
+        /// <summary>
+        /// Deletes a file or directory
+        /// </summary>
+        /// <param name="item">The item.</param>
+        internal void DeleteRenamed(SyncItem item)
+        {
+            foreach (string pathToDelete in
+               item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar))
+            {
+                string pathToDeleteSource = pathToDelete + item.OldFileName;
+                string pathToDeleteDestination = pathToDelete + item.SourceFile;
+
+                if (pathToDeleteSource.IsDirectory())
+                {
+                    if (Directory.Exists(pathToDeleteSource))
+                    {
+                        // TODO: Copy files in directory to new directory
+                    }
+                }
+                else
+                {
+                    if (File.Exists(pathToDeleteSource))
+                    {
+                        File.Delete(pathToDeleteSource);
+                    }
+                }
             }
         }
 

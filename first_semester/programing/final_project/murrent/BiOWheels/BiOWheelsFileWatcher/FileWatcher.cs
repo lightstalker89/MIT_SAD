@@ -193,11 +193,11 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.CaughtException(
-                    this, 
+                    this,
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
                         {
-                           CustomExceptionText = "Error while enumerating all files in the given directory" 
+                            CustomExceptionText = "Error while enumerating all files in the given directory"
                         });
 
                 return new List<string>();
@@ -322,7 +322,7 @@ namespace BiOWheelsFileWatcher
             {
                 if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
-                    this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
+                    this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, string.Empty, FileAction.COPY);
                     this.OnProgressUpdate(this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has changed."));
                     this.OnProgressUpdate(
                         this, new UpdateProgressEventArgs("Added job to queue for comparing --" + e.FileName + "--"));
@@ -347,12 +347,12 @@ namespace BiOWheelsFileWatcher
             {
                 if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
-                    this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
+                    this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, e.OldFileName, FileAction.COPY);
                     this.OnProgressUpdate(
-                        this, 
+                        this,
                         new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
                     this.OnProgressUpdate(
-                        this, 
+                        this,
                         new UpdateProgressEventArgs(
                             "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
                 }
@@ -376,7 +376,7 @@ namespace BiOWheelsFileWatcher
             {
                 if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
-                    this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.DELETE);
+                    this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, string.Empty, FileAction.DELETE);
                     this.OnProgressUpdate(
                         this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has been deleted."));
                     this.OnProgressUpdate(
@@ -402,7 +402,7 @@ namespace BiOWheelsFileWatcher
             {
                 if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
-                    this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, FileAction.COPY);
+                    this.AddQueueItem(watcher.Destinations, e.FileName, e.FullQualifiedFileName, string.Empty, FileAction.COPY);
                     this.OnProgressUpdate(
                         this, new UpdateProgressEventArgs("File --" + e.FileName + "-- has been created."));
                     this.OnProgressUpdate(
@@ -429,9 +429,9 @@ namespace BiOWheelsFileWatcher
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             FileWatcherFactory.CreateFileSystemWatcher(
-                                ((DirectoryMapping)mappingInfo).SourceDirectory, 
-                                ((DirectoryMapping)mappingInfo).Recursive, 
-                                ((DirectoryMapping)mappingInfo).DestinationDirectories, 
+                                ((DirectoryMapping)mappingInfo).SourceDirectory,
+                                ((DirectoryMapping)mappingInfo).Recursive,
+                                ((DirectoryMapping)mappingInfo).DestinationDirectories,
                                 ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
@@ -447,7 +447,7 @@ namespace BiOWheelsFileWatcher
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this, 
+                            this,
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -459,7 +459,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this, 
+                        this,
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
@@ -507,9 +507,9 @@ namespace BiOWheelsFileWatcher
         /// The file action.
         /// </param>
         private void AddQueueItem(
-            IEnumerable<string> destinations, string filename, string fullQualifiedFileName, FileAction fileAction)
+            IEnumerable<string> destinations, string filename, string fullQualifiedFileName, string oldFileName, FileAction fileAction)
         {
-            SyncItem item = new SyncItem(destinations, filename, fullQualifiedFileName, fileAction);
+            SyncItem item = new SyncItem(destinations, filename, fullQualifiedFileName, oldFileName, fileAction);
 
             this.QueueManager.Enqueue(item);
         }

@@ -256,12 +256,6 @@ namespace BiOWheels
             IQueueManager queueManager = FileWatcherFactory.CreateQueueManager(fileSystemManager);
             IFileWatcher fileWatcher = FileWatcherFactory.CreateFileWatcher(queueManager);
 
-            // SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(
-            // FileWatcherFactory.CreateFileWatcher(
-            // FileWatcherFactory.CreateQueueManager(
-            // FileWatcherFactory.CreateFileSystemManager(
-            // FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB),
-            // configuration.BlockCompareOptions.BlockCompareFileSizeInMB))));
             SimpleContainer.Instance.Register<IFileSystemManager, IFileSystemManager>(fileSystemManager);
             SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(fileWatcher);
 
@@ -283,11 +277,12 @@ namespace BiOWheels
                         Log("Closing BiOWheels", MessageType.INFO);
                         CloseApplication(0);
                         break;
+
                     case ConsoleKey.S:
                         string message = GetEasterEgg();
                         SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speak(message);
-
                         break;
+
                     case ConsoleKey.P:
                         bool activated = SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated;
 
@@ -295,12 +290,14 @@ namespace BiOWheels
                         SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speak("Parallel sync has been " + (!activated ? "activated" : "deactivated"));
 
                         Log("Parallel sync has been " + (!activated ? "activated" : "deactivated"), MessageType.INFO);
-
                         break;
+
                     case ConsoleKey.L:
                         break;
+
                     case ConsoleKey.F:
                         break;
+
                     case ConsoleKey.B:
                         break;
 

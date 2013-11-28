@@ -28,6 +28,7 @@ namespace BiOWheelsFileWatcher
         /// <param name="fullQualifiedFileName">
         /// The full qualified file name of the file
         /// </param>
+        /// <param name="oldFilename">The name for the old filename</param>
         /// <param name="fileAction">
         /// Action for the file
         /// </param>
@@ -35,11 +36,13 @@ namespace BiOWheelsFileWatcher
             IEnumerable<string> destinationFolder, 
             string sourceFile, 
             string fullQualifiedFileName, 
+            string oldFilename,
             FileAction fileAction)
         {
             this.Destinations = destinationFolder;
             this.SourceFile = sourceFile;
             this.FullQualifiedSourceFileName = fullQualifiedFileName;
+            this.OldFileName = oldFilename;
             this.FileAction = fileAction;
         }
 
@@ -67,5 +70,10 @@ namespace BiOWheelsFileWatcher
         /// Gets or sets the retries
         /// </summary>
         public int Retries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the old file name
+        /// </summary>
+        public string OldFileName { get; set; }
     }
 }

@@ -102,10 +102,21 @@ namespace BiOWheelsFileWatcher.Test
         /// Test the <see cref="FileWatcher"/>
         /// </summary>
         [TestCase]
-        public void TestFileWatcher()
+        public void TestFileWatcherWithCreatingFiles()
         {
             this.fileWatcher.Init();
             this.CreateFolders(20, 10);
+
+            ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 10000000, 500);
+        }
+
+        /// <summary>
+        /// Test the <see cref="FileWatcher"/>
+        /// </summary>
+        [TestCase]
+        public void TestFileWatcher()
+        {
+            this.fileWatcher.Init();
 
             ThreadTestHelper.WaitForCondition(() => this.fileWatcher.IsWorkerInProgress == false, 10000000, 500);
         }
@@ -129,7 +140,7 @@ namespace BiOWheelsFileWatcher.Test
             foreach (string file in files)
             {
                 SyncItem item = new SyncItem(
-                    new List<string> { "B", "C" }, file, "A" + Path.DirectorySeparatorChar + file, FileAction.COPY);
+                    new List<string> { "B", "C" }, file, "A" + Path.DirectorySeparatorChar + file, string.Empty, FileAction.COPY);
 
                 Thread.Sleep(random.Next(0, 1000));
 
@@ -215,7 +226,7 @@ namespace BiOWheelsFileWatcher.Test
         /// </param>
         private void FileWatcherProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
-            string message = "--" + DateTime.Now.ToShortTimeString() + "-- " + data.Message;
+            string message = "--" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "-- " + data.Message;
             try
             {
                 using (StreamWriter streamWriter = new StreamWriter("output.txt", true))
