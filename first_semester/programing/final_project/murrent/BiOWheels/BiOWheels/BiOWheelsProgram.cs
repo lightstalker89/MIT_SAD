@@ -222,8 +222,6 @@ namespace BiOWheels
                 else
                 {
                     CreateFileWatcher();
-                    DistributeConfigurationValues();
-                    StartSync();
                 }
             }
             else
@@ -253,13 +251,14 @@ namespace BiOWheels
                 FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB);
             IFileSystemManager fileSystemManager = FileWatcherFactory.CreateFileSystemManager(fileComparator);
             fileSystemManager.BlockCompareFileSizeInMB = configuration.BlockCompareOptions.BlockCompareFileSizeInMB;
+
             IQueueManager queueManager = FileWatcherFactory.CreateQueueManager(fileSystemManager);
             IFileWatcher fileWatcher = FileWatcherFactory.CreateFileWatcher(queueManager);
 
             SimpleContainer.Instance.Register<IFileSystemManager, IFileSystemManager>(fileSystemManager);
             SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(fileWatcher);
 
-            AttachFileWatcherEvents();
+            DistributeConfigurationValues();
         }
 
         /// <summary>
@@ -327,6 +326,8 @@ namespace BiOWheels
             watcher.ProgressUpdate += WatcherProgressUpdate;
             watcher.CaughtException += WatcherCaughtException;
             watcher.InitialScan();
+
+            StartSync();
         }
 
         /// <summary>
@@ -384,6 +385,8 @@ namespace BiOWheels
             SimpleContainer.Instance.Resolve<IFileWatcher>().SetSourceDirectories(mappings);
 
             Log("Configuration successfully loaded", MessageType.INFO);
+
+            AttachFileWatcherEvents();
         }
 
         /// <summary>

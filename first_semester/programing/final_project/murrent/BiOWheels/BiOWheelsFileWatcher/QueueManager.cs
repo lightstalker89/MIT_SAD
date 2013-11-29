@@ -72,6 +72,7 @@ namespace BiOWheelsFileWatcher
         {
             this.SyncItemQueue = new ConcurrentQueue<SyncItem>();
             this.FileSystemManager = fileSystemManager;
+            this.CanDequeueItems = true;
         }
 
         #region Delegates

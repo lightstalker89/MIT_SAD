@@ -56,8 +56,6 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal FileWatcher(IQueueManager queueManager)
         {
-            this.Mappings = new List<DirectoryMapping>();
-
             this.queueManager = queueManager;
             this.QueueManager.CaughtException += this.QueueManagerCaughtException;
             this.QueueManager.ItemFinalized += this.QueueManagerItemFinalized;
@@ -172,7 +170,7 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void SetSourceDirectories(IEnumerable<DirectoryMapping> directoryMappings)
         {
-            this.mappings = directoryMappings;
+            this.Mappings = directoryMappings;
         }
 
         /// <summary>
