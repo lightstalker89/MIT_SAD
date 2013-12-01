@@ -7,14 +7,13 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Threading.Tasks;
-
 namespace BiOWheelsFileWatcher
 {
     using System;
     using System.IO;
     using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     using BiOWheelsFileWatcher.Interfaces;
 
@@ -199,20 +198,32 @@ namespace BiOWheelsFileWatcher
             {
                 if (this.isParallelSyncActivated)
                 {
-                    Parallel.ForEach(item.Destinations, destination =>
-                    {
-                        // TODO: implement
-                    });
+                    Parallel.ForEach(
+                        item.Destinations,
+                        destination =>
+                        {
+                            // TODO: implement
+                        });
                 }
                 else
                 {
-                    foreach (string pathToCopy in item.Destinations.Select(destination => Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile)))
+                    foreach (string pathToCopy in
+                        item.Destinations.Select(
+                            destination =>
+                            Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile)))
                     {
                         this.CreateDirectoryIfNotExists(pathToCopy);
 
                         string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
 
-                        File.Copy(item.FullQualifiedSourceFileName, fileToCopy, true);
+                        using (
+                            FileStream fileStream = new FileStream(
+                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                                       fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
+                        {
+
+                            this.CopyStreams(fileStream, fileStreamOutPut);
+                        }
                     }
                 }
             }
@@ -230,27 +241,59 @@ namespace BiOWheelsFileWatcher
                 item.Destinations.Select(
                     destination => destination + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile)))
             {
-                this.fileComparator.Compare(item.FullQualifiedSourceFileName, destinationFile);
+                if (File.Exists(destinationFile))
+                {
+                    this.fileComparator.Compare(item.FullQualifiedSourceFileName, destinationFile);
+                }
+                else
+                {
+                    using (
+                        FileStream fileStream = new FileStream(
+                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                                   fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
+                    {
+                        this.CopyStreams(fileStream, fileStreamOutPut);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copies the streams.
+        /// </summary>
+        /// <param name="inputFileStream">The input file stream.</param>
+        /// <param name="outputFileStream">The output file stream.</param>
+        internal void CopyStreams(FileStream inputFileStream, FileStream outputFileStream)
+        {
+            byte[] buffer = new byte[4096];
+
+            int read;
+            while ((read = inputFileStream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                outputFileStream.Write(buffer, 0, read);
             }
         }
 
         /// <summary>
         /// Diff files parallel
         /// </summary>
-        /// <param name="item">The item</param>
+        /// <param name="item">
+        /// The item
+        /// </param>
         internal void DiffParallel(SyncItem item)
         {
-
         }
 
         /// <summary>
         /// Deletes a file or directory
         /// </summary>
-        /// <param name="item">The item.</param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         internal void DeleteRenamed(SyncItem item)
         {
             foreach (string pathToDelete in
-               item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar))
+                item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar))
             {
                 string pathToDeleteSource = pathToDelete + item.OldFileName;
                 string pathToDeleteDestination = pathToDelete + item.SourceFile;
@@ -290,7 +333,7 @@ namespace BiOWheelsFileWatcher
 
             double length;
 
-            using (Stream actualFileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (Stream actualFileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 length = Math.Round((actualFileStream.Length / 1024f) / 1024f, 2, MidpointRounding.AwayFromZero);
             }

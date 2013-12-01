@@ -27,7 +27,8 @@ namespace BiOWheelsFileWatcher.Test
     /// <summary>
     /// Class representing the test for the <see cref="FileWatcher"/>
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines", Justification = "Reviewed.")]
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines", 
+        Justification = "Reviewed.")]
     [TestFixture]
     public class FileWatcherTest
     {
@@ -68,8 +69,7 @@ namespace BiOWheelsFileWatcher.Test
         public void Init()
         {
             this.fileComparator = new FileComparator(2000);
-            this.fileSystemManager = new FileSystemManager(this.fileComparator);
-            this.fileSystemManager.BlockCompareFileSizeInMB = 10;
+            this.fileSystemManager = new FileSystemManager(this.fileComparator) { BlockCompareFileSizeInMB = 2 };
 
             this.queueManager = new QueueManager(this.fileSystemManager);
             this.fileWatcher = new FileWatcher(this.queueManager);
@@ -140,7 +140,11 @@ namespace BiOWheelsFileWatcher.Test
             foreach (string file in files)
             {
                 SyncItem item = new SyncItem(
-                    new List<string> { "B", "C" }, file, "A" + Path.DirectorySeparatorChar + file, string.Empty, FileAction.COPY);
+                    new List<string> { "B", "C" }, 
+                    file, 
+                    "A" + Path.DirectorySeparatorChar + file, 
+                    string.Empty, 
+                    FileAction.COPY);
 
                 Thread.Sleep(random.Next(0, 1000));
 
@@ -181,7 +185,7 @@ namespace BiOWheelsFileWatcher.Test
 
                 File.Create(
                     Path.Combine(
-                        info.Name,
+                        info.Name, 
                         "Folder" + i + Path.DirectorySeparatorChar + "Folder" + i + "v2" + Path.DirectorySeparatorChar
                         + "File" + i));
 
@@ -226,7 +230,8 @@ namespace BiOWheelsFileWatcher.Test
         /// </param>
         private void FileWatcherProgressUpdate(object sender, UpdateProgressEventArgs data)
         {
-            string message = "--" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "-- " + data.Message;
+            string message = "--" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "-- "
+                             + data.Message;
             try
             {
                 using (StreamWriter streamWriter = new StreamWriter("output.txt", true))

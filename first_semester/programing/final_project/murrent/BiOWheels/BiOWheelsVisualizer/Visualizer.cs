@@ -18,6 +18,8 @@ namespace BiOWheelsVisualizer
     {
         #region Methods
 
+        /// <summary>
+        /// </summary>
         internal Visualizer()
         {
             Console.Title = "BiOWheels - (c) 2013 Mario Murrent";
@@ -66,6 +68,7 @@ namespace BiOWheelsVisualizer
             Console.WindowHeight = Console.LargestWindowHeight - 40;
             Console.WindowWidth = Console.LargestWindowWidth - 40;
         }
+
         #endregion
     }
 }

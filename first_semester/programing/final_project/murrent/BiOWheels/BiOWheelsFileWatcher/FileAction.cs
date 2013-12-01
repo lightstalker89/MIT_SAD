@@ -32,7 +32,7 @@ namespace BiOWheelsFileWatcher
 
         /// <summary>
         /// </summary>
-        CREATE,
+        CREATE, 
 
         /// <summary>
         /// </summary>

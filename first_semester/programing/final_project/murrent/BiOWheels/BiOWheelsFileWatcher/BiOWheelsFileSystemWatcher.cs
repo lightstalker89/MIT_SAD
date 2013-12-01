@@ -33,9 +33,9 @@ namespace BiOWheelsFileWatcher
             this.Deleted += this.BiOWheelsFileSystemWatcherDeleted;
             this.Renamed += this.BiOWheelsFileSystemWatcherRenamed;
             this.Changed += this.BiOWheelsFileSystemWatcherChanged;
-            this.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.FileName | NotifyFilters.Size |
-                                NotifyFilters.CreationTime | NotifyFilters.Security | NotifyFilters.LastWrite |
-                                NotifyFilters.DirectoryName;
+            this.NotifyFilter = NotifyFilters.Attributes | NotifyFilters.FileName | NotifyFilters.Size
+                                | NotifyFilters.CreationTime | NotifyFilters.Security | NotifyFilters.LastWrite
+                                | NotifyFilters.DirectoryName;
         }
 
         #region Delegates

@@ -51,8 +51,12 @@ namespace BiOWheelsVisualizer
         /// <summary>
         /// Sets the size of the console window.
         /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
+        /// <param name="width">
+        /// The width.
+        /// </param>
+        /// <param name="height">
+        /// The height.
+        /// </param>
         void SetConsoleWindowSize(int width, int height);
 
         /// <summary>

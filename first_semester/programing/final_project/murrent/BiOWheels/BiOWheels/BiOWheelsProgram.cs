@@ -26,6 +26,8 @@ namespace BiOWheels
 
     using BiOWheelsLogger;
 
+    using BiOWheelsPerformanceMonitor;
+
     using BiOWheelsTextToSpeechService;
 
     using BiOWheelsVisualizer;
@@ -168,6 +170,9 @@ namespace BiOWheels
         {
             FillEgMessageList();
 
+            SimpleContainer.Instance.Register<IPerformanceMonitor, IPerformanceMonitor>(
+                PerformanceMonitorFactory.CreatePerformanceMonitor());
+
             SimpleContainer.Instance.Register<ITextToSpeechService, ITextToSpeechService>(
                 TextToSpeechServiceFactory.CreateTextToSpeechService());
             SimpleContainer.Instance.Register<IConfigurationManager, IConfigurationManager>(
@@ -232,7 +237,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -286,7 +291,8 @@ namespace BiOWheels
                         bool activated = SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated;
 
                         SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated = !activated;
-                        SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speak("Parallel sync has been " + (!activated ? "activated" : "deactivated"));
+                        SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speak(
+                            "Parallel sync has been " + (!activated ? "activated" : "deactivated"));
 
                         Log("Parallel sync has been " + (!activated ? "activated" : "deactivated"), MessageType.INFO);
                         break;
@@ -298,6 +304,14 @@ namespace BiOWheels
                         break;
 
                     case ConsoleKey.B:
+                        break;
+
+                    case ConsoleKey.U:
+                        IPerformanceMonitor performanceMonitor = SimpleContainer.Instance.Resolve<IPerformanceMonitor>();
+
+                        Log(
+                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(), 
+                            MessageType.INFO);
                         break;
 
                     default:
@@ -376,9 +390,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 

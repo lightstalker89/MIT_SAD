@@ -28,7 +28,9 @@ namespace BiOWheelsFileWatcher
         /// <param name="fullQualifiedFileName">
         /// The full qualified file name of the file
         /// </param>
-        /// <param name="oldFilename">The name for the old filename</param>
+        /// <param name="oldFilename">
+        /// The name for the old filename
+        /// </param>
         /// <param name="fileAction">
         /// Action for the file
         /// </param>
@@ -36,7 +38,7 @@ namespace BiOWheelsFileWatcher
             IEnumerable<string> destinationFolder, 
             string sourceFile, 
             string fullQualifiedFileName, 
-            string oldFilename,
+            string oldFilename, 
             FileAction fileAction)
         {
             this.Destinations = destinationFolder;

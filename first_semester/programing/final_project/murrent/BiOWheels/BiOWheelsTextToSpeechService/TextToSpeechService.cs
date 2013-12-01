@@ -10,7 +10,6 @@
 namespace BiOWheelsTextToSpeechService
 {
     using System.Speech.Synthesis;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Class representing the <see cref="TextToSpeechService"/>
@@ -18,7 +17,6 @@ namespace BiOWheelsTextToSpeechService
     public class TextToSpeechService : ITextToSpeechService
     {
         #region Private Fields
-
 
         /// <summary>
         /// The is in progress
