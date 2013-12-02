@@ -26,9 +26,9 @@ namespace FTPServer
     {
         private const string ServerMessage = "220 FTP Welcome to MDM's FTP server\r\n";
 
-        private const string PresentDirOnFTP = "/";
+        private const string PresentDirectoryOnFTP = "/";
 
-        private string RootDirOnSystem = Path.Combine("C", "temp", "tempFTPDir");
+        private readonly string rootDirectoryOnSystem = Path.Combine("C:\\", "temp", "tempFTPDir");
 
         private Thread ftpserverThread;
         private TcpListener ftpCommandListner;
@@ -43,9 +43,9 @@ namespace FTPServer
         {
             InitializeComponent();
 
-            if (!Directory.Exists(RootDirOnSystem))
+            if (!Directory.Exists(this.rootDirectoryOnSystem))
             {
-                Directory.CreateDirectory(RootDirOnSystem);
+                Directory.CreateDirectory(this.rootDirectoryOnSystem);
             }
         }
 
@@ -176,32 +176,47 @@ namespace FTPServer
                             break;
 
                         case "LIST":
-                            this.SendMessage("150 ASCII data\r\n", ref tcpClientStream);
+                            this.SendMessage("150 Opening ASCII mode data connection for /\r\n", ref tcpClientStream);
+                            this.WriteLogMessage("LIST command received");
+                            ListDirectory(ref tcpClientStream);
                             break;
 
                         case "SYST":
+                            this.WriteLogMessage("SYST command received");
                             this.SendMessage("215 WINDOWS-NT-6\n", ref tcpClientStream);
                             break;
 
                         case "TYPE":
-                            this.SendMessage("200 Command OK\n", ref tcpClientStream);
+                            this.WriteLogMessage("TYPE command received");
+                            this.SendMessage("200 type set\n", ref tcpClientStream);
                             break;
 
                         case "FEAT":
+                            this.WriteLogMessage("FEAT command received");
                             this.SendMessage("no-features\n", ref tcpClientStream);
                             break;
 
                         case "PWD":
-                            this.SendMessage("257 " + "\"" + PresentDirOnFTP + "\"" + " is current directory \r\n", ref tcpClientStream);
+                            this.WriteLogMessage("PWD command received");
+                            this.SendMessage("257 " + "\"" + PresentDirectoryOnFTP + "\"" + " is current directory \r\n", ref tcpClientStream);
                             break;
 
                         case "PASV":
+                            this.WriteLogMessage("PASV command received");
+                            this.SendMessage("227 Entering passive mode\n", ref tcpClientStream);
+                            break;
+
+                        case "PORT":
+                            // TODO: Do somethings
+                            this.WriteLogMessage("PORT command received");
+                            this.SendMessage("200 PORT command successful\r\n", ref tcpClientStream);
                             break;
 
                         case "":
                             break;
 
                         default:
+                            this.WriteLogMessage(ftpCommandShortcut + " command not supported");
                             this.SendMessage("502 Command not implemented", ref tcpClientStream);
                             break;
                     }
@@ -211,6 +226,86 @@ namespace FTPServer
             {
 
             }
+        }
+
+        internal void ListDirectory(ref NetworkStream tcpClientStream)
+        {
+
+            string currentDirectory = this.rootDirectoryOnSystem + PresentDirectoryOnFTP;
+            string tmpFileName = "";
+
+            string[] files = Directory.GetFiles(currentDirectory);
+            string[] directories = Directory.GetDirectories(currentDirectory);
+
+            try
+            {
+                string ownerGroupFile = "-rwxr--r-- 1 owner group ";
+
+                //foreach (string fileName in files)
+                //{
+                //    try
+                //    {
+                //        FileStream tmpFile = File.Open(fileName, FileMode.Open);
+
+                //        tmpFileName = tmpFile.Name.Replace("\\", "/");
+
+                //        ownerGroupFile += tmpFile.Length + " " + File.GetLastAccessTime(fileName).ToShortDateString() + " " + tmpFileName.Trim() + "\n";
+                //        byte[] buffer = Encoding.ASCII.GetBytes(ownerGroupFile);
+                //        try
+                //        {
+                //            if (tcpClientStream.CanWrite)
+                //            {
+                //                tcpClientStream.Write(buffer, 0, buffer.Length);
+                //            }
+                //        }
+                //        catch (Exception e)
+                //        {
+                //            this.WriteLogMessage("Error while sending file info");
+                //        }
+
+                //    }
+                //    catch (Exception)
+                //    {
+
+                //    }
+                //}
+
+                //foreach (string directory in directories)
+                //{
+                //    string ownerGroupDirectory = "drwxr-xr-x 1 root root";
+
+                //    string directoryName = Path.GetDirectoryName(directory);
+
+                //    if (directoryName != null)
+                //    {
+                //        tmpFileName = directoryName.Replace("\\", "/");
+
+                //        ownerGroupDirectory += "  0  " + "  " + "Dec 2 18:53"  + "  " + directoryName.Trim() + "\r";
+                //        byte[] buffer = Encoding.ASCII.GetBytes(ownerGroupDirectory);
+
+                //        try
+                //        {
+                //            if (tcpClientStream.CanWrite)
+                //            {
+                //                tcpClientStream.Write(buffer, 0, buffer.Length);
+                //            }
+                //        }
+                //        catch (Exception e)
+                //        {
+                //            this.WriteLogMessage("Error while sending directory info");
+                //        }
+                //    }
+                //}
+
+                this.SendMessage("drwxr-xr-x 1 root root 1024 Sep 24 21:10 test\r\n", ref tcpClientStream);
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+            this.SendMessage("226 Transfer complete.\n", ref tcpClientStream);
         }
 
         internal string ReadMessage(ref TcpClient tcpClient, ref NetworkStream inBuffer)
