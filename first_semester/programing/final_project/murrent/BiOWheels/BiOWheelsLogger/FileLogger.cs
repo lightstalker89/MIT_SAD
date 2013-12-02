@@ -201,6 +201,8 @@ namespace BiOWheelsLogger
         {
             while (this.IsWorkerInProgress)
             {
+                Thread.Sleep(100);
+
                 LogQueueItem entry;
 
                 if (this.LogQueue.TryDequeue(out entry))

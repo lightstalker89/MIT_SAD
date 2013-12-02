@@ -308,6 +308,8 @@ namespace BiOWheelsFileWatcher
         {
             while (this.IsWorkerInProgress)
             {
+                Thread.Sleep(100);
+
                 if (this.CanDequeueItems)
                 {
                     SyncItem item;
