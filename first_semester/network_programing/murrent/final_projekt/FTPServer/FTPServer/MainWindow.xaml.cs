@@ -11,6 +11,7 @@ namespace FTPServer
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
@@ -137,7 +138,11 @@ namespace FTPServer
 
             try
             {
+                TcpListener ftpDataListener = null;
+
                 NetworkStream tcpClientStream = tcpClient.GetStream();
+
+                NetworkStream clientDataStream = null;
 
                 SendMessage(ServerMessage, ref tcpClientStream);
 
@@ -176,9 +181,12 @@ namespace FTPServer
                             break;
 
                         case "LIST":
-                            this.SendMessage("150 Opening ASCII mode data connection for /\r\n", ref tcpClientStream);
                             this.WriteLogMessage("LIST command received");
-                            ListDirectory(ref tcpClientStream);
+                            this.SendMessage("150 ASCII data\r\n", ref tcpClientStream);
+                            this.ListDirectory(ref clientDataStream);
+                            clientDataStream.Close();
+
+                            this.SendMessage("226 Transfer complete.", ref tcpClientStream);
                             break;
 
                         case "SYST":
@@ -202,11 +210,20 @@ namespace FTPServer
                             break;
 
                         case "PASV":
+                            int intPassivePort = GetPassiveModePort(ref ftpDataListener);
                             this.WriteLogMessage("PASV command received");
-                            this.SendMessage("227 Entering passive mode\n", ref tcpClientStream);
+
+                            string strIPAddress = TcpClient.Client.RemoteEndPoint.ToString();
+                            strIPAddress = strIPAddress.IndexOf(":", System.StringComparison.Ordinal) > 0 ? strIPAddress.Substring(0, strIPAddress.IndexOf(":", System.StringComparison.Ordinal)) : strIPAddress;
+                            strIPAddress = strIPAddress.Replace(".", ",");
+                            strIPAddress = strIPAddress + "," + intPassivePort / 256 + "," + (intPassivePort % 256);
+
+                            this.SendMessage("227 Entering passive mode (" + strIPAddress + ")\n", ref tcpClientStream);
+                            clientDataStream = this.GetPassiveModeTcpClient(ref ftpDataListener).GetStream();
                             break;
 
                         case "PORT":
+
                             // TODO: Do somethings
                             this.WriteLogMessage("PORT command received");
                             this.SendMessage("200 PORT command successful\r\n", ref tcpClientStream);
@@ -222,13 +239,104 @@ namespace FTPServer
                     }
                 }
             }
-            catch (Exception)
+            catch (IOException ioException)
             {
 
             }
         }
 
-        internal void ListDirectory(ref NetworkStream tcpClientStream)
+        internal int GetPassiveModePort(ref TcpListener clientDataListner)
+        {
+            Thread currentThread = Thread.CurrentThread;
+            lock (currentThread)
+            {
+                int intPort = 0;
+                bool done = true;
+                while (done)
+                {
+                    intPort = Port();
+                    try
+                    {
+                        if (clientDataListner != null)
+                        {
+                            clientDataListner.Stop();
+                        }
+                        clientDataListner = new TcpListener(intPort);
+                        clientDataListner.Start();
+
+                        done = false;
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+                return intPort;
+            }
+        }
+
+        internal int Port()
+        {
+            if (intPort == 0)
+            {
+                intPort = 1100;
+            }
+            else
+            {
+                intPort++;
+            }
+            return intPort;
+        }
+
+        private TcpClient GetPassiveModeTcpClient(ref TcpListener clientDataListner)
+        {
+            Thread currentThread = Thread.CurrentThread;
+            lock (currentThread)
+            {
+                try
+                {
+                    if (clientDataListner.LocalEndpoint == null)
+                    {
+                        TcpClient client = null;
+                        try
+                        {
+                            client = clientDataListner.AcceptTcpClient();
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
+                        return client;
+                    }
+                    else
+                    {
+                        TcpClient client = clientDataListner.AcceptTcpClient();
+                        return client;
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
+                return null;
+            }
+        }
+
+        internal NetworkStream GetConnectionData(string clientMessage)
+        {
+            string parts = clientMessage.Substring(5);
+            string[] ipAddressParts = parts.Split(',');
+
+            string ipAddress = ipAddressParts[0] + "." + ipAddressParts[1] + "." + ipAddressParts[2] + "."
+                               + ipAddressParts[3];
+            int port = int.Parse(ipAddressParts.Last().Replace("\r\n", string.Empty));
+
+            TcpClient client = new TcpClient(ipAddress, int.Parse(ipAddressParts[4]));
+
+            return client.GetStream();
+        }
+
+        internal void ListDirectory(ref NetworkStream clientDataStream)
         {
 
             string currentDirectory = this.rootDirectoryOnSystem + PresentDirectoryOnFTP;
@@ -297,15 +405,13 @@ namespace FTPServer
                 //    }
                 //}
 
-                this.SendMessage("drwxr-xr-x 1 root root 1024 Sep 24 21:10 test\r\n", ref tcpClientStream);
+                this.SendMessage("drwxr-xr-x 1 root root 1024 Sep 24 21:10 test\r\n", ref clientDataStream);
 
             }
             catch (Exception)
             {
 
             }
-
-            this.SendMessage("226 Transfer complete.\n", ref tcpClientStream);
         }
 
         internal string ReadMessage(ref TcpClient tcpClient, ref NetworkStream inBuffer)
