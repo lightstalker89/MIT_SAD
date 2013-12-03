@@ -373,7 +373,7 @@ namespace FTPManager
                         case "LIST":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("LIST command received"));
 
-                            response = List(arguments ?? currentDirectory);
+                            response = List(currentDirectory);
                             break;
 
                         case "SYST":
@@ -392,12 +392,6 @@ namespace FTPManager
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("EPRT command received"));
 
                             response = EPort(arguments);
-                            break;
-
-                        case "EPSV":
-                            this.OnProgressUpdate(new ProgressUpdateEventArgs("EPSV command received"));
-
-                            response = EPassive();
                             break;
 
                         default:
@@ -605,24 +599,6 @@ namespace FTPManager
                 address[3],
                 portArray[0],
                 portArray[1]);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        private string EPassive()
-        {
-            this.dataConnectionType = DataConnectionType.Passive;
-
-            IPAddress localIp = ((IPEndPoint)this.tcpClient.Client.LocalEndPoint).Address;
-
-            this.passiveListener = new TcpListener(localIp, 0);
-            this.passiveListener.Start();
-
-            IPEndPoint passiveListenerEndpoint = (IPEndPoint)this.passiveListener.LocalEndpoint;
-
-            return string.Format("229 Entering Extended Passive Mode (|||{0}|)", passiveListenerEndpoint.Port);
         }
 
         /// <summary>
