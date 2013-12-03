@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace FTPManager
 {
@@ -194,10 +195,6 @@ namespace FTPManager
 
         /// <summary>
         /// </summary>
-        private StreamWriter dataWriter;
-
-        /// <summary>
-        /// </summary>
         private TransferType connectionType = TransferType.Ascii;
 
         /// <summary>
@@ -265,10 +262,8 @@ namespace FTPManager
             this.networkStream = this.tcpClient.GetStream();
 
             this.dataReader = new StreamReader(this.networkStream);
-            this.dataWriter = new StreamWriter(this.networkStream);
 
-            this.dataWriter.WriteLine("220 Welcome to MDM's FTP server");
-            this.dataWriter.Flush();
+            this.SendMessage("220 Welcome to MDM's FTP server\r\n");
 
             this.dataClient = new TcpClient();
 
@@ -417,8 +412,7 @@ namespace FTPManager
                         break;
                     }
 
-                    this.dataWriter.WriteLine(response);
-                    this.dataWriter.Flush();
+                    this.SendMessage(response + "\r\n");
 
                     if (response.StartsWith("221"))
                     {
@@ -473,9 +467,6 @@ namespace FTPManager
         /// </returns>
         private string FeatureList()
         {
-            this.dataWriter.WriteLine("211- Extensions supported:");
-            this.dataWriter.WriteLine(" MDTM");
-            this.dataWriter.WriteLine(" SIZE");
             return "211 End";
         }
 
@@ -910,8 +901,7 @@ namespace FTPManager
             this.dataClient.Close();
             this.dataClient = null;
 
-            this.dataWriter.WriteLine(response);
-            this.dataWriter.Flush();
+            this.SendMessage(response + "\r\n");
         }
 
         /// <summary>
@@ -1002,6 +992,17 @@ namespace FTPManager
             }
 
             return "226 Transfer complete";
+        }
+
+        internal void SendMessage(string message)
+        {
+            Thread currentThread = Thread.CurrentThread;
+
+            lock (currentThread)
+            {
+                byte[] buffer = Encoding.ASCII.GetBytes(message);
+                networkStream.Write(buffer, 0, buffer.Length);
+            }
         }
 
         #endregion
