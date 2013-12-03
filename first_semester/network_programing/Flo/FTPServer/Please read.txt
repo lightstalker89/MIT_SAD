@@ -1,0 +1,14 @@
+Beta ftp server.
+
+Implimentiert
+
+Ulpoad
+
+download
+
+directories
+
+
+Nicht Implimentiert
+
+directory switching
