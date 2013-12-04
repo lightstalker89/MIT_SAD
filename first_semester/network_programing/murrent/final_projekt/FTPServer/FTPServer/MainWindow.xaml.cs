@@ -7,20 +7,22 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Threading;
-using FTPManager;
-
 namespace FTPServer
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Media;
+    using System.Windows.Threading;
+
+    using FTPManager;
+
     /// <summary>
     /// Interaction logic for MainWindow
     /// </summary>
     public partial class MainWindow
     {
+        /// <summary>
+        /// </summary>
         private IFTPManager ftpManager;
 
         /// <summary>
@@ -32,8 +34,12 @@ namespace FTPServer
         }
 
         #region Methods
+
         #region Event Methods
 
+        /// <summary>
+        /// Starts the FTP server.
+        /// </summary>
         private void StartFTPServer()
         {
             this.ftpManager = FTPManagerFactory.CreateFTPManager();
@@ -42,47 +48,80 @@ namespace FTPServer
             this.ftpManager.Start();
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         protected void FTPManagerProgressUpdate(object sender, ProgressUpdateEventArgs e)
         {
             this.WriteLogMessage(e.Message);
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         protected void FTPManagerServerStarted(object sender, EventArgs e)
         {
             this.SetStateToRunning();
             this.WriteLogMessage("FTP Server started");
         }
 
+        /// <summary>
+        /// Writes the log message.
+        /// </summary>
+        /// <param name="message">The message.</param>
         internal void WriteLogMessage(string message)
         {
             this.Dispatcher.BeginInvoke(
-           DispatcherPriority.Normal,
-           new Action(
-               () => this.ListBoxMessages.Items.Add(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + " - " + message)));
+                DispatcherPriority.Normal, 
+                new Action(
+                    () =>
+                    this.ListBoxMessages.Items.Add(
+                        DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + " - " + message)));
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
             this.StartFTPServer();
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void MenuItemFileExitClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Sets the state to running.
+        /// </summary>
         private void SetStateToRunning()
         {
             this.Dispatcher.BeginInvoke(
-             DispatcherPriority.Normal,
-             new Action(
-                 () =>
-                 {
-                     this.StatusEllipse.Fill = Brushes.Green;
-                     this.StatusText.Text = "Running";
-
-                 }));
+                DispatcherPriority.Normal, 
+                new Action(
+                    () =>
+                        {
+                            this.StatusEllipse.Fill = Brushes.Green;
+                            this.StatusText.Text = "Running";
+                        }));
         }
+
         #endregion
 
         #endregion

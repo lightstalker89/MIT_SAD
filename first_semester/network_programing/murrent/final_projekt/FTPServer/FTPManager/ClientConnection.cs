@@ -1,13 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-
+﻿// *******************************************************
+// * <copyright file="ClientConnection.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace FTPManager
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Text;
+    using System.Threading;
+
+    /// <summary>
+    /// </summary>
     public class ClientConnection
     {
         /// <summary>
@@ -25,12 +36,20 @@ namespace FTPManager
 
         #region Delegates
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         public delegate void ProgressUpdateHandler(object sender, ProgressUpdateEventArgs e);
 
         #endregion
 
         #region Events
 
+        /// <summary>
+        /// </summary>
         public event ProgressUpdateHandler ProgressUpdate;
 
         #endregion
@@ -109,10 +128,9 @@ namespace FTPManager
             {
                 return CopyStream(input, limitedStream, 4096);
             }
-            else
-            {
-                return CopyStreamAscii(input, limitedStream, 4096);
-            }
+
+            return CopyStreamAscii(input, limitedStream, 4096);
+
         }
 
         #endregion
@@ -173,6 +191,7 @@ namespace FTPManager
         #endregion
 
         #region Private Fields
+
         /// <summary>
         /// </summary>
         private TcpListener passiveListener;
@@ -224,6 +243,7 @@ namespace FTPManager
         /// <summary>
         /// </summary>
         private string clientIp;
+
         #endregion
 
         /// <summary>
@@ -239,6 +259,10 @@ namespace FTPManager
 
         #region Event Methods
 
+        /// <summary>
+        /// </summary>
+        /// <param name="e">
+        /// </param>
         protected void OnProgressUpdate(ProgressUpdateEventArgs e)
         {
             if (ProgressUpdate != null)
@@ -364,12 +388,6 @@ namespace FTPManager
                             response = Store(arguments);
                             break;
 
-                        case "STOU":
-                            this.OnProgressUpdate(new ProgressUpdateEventArgs("STOU command received"));
-
-                            response = StoreUnique();
-                            break;
-
                         case "LIST":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("LIST command received"));
 
@@ -385,7 +403,7 @@ namespace FTPManager
                         case "FEAT":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("FEAT command received"));
 
-                            response = FeatureList();
+                            response = "211 END";
                             break;
 
                         case "EPRT":
@@ -412,7 +430,6 @@ namespace FTPManager
                     {
                         break;
                     }
-
                 }
             }
             catch (Exception ex)
@@ -450,18 +467,11 @@ namespace FTPManager
                 return RootDirectory;
             }
 
-            path = path.StartsWith("/") ? new FileInfo(Path.Combine(RootDirectory, path.Substring(1))).FullName : new FileInfo(Path.Combine(currentDirectory, path)).FullName;
+            path = path.StartsWith("/")
+                       ? new FileInfo(Path.Combine(RootDirectory, path.Substring(1))).FullName
+                       : new FileInfo(Path.Combine(currentDirectory, path)).FullName;
 
             return IsPathValid(path) ? path : null;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        private string FeatureList()
-        {
-            return "211 End";
         }
 
         /// <summary>
@@ -760,25 +770,10 @@ namespace FTPManager
 
                 SetupDataConnectionOperation(state);
 
-                return string.Format("150 Opening {0} mode data transfer for STOR", this.dataConnectionType);
+                return string.Format("150 Opening {0} mode data transfer for STOR/STOU", this.dataConnectionType);
             }
 
             return "450 Requested file action not taken";
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        private string StoreUnique()
-        {
-            string pathName = NormalizeFilename(new Guid().ToString());
-
-            var state = new DataConnectionOperation { Arguments = pathName, Operation = StoreOperation };
-
-            SetupDataConnectionOperation(state);
-
-            return string.Format("150 Opening {0} mode data transfer for STOU", this.dataConnectionType);
         }
 
         /// <summary>
@@ -795,7 +790,6 @@ namespace FTPManager
             }
 
             return string.Format("257 \"{0}\" is current directory.", current);
-
         }
 
         /// <summary>
@@ -849,11 +843,11 @@ namespace FTPManager
             if (this.dataConnectionType == DataConnectionType.Active)
             {
                 this.dataClient = new TcpClient(dataEndpoint.AddressFamily);
-                this.dataClient.BeginConnect(dataEndpoint.Address, dataEndpoint.Port, DoDataConnectionOperation, state);
+                this.dataClient.BeginConnect(dataEndpoint.Address, dataEndpoint.Port, this.DoDataConnectionOperationCallback, state);
             }
             else
             {
-                this.passiveListener.BeginAcceptTcpClient(DoDataConnectionOperation, state);
+                this.passiveListener.BeginAcceptTcpClient(this.DoDataConnectionOperationCallback, state);
             }
         }
 
@@ -861,9 +855,9 @@ namespace FTPManager
         /// </summary>
         /// <param name="result">
         /// </param>
-        private void DoDataConnectionOperation(IAsyncResult result)
+        private void DoDataConnectionOperationCallback(IAsyncResult result)
         {
-            HandleAsyncResult(result);
+            this.HandleAsyncResult(result);
 
             DataConnectionOperation op = result.AsyncState as DataConnectionOperation;
 
@@ -871,7 +865,10 @@ namespace FTPManager
 
             using (NetworkStream dataStream = this.dataClient.GetStream())
             {
-                if (op != null) response = op.Operation(dataStream, op.Arguments);
+                if (op != null)
+                {
+                    response = op.Operation(dataStream, op.Arguments);
+                }
             }
 
             this.dataClient.Close();
@@ -970,6 +967,10 @@ namespace FTPManager
             return "226 Transfer complete";
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="message">
+        /// </param>
         internal void SendMessage(string message)
         {
             Thread currentThread = Thread.CurrentThread;

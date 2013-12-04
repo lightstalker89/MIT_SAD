@@ -1,26 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-
+﻿// *******************************************************
+// * <copyright file="FTPManager.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace FTPManager
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Threading;
+
+    /// <summary>
+    /// </summary>
     public class FTPManager : IFTPManager
     {
-         /// <summary>
+        /// <summary>
         /// </summary>
         private bool listening;
 
         /// <summary>
+        /// The listener
         /// </summary>
         private TcpListener listener;
 
         /// <summary>
+        /// The active connections
         /// </summary>
         private List<ClientConnection> activeConnections;
 
         /// <summary>
+        /// The local end point
         /// </summary>
         private readonly IPEndPoint localEndPoint;
 
@@ -29,21 +43,36 @@ namespace FTPManager
         public FTPManager()
             : this(IPAddress.Any, 21)
         {
-
         }
 
         #region Delegates
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         public delegate void ServerStartedEventHandler(object sender, EventArgs e);
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         public delegate void ProgressUpdateHandler(object sender, ProgressUpdateEventArgs e);
 
         #endregion
 
         #region Events
 
+        /// <summary>
+        /// </summary>
         public event ServerStartedEventHandler ServerStarted;
 
+        /// <summary>
+        /// </summary>
         public event ProgressUpdateHandler ProgressUpdate;
 
         #endregion
@@ -52,6 +81,10 @@ namespace FTPManager
 
         #region Event Methods
 
+        /// <summary>
+        /// </summary>
+        /// <param name="e">
+        /// </param>
         protected void OnChanged(EventArgs e)
         {
             if (ServerStarted != null)
@@ -60,6 +93,10 @@ namespace FTPManager
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="e">
+        /// </param>
         protected void OnProgressUpdate(ProgressUpdateEventArgs e)
         {
             if (ProgressUpdate != null)
@@ -118,6 +155,12 @@ namespace FTPManager
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void ConnectionProgressUpdate(object sender, ProgressUpdateEventArgs e)
         {
             this.OnProgressUpdate(e);
