@@ -74,7 +74,9 @@ namespace FTPServer
         /// <summary>
         /// Writes the log message.
         /// </summary>
-        /// <param name="message">The message.</param>
+        /// <param name="message">
+        /// The message.
+        /// </param>
         internal void WriteLogMessage(string message)
         {
             this.Dispatcher.BeginInvoke(

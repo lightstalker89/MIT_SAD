@@ -130,7 +130,6 @@ namespace FTPManager
             }
 
             return CopyStreamAscii(input, limitedStream, 4096);
-
         }
 
         #endregion
@@ -143,19 +142,19 @@ namespace FTPManager
         {
             /// <summary>
             /// </summary>
-            Ascii,
+            Ascii, 
 
             /// <summary>
             /// </summary>
-            Ebcdic,
+            Ebcdic, 
 
             /// <summary>
             /// </summary>
-            Image,
+            Image, 
 
             /// <summary>
             /// </summary>
-            Local,
+            Local, 
         }
 
         /// <summary>
@@ -164,15 +163,15 @@ namespace FTPManager
         {
             /// <summary>
             /// </summary>
-            NonPrint,
+            NonPrint, 
 
             /// <summary>
             /// </summary>
-            Telnet,
+            Telnet, 
 
             /// <summary>
             /// </summary>
-            CarriageControl,
+            CarriageControl, 
         }
 
         /// <summary>
@@ -181,11 +180,11 @@ namespace FTPManager
         {
             /// <summary>
             /// </summary>
-            Passive,
+            Passive, 
 
             /// <summary>
             /// </summary>
-            Active,
+            Active, 
         }
 
         #endregion
@@ -602,12 +601,12 @@ namespace FTPManager
             }
 
             return string.Format(
-                "227 Entering Passive Mode ({0},{1},{2},{3},{4},{5})",
-                address[0],
-                address[1],
-                address[2],
-                address[3],
-                portArray[0],
+                "227 Entering Passive Mode ({0},{1},{2},{3},{4},{5})", 
+                address[0], 
+                address[1], 
+                address[2], 
+                address[3], 
+                portArray[0], 
                 portArray[1]);
         }
 
@@ -843,7 +842,8 @@ namespace FTPManager
             if (this.dataConnectionType == DataConnectionType.Active)
             {
                 this.dataClient = new TcpClient(dataEndpoint.AddressFamily);
-                this.dataClient.BeginConnect(dataEndpoint.Address, dataEndpoint.Port, this.DoDataConnectionOperationCallback, state);
+                this.dataClient.BeginConnect(
+                    dataEndpoint.Address, dataEndpoint.Port, this.DoDataConnectionOperationCallback, state);
             }
             else
             {
