@@ -1,11 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿// *******************************************************
+// * <copyright file="StackOutOfSpaceException.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace StackSample
 {
-    class StackOutOfSpaceException : Exception
+    using System;
+
+    /// <summary>
+    /// </summary>
+    internal class StackOutOfSpaceException : Exception
     {
     }
 }

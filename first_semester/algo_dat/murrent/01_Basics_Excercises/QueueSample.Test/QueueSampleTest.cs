@@ -7,7 +7,6 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
 namespace QueueSample.Test
 {
     using System.Globalization;
@@ -36,6 +35,15 @@ namespace QueueSample.Test
         {
             this.queue = Substitute.For<QueueSample<string>>();
             this.queue.MaxQueueItems = 10;
+        }
+
+        /// <summary>
+        /// Test properties of the class
+        /// </summary>
+        [TestCase]
+        public void QueueSampleClassTest()
+        {
+            Assert.That(queue.MaxQueueItems.Equals(10));
         }
 
         /// <summary>

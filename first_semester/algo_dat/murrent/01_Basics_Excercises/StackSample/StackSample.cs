@@ -20,7 +20,8 @@ namespace StackSample
     /// <summary>
     /// The <see ref="StackSample"/> class and its interaction logic 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">
+    /// </typeparam>
     public class StackSample<T> : IStackSample<T>
     {
         /// <summary>

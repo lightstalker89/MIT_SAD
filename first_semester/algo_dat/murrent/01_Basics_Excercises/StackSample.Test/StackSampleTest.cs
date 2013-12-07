@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿// *******************************************************
+// * <copyright file="StackSampleTest.cs" company="MDMCoWorks">
+// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace StackSample.Test
 {
     using System.Globalization;
+    using System.Linq;
+
+    using NSubstitute;
 
     using NUnit.Framework;
 
@@ -16,12 +22,26 @@ namespace StackSample.Test
     [TestFixture]
     public class StackSampleTest
     {
+        /// <summary>
+        /// </summary>
         private StackSample<string> stack;
 
+        /// <summary>
+        /// </summary>
         [SetUp]
         public void Init()
         {
-            stack = new StackSample<string> { MaxStackItems = 10 };
+            stack = Substitute.For<StackSample<string>>();
+            stack.MaxStackItems = 10;
+        }
+
+        /// <summary>
+        /// Test properties of the class
+        /// </summary>
+        [TestCase]
+        public void StackSampleClassTest()
+        {
+            Assert.That(stack.MaxStackItems.Equals(10));
         }
 
         /// <summary>
@@ -46,12 +66,12 @@ namespace StackSample.Test
         {
             Assert.Throws<StackOutOfSpaceException>(
                 () =>
-                {
-                    for (int i = 0; i <= 12; ++i)
                     {
-                        this.stack.Push("Item " + i.ToString(CultureInfo.InvariantCulture));
-                    }
-                });
+                        for (int i = 0; i <= 12; ++i)
+                        {
+                            this.stack.Push("Item " + i.ToString(CultureInfo.InvariantCulture));
+                        }
+                    });
 
             Assert.That(this.stack.StackCount.Equals(10));
         }

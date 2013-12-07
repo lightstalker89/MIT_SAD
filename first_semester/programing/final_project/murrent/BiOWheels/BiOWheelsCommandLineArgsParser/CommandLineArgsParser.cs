@@ -33,7 +33,17 @@ namespace BiOWheelsCommandLineArgsParser
         /// </summary>
         private string optarg = string.Empty;
 
+        /// <summary>
+        /// Field representing the mapping for parameter and value
+        /// </summary>
+        private readonly Dictionary<string, string> paramValueMapping;
+
         #endregion
+
+        public CommandLineArgsParser()
+        {
+            this.paramValueMapping = new Dictionary<string, string>();
+        }
 
         #region Properties
 
@@ -86,6 +96,21 @@ namespace BiOWheelsCommandLineArgsParser
             }
 
             return includedArgs;
+        }
+
+        /// <summary>
+        /// Gets the value for parameter.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>The value as string</returns>
+        public string GetValueForParameter(string key)
+        {
+            if(this.paramValueMapping.ContainsKey(key))
+            {
+                return this.paramValueMapping[key];
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
