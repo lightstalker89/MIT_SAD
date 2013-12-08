@@ -42,7 +42,7 @@ namespace BiOWheels
         /// <summary>
         /// Accepted command line arguments
         /// </summary>
-        private const string Options = "px";
+        private const string Options = "pxh";
 
         #endregion
 
@@ -170,6 +170,10 @@ namespace BiOWheels
         {
             FillEgMessageList();
 
+            IVisualizer visualizer = VisualizerFactory.CreateVisualizer();
+            visualizer.MaximizeConsoleWindow();
+            SimpleContainer.Instance.Register<IVisualizer, IVisualizer>(visualizer);
+
             SimpleContainer.Instance.Register<IPerformanceMonitor, IPerformanceMonitor>(
                 PerformanceMonitorFactory.CreatePerformanceMonitor());
 
@@ -185,10 +189,6 @@ namespace BiOWheels
             SimpleContainer.Instance.Register<ICommandLineArgsParser, ICommandLineArgsParser>(
                 CommandLineArgsParserFactory.CreateCommandLineArgsParser());
 
-            IVisualizer visualizer = VisualizerFactory.CreateVisualizer();
-            visualizer.MaximizeConsoleWindow();
-            SimpleContainer.Instance.Register<IVisualizer, IVisualizer>(visualizer);
-
             if (loadConfig)
             {
                 LoadConfig();
@@ -197,7 +197,7 @@ namespace BiOWheels
             {
                 Log("BiOWheels was started with commandline arguments...", MessageType.INFO);
 
-                ICommandLineArgsParser parser = SimpleContainer.Instance.Resolve<CommandLineArgsParser>();
+                ICommandLineArgsParser parser = SimpleContainer.Instance.Resolve<ICommandLineArgsParser>();
                 HandleParams(parser.Parse(args, Options));
 
                 // ToDo resolve commandline args
@@ -411,24 +411,31 @@ namespace BiOWheels
         /// </param>
         private static void HandleParams(IEnumerable<char> parameter)
         {
-            foreach (char c in parameter)
+            if (parameter.Any())
             {
-                if (c == 'h')
+                foreach (char c in parameter)
                 {
-                    SimpleContainer.Instance.Resolve<IVisualizer>().GetHelp();
-                }
-                else
-                {
-                    if (c == 'p')
+                    if (c == 'h')
                     {
-                        // parallel sync
+                        SimpleContainer.Instance.Resolve<IVisualizer>().GetHelp();
                     }
-
-                    if(c ==  'f')
+                    else
                     {
+                        if (c == 'p')
+                        {
+                            // parallel sync
+                        }
 
+                        if (c == 'f')
+                        {
+
+                        }
                     }
                 }
+            }
+            else
+            {
+                
             }
         }
 
