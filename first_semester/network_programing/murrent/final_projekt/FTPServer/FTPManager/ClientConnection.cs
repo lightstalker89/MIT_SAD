@@ -21,19 +21,6 @@ namespace FTPManager
     /// </summary>
     public class ClientConnection
     {
-        /// <summary>
-        /// </summary>
-        private sealed class DataConnectionOperation
-        {
-            /// <summary>
-            /// </summary>
-            public Func<NetworkStream, string, string> Operation { get; set; }
-
-            /// <summary>
-            /// </summary>
-            public string Arguments { get; set; }
-        }
-
         #region Delegates
 
         /// <summary>
@@ -146,15 +133,7 @@ namespace FTPManager
 
             /// <summary>
             /// </summary>
-            Ebcdic, 
-
-            /// <summary>
-            /// </summary>
-            Image, 
-
-            /// <summary>
-            /// </summary>
-            Local, 
+            Image
         }
 
         /// <summary>
@@ -163,15 +142,7 @@ namespace FTPManager
         {
             /// <summary>
             /// </summary>
-            NonPrint, 
-
-            /// <summary>
-            /// </summary>
-            Telnet, 
-
-            /// <summary>
-            /// </summary>
-            CarriageControl, 
+            NonPrint
         }
 
         /// <summary>
@@ -217,10 +188,6 @@ namespace FTPManager
 
         /// <summary>
         /// </summary>
-        private FormatControlType formatControlType = FormatControlType.NonPrint;
-
-        /// <summary>
-        /// </summary>
         private DataConnectionType dataConnectionType = DataConnectionType.Active;
 
         /// <summary>
@@ -238,10 +205,6 @@ namespace FTPManager
         /// <summary>
         /// </summary>
         private IPEndPoint remoteEndPoint;
-
-        /// <summary>
-        /// </summary>
-        private string clientIp;
 
         #endregion
 
@@ -280,8 +243,6 @@ namespace FTPManager
         {
             remoteEndPoint = (IPEndPoint)this.tcpClient.Client.RemoteEndPoint;
 
-            clientIp = remoteEndPoint.Address.ToString();
-
             this.networkStream = this.tcpClient.GetStream();
 
             this.dataReader = new StreamReader(this.networkStream);
@@ -313,108 +274,120 @@ namespace FTPManager
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("USER command received"));
 
                             response = "331 Username ok, need password";
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "PASS":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("PASS command received"));
 
                             response = "230 User logged in";
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "CWD":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("CWD command received"));
 
                             response = ChangeWorkingDirectory(arguments);
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "QUIT":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("QUIT command received"));
 
                             response = "221 Service closing control connection";
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "PORT":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("PORT command received"));
 
                             response = Port(arguments);
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "PASV":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("PASV command received"));
 
                             response = Passive();
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "TYPE":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("TYPE command received"));
 
                             response = Type(command[1], command.Length == 3 ? command[2] : null);
-                            break;
 
-                        case "DELE":
-                            this.OnProgressUpdate(new ProgressUpdateEventArgs("DELETE command received"));
-
-                            response = Delete(arguments);
-                            break;
-
-                        case "RMD":
-                            this.OnProgressUpdate(new ProgressUpdateEventArgs("RMD command received"));
-
-                            response = RemoveDir(arguments);
-                            break;
-
-                        case "MKD":
-                            this.OnProgressUpdate(new ProgressUpdateEventArgs("MKD command received"));
-
-                            response = CreateDir(arguments);
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "PWD":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("PWD command received"));
 
                             response = PrintWorkingDirectory();
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "RETR":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("RETR command received"));
 
                             response = Retrieve(arguments);
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "STOR":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("STOR command received"));
 
                             response = Store(arguments);
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "LIST":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("LIST command received"));
 
                             response = List(currentDirectory);
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "SYST":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("SYST command received"));
 
                             response = "215 WINDOWS";
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "FEAT":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("FEAT command received"));
 
                             response = "211 END";
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         case "EPRT":
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("EPRT command received"));
 
                             response = EPort(arguments);
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
 
                         default:
                             this.OnProgressUpdate(new ProgressUpdateEventArgs("Command not implemented"));
 
                             response = "502 Command not implemented";
+
+                            this.OnProgressUpdate(new ProgressUpdateEventArgs("Sending response: " + response));
                             break;
                     }
 
@@ -487,22 +460,22 @@ namespace FTPManager
             }
             else
             {
-                string newDir;
+                string directory;
 
                 if (pathName.StartsWith("/"))
                 {
                     pathName = pathName.Substring(1).Replace('/', '\\');
-                    newDir = Path.Combine(RootDirectory, pathName);
+                    directory = Path.Combine(RootDirectory, pathName);
                 }
                 else
                 {
                     pathName = pathName.Replace('/', '\\');
-                    newDir = Path.Combine(currentDirectory, pathName);
+                    directory = Path.Combine(currentDirectory, pathName);
                 }
 
-                if (Directory.Exists(newDir))
+                if (Directory.Exists(directory))
                 {
-                    currentDirectory = new DirectoryInfo(newDir).FullName;
+                    currentDirectory = new DirectoryInfo(directory).FullName;
 
                     if (!IsPathValid(currentDirectory))
                     {
@@ -632,100 +605,7 @@ namespace FTPManager
                     return "504 Command not implemented for that parameter";
             }
 
-            if (!string.IsNullOrWhiteSpace(formatControl))
-            {
-                switch (formatControl.ToUpperInvariant())
-                {
-                    case "N":
-                        this.formatControlType = FormatControlType.NonPrint;
-                        break;
-                    default:
-                        return "504 Command not implemented for that parameter";
-                }
-            }
-
             return string.Format("200 Type set to {0}", this.connectionType);
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="pathName">
-        /// </param>
-        /// <returns>
-        /// </returns>
-        private string Delete(string pathName)
-        {
-            pathName = NormalizeFilename(pathName);
-
-            if (pathName != null)
-            {
-                if (File.Exists(pathName))
-                {
-                    File.Delete(pathName);
-                }
-                else
-                {
-                    return "550 File Not Found";
-                }
-
-                return "250 Requested file action okay, completed";
-            }
-
-            return "550 File Not Found";
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="pathName">
-        /// </param>
-        /// <returns>
-        /// </returns>
-        private string RemoveDir(string pathName)
-        {
-            pathName = NormalizeFilename(pathName);
-
-            if (pathName != null)
-            {
-                if (Directory.Exists(pathName))
-                {
-                    Directory.Delete(pathName);
-                }
-                else
-                {
-                    return "550 Directory Not Found";
-                }
-
-                return "250 Requested file action okay, completed";
-            }
-
-            return "550 Directory Not Found";
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="pathName">
-        /// </param>
-        /// <returns>
-        /// </returns>
-        private string CreateDir(string pathName)
-        {
-            pathName = NormalizeFilename(pathName);
-
-            if (pathName != null)
-            {
-                if (!Directory.Exists(pathName))
-                {
-                    Directory.CreateDirectory(pathName);
-                }
-                else
-                {
-                    return "550 Directory already exists";
-                }
-
-                return "250 Requested file action okay, completed";
-            }
-
-            return "550 Directory Not Found";
         }
 
         /// <summary>

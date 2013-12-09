@@ -20,12 +20,22 @@ namespace RecursionSample
         /// <summary>
         /// Calculates the factorial normal.
         /// </summary>
-        /// <param name="number">The number.</param>
-        /// <returns>The result of the calculation</returns>
-        /// <exception cref="System.ArgumentException">Number must be positive</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">number;Numbers must be less than 20</exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <param name="number">
+        /// The number.
+        /// </param>
+        /// <returns>
+        /// The result of the calculation
+        /// </returns>
+        /// <exception cref="System.ArgumentException">
+        /// Number must be positive
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// number;Numbers must be less than 20
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// </exception>
         public BigInteger CalculateFactorialNormal(int number)
         {
             if (number < 0)
@@ -46,9 +56,15 @@ namespace RecursionSample
         /// <summary>
         /// Calculates the factorial with recursion.
         /// </summary>
-        /// <param name="number">The number</param>
-        /// <returns>The result of the calculation</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">number;Numbers must be less than 20</exception>
+        /// <param name="number">
+        /// The number
+        /// </param>
+        /// <returns>
+        /// The result of the calculation
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// number;Numbers must be less than 20
+        /// </exception>
         public BigInteger CalculateFactorialWithRecursion(long number)
         {
             if (number < 0)
@@ -67,12 +83,18 @@ namespace RecursionSample
         /// <summary>
         /// Calculates the factorial with tail recursion.
         /// </summary>
-        /// <param name="number">The number.</param>
-        /// <param name="product">The product.</param>
+        /// <param name="number">
+        /// The number.
+        /// </param>
+        /// <param name="product">
+        /// The product.
+        /// </param>
         /// <returns>
         /// The result
         /// </returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">number;Numbers must be less than 20</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// number;Numbers must be less than 20
+        /// </exception>
         public BigInteger CalculateFactorialWithTailRecursion(int number, BigInteger product)
         {
             if (number < 0)

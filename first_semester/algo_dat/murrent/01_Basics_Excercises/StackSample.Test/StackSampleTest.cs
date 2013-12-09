@@ -88,7 +88,7 @@ namespace StackSample.Test
         }
 
         /// <summary>
-        /// Pop iitems from the stack filled with items
+        /// Pop items from the stack filled with items
         /// </summary>
         [TestCase]
         public void PopTest()

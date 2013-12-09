@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientConnection.cs" />
+    <Compile Include="DataConnectionOperation.cs" />
     <Compile Include="FTPManager.cs" />
     <Compile Include="FTPManagerFactory.cs" />
     <Compile Include="IFTPManager.cs" />

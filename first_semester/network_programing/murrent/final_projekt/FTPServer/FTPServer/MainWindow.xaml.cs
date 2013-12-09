@@ -7,6 +7,7 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
 namespace FTPServer
 {
     using System;
@@ -80,11 +81,12 @@ namespace FTPServer
         internal void WriteLogMessage(string message)
         {
             this.Dispatcher.BeginInvoke(
-                DispatcherPriority.Normal, 
+                DispatcherPriority.Normal,
                 new Action(
                     () =>
                     this.ListBoxMessages.Items.Add(
-                        DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + " - " + message)));
+                        DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "."
+                        + DateTime.Now.Millisecond + " - " + message)));
         }
 
         /// <summary>
@@ -115,7 +117,7 @@ namespace FTPServer
         private void SetStateToRunning()
         {
             this.Dispatcher.BeginInvoke(
-                DispatcherPriority.Normal, 
+                DispatcherPriority.Normal,
                 new Action(
                     () =>
                         {

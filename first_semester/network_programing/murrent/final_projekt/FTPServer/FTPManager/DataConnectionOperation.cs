@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="IFTPManager.cs" company="MDMCoWorks">
+// * <copyright file="DataConnectionOperation.cs" company="MDMCoWorks">
 // * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -10,20 +10,19 @@
 
 namespace FTPManager
 {
+    using System;
+    using System.Net.Sockets;
+
     /// <summary>
     /// </summary>
-    public interface IFTPManager
+    public sealed class DataConnectionOperation
     {
         /// <summary>
         /// </summary>
-        void Start();
-
-        /// <summary> 
-        /// </summary>
-        event FTPManager.ServerStartedEventHandler ServerStarted;
+        public Func<NetworkStream, string, string> Operation { get; set; }
 
         /// <summary>
         /// </summary>
-        event FTPManager.ProgressUpdateHandler ProgressUpdate;
+        public string Arguments { get; set; }
     }
 }

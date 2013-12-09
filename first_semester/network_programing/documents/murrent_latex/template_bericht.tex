@@ -291,21 +291,39 @@ The base specification is RFC 959 and is dated October 1985.  There are some add
 \section{FTP Commands}
 
 \begin{itemize}
-  \item USER \hfill\\
-  \item PASS \hfill\\
-  \item CWD \hfill\\
+  \item USER (Username) \hfill\\
+  The argument field is a Telnet string identifying the user. The user identification is that which is required by the server for access to its 
+file system.
+  \item PASS (Password)\hfill\\
+  The argument field is a Telnet string specifying the user's password. This command must be immediately preceded by the user name command, and, for some sites, completes the user's identification for access control.
+  \item CWD (Change Working Directory) \hfill\\
+  This command allows the user to work with a different directory or dataset without altering his login or account information.
+  Makes the given directory be the current directory on the remote host.
   \item QUIT \hfill\\
+  This command terminates a USER and, if file transfer is not in progress, 
+closes the control connection. If file transfer is in progress, the connection will remain open for result response and the server will then close it.
   \item PORT \hfill\\
+  This specifies an alternate data port. There are defaults for both the client 
+and server data ports, and under normal circumstances this command and its reply are not needed.
   \item PASV \hfill\\
+  This command requests the server's data transfer process to "listen" on a data port (which is not its default data port) and to wait for a connection rather than initiate one upon receipt of a transfer command. The response to this command includes the host and port address this server is listening on.
   \item TYPE \hfill\\
-  \item PWD \hfill\\
+  The argument specifies the file type.
+  \item PWD (Print Working Directory) \hfill\\
+  This command causes the name of the current working directory to be returned in the reply.
   \item RETR \hfill\\
+  This command causes the server to transfer a copy of the file specified in pathname to the client. The status and contents of the file at the server site are unaffected.
   \item STOR \hfill\\
+  This command causes the FTP server to accept the data transferred via the data connection and to store the data as a file at the FTP server. If the file specified in pathname exists at the server site, then its contents shall be replaced by the data being transferred. A new file is created at the FTP server if the file specified in pathname does not already exist.
   \item LIST \hfill\\ 
+  This command causes a list of file names and file details to be sent from the FTP site
   Note that a directory listing is considered a file transfer.
   \item SYST \hfill\\
+  This command is used to find out the operating system of the server.
   \item FEAT \hfill\\
+  This command causes the FTP server to list all new FTP features that the server supports beyond those described in RFC 959.
   \item EPRT \hfill\\
+  Specifies an extended address and port to which the server should connect.
 \end{itemize}
 
 \section{Communication}
@@ -322,7 +340,8 @@ A critical concept in understanding FTP is that while it uses TCP like many othe
 
 \end{itemize}
 
-
+\section{Failover Scenarios}
+If a command is not implemented a default message is sent back to the client.
 
 
 
