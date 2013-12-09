@@ -443,7 +443,7 @@ namespace FTPManager
                        ? new FileInfo(Path.Combine(RootDirectory, path.Substring(1))).FullName
                        : new FileInfo(Path.Combine(currentDirectory, path)).FullName;
 
-            return IsPathValid(path) ? path : null;
+            return path;
         }
 
         /// <summary>

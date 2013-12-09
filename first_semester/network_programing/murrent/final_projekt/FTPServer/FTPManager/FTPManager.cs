@@ -141,6 +141,8 @@ namespace FTPManager
         /// </param>
         private void HandleAcceptTcpClient(IAsyncResult result)
         {
+            this.OnProgressUpdate(new ProgressUpdateEventArgs("Accepting Connection"));
+
             if (listening)
             {
                 listener.BeginAcceptTcpClient(HandleAcceptTcpClient, listener);
