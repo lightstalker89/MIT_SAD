@@ -83,14 +83,19 @@ namespace RecursionSample.Test
         [TestCase]
         public void CalculateFactorialNormalTest()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             for (int i = 0; i < this.factorial.Count; ++i)
             {
                 BigInteger result = this.recursionSample.CalculateFactorialNormal(i);
 
-                Debug.WriteLine(result);
-
                 Assert.That(result.Equals(this.factorial[i]));
             }
+
+            stopwatch.Stop();
+            Debug.WriteLine("No recursion: " + stopwatch.ElapsedMilliseconds + "ms");
+            Debug.WriteLine("With normal recursion: " + stopwatch.ElapsedTicks + "ticks");
         }
 
         /// <summary>
@@ -105,16 +110,26 @@ namespace RecursionSample.Test
             }
         }
 
-        ///// <summary>
-        ///// Test the calculate factorial method with to big numbers
-        ///// </summary>
-        //[TestCase]
-        //public void CalculateFactorialWithBigNumber()
-        //{
-        //    BigInteger result = this.recursionSample.CalculateFactorialNormal(1000);
+        /// <summary>
+        /// Test the calculate factorial method with to big numbers
+        /// </summary>
+        [TestCase]
+        public void CalculateFactorialWithBigNumber()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-        //    Assert.That(result.Equals(0) || result < 0);
-        //}
+            for (int i = 0; i < 2000; ++i)
+            {
+                BigInteger result = this.recursionSample.CalculateFactorialNormal(i);
+
+                Assert.That(result > 0);
+            }
+
+            stopwatch.Stop();
+            Debug.WriteLine("With normal recursion: " + stopwatch.ElapsedMilliseconds + "ms");
+            Debug.WriteLine("With normal recursion: " + stopwatch.ElapsedTicks + "ticks");
+        }
 
         /// <summary>
         /// Test the calculate factorial method with recursion
@@ -122,14 +137,19 @@ namespace RecursionSample.Test
         [TestCase]
         public void CalculateFactorialWithRecursionTest()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             for (int i = 0; i < 29; ++i)
             {
                 BigInteger result = this.recursionSample.CalculateFactorialWithRecursion(i);
 
-                Debug.WriteLine(result);
-
                 Assert.That(result.Equals(this.factorial[i]));
             }
+
+            stopwatch.Stop();
+            Debug.WriteLine("With normal recursion: " + stopwatch.ElapsedMilliseconds + "ms");
+            Debug.WriteLine("With normal recursion: " + stopwatch.ElapsedTicks + "ticks");
         }
 
         /// <summary>
@@ -138,14 +158,19 @@ namespace RecursionSample.Test
         [TestCase]
         public void CalculateFactorialWithTailRecursionTest()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             for (int i = 0; i < 29; ++i)
             {
                 BigInteger result = this.recursionSample.CalculateFactorialWithTailRecursion(i, 1);
 
-                Debug.WriteLine(result);
-
                 Assert.That(result.Equals(this.factorial[i]));
             }
+
+            stopwatch.Stop();
+            Debug.WriteLine("With tail recursion: " + stopwatch.ElapsedMilliseconds + "ms");
+            Debug.WriteLine("With normal recursion: " + stopwatch.ElapsedTicks + "ticks");
         }
     }
 }
