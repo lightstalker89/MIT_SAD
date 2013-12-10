@@ -1,0 +1,11 @@
+HTTrack3.47-27+htsswf+htsjava launched on Tue, 10 Dec 2013 20:24:23 at http://material.htlwien10.at/Unterrichtsmaterial/fach/pep/pm_test/deutsch/deutsch/000_katalog.html +*.png +*.gif +*.jpg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qYC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2013], %s -->" -%l "en, *" -Y http://material.htlwien10.at/Unterrichtsmaterial/fach/pep/pm_test/deutsch/deutsch/000_katalog.html -O1 "C:\Users\Mario Murrent\Documents\GitHub\MIT_SAD\first_semester\projectmanagement\Projektmanagement" +*.png +*.gif +*.jpg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+
+HTTrack Website Copier/3.47-27 mirror complete in 6 minutes 22 seconds : 1207 links scanned, 1206 files written (4801457 bytes overall) [2569701 bytes received at 6726 bytes/sec], 4209367 bytes transferred using HTTP compression in 1179 files, ratio 37%, 1.0 requests per connection
+(No errors, 0 warnings, 0 messages)
