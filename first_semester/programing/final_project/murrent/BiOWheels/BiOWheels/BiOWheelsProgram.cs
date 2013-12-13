@@ -7,6 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Globalization;
+
 namespace BiOWheels
 {
     using System;
@@ -191,7 +194,7 @@ namespace BiOWheels
 
             if (loadConfig)
             {
-                LoadConfig();
+                LoadConfig("BiOWheelsConfig.xml");
             }
             else
             {
@@ -208,13 +211,14 @@ namespace BiOWheels
         /// <summary>
         /// Loads the configuration
         /// </summary>
-        private static void LoadConfig()
+        /// <param name="fileName">The filename</param>
+        private static void LoadConfig(string fileName)
         {
             Log("BiOWheels was started without any commandline arguments...", MessageType.INFO);
             Log("Loading configuration", MessageType.INFO);
 
             IConfigurationManager configurationManager = SimpleContainer.Instance.Resolve<IConfigurationManager>();
-            object config = configurationManager.Load<Configuration>("BiOWheelsConfig.xml");
+            object config = configurationManager.Load<Configuration>(fileName);
 
             if (config.GetType() == typeof(Configuration))
             {
@@ -237,7 +241,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -310,7 +314,7 @@ namespace BiOWheels
                         IPerformanceMonitor performanceMonitor = SimpleContainer.Instance.Resolve<IPerformanceMonitor>();
 
                         Log(
-                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(), 
+                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(),
                             MessageType.INFO);
                         break;
 
@@ -390,9 +394,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
@@ -411,9 +415,11 @@ namespace BiOWheels
         /// </param>
         private static void HandleParams(IEnumerable<char> parameter)
         {
-            if (parameter.Any())
+            IEnumerable<char> chars = parameter as IList<char> ?? parameter.ToList();
+
+            if (chars.Any())
             {
-                foreach (char c in parameter)
+                foreach (char c in chars)
                 {
                     if (c == 'h')
                     {
@@ -428,14 +434,16 @@ namespace BiOWheels
 
                         if (c == 'f')
                         {
+                            string fileName = SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(c.ToString(CultureInfo.CurrentCulture));
 
+                            LoadConfig(fileName);
                         }
                     }
                 }
             }
             else
             {
-                
+
             }
         }
 

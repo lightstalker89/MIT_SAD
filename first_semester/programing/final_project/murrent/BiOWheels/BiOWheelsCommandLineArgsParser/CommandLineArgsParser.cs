@@ -7,6 +7,10 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System;
+using System.Globalization;
+
 namespace BiOWheelsCommandLineArgsParser
 {
     using System.Collections.Generic;
@@ -73,18 +77,7 @@ namespace BiOWheelsCommandLineArgsParser
 
         #region Methods
 
-        /// <summary>
-        /// Parses the command line args
-        /// </summary>
-        /// <param name="args">
-        /// Command line args
-        /// </param>
-        /// <param name="options">
-        /// Accepted command line arguments
-        /// </param>
-        /// <returns>
-        /// The list of command line arguments
-        /// </returns>
+        /// <inheritdoc/>
         public IList<char> Parse(string[] args, string options)
         {
             IList<char> includedArgs = new List<char>();
@@ -93,19 +86,16 @@ namespace BiOWheelsCommandLineArgsParser
             while ((c = this.Getopt(args.Length, args, options)) != '\0')
             {
                 includedArgs.Add(c);
+                this.paramValueMapping.Add(c.ToString(CultureInfo.CurrentCulture), args[Array.IndexOf(args, "c")]);
             }
 
             return includedArgs;
         }
 
-        /// <summary>
-        /// Gets the value for parameter.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>The value as string</returns>
+        /// <inheritdoc/>
         public string GetValueForParameter(string key)
         {
-            if(this.paramValueMapping.ContainsKey(key))
+            if (this.paramValueMapping.ContainsKey(key))
             {
                 return this.paramValueMapping[key];
             }

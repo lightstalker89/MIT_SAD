@@ -29,5 +29,12 @@ namespace BiOWheelsCommandLineArgsParser
         /// A list of given command line parameter entered by the user
         /// </returns>
         IList<char> Parse(string[] args, string options);
+
+        /// <summary>
+        /// Gets the value for parameter.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>The value as string</returns>
+        string GetValueForParameter(string key);
     }
 }
