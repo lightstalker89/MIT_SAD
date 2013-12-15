@@ -10,19 +10,20 @@
 namespace BiOWheelsPerformanceMonitor
 {
     /// <summary>
+    ///  Interface for the <see cref="PerformanceMonitor"/> class
     /// </summary>
     public interface IPerformanceMonitor
     {
         /// <summary>
+        /// Gets the CPU usage.
         /// </summary>
-        /// <returns>
-        /// </returns>
+        /// <returns>The CPU usage as string</returns>
         string GetCPUUsage();
 
         /// <summary>
+        /// Gets the RAM usage.
         /// </summary>
-        /// <returns>
-        /// </returns>
+        /// <returns>The RAM usage as string</returns>
         string GetRAMUsage();
     }
 }

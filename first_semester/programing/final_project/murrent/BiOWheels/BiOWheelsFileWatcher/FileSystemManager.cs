@@ -38,6 +38,11 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         private long blockCompareFileSizeInMB;
 
+        /// <summary>
+        /// Holds an instance of the <see cref="DirectoryVolumenComparator"/>
+        /// </summary>
+        private DirectoryVolumenComparator directoryVolumenComparator;
+
         #endregion
 
         /// <summary>
@@ -48,6 +53,7 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal FileSystemManager(IFileComparator fileComparator)
         {
+            this.directoryVolumenComparator = new DirectoryVolumenComparator();
             this.FileComparator = fileComparator;
         }
 
@@ -198,11 +204,12 @@ namespace BiOWheelsFileWatcher
                 if (this.isParallelSyncActivated)
                 {
                     Parallel.ForEach(
-                        item.Destinations,
+                        item.Destinations, 
                         destination =>
-                        {
-                            // TODO: implement
-                        });
+                            {
+                                // TODO: implement
+                                
+                            });
                 }
                 else
                 {
@@ -217,10 +224,9 @@ namespace BiOWheelsFileWatcher
 
                         using (
                             FileStream fileStream = new FileStream(
-                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
                                        fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                         {
-
                             this.CopyStreams(fileStream, fileStreamOutPut);
                         }
                     }
@@ -248,7 +254,7 @@ namespace BiOWheelsFileWatcher
                 {
                     using (
                         FileStream fileStream = new FileStream(
-                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
                                    fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
                     {
                         this.CopyStreams(fileStream, fileStreamOutPut);
@@ -260,8 +266,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Copies the streams.
         /// </summary>
-        /// <param name="inputFileStream">The input file stream.</param>
-        /// <param name="outputFileStream">The output file stream.</param>
+        /// <param name="inputFileStream">
+        /// The input file stream.
+        /// </param>
+        /// <param name="outputFileStream">
+        /// The output file stream.
+        /// </param>
         internal void CopyStreams(FileStream inputFileStream, FileStream outputFileStream)
         {
             byte[] buffer = new byte[4096];

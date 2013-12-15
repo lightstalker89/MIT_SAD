@@ -496,20 +496,11 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Adds an item to the queue.
         /// </summary>
-        /// <param name="destinations">
-        /// The destinations.
-        /// </param>
-        /// <param name="filename">
-        /// The filename.
-        /// </param>
-        /// <param name="fullQualifiedFileName">
-        /// Full name of the qualified file.
-        /// </param>
-        /// <param name="oldFileName">
-        /// </param>
-        /// <param name="fileAction">
-        /// The file action.
-        /// </param>
+        /// <param name="destinations">The destinations.</param>
+        /// <param name="filename">The filename.</param>
+        /// <param name="fullQualifiedFileName">Full name of the qualified file.</param>
+        /// <param name="oldFileName">Old name of the file.</param>
+        /// <param name="fileAction">The file action.</param>
         private void AddQueueItem(
             IEnumerable<string> destinations, 
             string filename, 
@@ -525,12 +516,8 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Check if a file or directory can be added to the queue
         /// </summary>
-        /// <param name="objectName">
-        /// Name of the object.
-        /// </param>
-        /// <param name="excludedDirectories">
-        /// The excluded directories.
-        /// </param>
+        /// <param name="objectName">Name of the object.</param>
+        /// <param name="excludedDirectories">The excluded directories.</param>
         /// <returns>
         /// A value indicating whether the item is allowed to be added to the queue or not
         /// </returns>

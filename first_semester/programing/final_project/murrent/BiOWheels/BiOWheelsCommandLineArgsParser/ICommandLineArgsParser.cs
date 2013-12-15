@@ -33,8 +33,12 @@ namespace BiOWheelsCommandLineArgsParser
         /// <summary>
         /// Gets the value for parameter.
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>The value as string</returns>
+        /// <param name="key">
+        /// The key.
+        /// </param>
+        /// <returns>
+        /// The value as string
+        /// </returns>
         string GetValueForParameter(string key);
     }
 }

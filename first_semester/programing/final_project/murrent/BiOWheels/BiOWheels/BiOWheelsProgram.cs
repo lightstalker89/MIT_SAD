@@ -7,13 +7,16 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System.Globalization;
-
 namespace BiOWheels
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
+    using System.Globalization;
     using System.Linq;
     using System.Threading;
 
@@ -45,7 +48,7 @@ namespace BiOWheels
         /// <summary>
         /// Accepted command line arguments
         /// </summary>
-        private const string Options = "pxh";
+        private const string Options = "pxhf";
 
         #endregion
 
@@ -76,6 +79,16 @@ namespace BiOWheels
         /// </summary>
         private static int eggClickCount;
 
+        /// <summary>
+        /// Value indicating whether parallel sync is enabled or not
+        /// </summary>
+        private static bool parallelSynEnabled;
+
+        /// <summary>
+        /// Notify icon for the tray
+        /// </summary>
+        private static NotifyIcon notifyIcon;
+
         #endregion
 
         /// <summary>
@@ -92,8 +105,8 @@ namespace BiOWheels
             {
                 if (mutex.WaitOne(0, false))
                 {
+                    CreateNotifyIcon();
                     SetUpConsoleEvents();
-
                     ApplicationStartUp(args.Length <= 0, args);
                 }
                 else
@@ -125,7 +138,7 @@ namespace BiOWheels
         /// </param>
         protected static void ConsoleCancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            CloseApplication(0);
+            CheckBeforeClose();
         }
 
         /// <summary>
@@ -194,27 +207,24 @@ namespace BiOWheels
 
             if (loadConfig)
             {
+                Log("BiOWheels was started without any commandline arguments...", MessageType.INFO);
                 LoadConfig("BiOWheelsConfig.xml");
             }
             else
             {
-                Log("BiOWheels was started with commandline arguments...", MessageType.INFO);
-
                 ICommandLineArgsParser parser = SimpleContainer.Instance.Resolve<ICommandLineArgsParser>();
                 HandleParams(parser.Parse(args, Options));
-
-                // ToDo resolve commandline args
-                // CreateFileWatcher();
             }
         }
 
         /// <summary>
         /// Loads the configuration
         /// </summary>
-        /// <param name="fileName">The filename</param>
+        /// <param name="fileName">
+        /// The filename
+        /// </param>
         private static void LoadConfig(string fileName)
         {
-            Log("BiOWheels was started without any commandline arguments...", MessageType.INFO);
             Log("Loading configuration", MessageType.INFO);
 
             IConfigurationManager configurationManager = SimpleContainer.Instance.Resolve<IConfigurationManager>();
@@ -281,8 +291,15 @@ namespace BiOWheels
 
                 switch (key)
                 {
+                    case ConsoleKey.C:
+                        CheckBeforeClose();
+                        break;
+
+                    case ConsoleKey.A:
+                        Log("BiOWheels continues to sync files", MessageType.INFO);
+                        break;
+
                     case ConsoleKey.X:
-                        Log("Closing BiOWheels", MessageType.INFO);
                         CloseApplication(0);
                         break;
 
@@ -308,6 +325,7 @@ namespace BiOWheels
                         break;
 
                     case ConsoleKey.B:
+                        // pause sync
                         break;
 
                     case ConsoleKey.U:
@@ -316,6 +334,10 @@ namespace BiOWheels
                         Log(
                             performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(),
                             MessageType.INFO);
+                        break;
+
+                    case ConsoleKey.R:
+                        // resume sync
                         break;
 
                     default:
@@ -419,6 +441,11 @@ namespace BiOWheels
 
             if (chars.Any())
             {
+                if (!chars.Contains('h'))
+                {
+                    Log("BiOWheels was started with commandline arguments...", MessageType.INFO);
+                }
+
                 foreach (char c in chars)
                 {
                     if (c == 'h')
@@ -429,21 +456,65 @@ namespace BiOWheels
                     {
                         if (c == 'p')
                         {
-                            // parallel sync
+                            parallelSynEnabled = true;
                         }
 
                         if (c == 'f')
                         {
-                            string fileName = SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(c.ToString(CultureInfo.CurrentCulture));
+                            string fileName =
+                                SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(
+                                    c.ToString(CultureInfo.CurrentCulture));
+
+                            Console.WriteLine(fileName);
+
+                            if (string.IsNullOrEmpty(fileName))
+                            {
+                                Log(
+                                    "Error while loading the configuration. File was not found. Press x to close the application",
+                                    MessageType.ERROR);
+
+                                ListenToConsoleKeyInput();
+                            }
 
                             LoadConfig(fileName);
+
+                            SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated =
+                                parallelSynEnabled;
                         }
                     }
                 }
             }
-            else
-            {
+        }
 
+        /// <summary>
+        /// Creates the notify icon for the tray
+        /// </summary>
+        private static void CreateNotifyIcon()
+        {
+            Stream iconResourceStream = new FileStream("Assets/LiveSync.ico", FileMode.Open);
+            notifyIcon = new NotifyIcon
+                {
+                    Icon = new Icon(iconResourceStream),
+                    Visible = true,
+                    Text = "BiOWheels",
+                    BalloonTipTitle = "BiOWheels"
+                };
+
+            notifyIcon.ShowBalloonTip(1500, "BiOWheels", "BiOWheels started...", ToolTipIcon.Info);
+        }
+
+        /// <summary>
+        /// Checks if BiOWheels can be closed without data loss
+        /// </summary>
+        private static void CheckBeforeClose()
+        {
+            if (isSyncing)
+            {
+                notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Attempting to close BiOWheels...", ToolTipIcon.Info);
+
+                Log("Sync is in progress. If you close the application the last job will be finished and all others will be aborted. To close BiOWheels press x else press a", MessageType.INFO);
+
+                ListenToConsoleKeyInput();
             }
         }
 
@@ -490,6 +561,7 @@ namespace BiOWheels
         /// </param>
         private static void CloseApplication(int exitCode)
         {
+            Log("Closing BiOWheels", MessageType.INFO);
             Environment.Exit(exitCode);
         }
 

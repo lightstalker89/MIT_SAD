@@ -19,11 +19,6 @@ namespace BiOWheelsTextToSpeechService
         #region Private Fields
 
         /// <summary>
-        /// The is in progress
-        /// </summary>
-        internal bool IsInProgress = false;
-
-        /// <summary>
         /// The speech synthesizer
         /// </summary>
         private readonly SpeechSynthesizer speechSynthesizer;

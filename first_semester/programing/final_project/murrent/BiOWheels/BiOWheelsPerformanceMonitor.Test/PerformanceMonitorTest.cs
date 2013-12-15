@@ -18,33 +18,41 @@ namespace BiOWheelsPerformanceMonitor.Test
     /// <summary>
     /// Class representing the test for the <see cref="BiOWheelsPerformanceMonitor.PerformanceMonitor"/>
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines", 
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines",
         Justification = "Reviewed.")]
     [TestFixture]
     public class PerformanceMonitorTest
     {
         /// <summary>
+        /// The performance monitor
         /// </summary>
         private IPerformanceMonitor performanceMonitor;
 
         /// <summary>
+        /// Sets up the test environment
         /// </summary>
         [SetUp]
         public void Init()
         {
-            performanceMonitor = PerformanceMonitorFactory.CreatePerformanceMonitor();
+            this.performanceMonitor = PerformanceMonitorFactory.CreatePerformanceMonitor();
         }
 
         /// <summary>
+        /// Testing the <see cref="PerformanceMonitor"/> class methods
         /// </summary>
         [TestCase]
         public void MonitorTest()
         {
             while (true)
             {
-                Debug.WriteLine("CPU Usage: " + performanceMonitor.GetCPUUsage());
-                Debug.WriteLine("Free RAM: " + performanceMonitor.GetRAMUsage());
+                string cpuUsage = this.performanceMonitor.GetCPUUsage();
+                string ramUsage = this.performanceMonitor.GetRAMUsage();
+                Debug.WriteLine("CPU Usage: " + cpuUsage);
+                Debug.WriteLine("Free RAM: " + ramUsage);
                 Thread.Sleep(2000);
+
+                Assert.IsNotNullOrEmpty(cpuUsage);
+                Assert.IsNotNullOrEmpty(ramUsage);
             }
         }
     }

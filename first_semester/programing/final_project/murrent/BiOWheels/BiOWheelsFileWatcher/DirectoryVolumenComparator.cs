@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="DirectoryVolumeComparator.cs" company="MDMCoWorks">
+// * <copyright file="DirectoryVolumenComparator.cs" company="MDMCoWorks">
 // * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -31,7 +31,7 @@ namespace BiOWheelsFileWatcher
         Justification = "Reviewed.")]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", 
         Justification = "Reviewed.")]
-    public class DirectoryVolumeComparator
+    internal class DirectoryVolumenComparator
     {
         /// <summary>
         /// Value of an invalid file handle

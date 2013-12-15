@@ -7,13 +7,11 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-
-using System;
-using System.Globalization;
-
 namespace BiOWheelsCommandLineArgsParser
 {
+    using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     /// <summary>
     /// Class representing a <see cref="CommandLineArgsParser"/>
@@ -21,6 +19,11 @@ namespace BiOWheelsCommandLineArgsParser
     public class CommandLineArgsParser : ICommandLineArgsParser
     {
         #region Private Fields
+
+        /// <summary>
+        /// Field representing the mapping for parameter and value
+        /// </summary>
+        private readonly Dictionary<string, string> paramValueMapping;
 
         /// <summary>
         /// Field representing the option index
@@ -37,13 +40,11 @@ namespace BiOWheelsCommandLineArgsParser
         /// </summary>
         private string optarg = string.Empty;
 
-        /// <summary>
-        /// Field representing the mapping for parameter and value
-        /// </summary>
-        private readonly Dictionary<string, string> paramValueMapping;
-
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLineArgsParser"/> class.
+        /// </summary>
         public CommandLineArgsParser()
         {
             this.paramValueMapping = new Dictionary<string, string>();
@@ -80,13 +81,28 @@ namespace BiOWheelsCommandLineArgsParser
         /// <inheritdoc/>
         public IList<char> Parse(string[] args, string options)
         {
-            IList<char> includedArgs = new List<char>();
+            List<char> includedArgs = new List<char>();
 
             char c;
             while ((c = this.Getopt(args.Length, args, options)) != '\0')
             {
                 includedArgs.Add(c);
-                this.paramValueMapping.Add(c.ToString(CultureInfo.CurrentCulture), args[Array.IndexOf(args, "c")]);
+
+                if (c.Equals('f'))
+                {
+                    int index = Array.IndexOf(args, "-f");
+                    index++;
+
+                    if (index < args.Length)
+                    {
+                        this.paramValueMapping.Add(c.ToString(CultureInfo.CurrentCulture), args[index]);
+                    }
+                }
+            }
+
+            if (includedArgs.Contains('h'))
+            {
+                includedArgs.RemoveAll(p => p != 'h');
             }
 
             return includedArgs;

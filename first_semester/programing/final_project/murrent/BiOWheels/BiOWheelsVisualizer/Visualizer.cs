@@ -19,6 +19,7 @@ namespace BiOWheelsVisualizer
         #region Methods
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Visualizer"/> class.
         /// </summary>
         internal Visualizer()
         {

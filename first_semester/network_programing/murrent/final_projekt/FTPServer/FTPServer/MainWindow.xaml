@@ -26,9 +26,6 @@
                 <Separator/>
                 <MenuItem Header="Shutdown" Click="MenuItemFileExitClick"/>
             </MenuItem>
-            <MenuItem Header="Options">
-
-            </MenuItem>
             <MenuItem Header="Help">
 
             </MenuItem>
