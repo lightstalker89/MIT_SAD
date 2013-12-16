@@ -162,6 +162,16 @@ namespace BiOWheelsFileWatcher
             // TODO: check directories and add them to the queue
             foreach (DirectoryMapping mapping in this.Mappings)
             {
+                //this.AddInitialSourceDirectoriesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
+                //this.AddInitialSourceFilesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
+
+                foreach (string directory in mapping.DestinationDirectories)
+                {
+                    string[] destinationDirectoryFiles = Directory.GetFiles(directory, "*.*",
+                        SearchOption.AllDirectories);
+
+
+                }
             }
 
             this.Init();
@@ -171,6 +181,40 @@ namespace BiOWheelsFileWatcher
         public void SetSourceDirectories(IEnumerable<DirectoryMapping> directoryMappings)
         {
             this.Mappings = directoryMappings;
+        }
+
+        /// <summary>
+        /// Adds all source folders to the queue
+        /// </summary>
+        /// <param name="sourceDirectory"></param>
+        /// <param name="destinationFolder"></param>
+        internal void AddInitialSourceDirectoriesToQueue(string sourceDirectory, IList<string> destinationFolder)
+        {
+            IEnumerable<string> directories = Directory.GetDirectories(sourceDirectory, "*.*", SearchOption.AllDirectories);
+
+            foreach (string directory in directories)
+            {
+                this.AddQueueItem(destinationFolder, Path.GetFileName(directory), directory, string.Empty, FileAction.COPY);
+            }
+        }
+
+        /// <summary>
+        /// Adds all source files to the queue
+        /// </summary>
+        /// <param name="sourceDirectory">The source directory</param>
+        /// <param name="destinationFolder">List of destination folder</param>
+        internal void AddInitialSourceFilesToQueue(string sourceDirectory, IList<string> destinationFolder)
+        {
+            IEnumerable<string> sourceDirectoryFiles = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
+
+            foreach (string sourceFile in sourceDirectoryFiles)
+            {
+                foreach (string destination in destinationFolder)
+                {
+                    this.AddQueueItem(destinationFolder, Path.GetFileName(sourceFile), sourceFile, string.Empty,
+                        FileAction.COPY);
+                }
+            }
         }
 
         /// <summary>
@@ -191,11 +235,11 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.CaughtException(
-                    this, 
+                    this,
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
                         {
-                           CustomExceptionText = "Error while enumerating all files in the given directory" 
+                            CustomExceptionText = "Error while enumerating all files in the given directory"
                         });
 
                 return new List<string>();
@@ -349,10 +393,10 @@ namespace BiOWheelsFileWatcher
                     this.AddQueueItem(
                         watcher.Destinations, e.FileName, e.FullQualifiedFileName, e.OldFileName, FileAction.COPY);
                     this.OnProgressUpdate(
-                        this, 
+                        this,
                         new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
                     this.OnProgressUpdate(
-                        this, 
+                        this,
                         new UpdateProgressEventArgs(
                             "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
                 }
@@ -431,9 +475,9 @@ namespace BiOWheelsFileWatcher
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             FileWatcherFactory.CreateFileSystemWatcher(
-                                ((DirectoryMapping)mappingInfo).SourceDirectory, 
-                                ((DirectoryMapping)mappingInfo).Recursive, 
-                                ((DirectoryMapping)mappingInfo).DestinationDirectories, 
+                                ((DirectoryMapping)mappingInfo).SourceDirectory,
+                                ((DirectoryMapping)mappingInfo).Recursive,
+                                ((DirectoryMapping)mappingInfo).DestinationDirectories,
                                 ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
@@ -449,7 +493,7 @@ namespace BiOWheelsFileWatcher
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this, 
+                            this,
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -461,7 +505,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this, 
+                        this,
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
@@ -502,10 +546,10 @@ namespace BiOWheelsFileWatcher
         /// <param name="oldFileName">Old name of the file.</param>
         /// <param name="fileAction">The file action.</param>
         private void AddQueueItem(
-            IEnumerable<string> destinations, 
-            string filename, 
-            string fullQualifiedFileName, 
-            string oldFileName, 
+            IEnumerable<string> destinations,
+            string filename,
+            string fullQualifiedFileName,
+            string oldFileName,
             FileAction fileAction)
         {
             SyncItem item = new SyncItem(destinations, filename, fullQualifiedFileName, oldFileName, fileAction);

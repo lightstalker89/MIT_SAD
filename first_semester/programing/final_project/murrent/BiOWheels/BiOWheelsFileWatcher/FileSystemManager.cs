@@ -108,19 +108,6 @@ namespace BiOWheelsFileWatcher
         #region Methods
 
         /// <inheritdoc/>
-        public void CopyDirectory(SyncItem item)
-        {
-            foreach (string destination in item.Destinations)
-            {
-                this.CreateDirectoryIfNotExists(destination);
-
-                string pathToCopy = destination + Path.DirectorySeparatorChar + item.SourceFile;
-
-                this.CreateDirectoryIfNotExists(pathToCopy);
-            }
-        }
-
-        /// <inheritdoc/>
         public void Delete(SyncItem item)
         {
             foreach (string pathToDelete in
@@ -143,12 +130,7 @@ namespace BiOWheelsFileWatcher
             }
         }
 
-        /// <summary>
-        /// Copies a file to the given destinations
-        /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
+        /// <inheritdoc/>
         public void Copy(SyncItem item)
         {
             if (item.FullQualifiedSourceFileName.IsDirectory())
@@ -163,6 +145,37 @@ namespace BiOWheelsFileWatcher
             if (item.OldFileName != string.Empty)
             {
                 this.DeleteRenamed(item);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Rename(SyncItem item)
+        {
+            if (item.FullQualifiedSourceFileName.IsDirectory())
+            {
+               
+            }
+            else
+            {
+                
+            }
+        }
+
+        /// <summary>
+        /// Copies the directory.
+        /// </summary>
+        /// <param name="item">
+        /// Item from the queue
+        /// </param>
+        internal void CopyDirectory(SyncItem item)
+        {
+            foreach (string destination in item.Destinations)
+            {
+                this.CreateDirectoryIfNotExists(destination);
+
+                string pathToCopy = destination + Path.DirectorySeparatorChar + item.SourceFile;
+
+                this.CreateDirectoryIfNotExists(pathToCopy);
             }
         }
 
@@ -291,6 +304,16 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal void DiffParallel(SyncItem item)
         {
+        }
+
+        internal void RenameFile(SyncItem item)
+        {
+            
+        }
+
+        internal void RenameDirectory(SyncItem item)
+        {
+            
         }
 
         /// <summary>

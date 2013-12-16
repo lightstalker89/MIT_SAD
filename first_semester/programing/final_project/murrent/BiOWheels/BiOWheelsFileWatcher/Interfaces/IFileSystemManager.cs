@@ -41,11 +41,9 @@ namespace BiOWheelsFileWatcher.Interfaces
         void Copy(SyncItem item);
 
         /// <summary>
-        /// Copies the directory.
+        /// Renames a file or directory
         /// </summary>
-        /// <param name="item">
-        /// Item from the queue
-        /// </param>
-        void CopyDirectory(SyncItem item);
+        /// <param name="item"></param>
+        void Rename(SyncItem item);
     }
 }
