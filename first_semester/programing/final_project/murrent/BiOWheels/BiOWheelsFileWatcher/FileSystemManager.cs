@@ -141,23 +141,33 @@ namespace BiOWheelsFileWatcher
             {
                 this.CopyFile(item);
             }
-
-            if (item.OldFileName != string.Empty)
-            {
-                this.DeleteRenamed(item);
-            }
         }
 
         /// <inheritdoc/>
         public void Rename(SyncItem item)
         {
-            if (item.FullQualifiedSourceFileName.IsDirectory())
+            foreach (string pathToCopy in
+                    item.Destinations.Select(
+                        destination =>
+                        Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile)))
             {
-               
-            }
-            else
-            {
-                
+                string newItemToRename = pathToCopy + Path.DirectorySeparatorChar + item.SourceFile;
+                string oldItemRenamed = pathToCopy + Path.DirectorySeparatorChar + item.OldFileName;
+
+                if (oldItemRenamed.IsDirectory())
+                {
+                    if (Directory.Exists(oldItemRenamed))
+                    {
+                        Directory.Move(oldItemRenamed, newItemToRename);
+                    }
+                }
+                else
+                {
+                    if (File.Exists(oldItemRenamed))
+                    {
+                        File.Move(oldItemRenamed, newItemToRename);
+                    }
+                }
             }
         }
 
@@ -217,12 +227,12 @@ namespace BiOWheelsFileWatcher
                 if (this.isParallelSyncActivated)
                 {
                     Parallel.ForEach(
-                        item.Destinations, 
+                        item.Destinations,
                         destination =>
-                            {
-                                // TODO: implement
-                                
-                            });
+                        {
+                            // TODO: implement
+
+                        });
                 }
                 else
                 {
@@ -237,7 +247,7 @@ namespace BiOWheelsFileWatcher
 
                         using (
                             FileStream fileStream = new FileStream(
-                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
+                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
                                        fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                         {
                             this.CopyStreams(fileStream, fileStreamOutPut);
@@ -267,7 +277,7 @@ namespace BiOWheelsFileWatcher
                 {
                     using (
                         FileStream fileStream = new FileStream(
-                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
+                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
                                    fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
                     {
                         this.CopyStreams(fileStream, fileStreamOutPut);
@@ -304,47 +314,6 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal void DiffParallel(SyncItem item)
         {
-        }
-
-        internal void RenameFile(SyncItem item)
-        {
-            
-        }
-
-        internal void RenameDirectory(SyncItem item)
-        {
-            
-        }
-
-        /// <summary>
-        /// Deletes a file or directory
-        /// </summary>
-        /// <param name="item">
-        /// The item.
-        /// </param>
-        internal void DeleteRenamed(SyncItem item)
-        {
-            foreach (string pathToDelete in
-                item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar))
-            {
-                string pathToDeleteSource = pathToDelete + item.OldFileName;
-                string pathToDeleteDestination = pathToDelete + item.SourceFile;
-
-                if (pathToDeleteSource.IsDirectory())
-                {
-                    if (Directory.Exists(pathToDeleteSource))
-                    {
-                        // TODO: Copy files in directory to new directory
-                    }
-                }
-                else
-                {
-                    if (File.Exists(pathToDeleteSource))
-                    {
-                        File.Delete(pathToDeleteSource);
-                    }
-                }
-            }
         }
 
         /// <summary>

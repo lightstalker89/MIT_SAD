@@ -162,16 +162,8 @@ namespace BiOWheelsFileWatcher
             // TODO: check directories and add them to the queue
             foreach (DirectoryMapping mapping in this.Mappings)
             {
-                //this.AddInitialSourceDirectoriesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
-                //this.AddInitialSourceFilesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
-
-                foreach (string directory in mapping.DestinationDirectories)
-                {
-                    string[] destinationDirectoryFiles = Directory.GetFiles(directory, "*.*",
-                        SearchOption.AllDirectories);
-
-
-                }
+                this.AddInitialSourceDirectoriesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
+                this.AddInitialSourceFilesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
             }
 
             this.Init();
@@ -194,7 +186,9 @@ namespace BiOWheelsFileWatcher
 
             foreach (string directory in directories)
             {
-                this.AddQueueItem(destinationFolder, Path.GetFileName(directory), directory, string.Empty, FileAction.COPY);
+                string directoryName = directory.Replace(sourceDirectory + "\\", string.Empty);
+
+                this.AddQueueItem(destinationFolder, directoryName, directory, string.Empty, FileAction.COPY);
             }
         }
 
@@ -209,11 +203,10 @@ namespace BiOWheelsFileWatcher
 
             foreach (string sourceFile in sourceDirectoryFiles)
             {
-                foreach (string destination in destinationFolder)
-                {
-                    this.AddQueueItem(destinationFolder, Path.GetFileName(sourceFile), sourceFile, string.Empty,
-                        FileAction.COPY);
-                }
+                string fileName = sourceFile.Replace(sourceDirectory + "\\", string.Empty);
+
+                this.AddQueueItem(destinationFolder, fileName, sourceFile, string.Empty,
+                    FileAction.COPY);
             }
         }
 
@@ -391,7 +384,7 @@ namespace BiOWheelsFileWatcher
                 if (this.IsAllowedToAddItemToQueue(e.FullQualifiedFileName, watcher.ExcludedDirectories))
                 {
                     this.AddQueueItem(
-                        watcher.Destinations, e.FileName, e.FullQualifiedFileName, e.OldFileName, FileAction.COPY);
+                        watcher.Destinations, e.FileName, e.FullQualifiedFileName, e.OldFileName, FileAction.RENAME);
                     this.OnProgressUpdate(
                         this,
                         new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
