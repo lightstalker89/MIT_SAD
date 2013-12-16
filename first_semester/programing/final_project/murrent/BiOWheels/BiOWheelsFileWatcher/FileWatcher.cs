@@ -164,6 +164,8 @@ namespace BiOWheelsFileWatcher
             {
                 this.AddInitialSourceDirectoriesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
                 this.AddInitialSourceFilesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
+                this.AddInitialDestinationDirectoriesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
+                this.AddInitialDestinationFilesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
             }
 
             this.Init();
@@ -176,10 +178,40 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Adds the initial destination files to the queue.
+        /// </summary>
+        /// <param name="sourceDirectory">The source directory.</param>
+        /// <param name="destinationDirectories">The destination directories.</param>
+        internal void AddInitialDestinationFilesToQueue(string sourceDirectory, IEnumerable<string> destinationDirectories)
+        {
+            IEnumerable<string> sourceFiles = Directory.GetFiles(sourceDirectory);
+
+            foreach (IEnumerable<string> allDestinationFiles in destinationDirectories.Select(Directory.GetFiles))
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// Adds the initial destination directories to the queue.
+        /// </summary>
+        /// <param name="sourceDirectory">The source directory.</param>
+        /// <param name="destinationDirectories">The destination directories.</param>
+        internal void AddInitialDestinationDirectoriesToQueue(string sourceDirectory, IEnumerable<string> destinationDirectories)
+        {
+            IEnumerable<string> sourceDirectories = Directory.GetFiles(sourceDirectory);
+
+            foreach (IEnumerable<string> allDestinationDirectories in destinationDirectories.Select(Directory.GetDirectories))
+            {
+               
+            }
+        }
+
+        /// <summary>
         /// Adds all source folders to the queue
         /// </summary>
-        /// <param name="sourceDirectory"></param>
-        /// <param name="destinationFolder"></param>
+        /// <param name="sourceDirectory">The source directory.</param>
+        /// <param name="destinationFolder">The destination folders.</param>
         internal void AddInitialSourceDirectoriesToQueue(string sourceDirectory, IList<string> destinationFolder)
         {
             IEnumerable<string> directories = Directory.GetDirectories(sourceDirectory, "*.*", SearchOption.AllDirectories);
