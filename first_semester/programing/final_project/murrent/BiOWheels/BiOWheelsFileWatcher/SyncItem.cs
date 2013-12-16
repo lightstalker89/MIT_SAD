@@ -11,6 +11,8 @@ namespace BiOWheelsFileWatcher
 {
     using System.Collections.Generic;
 
+    using BiOWheelsFileWatcher.Enums;
+
     /// <summary>
     /// Class representing a <see cref="SyncItem"/> and its interaction logic
     /// </summary>

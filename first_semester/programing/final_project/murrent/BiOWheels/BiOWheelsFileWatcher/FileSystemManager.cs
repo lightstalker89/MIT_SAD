@@ -14,6 +14,7 @@ namespace BiOWheelsFileWatcher
     using System.Linq;
     using System.Threading.Tasks;
 
+    using BiOWheelsFileWatcher.Helper;
     using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
@@ -110,22 +111,36 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void Delete(SyncItem item)
         {
-            foreach (string pathToDelete in
-                item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
+            if (item.Destinations.Any())
             {
-                if (pathToDelete.IsDirectory())
+                foreach (string pathToDelete in
+                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
                 {
-                    if (Directory.Exists(pathToDelete))
+                    if (pathToDelete.IsDirectory())
                     {
-                        Directory.Delete(pathToDelete, true);
+                        if (Directory.Exists(pathToDelete))
+                        {
+                            Directory.Delete(pathToDelete, true);
+                        }
                     }
+                    else
+                    {
+                        if (File.Exists(pathToDelete))
+                        {
+                            File.Delete(pathToDelete);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (item.SourceFile.IsDirectory())
+                {
+                    Directory.Delete(item.SourceFile, true);
                 }
                 else
                 {
-                    if (File.Exists(pathToDelete))
-                    {
-                        File.Delete(pathToDelete);
-                    }
+                    File.Delete(item.SourceFile);
                 }
             }
         }

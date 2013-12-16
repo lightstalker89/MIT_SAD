@@ -22,6 +22,8 @@ namespace BiOWheelsFileWatcher
 
     using BiOWheelsFileWatcher.CustomEventArgs;
     using BiOWheelsFileWatcher.CustomExceptions;
+    using BiOWheelsFileWatcher.Enums;
+    using BiOWheelsFileWatcher.Helper;
     using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
@@ -159,13 +161,16 @@ namespace BiOWheelsFileWatcher
         /// <inheritdoc/>
         public void InitialScan()
         {
-            // TODO: check directories and add them to the queue
             foreach (DirectoryMapping mapping in this.Mappings)
             {
-                this.AddInitialSourceDirectoriesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
-                this.AddInitialSourceFilesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
-                this.AddInitialDestinationDirectoriesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
-                this.AddInitialDestinationFilesToQueue(mapping.SourceDirectory, mapping.DestinationDirectories);
+                List<string> sourceFiles = Directory.GetFiles(mapping.SourceDirectory, "*", SearchOption.AllDirectories).ToList();
+                List<string> sourceDirectories = Directory.GetDirectories(mapping.SourceDirectory, "*", SearchOption.AllDirectories).ToList();
+
+                this.AddInitialSourceItemsToQueue(mapping.SourceDirectory, mapping.DestinationDirectories, InitialCompareType.FILE);
+                this.AddInitialSourceItemsToQueue(mapping.SourceDirectory, mapping.DestinationDirectories, InitialCompareType.DIRECTORY);
+
+                this.AddInitialDestinationItemsToQueue(mapping.SourceDirectory, mapping.DestinationDirectories, sourceDirectories, InitialCompareType.DIRECTORY);
+                this.AddInitialDestinationItemsToQueue(mapping.SourceDirectory, mapping.DestinationDirectories, sourceFiles, InitialCompareType.FILE);
             }
 
             this.Init();
@@ -181,29 +186,39 @@ namespace BiOWheelsFileWatcher
         /// Adds the initial destination files to the queue.
         /// </summary>
         /// <param name="sourceDirectory">The source directory.</param>
-        /// <param name="destinationDirectories">The destination directories.</param>
-        internal void AddInitialDestinationFilesToQueue(string sourceDirectory, IEnumerable<string> destinationDirectories)
+        /// <param name="destinationItems">The destination directories.</param>
+        /// <param name="sourceItems">The source files.</param>
+        /// <param name="initialCompareType">Initial type of the compare can be FILE or DIRECTORY.</param>
+        internal void AddInitialDestinationItemsToQueue(string sourceDirectory, IEnumerable<string> destinationItems, List<string> sourceItems, InitialCompareType initialCompareType)
         {
-            IEnumerable<string> sourceFiles = Directory.GetFiles(sourceDirectory);
-
-            foreach (IEnumerable<string> allDestinationFiles in destinationDirectories.Select(Directory.GetFiles))
+            for (int i = 0; i < sourceItems.Count; i++)
             {
-
+                sourceItems[i] = sourceItems[i].Replace(sourceDirectory + "\\", string.Empty);
             }
-        }
 
-        /// <summary>
-        /// Adds the initial destination directories to the queue.
-        /// </summary>
-        /// <param name="sourceDirectory">The source directory.</param>
-        /// <param name="destinationDirectories">The destination directories.</param>
-        internal void AddInitialDestinationDirectoriesToQueue(string sourceDirectory, IEnumerable<string> destinationDirectories)
-        {
-            IEnumerable<string> sourceDirectories = Directory.GetFiles(sourceDirectory);
-
-            foreach (IEnumerable<string> allDestinationDirectories in destinationDirectories.Select(Directory.GetDirectories))
+            foreach (string destinationItem in destinationItems)
             {
-               
+                IEnumerable<string> allDestinationItems = null;
+
+                if (initialCompareType == InitialCompareType.FILE)
+                {
+                    allDestinationItems = Directory.GetFiles(destinationItem, "*", SearchOption.AllDirectories);
+                }
+                else
+                {
+                    allDestinationItems = Directory.GetDirectories(
+                        destinationItem + "\\", "*", SearchOption.AllDirectories);
+                }
+
+                foreach (string actualDestinationItem in allDestinationItems)
+                {
+                    string newDestinationItem = actualDestinationItem.Replace(destinationItem + "\\", string.Empty);
+
+                    if (!sourceItems.Contains(newDestinationItem))
+                    {
+                        this.AddQueueItem(new List<string>(), actualDestinationItem, actualDestinationItem, string.Empty, FileAction.DELETE);
+                    }
+                }
             }
         }
 
@@ -212,33 +227,25 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         /// <param name="sourceDirectory">The source directory.</param>
         /// <param name="destinationFolder">The destination folders.</param>
-        internal void AddInitialSourceDirectoriesToQueue(string sourceDirectory, IList<string> destinationFolder)
+        /// <param name="initialCompareType">Initial type of the compare can be FILE or DIRECTORY.</param>
+        internal void AddInitialSourceItemsToQueue(string sourceDirectory, IList<string> destinationFolder, InitialCompareType initialCompareType)
         {
-            IEnumerable<string> directories = Directory.GetDirectories(sourceDirectory, "*.*", SearchOption.AllDirectories);
+            IEnumerable<string> items;
 
-            foreach (string directory in directories)
+            if (initialCompareType == InitialCompareType.FILE)
             {
-                string directoryName = directory.Replace(sourceDirectory + "\\", string.Empty);
-
-                this.AddQueueItem(destinationFolder, directoryName, directory, string.Empty, FileAction.COPY);
+                items = Directory.GetFiles(sourceDirectory + "\\", "*", SearchOption.AllDirectories);
             }
-        }
-
-        /// <summary>
-        /// Adds all source files to the queue
-        /// </summary>
-        /// <param name="sourceDirectory">The source directory</param>
-        /// <param name="destinationFolder">List of destination folder</param>
-        internal void AddInitialSourceFilesToQueue(string sourceDirectory, IList<string> destinationFolder)
-        {
-            IEnumerable<string> sourceDirectoryFiles = Directory.GetFiles(sourceDirectory, "*.*", SearchOption.AllDirectories);
-
-            foreach (string sourceFile in sourceDirectoryFiles)
+            else
             {
-                string fileName = sourceFile.Replace(sourceDirectory + "\\", string.Empty);
+                items = Directory.GetDirectories(sourceDirectory, "*.*", SearchOption.AllDirectories);
+            }
 
-                this.AddQueueItem(destinationFolder, fileName, sourceFile, string.Empty,
-                    FileAction.COPY);
+            foreach (string item in items)
+            {
+                string itemName = item.Replace(sourceDirectory + "\\", string.Empty);
+
+                this.AddQueueItem(destinationFolder, itemName, item, string.Empty, FileAction.COPY);
             }
         }
 

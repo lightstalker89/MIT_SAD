@@ -18,6 +18,7 @@ namespace BiOWheelsFileWatcher.Test
     using System.Threading;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
+    using BiOWheelsFileWatcher.Enums;
     using BiOWheelsFileWatcher.Interfaces;
 
     using BiOWheelsTestHelper;

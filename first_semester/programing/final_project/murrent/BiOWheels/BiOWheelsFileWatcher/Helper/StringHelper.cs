@@ -7,7 +7,7 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-namespace BiOWheelsFileWatcher
+namespace BiOWheelsFileWatcher.Helper
 {
     using System;
     using System.IO;

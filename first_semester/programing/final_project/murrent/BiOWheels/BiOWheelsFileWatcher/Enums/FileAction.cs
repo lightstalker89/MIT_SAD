@@ -7,7 +7,7 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-namespace BiOWheelsFileWatcher
+namespace BiOWheelsFileWatcher.Enums
 {
     using System.Diagnostics.CodeAnalysis;
 

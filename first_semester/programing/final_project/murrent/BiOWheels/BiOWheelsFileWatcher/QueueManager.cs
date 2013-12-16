@@ -21,6 +21,7 @@ namespace BiOWheelsFileWatcher
     using System.Threading.Tasks;
 
     using BiOWheelsFileWatcher.CustomEventArgs;
+    using BiOWheelsFileWatcher.Enums;
     using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>

@@ -52,7 +52,8 @@
     <Compile Include="CustomExceptions\MappingInvalidException.cs" />
     <Compile Include="CustomExceptions\MappingNullException.cs" />
     <Compile Include="DirectoryVolumenComparator.cs" />
-    <Compile Include="FileAction.cs" />
+    <Compile Include="Enums\FileAction.cs" />
+    <Compile Include="Enums\InitialCompareType.cs" />
     <Compile Include="FileComparator.cs" />
     <Compile Include="FileSystemManager.cs" />
     <Compile Include="FileWatcherFactory.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DirectoryMapping.cs" />
     <Compile Include="QueueManager.cs" />
-    <Compile Include="StringHelper.cs" />
+    <Compile Include="Helper\StringHelper.cs" />
     <Compile Include="SyncItem.cs" />
   </ItemGroup>
   <ItemGroup>
