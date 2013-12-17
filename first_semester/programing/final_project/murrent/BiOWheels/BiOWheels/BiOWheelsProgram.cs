@@ -48,7 +48,7 @@ namespace BiOWheels
         /// <summary>
         /// Accepted command line arguments
         /// </summary>
-        private const string Options = "pxhf";
+        private const string Options = "pxhfbls";
 
         #endregion
 
@@ -480,6 +480,58 @@ namespace BiOWheels
 
                             SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated =
                                 parallelSynEnabled;
+                        }
+
+                        if (c == 'b')
+                        {
+                            string blockCompareSize =
+                                SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(
+                                    c.ToString(CultureInfo.CurrentCulture));
+
+                            long blockCompareSizeInMB;
+                            if (long.TryParse(blockCompareSize, out blockCompareSizeInMB))
+                            {
+                                SimpleContainer.Instance.Resolve<IFileSystemManager>().BlockCompareFileSizeInMB =
+                                    blockCompareSizeInMB;
+                            }
+                            else
+                            {
+                                Log("Could not parse parameter for -b", MessageType.ERROR);
+                            }
+                        }
+
+                        if (c == 's')
+                        {
+                            string blockSize =
+                            SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(
+                                c.ToString(CultureInfo.CurrentCulture));
+
+                            long blockSizeInMB;
+                            if (long.TryParse(blockSize, out blockSizeInMB))
+                            {
+                                SimpleContainer.Instance.Resolve<IFileComparator>().BlockSize = blockSize;
+                            }
+                            else
+                            {
+                                Log("Could not parse parameter for -s", MessageType.ERROR);
+                            }
+                        }
+
+                        if (c == 'l')
+                        {
+                            string logFileSize =
+                             SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(
+                                 c.ToString(CultureInfo.CurrentCulture));
+
+                            long logFileSizeInMB;
+                            if (long.TryParse(logFileSize, out logFileSizeInMB))
+                            {
+                                SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<FileLogger>(logFileSizeInMB);
+                            }
+                            else
+                            {
+                                Log("Could not parse parameter for -l", MessageType.ERROR);
+                            }
                         }
                     }
                 }

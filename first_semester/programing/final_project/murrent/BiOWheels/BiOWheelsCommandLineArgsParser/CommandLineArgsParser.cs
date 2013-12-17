@@ -88,9 +88,9 @@ namespace BiOWheelsCommandLineArgsParser
             {
                 includedArgs.Add(c);
 
-                if (c.Equals('f'))
+                if (c.Equals('f') || c.Equals('b') || c.Equals('l') || c.Equals('s'))
                 {
-                    int index = Array.IndexOf(args, "-f");
+                    int index = Array.IndexOf(args, "-" + c);
                     index++;
 
                     if (index < args.Length)

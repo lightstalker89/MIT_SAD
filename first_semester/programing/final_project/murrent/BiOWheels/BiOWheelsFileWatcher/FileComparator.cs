@@ -49,9 +49,7 @@ namespace BiOWheelsFileWatcher
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets a value indicating the block size used for comparing files
-        /// </summary>
+        /// <inheritdoc/>      
         public long BlockSize
         {
             get
