@@ -58,6 +58,7 @@
     <Compile Include="FileSystemManager.cs" />
     <Compile Include="FileWatcherFactory.cs" />
     <Compile Include="FileWatcher.cs" />
+    <Compile Include="Helper\AttributeInfoHelper.cs" />
     <Compile Include="Interfaces\IFileComparator.cs" />
     <Compile Include="Interfaces\IFileSystemManager.cs" />
     <Compile Include="Interfaces\IFileWatcher.cs" />

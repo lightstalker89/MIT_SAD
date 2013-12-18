@@ -163,14 +163,23 @@ namespace BiOWheelsFileWatcher
         {
             foreach (DirectoryMapping mapping in this.Mappings)
             {
-                List<string> sourceFiles = Directory.GetFiles(mapping.SourceDirectory, "*", SearchOption.AllDirectories).ToList();
-                List<string> sourceDirectories = Directory.GetDirectories(mapping.SourceDirectory, "*", SearchOption.AllDirectories).ToList();
+                List<string> sourceFiles =
+                    Directory.GetFiles(mapping.SourceDirectory, "*", SearchOption.AllDirectories).ToList();
+                List<string> sourceDirectories =
+                    Directory.GetDirectories(mapping.SourceDirectory, "*", SearchOption.AllDirectories).ToList();
 
-                this.AddInitialSourceItemsToQueue(mapping.SourceDirectory, mapping.DestinationDirectories, InitialCompareType.FILE);
-                this.AddInitialSourceItemsToQueue(mapping.SourceDirectory, mapping.DestinationDirectories, InitialCompareType.DIRECTORY);
+                this.AddInitialSourceItemsToQueue(
+                    mapping.SourceDirectory, mapping.DestinationDirectories, InitialCompareType.FILE);
+                this.AddInitialSourceItemsToQueue(
+                    mapping.SourceDirectory, mapping.DestinationDirectories, InitialCompareType.DIRECTORY);
 
-                this.AddInitialDestinationItemsToQueue(mapping.SourceDirectory, mapping.DestinationDirectories, sourceDirectories, InitialCompareType.DIRECTORY);
-                this.AddInitialDestinationItemsToQueue(mapping.SourceDirectory, mapping.DestinationDirectories, sourceFiles, InitialCompareType.FILE);
+                this.AddInitialDestinationItemsToQueue(
+                    mapping.SourceDirectory, 
+                    mapping.DestinationDirectories, 
+                    sourceDirectories, 
+                    InitialCompareType.DIRECTORY);
+                this.AddInitialDestinationItemsToQueue(
+                    mapping.SourceDirectory, mapping.DestinationDirectories, sourceFiles, InitialCompareType.FILE);
             }
 
             this.Init();
@@ -185,11 +194,23 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Adds the initial destination files to the queue.
         /// </summary>
-        /// <param name="sourceDirectory">The source directory.</param>
-        /// <param name="destinationItems">The destination directories.</param>
-        /// <param name="sourceItems">The source files.</param>
-        /// <param name="initialCompareType">Initial type of the compare can be FILE or DIRECTORY.</param>
-        internal void AddInitialDestinationItemsToQueue(string sourceDirectory, IEnumerable<string> destinationItems, List<string> sourceItems, InitialCompareType initialCompareType)
+        /// <param name="sourceDirectory">
+        /// The source directory.
+        /// </param>
+        /// <param name="destinationItems">
+        /// The destination directories.
+        /// </param>
+        /// <param name="sourceItems">
+        /// The source files.
+        /// </param>
+        /// <param name="initialCompareType">
+        /// Initial type of the compare can be FILE or DIRECTORY.
+        /// </param>
+        internal void AddInitialDestinationItemsToQueue(
+            string sourceDirectory, 
+            IEnumerable<string> destinationItems, 
+            List<string> sourceItems, 
+            InitialCompareType initialCompareType)
         {
             for (int i = 0; i < sourceItems.Count; i++)
             {
@@ -216,7 +237,12 @@ namespace BiOWheelsFileWatcher
 
                     if (!sourceItems.Contains(newDestinationItem))
                     {
-                        this.AddQueueItem(new List<string>(), actualDestinationItem, actualDestinationItem, string.Empty, FileAction.DELETE);
+                        this.AddQueueItem(
+                            new List<string>(), 
+                            actualDestinationItem, 
+                            actualDestinationItem, 
+                            string.Empty, 
+                            FileAction.DELETE);
                     }
                 }
             }
@@ -225,10 +251,17 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Adds all source folders to the queue
         /// </summary>
-        /// <param name="sourceDirectory">The source directory.</param>
-        /// <param name="destinationFolder">The destination folders.</param>
-        /// <param name="initialCompareType">Initial type of the compare can be FILE or DIRECTORY.</param>
-        internal void AddInitialSourceItemsToQueue(string sourceDirectory, IList<string> destinationFolder, InitialCompareType initialCompareType)
+        /// <param name="sourceDirectory">
+        /// The source directory.
+        /// </param>
+        /// <param name="destinationFolder">
+        /// The destination folders.
+        /// </param>
+        /// <param name="initialCompareType">
+        /// Initial type of the compare can be FILE or DIRECTORY.
+        /// </param>
+        internal void AddInitialSourceItemsToQueue(
+            string sourceDirectory, IList<string> destinationFolder, InitialCompareType initialCompareType)
         {
             IEnumerable<string> items;
 
@@ -267,11 +300,11 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.CaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
                         {
-                            CustomExceptionText = "Error while enumerating all files in the given directory"
+                           CustomExceptionText = "Error while enumerating all files in the given directory" 
                         });
 
                 return new List<string>();
@@ -425,10 +458,10 @@ namespace BiOWheelsFileWatcher
                     this.AddQueueItem(
                         watcher.Destinations, e.FileName, e.FullQualifiedFileName, e.OldFileName, FileAction.RENAME);
                     this.OnProgressUpdate(
-                        this,
+                        this, 
                         new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
                     this.OnProgressUpdate(
-                        this,
+                        this, 
                         new UpdateProgressEventArgs(
                             "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
                 }
@@ -507,9 +540,9 @@ namespace BiOWheelsFileWatcher
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             FileWatcherFactory.CreateFileSystemWatcher(
-                                ((DirectoryMapping)mappingInfo).SourceDirectory,
-                                ((DirectoryMapping)mappingInfo).Recursive,
-                                ((DirectoryMapping)mappingInfo).DestinationDirectories,
+                                ((DirectoryMapping)mappingInfo).SourceDirectory, 
+                                ((DirectoryMapping)mappingInfo).Recursive, 
+                                ((DirectoryMapping)mappingInfo).DestinationDirectories, 
                                 ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
@@ -525,7 +558,7 @@ namespace BiOWheelsFileWatcher
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this,
+                            this, 
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -537,7 +570,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this,
+                        this, 
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
@@ -572,16 +605,26 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Adds an item to the queue.
         /// </summary>
-        /// <param name="destinations">The destinations.</param>
-        /// <param name="filename">The filename.</param>
-        /// <param name="fullQualifiedFileName">Full name of the qualified file.</param>
-        /// <param name="oldFileName">Old name of the file.</param>
-        /// <param name="fileAction">The file action.</param>
+        /// <param name="destinations">
+        /// The destinations.
+        /// </param>
+        /// <param name="filename">
+        /// The filename.
+        /// </param>
+        /// <param name="fullQualifiedFileName">
+        /// Full name of the qualified file.
+        /// </param>
+        /// <param name="oldFileName">
+        /// Old name of the file.
+        /// </param>
+        /// <param name="fileAction">
+        /// The file action.
+        /// </param>
         private void AddQueueItem(
-            IEnumerable<string> destinations,
-            string filename,
-            string fullQualifiedFileName,
-            string oldFileName,
+            IEnumerable<string> destinations, 
+            string filename, 
+            string fullQualifiedFileName, 
+            string oldFileName, 
             FileAction fileAction)
         {
             SyncItem item = new SyncItem(destinations, filename, fullQualifiedFileName, oldFileName, fileAction);
@@ -592,8 +635,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Check if a file or directory can be added to the queue
         /// </summary>
-        /// <param name="objectName">Name of the object.</param>
-        /// <param name="excludedDirectories">The excluded directories.</param>
+        /// <param name="objectName">
+        /// Name of the object.
+        /// </param>
+        /// <param name="excludedDirectories">
+        /// The excluded directories.
+        /// </param>
         /// <returns>
         /// A value indicating whether the item is allowed to be added to the queue or not
         /// </returns>

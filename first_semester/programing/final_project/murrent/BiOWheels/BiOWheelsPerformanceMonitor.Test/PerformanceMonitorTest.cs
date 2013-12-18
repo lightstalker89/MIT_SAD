@@ -18,7 +18,7 @@ namespace BiOWheelsPerformanceMonitor.Test
     /// <summary>
     /// Class representing the test for the <see cref="BiOWheelsPerformanceMonitor.PerformanceMonitor"/>
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines",
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines", 
         Justification = "Reviewed.")]
     [TestFixture]
     public class PerformanceMonitorTest

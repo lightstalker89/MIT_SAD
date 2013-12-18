@@ -43,7 +43,9 @@ namespace BiOWheelsFileWatcher.Interfaces
         /// <summary>
         /// Renames a file or directory
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         void Rename(SyncItem item);
     }
 }

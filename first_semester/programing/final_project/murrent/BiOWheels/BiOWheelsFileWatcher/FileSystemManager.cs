@@ -18,7 +18,7 @@ namespace BiOWheelsFileWatcher
     using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
-    ///  Class representing the <see cref="FileSystemManager"/>
+    /// Class representing the <see cref="FileSystemManager" />
     /// </summary>
     internal class FileSystemManager : IFileSystemManager
     {
@@ -114,7 +114,8 @@ namespace BiOWheelsFileWatcher
             if (item.Destinations.Any())
             {
                 foreach (string pathToDelete in
-                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
+                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile)
+                    )
                 {
                     if (pathToDelete.IsDirectory())
                     {
@@ -162,9 +163,8 @@ namespace BiOWheelsFileWatcher
         public void Rename(SyncItem item)
         {
             foreach (string pathToCopy in
-                    item.Destinations.Select(
-                        destination =>
-                        Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile)))
+                item.Destinations.Select(
+                    destination => Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile)))
             {
                 string newItemToRename = pathToCopy + Path.DirectorySeparatorChar + item.SourceFile;
                 string oldItemRenamed = pathToCopy + Path.DirectorySeparatorChar + item.OldFileName;
@@ -187,6 +187,32 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
+        /// Copies the file attrributes.
+        /// </summary>
+        /// <param name="sourceFileName">
+        /// Name of the source file.
+        /// </param>
+        /// <param name="destinationFileName">
+        /// Name of the destination file.
+        /// </param>
+        internal void CopyFileAttrributes(string sourceFileName, string destinationFileName)
+        {
+        }
+
+        /// <summary>
+        /// Copies the directory attributes.
+        /// </summary>
+        /// <param name="sourceDirectory">
+        /// The source directory.
+        /// </param>
+        /// <param name="destinationDirectory">
+        /// The destination directory.
+        /// </param>
+        internal void CopyDirectoryAttributes(string sourceDirectory, string destinationDirectory)
+        {
+        }
+
+        /// <summary>
         /// Copies the directory.
         /// </summary>
         /// <param name="item">
@@ -201,6 +227,8 @@ namespace BiOWheelsFileWatcher
                 string pathToCopy = destination + Path.DirectorySeparatorChar + item.SourceFile;
 
                 this.CreateDirectoryIfNotExists(pathToCopy);
+
+                item.FullQualifiedSourceFileName.CopyDirectoryAttributesTo(pathToCopy);
             }
         }
 
@@ -246,7 +274,6 @@ namespace BiOWheelsFileWatcher
                         destination =>
                         {
                             // TODO: implement
-
                         });
                 }
                 else
@@ -266,6 +293,7 @@ namespace BiOWheelsFileWatcher
                                        fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                         {
                             this.CopyStreams(fileStream, fileStreamOutPut);
+                            item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
                         }
                     }
                 }

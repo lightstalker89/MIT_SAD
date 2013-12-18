@@ -15,9 +15,15 @@ namespace BiOWheelsVisualizer
     public interface IVisualizer
     {
         /// <summary>
-        /// Get the menu for the console
+        /// Gets the user input for the given words
         /// </summary>
-        void GetMenu();
+        /// <param name="displayString">
+        /// String to print to the console
+        /// </param>
+        /// <returns>
+        /// The input from the user
+        /// </returns>
+        string GetUserInput(string displayString);
 
         /// <summary>
         /// Write an entry to the log file

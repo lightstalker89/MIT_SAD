@@ -12,13 +12,11 @@ namespace BiOWheels
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.IO;
-    using System.Reflection;
-    using System.Runtime.InteropServices;
-    using System.Windows.Forms;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Threading;
+    using System.Windows.Forms;
 
     using BiOWheels.BiOWheelsConfiguration;
 
@@ -251,7 +249,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -274,6 +272,8 @@ namespace BiOWheels
             IQueueManager queueManager = FileWatcherFactory.CreateQueueManager(fileSystemManager);
             IFileWatcher fileWatcher = FileWatcherFactory.CreateFileWatcher(queueManager);
 
+            SimpleContainer.Instance.Register<IFileComparator, IFileComparator>(fileComparator);
+            SimpleContainer.Instance.Register<IQueueManager, IQueueManager>(queueManager);
             SimpleContainer.Instance.Register<IFileSystemManager, IFileSystemManager>(fileSystemManager);
             SimpleContainer.Instance.Register<IFileWatcher, IFileWatcher>(fileWatcher);
 
@@ -319,24 +319,75 @@ namespace BiOWheels
                         break;
 
                     case ConsoleKey.L:
+                        string logFileSize =
+                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(
+                                "Set new log file size in MB: ");
+
+                        long logFileSizeInMB;
+                        if (long.TryParse(logFileSize, out logFileSizeInMB))
+                        {
+                            SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<FileLogger>(logFileSizeInMB);
+
+                            Log("Log file size successfully changed", MessageType.INFO);
+                        }
+                        else
+                        {
+                            Log("Could not parse parameter for -l", MessageType.ERROR);
+                        }
+
                         break;
 
                     case ConsoleKey.F:
                         break;
 
                     case ConsoleKey.B:
-                        // pause sync
+                        string blockCompareSize =
+                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(
+                                "Set new block size for file comparison in MB: ");
+
+                        long blockCompareSizeInMB;
+                        if (long.TryParse(blockCompareSize, out blockCompareSizeInMB))
+                        {
+                            SimpleContainer.Instance.Resolve<IFileSystemManager>().BlockCompareFileSizeInMB =
+                                blockCompareSizeInMB;
+
+                            Log("Block compare file size successfully changed", MessageType.INFO);
+                        }
+                        else
+                        {
+                            Log("Could not parse parameter for -b", MessageType.ERROR);
+                        }
+
+                        break;
+
+                    case ConsoleKey.W:
+                        string blockSize =
+                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput("Set new block size in MB: ");
+
+                        long blockSizeInMB;
+                        if (long.TryParse(blockSize, out blockSizeInMB))
+                        {
+                            SimpleContainer.Instance.Resolve<IFileComparator>().BlockSize = blockSizeInMB;
+
+                            Log("Block size successfully changed", MessageType.INFO);
+                        }
+                        else
+                        {
+                            Log("Could not parse parameter for -s", MessageType.ERROR);
+                        }
+
                         break;
 
                     case ConsoleKey.U:
                         IPerformanceMonitor performanceMonitor = SimpleContainer.Instance.Resolve<IPerformanceMonitor>();
 
                         Log(
-                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(),
+                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(), 
                             MessageType.INFO);
                         break;
 
                     case ConsoleKey.R:
+
                         // resume sync
                         break;
 
@@ -416,9 +467,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
@@ -470,7 +521,7 @@ namespace BiOWheels
                             if (string.IsNullOrEmpty(fileName))
                             {
                                 Log(
-                                    "Error while loading the configuration. File was not found. Press x to close the application",
+                                    "Error while loading the configuration. File was not found. Press x to close the application", 
                                     MessageType.ERROR);
 
                                 ListenToConsoleKeyInput();
@@ -480,58 +531,6 @@ namespace BiOWheels
 
                             SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated =
                                 parallelSynEnabled;
-                        }
-
-                        if (c == 'b')
-                        {
-                            string blockCompareSize =
-                                SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(
-                                    c.ToString(CultureInfo.CurrentCulture));
-
-                            long blockCompareSizeInMB;
-                            if (long.TryParse(blockCompareSize, out blockCompareSizeInMB))
-                            {
-                                SimpleContainer.Instance.Resolve<IFileSystemManager>().BlockCompareFileSizeInMB =
-                                    blockCompareSizeInMB;
-                            }
-                            else
-                            {
-                                Log("Could not parse parameter for -b", MessageType.ERROR);
-                            }
-                        }
-
-                        if (c == 's')
-                        {
-                            string blockSize =
-                            SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(
-                                c.ToString(CultureInfo.CurrentCulture));
-
-                            long blockSizeInMB;
-                            if (long.TryParse(blockSize, out blockSizeInMB))
-                            {
-                                SimpleContainer.Instance.Resolve<IFileComparator>().BlockSize = blockSize;
-                            }
-                            else
-                            {
-                                Log("Could not parse parameter for -s", MessageType.ERROR);
-                            }
-                        }
-
-                        if (c == 'l')
-                        {
-                            string logFileSize =
-                             SimpleContainer.Instance.Resolve<ICommandLineArgsParser>().GetValueForParameter(
-                                 c.ToString(CultureInfo.CurrentCulture));
-
-                            long logFileSizeInMB;
-                            if (long.TryParse(logFileSize, out logFileSizeInMB))
-                            {
-                                SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<FileLogger>(logFileSizeInMB);
-                            }
-                            else
-                            {
-                                Log("Could not parse parameter for -l", MessageType.ERROR);
-                            }
                         }
                     }
                 }
@@ -546,9 +545,9 @@ namespace BiOWheels
             Stream iconResourceStream = new FileStream("Assets/LiveSync.ico", FileMode.Open);
             notifyIcon = new NotifyIcon
                 {
-                    Icon = new Icon(iconResourceStream),
-                    Visible = true,
-                    Text = "BiOWheels",
+                    Icon = new Icon(iconResourceStream), 
+                    Visible = true, 
+                    Text = "BiOWheels", 
                     BalloonTipTitle = "BiOWheels"
                 };
 
@@ -564,7 +563,9 @@ namespace BiOWheels
             {
                 notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Attempting to close BiOWheels...", ToolTipIcon.Info);
 
-                Log("Sync is in progress. If you close the application the last job will be finished and all others will be aborted. To close BiOWheels press x else press a", MessageType.INFO);
+                Log(
+                    "Sync is in progress. If you close the application the last job will be finished and all others will be aborted. To close BiOWheels press x else press a", 
+                    MessageType.INFO);
 
                 ListenToConsoleKeyInput();
             }

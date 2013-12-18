@@ -15,6 +15,11 @@ namespace BiOWheelsFileWatcher.Interfaces
     public interface IFileComparator
     {
         /// <summary>
+        /// Gets or sets a value indicating the block size used for comparing files
+        /// </summary>
+        long BlockSize { get; set; }
+
+        /// <summary>
         /// Compares to files in blocks
         /// </summary>
         /// <param name="sourceFile">
@@ -24,10 +29,5 @@ namespace BiOWheelsFileWatcher.Interfaces
         /// Source file
         /// </param>
         void Compare(string sourceFile, string destinationFile);
-
-        /// <summary>
-        /// Gets or sets a value indicating the block size used for comparing files
-        /// </summary>
-        long BlockSize { get; set; }
     }
 }

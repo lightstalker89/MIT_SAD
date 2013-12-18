@@ -27,8 +27,11 @@ namespace BiOWheelsVisualizer
         }
 
         /// <inheritdoc/>
-        public void GetMenu()
+        public string GetUserInput(string displayString)
         {
+            Console.Write(displayString);
+
+            return Console.ReadLine();
         }
 
         /// <inheritdoc/>
@@ -54,6 +57,7 @@ namespace BiOWheelsVisualizer
         {
             Console.WriteLine("Options:");
             Console.WriteLine("\t -h \t\t Shows the help");
+            Console.WriteLine("\t -f \t\t Specifies the file name");
         }
 
         /// <inheritdoc/>
