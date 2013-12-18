@@ -292,7 +292,6 @@ namespace BiOWheels
                 switch (key)
                 {
                     case ConsoleKey.C:
-                        CheckBeforeClose();
                         break;
 
                     case ConsoleKey.A:
@@ -300,7 +299,7 @@ namespace BiOWheels
                         break;
 
                     case ConsoleKey.X:
-                        CloseApplication(0);
+                        CheckBeforeClose();
                         break;
 
                     case ConsoleKey.S:
