@@ -187,32 +187,6 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// Copies the file attrributes.
-        /// </summary>
-        /// <param name="sourceFileName">
-        /// Name of the source file.
-        /// </param>
-        /// <param name="destinationFileName">
-        /// Name of the destination file.
-        /// </param>
-        internal void CopyFileAttrributes(string sourceFileName, string destinationFileName)
-        {
-        }
-
-        /// <summary>
-        /// Copies the directory attributes.
-        /// </summary>
-        /// <param name="sourceDirectory">
-        /// The source directory.
-        /// </param>
-        /// <param name="destinationDirectory">
-        /// The destination directory.
-        /// </param>
-        internal void CopyDirectoryAttributes(string sourceDirectory, string destinationDirectory)
-        {
-        }
-
-        /// <summary>
         /// Copies the directory.
         /// </summary>
         /// <param name="item">
@@ -278,23 +252,21 @@ namespace BiOWheelsFileWatcher
                 }
                 else
                 {
-                    foreach (string pathToCopy in
-                        item.Destinations.Select(
-                            destination =>
-                            Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile)))
+                    foreach (string destination in item.Destinations)
                     {
+                        string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+
                         this.CreateDirectoryIfNotExists(pathToCopy);
 
                         string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
 
-                        using (
-                            FileStream fileStream = new FileStream(
-                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
-                                       fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
+
+                        using (FileStream fileStream = new FileStream(item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                         {
                             this.CopyStreams(fileStream, fileStreamOutPut);
-                            item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
                         }
+
+                        item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
                     }
                 }
             }

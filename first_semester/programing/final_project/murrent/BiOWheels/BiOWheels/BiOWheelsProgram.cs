@@ -321,7 +321,7 @@ namespace BiOWheels
                     case ConsoleKey.L:
                         string logFileSize =
                             SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(
-                                "Set new log file size in MB: ");
+                                "Set new log file size in MB [Press enter to confirm]: ");
 
                         long logFileSizeInMB;
                         if (long.TryParse(logFileSize, out logFileSizeInMB))
@@ -343,7 +343,7 @@ namespace BiOWheels
                     case ConsoleKey.B:
                         string blockCompareSize =
                             SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(
-                                "Set new block size for file comparison in MB: ");
+                                "Set new block size for file comparison in MB [Press enter to confirm]: ");
 
                         long blockCompareSizeInMB;
                         if (long.TryParse(blockCompareSize, out blockCompareSizeInMB))
@@ -362,7 +362,7 @@ namespace BiOWheels
 
                     case ConsoleKey.W:
                         string blockSize =
-                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput("Set new block size in MB: ");
+                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput("Set new block size in MB [Press enter to confirm]: ");
 
                         long blockSizeInMB;
                         if (long.TryParse(blockSize, out blockSizeInMB))
