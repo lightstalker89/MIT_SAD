@@ -265,7 +265,7 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.OnCaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
             }
@@ -282,7 +282,7 @@ namespace BiOWheelsFileWatcher
             catch (DirectoryNotFoundException directoryNotFoundException)
             {
                 this.OnCaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         directoryNotFoundException.GetType(), directoryNotFoundException.Message));
             }
@@ -306,7 +306,8 @@ namespace BiOWheelsFileWatcher
             }
             catch (AggregateException aggregateException)
             {
-                this.OnCaughtException(this, new CaughtExceptionEventArgs(aggregateException.GetType(), aggregateException.Message));
+                this.OnCaughtException(
+                    this, new CaughtExceptionEventArgs(aggregateException.GetType(), aggregateException.Message));
             }
         }
 

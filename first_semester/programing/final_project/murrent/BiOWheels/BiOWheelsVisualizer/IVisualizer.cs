@@ -26,28 +26,35 @@ namespace BiOWheelsVisualizer
         string GetUserInput(string displayString);
 
         /// <summary>
-        /// Write an entry to the log file
+        /// Write an entry to the console
         /// </summary>
         /// <param name="entry">
-        /// Entry which should be written to the log file
+        /// Entry which should be written to the console
         /// </param>
         void WriteLog(string entry);
 
         /// <summary>
-        /// Write a line to the log file
+        /// Write a line to the console
         /// </summary>
         /// <param name="text">
-        /// Line which should be written to the log file
+        /// Line which should be written to the console
         /// </param>
         void WriteLine(string text);
 
         /// <summary>
-        /// Writes text to the log file
+        /// Writes text to the console
         /// </summary>
         /// <param name="text">
-        /// Text which should be written to the log file
+        /// Text which should be written to the console
         /// </param>
         void WriteText(string text);
+
+        /// <summary>
+        /// Writes chars to the console
+        /// </summary>
+        /// <param name="charToWrite">The character to write.</param>
+        /// <param name="charCount">The character count.</param>
+        void WriteChars(char charToWrite, int charCount);
 
         /// <summary>
         /// Display help in console

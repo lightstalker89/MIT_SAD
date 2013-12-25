@@ -219,7 +219,7 @@ namespace BiOWheelsFileWatcher
 
             foreach (string destinationItem in destinationItems)
             {
-                IEnumerable<string> allDestinationItems = null;
+                IEnumerable<string> allDestinationItems;
 
                 if (initialCompareType == InitialCompareType.FILE)
                 {

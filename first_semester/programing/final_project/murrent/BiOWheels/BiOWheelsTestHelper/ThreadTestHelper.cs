@@ -10,6 +10,7 @@
 
 using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("BiOWheelsOpenFileHelper.Test")]
 [assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
 [assembly: InternalsVisibleTo("BiOWheelsLogger.Test")]
 

@@ -249,7 +249,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message, 
+                        + " occurred: " + loaderException.Message,
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -285,6 +285,8 @@ namespace BiOWheels
         /// </summary>
         private static void ListenToConsoleKeyInput()
         {
+            string displayMessage = "";
+
             while (isListeningToConsoleKeyInput)
             {
                 ConsoleKey key = Console.ReadKey(true).Key;
@@ -318,9 +320,9 @@ namespace BiOWheels
                         break;
 
                     case ConsoleKey.L:
+                        displayMessage = "Set new log file size in MB [Press enter to confirm]: ";
                         string logFileSize =
-                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(
-                                "Set new log file size in MB [Press enter to confirm]: ");
+                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(displayMessage);
 
                         long logFileSizeInMB;
                         if (long.TryParse(logFileSize, out logFileSizeInMB))
@@ -333,6 +335,7 @@ namespace BiOWheels
                         {
                             Log("Could not parse parameter for -l", MessageType.ERROR);
                         }
+                        SimpleContainer.Instance.Resolve<IVisualizer>().WriteChars('*', displayMessage.Length);
 
                         break;
 
@@ -340,9 +343,11 @@ namespace BiOWheels
                         break;
 
                     case ConsoleKey.B:
+                        displayMessage =
+                            "Set new block size for file comparison in MB [Press enter to confirm]: ";
                         string blockCompareSize =
                             SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(
-                                "Set new block size for file comparison in MB [Press enter to confirm]: ");
+                               displayMessage);
 
                         long blockCompareSizeInMB;
                         if (long.TryParse(blockCompareSize, out blockCompareSizeInMB))
@@ -357,11 +362,14 @@ namespace BiOWheels
                             Log("Could not parse parameter for -b", MessageType.ERROR);
                         }
 
+                        SimpleContainer.Instance.Resolve<IVisualizer>().WriteChars('*', displayMessage.Length);
+
                         break;
 
                     case ConsoleKey.W:
+                        displayMessage = "Set new block size in MB [Press enter to confirm]: ";
                         string blockSize =
-                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput("Set new block size in MB [Press enter to confirm]: ");
+                            SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(displayMessage);
 
                         long blockSizeInMB;
                         if (long.TryParse(blockSize, out blockSizeInMB))
@@ -375,13 +383,15 @@ namespace BiOWheels
                             Log("Could not parse parameter for -s", MessageType.ERROR);
                         }
 
+                        SimpleContainer.Instance.Resolve<IVisualizer>().WriteChars('*', displayMessage.Length);
+
                         break;
 
                     case ConsoleKey.U:
                         IPerformanceMonitor performanceMonitor = SimpleContainer.Instance.Resolve<IPerformanceMonitor>();
 
                         Log(
-                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(), 
+                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(),
                             MessageType.INFO);
                         break;
 
@@ -466,9 +476,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
@@ -520,7 +530,7 @@ namespace BiOWheels
                             if (string.IsNullOrEmpty(fileName))
                             {
                                 Log(
-                                    "Error while loading the configuration. File was not found. Press x to close the application", 
+                                    "Error while loading the configuration. File was not found. Press x to close the application",
                                     MessageType.ERROR);
 
                                 ListenToConsoleKeyInput();
@@ -544,9 +554,9 @@ namespace BiOWheels
             Stream iconResourceStream = new FileStream("Assets/LiveSync.ico", FileMode.Open);
             notifyIcon = new NotifyIcon
                 {
-                    Icon = new Icon(iconResourceStream), 
-                    Visible = true, 
-                    Text = "BiOWheels", 
+                    Icon = new Icon(iconResourceStream),
+                    Visible = true,
+                    Text = "BiOWheels",
                     BalloonTipTitle = "BiOWheels"
                 };
 
@@ -563,7 +573,7 @@ namespace BiOWheels
                 notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Attempting to close BiOWheels...", ToolTipIcon.Info);
 
                 Log(
-                    "Sync is in progress. If you close the application the last job will be finished and all others will be aborted. To close BiOWheels press x else press a", 
+                    "Sync is in progress. If you close the application the last job will be finished and all others will be aborted. To close BiOWheels press x else press a",
                     MessageType.INFO);
 
                 ListenToConsoleKeyInput();

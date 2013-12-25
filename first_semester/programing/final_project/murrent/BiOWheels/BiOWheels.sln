@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsPerformanceMonitor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsPerformanceMonitor.Test", "BiOWheelsPerformanceMonitor.Test\BiOWheelsPerformanceMonitor.Test.csproj", "{4A43FE1A-4E44-45D0-BFE1-5016FE0B6F36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsOpenFileHelper", "BiOWheelsOpenFileHelper\BiOWheelsOpenFileHelper.csproj", "{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiOWheelsFileHandleWrapper", "BiOWheelsFileHandleWrapper\BiOWheelsFileHandleWrapper.csproj", "{EB557B5A-8433-449A-A751-B952C2445E08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -191,14 +191,14 @@ Global
 		{4A43FE1A-4E44-45D0-BFE1-5016FE0B6F36}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A43FE1A-4E44-45D0-BFE1-5016FE0B6F36}.Release|ARM.ActiveCfg = Release|Any CPU
 		{4A43FE1A-4E44-45D0-BFE1-5016FE0B6F36}.Release|x86.ActiveCfg = Release|Any CPU
-		{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}.Release|ARM.ActiveCfg = Release|Any CPU
-		{9B09BE5D-E6A3-4682-AEBB-84E7AB223D44}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB557B5A-8433-449A-A751-B952C2445E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB557B5A-8433-449A-A751-B952C2445E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB557B5A-8433-449A-A751-B952C2445E08}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EB557B5A-8433-449A-A751-B952C2445E08}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB557B5A-8433-449A-A751-B952C2445E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB557B5A-8433-449A-A751-B952C2445E08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB557B5A-8433-449A-A751-B952C2445E08}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EB557B5A-8433-449A-A751-B952C2445E08}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

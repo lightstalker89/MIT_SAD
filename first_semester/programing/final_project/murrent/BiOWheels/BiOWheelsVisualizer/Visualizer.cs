@@ -29,6 +29,15 @@ namespace BiOWheelsVisualizer
         /// <inheritdoc/>
         public string GetUserInput(string displayString)
         {
+            int starCount = displayString.Length;
+            string starString = "";
+
+            for (int i = 0; i < starCount; i++)
+            {
+                starString += "*";
+            }
+
+            Console.WriteLine(starString);
             Console.Write(displayString);
 
             return Console.ReadLine();
@@ -50,6 +59,19 @@ namespace BiOWheelsVisualizer
         public void WriteText(string text)
         {
             Console.Write(text);
+        }
+
+        /// <inheritdoc/>
+        public void WriteChars(char charToWrite, int charCount)
+        {
+            string starString = "";
+
+            for (int i = 0; i < charCount; i++)
+            {
+                starString += charToWrite;
+            }
+
+            Console.WriteLine(starString);
         }
 
         /// <inheritdoc/>

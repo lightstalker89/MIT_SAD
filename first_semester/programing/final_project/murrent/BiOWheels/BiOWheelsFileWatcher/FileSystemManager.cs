@@ -244,24 +244,27 @@ namespace BiOWheelsFileWatcher
                 if (this.isParallelSyncActivated)
                 {
                     Parallel.ForEach(
-                        item.Destinations,
+                        item.Destinations, 
                         destination =>
-                        {
-                            // TODO: implement
-                        });
+                            {
+                                // TODO: implement
+                            });
                 }
                 else
                 {
                     foreach (string destination in item.Destinations)
                     {
-                        string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+                        string pathToCopy =
+                            Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
                         this.CreateDirectoryIfNotExists(pathToCopy);
 
                         string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
 
-
-                        using (FileStream fileStream = new FileStream(item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
+                        using (
+                            FileStream fileStream = new FileStream(
+                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
+                                       fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                         {
                             this.CopyStreams(fileStream, fileStreamOutPut);
                         }
@@ -292,7 +295,7 @@ namespace BiOWheelsFileWatcher
                 {
                     using (
                         FileStream fileStream = new FileStream(
-                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
                                    fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
                     {
                         this.CopyStreams(fileStream, fileStreamOutPut);
