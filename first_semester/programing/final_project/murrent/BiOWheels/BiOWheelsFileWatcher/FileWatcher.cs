@@ -174,9 +174,9 @@ namespace BiOWheelsFileWatcher
                     mapping.SourceDirectory, mapping.DestinationDirectories, InitialCompareType.DIRECTORY);
 
                 this.AddInitialDestinationItemsToQueue(
-                    mapping.SourceDirectory, 
-                    mapping.DestinationDirectories, 
-                    sourceDirectories, 
+                    mapping.SourceDirectory,
+                    mapping.DestinationDirectories,
+                    sourceDirectories,
                     InitialCompareType.DIRECTORY);
                 this.AddInitialDestinationItemsToQueue(
                     mapping.SourceDirectory, mapping.DestinationDirectories, sourceFiles, InitialCompareType.FILE);
@@ -207,9 +207,9 @@ namespace BiOWheelsFileWatcher
         /// Initial type of the compare can be FILE or DIRECTORY.
         /// </param>
         internal void AddInitialDestinationItemsToQueue(
-            string sourceDirectory, 
-            IEnumerable<string> destinationItems, 
-            List<string> sourceItems, 
+            string sourceDirectory,
+            IEnumerable<string> destinationItems,
+            List<string> sourceItems,
             InitialCompareType initialCompareType)
         {
             for (int i = 0; i < sourceItems.Count; i++)
@@ -219,31 +219,41 @@ namespace BiOWheelsFileWatcher
 
             foreach (string destinationItem in destinationItems)
             {
-                IEnumerable<string> allDestinationItems;
-
-                if (initialCompareType == InitialCompareType.FILE)
+                try
                 {
-                    allDestinationItems = Directory.GetFiles(destinationItem, "*", SearchOption.AllDirectories);
-                }
-                else
-                {
-                    allDestinationItems = Directory.GetDirectories(
-                        destinationItem + "\\", "*", SearchOption.AllDirectories);
-                }
+                    IEnumerable<string> allDestinationItems;
 
-                foreach (string actualDestinationItem in allDestinationItems)
-                {
-                    string newDestinationItem = actualDestinationItem.Replace(destinationItem + "\\", string.Empty);
-
-                    if (!sourceItems.Contains(newDestinationItem))
+                    if (initialCompareType == InitialCompareType.FILE)
                     {
-                        this.AddQueueItem(
-                            new List<string>(), 
-                            actualDestinationItem, 
-                            actualDestinationItem, 
-                            string.Empty, 
-                            FileAction.DELETE);
+                        allDestinationItems = Directory.GetFiles(destinationItem, "*", SearchOption.AllDirectories);
                     }
+                    else
+                    {
+                        allDestinationItems = Directory.GetDirectories(
+                            destinationItem + "\\", "*", SearchOption.AllDirectories);
+                    }
+
+                    foreach (string actualDestinationItem in allDestinationItems)
+                    {
+                        string newDestinationItem = actualDestinationItem.Replace(destinationItem + "\\", string.Empty);
+
+                        if (!sourceItems.Contains(newDestinationItem))
+                        {
+                            this.AddQueueItem(
+                                new List<string>(),
+                                actualDestinationItem,
+                                actualDestinationItem,
+                                string.Empty,
+                                FileAction.DELETE);
+                        }
+                    }
+                }
+                catch (DirectoryNotFoundException directoryNotFoundException)
+                {
+                    this.OnCaughtException(
+                        this,
+                        new CaughtExceptionEventArgs(
+                            directoryNotFoundException.GetType(), directoryNotFoundException.Message));
                 }
             }
         }
@@ -300,11 +310,11 @@ namespace BiOWheelsFileWatcher
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
                 this.CaughtException(
-                    this, 
+                    this,
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message)
                         {
-                           CustomExceptionText = "Error while enumerating all files in the given directory" 
+                            CustomExceptionText = "Error while enumerating all files in the given directory"
                         });
 
                 return new List<string>();
@@ -458,10 +468,10 @@ namespace BiOWheelsFileWatcher
                     this.AddQueueItem(
                         watcher.Destinations, e.FileName, e.FullQualifiedFileName, e.OldFileName, FileAction.RENAME);
                     this.OnProgressUpdate(
-                        this, 
+                        this,
                         new UpdateProgressEventArgs("File --" + e.OldFileName + " has been renamed to --" + e.FileName));
                     this.OnProgressUpdate(
-                        this, 
+                        this,
                         new UpdateProgressEventArgs(
                             "Added job to queue for renaming --" + e.OldFileName + "-- to --" + e.FileName + "--"));
                 }
@@ -540,9 +550,9 @@ namespace BiOWheelsFileWatcher
                     {
                         BiOWheelsFileSystemWatcher fileSystemWatcher =
                             FileWatcherFactory.CreateFileSystemWatcher(
-                                ((DirectoryMapping)mappingInfo).SourceDirectory, 
-                                ((DirectoryMapping)mappingInfo).Recursive, 
-                                ((DirectoryMapping)mappingInfo).DestinationDirectories, 
+                                ((DirectoryMapping)mappingInfo).SourceDirectory,
+                                ((DirectoryMapping)mappingInfo).Recursive,
+                                ((DirectoryMapping)mappingInfo).DestinationDirectories,
                                 ((DirectoryMapping)mappingInfo).ExcludedDirectories);
 
                         fileSystemWatcher.Error += this.FileSystemWatcherError;
@@ -558,7 +568,7 @@ namespace BiOWheelsFileWatcher
                     catch (PathTooLongException pathTooLongException)
                     {
                         this.OnCaughtException(
-                            this, 
+                            this,
                             new CaughtExceptionEventArgs(pathTooLongException.GetType(), pathTooLongException.Message));
                     }
                     catch (ArgumentException argumentException)
@@ -570,7 +580,7 @@ namespace BiOWheelsFileWatcher
                 else
                 {
                     this.OnCaughtException(
-                        this, 
+                        this,
                         new CaughtExceptionEventArgs(typeof(MappingInvalidException), "Mapping information is invalid"));
                 }
             }
@@ -621,10 +631,10 @@ namespace BiOWheelsFileWatcher
         /// The file action.
         /// </param>
         private void AddQueueItem(
-            IEnumerable<string> destinations, 
-            string filename, 
-            string fullQualifiedFileName, 
-            string oldFileName, 
+            IEnumerable<string> destinations,
+            string filename,
+            string fullQualifiedFileName,
+            string oldFileName,
             FileAction fileAction)
         {
             SyncItem item = new SyncItem(destinations, filename, fullQualifiedFileName, oldFileName, fileAction);

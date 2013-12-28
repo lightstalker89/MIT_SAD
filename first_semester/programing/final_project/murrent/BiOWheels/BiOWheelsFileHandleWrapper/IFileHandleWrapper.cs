@@ -10,6 +10,7 @@
 namespace BiOWheelsFileHandleWrapper
 {
     /// <summary>
+    ///  Interface representing the must implement methods
     /// </summary>
     public interface IFileHandleWrapper
     {
@@ -17,6 +18,11 @@ namespace BiOWheelsFileHandleWrapper
         /// Occurs when all file handles have been found
         /// </summary>
         event FileHandleWrapper.FileHandlesFoundHandler FileHandlesFound;
+
+        /// <summary>
+        /// Occurs when an error occurred
+        /// </summary>
+        event FileHandleWrapper.FileHandlesErrorHandler FileHandlesError;
 
         /// <summary>
         /// Finds the handles for file.

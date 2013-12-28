@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BiOWheelsFileHandleWrapper\BiOWheelsFileHandleWrapper.csproj">
+      <Project>{EB557B5A-8433-449A-A751-B952C2445E08}</Project>
+      <Name>BiOWheelsFileHandleWrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BiOWheelsFileWatcher\BiOWheelsFileWatcher.csproj">
       <Project>{B209DC0C-CE94-44DE-B618-0BB1B810C480}</Project>
       <Name>BiOWheelsFileWatcher</Name>

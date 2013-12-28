@@ -283,7 +283,21 @@ namespace BiOWheelsLogger
         /// </summary>
         private void RenameFile()
         {
+            this.CheckIfAlreadyExistsFileWithEnding();
             File.Move(this.FullQualifiedFileName, this.FullQualifiedFileName + ".bak");
+        }
+
+        private void CheckIfAlreadyExistsFileWithEnding()
+        {
+            string[] files = Directory.GetFiles(LogFileFolderName, "*.bak");
+
+            if (files.Length > 0)
+            {
+                foreach (string file in files)
+                {
+                    File.Delete(file);
+                }
+            }
         }
 
         /// <summary>
@@ -320,13 +334,13 @@ namespace BiOWheelsLogger
         private void GenerateNewFileName()
         {
             this.fileName = string.Format(
-                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt", 
-                DateTime.Now.Year, 
-                DateTime.Now.Month, 
-                DateTime.Now.Day, 
-                DateTime.Now.Hour, 
-                DateTime.Now.Minute, 
-                DateTime.Now.Second, 
+                "BiOWheels_Log-{0}-{1}-{2}T{3}-{4}-{5}-{6}.txt",
+                DateTime.Now.Year,
+                DateTime.Now.Month,
+                DateTime.Now.Day,
+                DateTime.Now.Hour,
+                DateTime.Now.Minute,
+                DateTime.Now.Second,
                 DateTime.Now.Millisecond);
         }
 

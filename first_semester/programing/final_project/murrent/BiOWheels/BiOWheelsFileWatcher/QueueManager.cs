@@ -20,8 +20,12 @@ namespace BiOWheelsFileWatcher
     using System.Threading;
     using System.Threading.Tasks;
 
+    using BiOWheelsFileHandleWrapper;
+    using BiOWheelsFileHandleWrapper.CustomEventArgs;
+
     using BiOWheelsFileWatcher.CustomEventArgs;
     using BiOWheelsFileWatcher.Enums;
+    using BiOWheelsFileWatcher.Helper;
     using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
@@ -47,6 +51,11 @@ namespace BiOWheelsFileWatcher
         private IFileSystemManager fileSystemManager;
 
         /// <summary>
+        /// The file handle wrapper
+        /// </summary>
+        private IFileHandleWrapper fileHandleWrapper;
+
+        /// <summary>
         /// A value indicating if an item can be added to the queue or not
         /// </summary>
         private bool canDequeueItems;
@@ -61,6 +70,11 @@ namespace BiOWheelsFileWatcher
         /// </summary>
         private object queueItemLockObject = new object();
 
+        /// <summary>
+        /// The actual <see cref="SyncItem"/> object
+        /// </summary>
+        private SyncItem actualSyncItem;
+
         #endregion
 
         /// <summary>
@@ -69,11 +83,17 @@ namespace BiOWheelsFileWatcher
         /// <param name="fileSystemManager">
         /// The file system manager
         /// </param>
-        internal QueueManager(IFileSystemManager fileSystemManager)
+        /// <param name="fileHandleWrapper">
+        /// The file handle wrapper.
+        /// </param>
+        internal QueueManager(IFileSystemManager fileSystemManager, IFileHandleWrapper fileHandleWrapper)
         {
             this.SyncItemQueue = new ConcurrentQueue<SyncItem>();
             this.FileSystemManager = fileSystemManager;
             this.CanDequeueItems = true;
+            this.FileHandleWrapper = fileHandleWrapper;
+            this.FileHandleWrapper.FileHandlesFound += this.FileHandleWrapperFileHandlesFound;
+            this.FileHandleWrapper.FileHandlesError += this.FileHandleWrapperFileHandlesError;
         }
 
         #region Delegates
@@ -172,6 +192,44 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        /// <summary>
+        /// Gets or sets the file handle wrapper.
+        /// </summary>
+        /// <value>
+        /// The file handle wrapper.
+        /// </value>
+        internal IFileHandleWrapper FileHandleWrapper
+        {
+            get
+            {
+                return this.fileHandleWrapper;
+            }
+
+            set
+            {
+                this.fileHandleWrapper = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the actual synchronize item.
+        /// </summary>
+        /// <value>
+        /// The actual synchronize item.
+        /// </value>
+        internal SyncItem ActualSyncItem
+        {
+            get
+            {
+                return this.actualSyncItem;
+            }
+
+            set
+            {
+                this.actualSyncItem = value;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -235,7 +293,60 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        /// <summary>
+        /// Occurs when an error occurred
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="FileHandlesErrorEventArgs"/> instance containing the event data.
+        /// </param>
+        protected void FileHandleWrapperFileHandlesError(object sender, FileHandlesErrorEventArgs data)
+        {
+            // TODO: Error handling
+        }
+
+        /// <summary>
+        /// Occurs when the file handle wrapper has finished
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="FileHandlesEventArgs"/> instance containing the event data.
+        /// </param>
+        protected void FileHandleWrapperFileHandlesFound(object sender, FileHandlesEventArgs data)
+        {
+            bool hasHandlesOpen = data.HasFileHandles;
+
+            if (!hasHandlesOpen)
+            {
+                this.FinalizeQueueItem(this.ActualSyncItem);
+            }
+        }
+
         #endregion
+
+        /// <summary>
+        /// Checks the open handles for a file.
+        /// </summary>
+        /// <param name="item">
+        /// The item.
+        /// </param>
+        private void CheckOpenHandles(SyncItem item)
+        {
+            this.ActualSyncItem = item;
+
+            if (item.FullQualifiedSourceFileName.IsDirectory())
+            {
+                this.FinalizeQueueItem(this.ActualSyncItem);
+            }
+            else
+            {
+                this.FileHandleWrapper.FindHandlesForFile(item.FullQualifiedSourceFileName);
+            }
+        }
 
         /// <summary>
         /// Finalizes the queue item.
@@ -329,6 +440,9 @@ namespace BiOWheelsFileWatcher
                         lock (this.queueItemLockObject)
                         {
                             this.FinalizeQueueItem(item);
+
+                            // TODO: IMPROVE NOT WORKING GOOD ENOUGH
+                            // this.CheckOpenHandles(item);
                         }
                     }
                 }

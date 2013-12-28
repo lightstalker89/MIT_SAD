@@ -30,7 +30,7 @@ namespace BiOWheelsVisualizer
         public string GetUserInput(string displayString)
         {
             int starCount = displayString.Length;
-            string starString = "";
+            string starString = string.Empty;
 
             for (int i = 0; i < starCount; i++)
             {
@@ -64,7 +64,7 @@ namespace BiOWheelsVisualizer
         /// <inheritdoc/>
         public void WriteChars(char charToWrite, int charCount)
         {
-            string starString = "";
+            string starString = string.Empty;
 
             for (int i = 0; i < charCount; i++)
             {

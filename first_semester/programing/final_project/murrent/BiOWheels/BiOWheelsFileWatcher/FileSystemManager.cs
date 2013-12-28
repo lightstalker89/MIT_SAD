@@ -10,6 +10,7 @@
 namespace BiOWheelsFileWatcher
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -114,8 +115,7 @@ namespace BiOWheelsFileWatcher
             if (item.Destinations.Any())
             {
                 foreach (string pathToDelete in
-                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile)
-                    )
+                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
                 {
                     if (pathToDelete.IsDirectory())
                     {
@@ -155,7 +155,28 @@ namespace BiOWheelsFileWatcher
             }
             else
             {
-                this.CopyFile(item);
+                if (this.MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
+                {
+                    if (this.IsParallelSyncActivated)
+                    {
+                        this.DiffParallel(item);
+                    }
+                    else
+                    {
+                        this.DiffFile(item);
+                    }
+                }
+                else
+                {
+                    if (this.isParallelSyncActivated)
+                    {
+                        this.CopyFileParallel(item);
+                    }
+                    else
+                    {
+                        this.CopyFile(item);
+                    }
+                }
             }
         }
 
@@ -228,50 +249,94 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal void CopyFile(SyncItem item)
         {
-            if (this.MustCompareFileInBlocks(item.FullQualifiedSourceFileName))
+            foreach (string destination in item.Destinations)
             {
-                if (this.IsParallelSyncActivated)
+                string pathToCopy =
+                    Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+
+                this.CreateDirectoryIfNotExists(pathToCopy);
+
+                string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+
+                using (
+                    FileStream fileStream = new FileStream(
+                        item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                               fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                 {
-                    this.DiffParallel(item);
+                    this.CopyStreams(fileStream, fileStreamOutPut);
                 }
-                else
-                {
-                    this.DiffFile(item);
-                }
+
+                item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
             }
-            else
-            {
-                if (this.isParallelSyncActivated)
+
+        }
+
+        /// <summary>
+        /// Copies the files parallel.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        internal void CopyFileParallel(SyncItem item)
+        {
+            string sourceDirectory = Directory.GetDirectoryRoot(item.FullQualifiedSourceFileName);
+
+            List<string> parallelDestinations = new List<string>();
+            List<string> destinations = new List<string>();
+
+            Parallel.ForEach(
+                item.Destinations,
+                destination =>
                 {
-                    Parallel.ForEach(
-                        item.Destinations, 
-                        destination =>
-                            {
-                                // TODO: implement
-                            });
-                }
-                else
-                {
-                    foreach (string destination in item.Destinations)
+                    if (this.directoryVolumenComparator.CompareDirectories(sourceDirectory, destination))
                     {
-                        string pathToCopy =
-                            Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
-
-                        this.CreateDirectoryIfNotExists(pathToCopy);
-
-                        string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
-
-                        using (
-                            FileStream fileStream = new FileStream(
-                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
-                                       fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
-                        {
-                            this.CopyStreams(fileStream, fileStreamOutPut);
-                        }
-
-                        item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
+                        destinations.Add(destination);
                     }
+                    else
+                    {
+                        parallelDestinations.Add(destination);
+                    }
+
+                });
+
+            Parallel.ForEach(
+                parallelDestinations,
+                destination =>
+                {
+                    string pathToCopy =
+                    Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+
+                    this.CreateDirectoryIfNotExists(pathToCopy);
+
+                    string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+
+                    using (
+                   FileStream fileStream = new FileStream(
+                       item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                              fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
+                    {
+                        this.CopyStreams(fileStream, fileStreamOutPut);
+                    }
+
+                    item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
+                });
+
+            foreach (string destination in destinations)
+            {
+                string pathToCopy =
+                  Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+
+                this.CreateDirectoryIfNotExists(pathToCopy);
+
+                string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+
+                using (
+               FileStream fileStream = new FileStream(
+                   item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                          fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
+                {
+                    this.CopyStreams(fileStream, fileStreamOutPut);
                 }
+
+                item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
             }
         }
 
@@ -295,13 +360,42 @@ namespace BiOWheelsFileWatcher
                 {
                     using (
                         FileStream fileStream = new FileStream(
-                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
+                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
                                    fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
                     {
                         this.CopyStreams(fileStream, fileStreamOutPut);
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Diff files parallel
+        /// </summary>
+        /// <param name="item">
+        /// The item
+        /// </param>
+        internal void DiffParallel(SyncItem item)
+        {
+            string sourceDirectory = Directory.GetDirectoryRoot(item.FullQualifiedSourceFileName);
+
+            List<string> parallelDestinations = new List<string>();
+            List<string> destinations = new List<string>();
+
+            Parallel.ForEach(
+                item.Destinations,
+                destination =>
+                {
+                    if (this.directoryVolumenComparator.CompareDirectories(sourceDirectory, destination))
+                    {
+                        destinations.Add(destination);
+                    }
+                    else
+                    {
+                        parallelDestinations.Add(destination);
+                    }
+
+                });
         }
 
         /// <summary>
@@ -322,16 +416,6 @@ namespace BiOWheelsFileWatcher
             {
                 outputFileStream.Write(buffer, 0, read);
             }
-        }
-
-        /// <summary>
-        /// Diff files parallel
-        /// </summary>
-        /// <param name="item">
-        /// The item
-        /// </param>
-        internal void DiffParallel(SyncItem item)
-        {
         }
 
         /// <summary>

@@ -52,8 +52,12 @@ namespace BiOWheelsVisualizer
         /// <summary>
         /// Writes chars to the console
         /// </summary>
-        /// <param name="charToWrite">The character to write.</param>
-        /// <param name="charCount">The character count.</param>
+        /// <param name="charToWrite">
+        /// The character to write.
+        /// </param>
+        /// <param name="charCount">
+        /// The character count.
+        /// </param>
         void WriteChars(char charToWrite, int charCount);
 
         /// <summary>

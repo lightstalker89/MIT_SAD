@@ -11,6 +11,8 @@ namespace BiOWheelsFileWatcher
 {
     using System.Collections.Generic;
 
+    using BiOWheelsFileHandleWrapper;
+
     using BiOWheelsFileWatcher.Interfaces;
 
     /// <summary>
@@ -109,12 +111,16 @@ namespace BiOWheelsFileWatcher
         /// <param name="fileSystemManager">
         /// The file system manager.
         /// </param>
+        /// <param name="fileHandleWrapper">
+        /// The file handle wrapper.
+        /// </param>
         /// <returns>
         /// An instance of the <see cref="QueueManager"/> class
         /// </returns>
-        public static IQueueManager CreateQueueManager(IFileSystemManager fileSystemManager)
+        public static IQueueManager CreateQueueManager(
+            IFileSystemManager fileSystemManager, IFileHandleWrapper fileHandleWrapper)
         {
-            return new QueueManager(fileSystemManager);
+            return new QueueManager(fileSystemManager, fileHandleWrapper);
         }
     }
 }

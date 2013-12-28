@@ -28,11 +28,19 @@ namespace BiOWheelsFileHandleWrapper.CustomEventArgs
         }
 
         /// <summary>
-        /// Gets or sets the file handle count.
+        /// Gets or sets a value indicating whether a file has a file count or not.
         /// </summary>
         /// <value>
         /// The file handle count.
         /// </value>
         public bool HasFileHandles { get; set; }
+
+        /// <summary>
+        /// Gets or sets the full qualified filename.
+        /// </summary>
+        /// <value>
+        /// The full qualified filename.
+        /// </value>
+        public string FullQualifiedFilename { get; set; }
     }
 }

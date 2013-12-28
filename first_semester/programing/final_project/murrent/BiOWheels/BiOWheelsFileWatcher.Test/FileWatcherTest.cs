@@ -17,6 +17,8 @@ namespace BiOWheelsFileWatcher.Test
     using System.Text;
     using System.Threading;
 
+    using BiOWheelsFileHandleWrapper;
+
     using BiOWheelsFileWatcher.CustomEventArgs;
     using BiOWheelsFileWatcher.Enums;
     using BiOWheelsFileWatcher.Interfaces;
@@ -59,6 +61,11 @@ namespace BiOWheelsFileWatcher.Test
         private FileSystemManager fileSystemManager;
 
         /// <summary>
+        /// The file handle wrapper
+        /// </summary>
+        private FileHandleWrapper fileHandleWrapper;
+
+        /// <summary>
         /// List of notifications from the <see cref="FileWatcher"/>
         /// </summary>
         private List<string> notifications;
@@ -69,10 +76,11 @@ namespace BiOWheelsFileWatcher.Test
         [SetUp]
         public void Init()
         {
+            this.fileHandleWrapper = new FileHandleWrapper();
             this.fileComparator = new FileComparator(2000);
             this.fileSystemManager = new FileSystemManager(this.fileComparator) { BlockCompareFileSizeInMB = 2 };
 
-            this.queueManager = new QueueManager(this.fileSystemManager);
+            this.queueManager = new QueueManager(this.fileSystemManager, this.fileHandleWrapper);
             this.fileWatcher = new FileWatcher(this.queueManager);
             this.fileWatcher.ProgressUpdate += this.FileWatcherProgressUpdate;
             this.fileWatcher.CaughtException += this.FileWatcherCaughtException;

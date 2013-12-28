@@ -35,9 +35,13 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>BiOWheels.exe.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="BiOWheels.exe.manifest" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +77,10 @@
     <ProjectReference Include="..\BiOWheelsConfigManager\BiOWheelsConfigManager.csproj">
       <Project>{6BAAD31D-13A8-4D48-8B5C-4F3A539F6957}</Project>
       <Name>BiOWheelsConfigManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BiOWheelsFileHandleWrapper\BiOWheelsFileHandleWrapper.csproj">
+      <Project>{EB557B5A-8433-449A-A751-B952C2445E08}</Project>
+      <Name>BiOWheelsFileHandleWrapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\BiOWheelsFileWatcher\BiOWheelsFileWatcher.csproj">
       <Project>{B209DC0C-CE94-44DE-B618-0BB1B810C480}</Project>

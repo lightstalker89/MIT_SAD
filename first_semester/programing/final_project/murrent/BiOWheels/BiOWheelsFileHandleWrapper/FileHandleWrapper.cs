@@ -7,6 +7,11 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("BiOWheelsFileWatcher.Test")]
+
 namespace BiOWheelsFileHandleWrapper
 {
     using System;
@@ -22,6 +27,7 @@ namespace BiOWheelsFileHandleWrapper
     public class FileHandleWrapper : IFileHandleWrapper
     {
         /// <summary>
+        /// The handles for file
         /// </summary>
         private int handlesForFile;
 
@@ -35,7 +41,7 @@ namespace BiOWheelsFileHandleWrapper
         /// </summary>
         internal FileHandleWrapper()
         {
-            CreateRegistryKey();
+            this.CreateRegistryKey();
         }
 
         #region Delegates
@@ -47,14 +53,22 @@ namespace BiOWheelsFileHandleWrapper
         /// <param name="data">The <see cref="EventArgs"/> instance containing the event data.</param>
         public delegate void FileHandlesFoundHandler(object sender, FileHandlesEventArgs data);
 
+        /// <summary>
+        /// Delegate for the <see cref="FileHandlesErrorHandler" /> event
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="data">The <see cref="FileHandlesErrorEventArgs" /> instance containing the event data.</param>
+        public delegate void FileHandlesErrorHandler(object sender, FileHandlesErrorEventArgs data);
+
         #endregion
 
         #region Event Handler
 
-        /// <summary>
-        /// </summary>
-        /// <inerhitdoc/>
+        /// <inheritdoc />
         public event FileHandlesFoundHandler FileHandlesFound;
+
+        /// <inheritdoc />
+        public event FileHandlesErrorHandler FileHandlesError;
 
         #endregion
 
@@ -98,37 +112,39 @@ namespace BiOWheelsFileHandleWrapper
 
         #region Methods
 
-        /// <summary>
-        /// </summary>
-        /// <param name="searchPattern">
-        /// </param>
-        /// <inerhitdoc/>
+        /// <inheritdoc/>
         public void FindHandlesForFile(string searchPattern)
         {
-            Process process = new Process
-                {
-                    StartInfo =
-                        new ProcessStartInfo
-                            {
-                                FileName = "handle.exe", 
-                                Arguments = searchPattern, 
-                                CreateNoWindow = false, 
-                                UseShellExecute = false, 
-                                RedirectStandardError = true, 
-                                RedirectStandardOutput = true, 
-                                Verb = "runas"
-                            }, 
-                    EnableRaisingEvents = true
-                };
+            try
+            {
+                Process process = new Process
+                    {
+                        StartInfo =
+                            new ProcessStartInfo
+                                {
+                                    FileName = "handle.exe", 
+                                    Arguments = "\"" + searchPattern + "\"", 
+                                    CreateNoWindow = false, 
+                                    UseShellExecute = false, 
+                                    RedirectStandardError = true, 
+                                    RedirectStandardOutput = true, 
+                                    Verb = "runas"
+                                }, 
+                        EnableRaisingEvents = true
+                    };
 
-            process.Exited += this.ProcessExited;
-            process.OutputDataReceived += this.ProcessOutputDataReceived;
-            process.ErrorDataReceived += this.ProcessErrorDataReceived;
-            process.Start();
-            process.BeginErrorReadLine();
-            process.BeginOutputReadLine();
+                process.Exited += this.ProcessExited;
+                process.OutputDataReceived += this.ProcessOutputDataReceived;
+                process.ErrorDataReceived += this.ProcessErrorDataReceived;
+                process.Start();
+                process.BeginErrorReadLine();
+                process.BeginOutputReadLine();
+            }
+            catch (InvalidOperationException invalidOperationException)
+            {
+                this.OnFileHandlesError(this, new FileHandlesErrorEventArgs(invalidOperationException.Message));
+            }
         }
-
 
         /// <summary>
         /// Creates the registry key.
@@ -143,48 +159,36 @@ namespace BiOWheelsFileHandleWrapper
 
                 if (sysinternalsKey == null)
                 {
+                    Registry.CurrentUser.CreateSubKey("SOFTWARE\\Sysinternals");
                 }
 
                 RegistryKey myKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Sysinternals\\Handle", true);
-                if (myKey != null)
+
+                if (myKey == null)
                 {
-                    myKey.SetValue("EulaAccepted", "1", RegistryValueKind.DWord);
+                    Registry.CurrentUser.CreateSubKey("SOFTWARE\\Sysinternals\\Handle");
+                    myKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Sysinternals\\Handle", true);
                 }
-                else
-                {
-                    // TODO: Error event
-                }
+
+                myKey.SetValue("EulaAccepted", "1", RegistryValueKind.DWord);
             }
             else
             {
-                // TODO: Error event
+                this.OnFileHandlesError(this, new FileHandlesErrorEventArgs("Registry error. No SOFTWARE folder found"));
             }
         }
 
         #region Event Methods
 
         /// <summary>
-        /// Called when all file handles have been found
+        /// Handles the ProcessOutputDataReceived event of the process control.
         /// </summary>
         /// <param name="sender">
         /// The sender.
         /// </param>
-        /// <param name="data">
-        /// The <see cref="EventArgs"/> instance containing the event data.
+        /// <param name="e">
+        /// The <see cref="DataReceivedEventArgs"/> instance containing the event data.
         /// </param>
-        protected void OnFileHandlesFound(object sender, FileHandlesEventArgs data)
-        {
-            if (this.FileHandlesFound != null)
-            {
-                this.FileHandlesFound(this, data);
-            }
-        }
-
-        /// <summary>
-        /// Handles the ProcessOutputDataReceived event of the process control.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="DataReceivedEventArgs" /> instance containing the event data.</param>
         internal void ProcessOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             this.Result += e.Data;
@@ -193,11 +197,15 @@ namespace BiOWheelsFileHandleWrapper
         /// <summary>
         /// Handles the ErrorDataReceived event of the process control.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataReceivedEventArgs" /> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="DataReceivedEventArgs"/> instance containing the event data.
+        /// </param>
         internal void ProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            // TODO: Error event
+            this.OnFileHandlesError(sender, new FileHandlesErrorEventArgs(e.Data));
         }
 
         /// <summary>
@@ -223,7 +231,41 @@ namespace BiOWheelsFileHandleWrapper
                 eventArgs = new FileHandlesEventArgs(false);
             }
 
-            this.FileHandlesFound(this, eventArgs);
+            this.OnFileHandlesFound(this, eventArgs);
+        }
+
+        /// <summary>
+        /// Called when all file handles have been found
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="EventArgs"/> instance containing the event data.
+        /// </param>
+        protected void OnFileHandlesFound(object sender, FileHandlesEventArgs data)
+        {
+            if (this.FileHandlesFound != null)
+            {
+                this.FileHandlesFound(this, data);
+            }
+        }
+
+        /// <summary>
+        /// Called when an error occurred
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="FileHandlesErrorEventArgs"/> instance containing the event data.
+        /// </param>
+        protected void OnFileHandlesError(object sender, FileHandlesErrorEventArgs data)
+        {
+            if (this.FileHandlesError != null)
+            {
+                this.FileHandlesError(this, data);
+            }
         }
 
         #endregion

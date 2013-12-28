@@ -55,7 +55,7 @@ namespace BiOWheelsFileWatcher.Helper
         /// Name of the source directory.
         /// </param>
         /// <param name="destinationDirectoryName">
-        /// Name of the destionation directory.
+        /// Name of the destination directory.
         /// </param>
         public static void CopyDirectoryAttributesTo(this string sourceDirectoryName, string destinationDirectoryName)
         {

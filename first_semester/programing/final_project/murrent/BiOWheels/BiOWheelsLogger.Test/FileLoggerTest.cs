@@ -27,7 +27,7 @@ namespace BiOWheelsLogger.Test
         /// <summary>
         /// File size in MB
         /// </summary>
-        private const double FileSize = 0.5;
+        private const double FileSize = 0.02;
 
         /// <summary>
         /// The file logger used for testing
