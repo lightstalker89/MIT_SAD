@@ -15,6 +15,16 @@ namespace BiOWheelsFileWatcher.Interfaces
     public interface IQueueManager
     {
         /// <summary>
+        /// Event handler for catching an exception
+        /// </summary>
+        event QueueManager.CaughtExceptionHandler CaughtException;
+
+        /// <summary>
+        /// Event handler for catching an exception
+        /// </summary>
+        event QueueManager.ItemFinalizedHandler ItemFinalized;
+
+        /// <summary>
         /// Start the <see cref="QueueManager"/>
         /// </summary>
         void DoWork();

@@ -275,6 +275,14 @@ namespace BiOWheelsLogger
                 {
                     this.LogQueue.Enqueue(new LogQueueItem(systemIOException.Message, MessageType.ERROR));
                 }
+                catch (ArgumentNullException argumentNullException)
+                {
+                    this.LogQueue.Enqueue(new LogQueueItem(argumentNullException.Message, MessageType.ERROR));
+                }
+                catch (ArgumentException argumentException)
+                {
+                    this.LogQueue.Enqueue(new LogQueueItem(argumentException.Message, MessageType.ERROR));                    
+                }
             }
         }
 
@@ -287,6 +295,9 @@ namespace BiOWheelsLogger
             File.Move(this.FullQualifiedFileName, this.FullQualifiedFileName + ".bak");
         }
 
+        /// <summary>
+        /// Checks if already exists a file with ending.
+        /// </summary>
         private void CheckIfAlreadyExistsFileWithEnding()
         {
             string[] files = Directory.GetFiles(LogFileFolderName, "*.bak");

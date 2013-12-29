@@ -9,11 +9,26 @@
 // *******************************************************/
 namespace BiOWheelsVisualizer
 {
+    using System;
+
     /// <summary>
     /// Interface representing the must implement methods
     /// </summary>
     public interface IVisualizer
     {
+        /// <summary>
+        /// Displays the loading bar.
+        /// </summary>
+        /// <param name="loadingMessage">The loading message.</param>
+        /// <param name="backgroundColor">Color of the background.</param>
+        /// <param name="foregroundColor">Color of the foreground.</param>
+        void DisplayLoadingBar(string loadingMessage, ConsoleColor backgroundColor, ConsoleColor foregroundColor);
+
+        /// <summary>
+        /// Displays the progress bar.
+        /// </summary>
+        void DisplayProgressBar();
+
         /// <summary>
         /// Gets the user input for the given words
         /// </summary>

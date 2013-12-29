@@ -59,8 +59,6 @@ namespace BiOWheelsFileWatcher
         internal FileWatcher(IQueueManager queueManager)
         {
             this.queueManager = queueManager;
-            this.QueueManager.CaughtException += this.QueueManagerCaughtException;
-            this.QueueManager.ItemFinalized += this.QueueManagerItemFinalized;
         }
 
         #region Delegates
@@ -393,33 +391,6 @@ namespace BiOWheelsFileWatcher
             {
                 this.CaughtException(this, data);
             }
-        }
-
-        /// <summary>
-        /// Call when an exception is caught.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="data">
-        /// The <see cref="CaughtExceptionEventArgs"/> instance containing the event data.
-        /// </param>
-        protected void QueueManagerCaughtException(object sender, CaughtExceptionEventArgs data)
-        {
-            this.CaughtException(this, data);
-        }
-
-        /// <summary>
-        /// Call when an item is finalized.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="data">
-        /// The <see cref="ItemFinalizedEventArgs"/> instance containing the event data.
-        /// </param>
-        protected void QueueManagerItemFinalized(object sender, ItemFinalizedEventArgs data)
-        {
         }
 
         /// <summary>

@@ -27,6 +27,38 @@ namespace BiOWheelsVisualizer
         }
 
         /// <inheritdoc/>
+        public void DisplayLoadingBar(string loadingMessage, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
+        {
+            int width = Console.BufferWidth;
+
+            Console.BackgroundColor = backgroundColor;
+            Console.ForegroundColor = foregroundColor;
+            Console.OutputEncoding = System.Text.Encoding.GetEncoding(1252);
+
+            for (int i = 0; i < width; i++)
+            {
+                Console.SetCursorPosition(i, 0);
+
+                if (i < loadingMessage.Length)
+                {
+                    Console.Write(loadingMessage[i]);
+                }
+                else
+                {
+                    Console.ForegroundColor = backgroundColor;
+                    Console.Write((char)219);
+                }
+            }
+
+            Console.ResetColor();
+        }
+
+        /// <inheritdoc/>
+        public void DisplayProgressBar()
+        {
+        }
+
+        /// <inheritdoc/>
         public string GetUserInput(string displayString)
         {
             int starCount = displayString.Length;

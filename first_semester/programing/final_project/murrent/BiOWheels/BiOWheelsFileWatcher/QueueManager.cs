@@ -31,14 +31,29 @@ namespace BiOWheelsFileWatcher
     /// <summary>
     /// Class representing the <see cref="QueueManager"/> and its interaction logic
     /// </summary>
-    internal class QueueManager : IQueueManager
+    public class QueueManager : IQueueManager
     {
         #region Private Fields
+
+        /// <summary>
+        /// Object used for locking
+        /// </summary>
+        private readonly object enqueueLockOject = new object();
+
+        /// <summary>
+        /// Object used for locking
+        /// </summary>
+        private readonly object queueItemLockObject = new object();
 
         /// <summary>
         /// Represents an instance of the queue holding <see cref="SyncItem"/> objects
         /// </summary>
         private ConcurrentQueue<SyncItem> syncItemQueue;
+
+        /// <summary>
+        /// Represents an instance of the queue holding <see cref="SyncItem"/> objects
+        /// </summary>
+        private ConcurrentQueue<SyncItem> syncItemWaitQueue;
 
         /// <summary>
         /// A value indicating whether the worker is in progress or not
@@ -61,19 +76,24 @@ namespace BiOWheelsFileWatcher
         private bool canDequeueItems;
 
         /// <summary>
-        /// Object used for locking
+        /// A value indicating whether an item can be dequeue from the wait queue or not
         /// </summary>
-        private object enqueueLockOject = new object();
+        private bool canDequeueWaitQueue;
 
         /// <summary>
-        /// Object used for locking
+        /// The maximum sync item retries
         /// </summary>
-        private object queueItemLockObject = new object();
+        private int maxSyncItemRetries;
 
         /// <summary>
         /// The actual <see cref="SyncItem"/> object
         /// </summary>
         private SyncItem actualSyncItem;
+
+        /// <summary>
+        /// The sync item wait queue timer
+        /// </summary>
+        private System.Timers.Timer syncItemWaitQueueTimer;
 
         #endregion
 
@@ -88,9 +108,15 @@ namespace BiOWheelsFileWatcher
         /// </param>
         internal QueueManager(IFileSystemManager fileSystemManager, IFileHandleWrapper fileHandleWrapper)
         {
+            this.syncItemWaitQueueTimer = new System.Timers.Timer(120000);
+            this.SyncItemWaitQueueTimer.Elapsed += this.SyncItemWaitQueueTimerElapsed;
+            this.SyncItemWaitQueueTimer.Start();
+            this.SyncItemWaitQueue = new ConcurrentQueue<SyncItem>();
             this.SyncItemQueue = new ConcurrentQueue<SyncItem>();
             this.FileSystemManager = fileSystemManager;
             this.CanDequeueItems = true;
+            this.CanDequeueWaitQueue = false;
+            this.MaxSyncItemRetries = 15;
             this.FileHandleWrapper = fileHandleWrapper;
             this.FileHandleWrapper.FileHandlesFound += this.FileHandleWrapperFileHandlesFound;
             this.FileHandleWrapper.FileHandlesError += this.FileHandleWrapperFileHandlesError;
@@ -157,6 +183,63 @@ namespace BiOWheelsFileWatcher
             set
             {
                 this.syncItemQueue = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the sync item wait queue.
+        /// </summary>
+        /// <value>
+        /// The synchronize item wait queue.
+        /// </value>
+        public ConcurrentQueue<SyncItem> SyncItemWaitQueue
+        {
+            get
+            {
+                return this.syncItemWaitQueue;
+            }
+
+            set
+            {
+                this.syncItemWaitQueue = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum sync item retries.
+        /// </summary>
+        /// <value>
+        /// The maximum synchronize item retries.
+        /// </value>
+        public int MaxSyncItemRetries
+        {
+            get
+            {
+                return this.maxSyncItemRetries;
+            }
+
+            set
+            {
+                this.maxSyncItemRetries = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the wait queue can be dequeued
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [can dequeue wait queue]; otherwise, <c>false</c>.
+        /// </value>
+        internal bool CanDequeueWaitQueue
+        {
+            get
+            {
+                return this.canDequeueWaitQueue;
+            }
+
+            set
+            {
+                this.canDequeueWaitQueue = value;
             }
         }
 
@@ -230,6 +313,24 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        /// <summary>
+        /// Gets or sets the sync item wait queue timer.
+        /// </summary>
+        /// <value>
+        /// The synchronize item wait queue timer.
+        /// </value>
+        internal System.Timers.Timer SyncItemWaitQueueTimer
+        {
+            get
+            {
+                return this.syncItemWaitQueueTimer;
+            }
+
+            set
+            {
+                this.syncItemWaitQueueTimer = value;
+            }
+        }
         #endregion
 
         #region Methods
@@ -257,7 +358,30 @@ namespace BiOWheelsFileWatcher
             }
         }
 
+        /// <summary>
+        /// Enqueues an item to the wait queue.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        internal void EnqueueWaitQueue(SyncItem item)
+        {
+            lock(this.enqueueLockOject)
+            {
+                Task enqueueTask = Task.Factory.StartNew(() => this.SyncItemWaitQueue.Enqueue(item));
+                enqueueTask.Wait();
+            }
+        }
+
         #region Event Methods
+
+        /// <summary>
+        /// Occurs when the sync item wait queue timer elapsed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
+        protected void SyncItemWaitQueueTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            this.CanDequeueWaitQueue = true;
+        }
 
         /// <summary>
         /// Called when an exception is caught.
@@ -372,11 +496,24 @@ namespace BiOWheelsFileWatcher
                         this.FileSystemManager.Rename(syncItem);
                         break;
                 }
+
+                this.OnItemFinalized(this, new ItemFinalizedEventArgs(syncItem.SourceFile, syncItem.FileAction) { ItemsLeftInQueue = this.SyncItemQueue.Count });
             }
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
+                syncItem.Retries++;
+
+                if (syncItem.Retries > this.MaxSyncItemRetries)
+                {
+                    this.EnqueueWaitQueue(syncItem);
+                }
+                else
+                {
+                    this.Enqueue(syncItem);
+                }
+
                 this.OnCaughtException(
-                    this, 
+                    this,
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
             }
@@ -393,7 +530,7 @@ namespace BiOWheelsFileWatcher
             catch (DirectoryNotFoundException directoryNotFoundException)
             {
                 this.OnCaughtException(
-                    this, 
+                    this,
                     new CaughtExceptionEventArgs(
                         directoryNotFoundException.GetType(), directoryNotFoundException.Message));
             }
@@ -405,7 +542,15 @@ namespace BiOWheelsFileWatcher
             catch (IOException systemIOException)
             {
                 syncItem.Retries++;
-                this.Enqueue(syncItem);
+
+                if (syncItem.Retries > this.MaxSyncItemRetries)
+                {
+                    this.EnqueueWaitQueue(syncItem);
+                }
+                else
+                {
+                    this.Enqueue(syncItem);
+                }
 
                 this.OnCaughtException(
                     this, new CaughtExceptionEventArgs(systemIOException.GetType(), systemIOException.Message));
@@ -435,20 +580,33 @@ namespace BiOWheelsFileWatcher
                 {
                     SyncItem item;
 
-                    if (this.SyncItemQueue.TryDequeue(out item))
+                    if (this.CanDequeueWaitQueue && this.SyncItemWaitQueue.Count > 0)
                     {
-                        lock (this.queueItemLockObject)
+                        if (this.SyncItemWaitQueue.TryDequeue(out item))
                         {
-                            this.FinalizeQueueItem(item);
+                            lock (this.queueItemLockObject)
+                            {
+                                this.FinalizeQueueItem(item);
+                                this.CanDequeueWaitQueue = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (this.SyncItemQueue.TryDequeue(out item))
+                        {
+                            lock (this.queueItemLockObject)
+                            {
+                                this.FinalizeQueueItem(item);
 
-                            // TODO: IMPROVE NOT WORKING GOOD ENOUGH
-                            // this.CheckOpenHandles(item);
+                                // TODO: IMPROVE NOT WORKING GOOD ENOUGH
+                                // this.CheckOpenHandles(item);
+                            }
                         }
                     }
                 }
             }
         }
-
         #endregion
     }
 }
