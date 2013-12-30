@@ -51,7 +51,7 @@
     <Compile Include="CustomEventArgs\UpdateProgressEventArgs.cs" />
     <Compile Include="CustomExceptions\MappingInvalidException.cs" />
     <Compile Include="CustomExceptions\MappingNullException.cs" />
-    <Compile Include="DirectoryVolumenComparator.cs" />
+    <Compile Include="DirectoryVolumeComparator.cs" />
     <Compile Include="Enums\FileAction.cs" />
     <Compile Include="Enums\InitialCompareType.cs" />
     <Compile Include="FileComparator.cs" />
@@ -59,6 +59,7 @@
     <Compile Include="FileWatcherFactory.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="Helper\AttributeInfoHelper.cs" />
+    <Compile Include="Interfaces\IDirectoryVolumeComparator.cs" />
     <Compile Include="Interfaces\IFileComparator.cs" />
     <Compile Include="Interfaces\IFileSystemManager.cs" />
     <Compile Include="Interfaces\IFileWatcher.cs" />

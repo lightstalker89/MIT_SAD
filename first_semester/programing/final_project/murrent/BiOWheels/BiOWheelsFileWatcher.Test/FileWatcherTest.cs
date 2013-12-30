@@ -66,6 +66,11 @@ namespace BiOWheelsFileWatcher.Test
         private FileHandleWrapper fileHandleWrapper;
 
         /// <summary>
+        /// The directory volume comparator
+        /// </summary>
+        private DirectoryVolumeComparator directoryVolumeComparator;
+
+        /// <summary>
         /// List of notifications from the <see cref="FileWatcher"/>
         /// </summary>
         private List<string> notifications;
@@ -76,9 +81,13 @@ namespace BiOWheelsFileWatcher.Test
         [SetUp]
         public void Init()
         {
+            this.directoryVolumeComparator = new DirectoryVolumeComparator();
             this.fileHandleWrapper = new FileHandleWrapper();
             this.fileComparator = new FileComparator(2000);
-            this.fileSystemManager = new FileSystemManager(this.fileComparator) { BlockCompareFileSizeInMB = 2 };
+            this.fileSystemManager = new FileSystemManager(this.fileComparator, this.directoryVolumeComparator)
+                {
+                   BlockCompareFileSizeInMB = 2 
+                };
 
             this.queueManager = new QueueManager(this.fileSystemManager, this.fileHandleWrapper);
             this.fileWatcher = new FileWatcher(this.queueManager);

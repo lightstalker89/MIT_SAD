@@ -149,9 +149,27 @@ namespace BiOWheels
         /// <summary>
         /// Occurs when an item from the queue is finished
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="data">The <see cref="ItemFinalizedEventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="ItemFinalizedEventArgs"/> instance containing the event data.
+        /// </param>
         protected static void QueueManagerItemFinalized(object sender, ItemFinalizedEventArgs data)
+        {
+            Log(data.Message, MessageType.INFO);
+        }
+
+        /// <summary>
+        /// Occurs when an item has been added to the wait queue
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="UpdateProgressEventArgs"/> instance containing the event data.
+        /// </param>
+        protected static void QueueManagerItemAddedToWaitQueue(object sender, UpdateProgressEventArgs data)
         {
             Log(data.Message, MessageType.INFO);
         }
@@ -173,8 +191,12 @@ namespace BiOWheels
         /// <summary>
         /// Occurs when an exception is caught from the file watcher and queue manager
         /// </summary>
-        /// <param name="sender">Sender of the event</param>
-        /// <param name="data">Data from the event</param>
+        /// <param name="sender">
+        /// Sender of the event
+        /// </param>
+        /// <param name="data">
+        /// Data from the event
+        /// </param>
         protected static void OnCaughtException(object sender, CaughtExceptionEventArgs data)
         {
             Log(data.GetFormattedException(), MessageType.ERROR);
@@ -280,16 +302,21 @@ namespace BiOWheels
         private static void CreateFileWatcher()
         {
             IFileHandleWrapper fileHandleWrapper = FileHandleWrapperFactory.CreateFileHandleWrapper();
+            IDirectoryVolumeComparator directoryVolumeComparator = FileWatcherFactory.CreateDirectoryVolumenComparator();
             IFileComparator fileComparator =
                 FileWatcherFactory.CreateFileComparator(configuration.BlockCompareOptions.BlockSizeInKB);
-            IFileSystemManager fileSystemManager = FileWatcherFactory.CreateFileSystemManager(fileComparator);
+            IFileSystemManager fileSystemManager = FileWatcherFactory.CreateFileSystemManager(
+                fileComparator, directoryVolumeComparator);
             fileSystemManager.BlockCompareFileSizeInMB = configuration.BlockCompareOptions.BlockCompareFileSizeInMB;
 
             IQueueManager queueManager = FileWatcherFactory.CreateQueueManager(fileSystemManager, fileHandleWrapper);
             queueManager.CaughtException += OnCaughtException;
             queueManager.ItemFinalized += QueueManagerItemFinalized;
+            queueManager.ItemAddedToWaitQueue += QueueManagerItemAddedToWaitQueue;
             IFileWatcher fileWatcher = FileWatcherFactory.CreateFileWatcher(queueManager);
 
+            SimpleContainer.Instance.Register<IDirectoryVolumeComparator, IDirectoryVolumeComparator>(
+                directoryVolumeComparator);
             SimpleContainer.Instance.Register<IFileHandleWrapper, IFileHandleWrapper>(fileHandleWrapper);
             SimpleContainer.Instance.Register<IFileComparator, IFileComparator>(fileComparator);
             SimpleContainer.Instance.Register<IQueueManager, IQueueManager>(queueManager);
@@ -310,15 +337,14 @@ namespace BiOWheels
 
                 ConsoleKey key = Console.ReadKey(true).Key;
 
+                SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(false);
                 switch (key)
                 {
-                    case ConsoleKey.C:
-                        break;
-
                     case ConsoleKey.A:
                         checkedForClosing = false;
                         Log("BiOWheels continues to sync files", MessageType.INFO);
-                        notifyIcon.ShowBalloonTip(1500, "BiOWheels", "BiOWheels continues to sync files...", ToolTipIcon.Info);
+                        notifyIcon.ShowBalloonTip(
+                            1500, "BiOWheels", "BiOWheels continues to sync files...", ToolTipIcon.Info);
                         break;
 
                     case ConsoleKey.X:
@@ -340,7 +366,13 @@ namespace BiOWheels
                         SimpleContainer.Instance.Resolve<IFileSystemManager>().IsParallelSyncActivated = !activated;
                         SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speak(
                             "Parallel sync has been " + (!activated ? "activated" : "deactivated"));
-                        notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Parallel sync has been " + (!activated ? "activated" : "deactivated..."), ToolTipIcon.Info);
+                        notifyIcon.ShowBalloonTip(
+                            1500,
+                            "BiOWheels",
+                            "Parallel sync has been " + (!activated ? "activated" : "deactivated..."),
+                            ToolTipIcon.Info);
+
+                        SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
 
                         Log("Parallel sync has been " + (!activated ? "activated" : "deactivated"), MessageType.INFO);
                         break;
@@ -355,23 +387,26 @@ namespace BiOWheels
                         {
                             SimpleContainer.Instance.Resolve<ILogger>().SetFileSize<FileLogger>(logFileSizeInMB);
 
+                            SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
                             Log("Log file size successfully changed", MessageType.INFO);
-                            notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Log file size successfully changed", ToolTipIcon.Info);
+                            notifyIcon.ShowBalloonTip(
+                                1500, "BiOWheels", "Log file size successfully changed", ToolTipIcon.Info);
                         }
                         else
                         {
-                            Log("Could not parse input. Please make sure you entered a correct value", MessageType.ERROR);
+                            SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
+                            Log(
+                                "Could not parse input. Please make sure you entered a correct value", MessageType.ERROR);
                         }
 
                         SimpleContainer.Instance.Resolve<IVisualizer>().WriteChars('*', displayMessage.Length);
 
                         break;
 
-                    case ConsoleKey.F:
-                        break;
-
                     case ConsoleKey.B:
-                        displayMessage = "Set new block size for file comparison in MB [Press enter to confirm]: ";
+                        displayMessage = "Set new file size for block comparison in MB [Press enter to confirm]: ";
                         string blockCompareSize =
                             SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(displayMessage);
 
@@ -381,12 +416,18 @@ namespace BiOWheels
                             SimpleContainer.Instance.Resolve<IFileSystemManager>().BlockCompareFileSizeInMB =
                                 blockCompareSizeInMB;
 
+                            SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
                             Log("Block compare file size successfully changed", MessageType.INFO);
-                            notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Block compare file size successfully changed", ToolTipIcon.Info);
+                            notifyIcon.ShowBalloonTip(
+                                1500, "BiOWheels", "Block compare file size successfully changed", ToolTipIcon.Info);
                         }
                         else
                         {
-                            Log("Could not parse input. Please make sure you entered a correct value", MessageType.ERROR);
+                            SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
+                            Log(
+                                "Could not parse input. Please make sure you entered a correct value", MessageType.ERROR);
                         }
 
                         SimpleContainer.Instance.Resolve<IVisualizer>().WriteChars('*', displayMessage.Length);
@@ -402,12 +443,18 @@ namespace BiOWheels
                         {
                             SimpleContainer.Instance.Resolve<IFileComparator>().BlockSize = blockSizeInMB;
 
+                            SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
                             Log("Block size successfully changed", MessageType.INFO);
-                            notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Block size successfully changed", ToolTipIcon.Info);
+                            notifyIcon.ShowBalloonTip(
+                                1500, "BiOWheels", "Block size successfully changed", ToolTipIcon.Info);
                         }
                         else
                         {
-                            Log("Could not parse input. Please make sure you entered a correct value", MessageType.ERROR);
+                            SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
+                            Log(
+                                "Could not parse input. Please make sure you entered a correct value", MessageType.ERROR);
                         }
 
                         SimpleContainer.Instance.Resolve<IVisualizer>().WriteChars('*', displayMessage.Length);
@@ -422,9 +469,15 @@ namespace BiOWheels
                             MessageType.INFO);
                         break;
 
-                    case ConsoleKey.R:
+                    case ConsoleKey.H:
+                        SimpleContainer.Instance.Resolve<IVisualizer>().GetApplicationCommandHelp();
 
-                        // resume sync
+                        displayMessage = "Press enter to close the help ";
+
+                        SimpleContainer.Instance.Resolve<IVisualizer>().GetUserInput(displayMessage);
+
+                        SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
                         break;
 
                     default:

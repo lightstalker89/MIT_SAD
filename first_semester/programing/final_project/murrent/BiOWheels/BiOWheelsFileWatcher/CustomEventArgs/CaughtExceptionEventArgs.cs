@@ -52,7 +52,14 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         /// <returns>The formatted exception</returns>
         public string GetFormattedException()
         {
-            return "exception: " + this.ExceptionType + " -- message: " + this.ExceptionMessage;
+            string message = "exception: " + this.ExceptionType + " -- message: " + this.ExceptionMessage;
+
+            if (this.CustomExceptionText != string.Empty)
+            {
+                message += " custom message: " + this.CustomExceptionText;
+            }
+
+            return message;
         }
     }
 }

@@ -19,10 +19,14 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
     public class ItemFinalizedEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ItemFinalizedEventArgs" /> class.
+        /// Initializes a new instance of the <see cref="ItemFinalizedEventArgs"/> class.
         /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="fileAction">The file action.</param>
+        /// <param name="fileName">
+        /// Name of the file.
+        /// </param>
+        /// <param name="fileAction">
+        /// The file action.
+        /// </param>
         public ItemFinalizedEventArgs(string fileName, FileAction fileAction)
         {
             this.FileName = fileName;
@@ -63,7 +67,8 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         {
             get
             {
-                return "Item with name " + this.FileName + " and file action " + this.FileAction + " has sucessfully been processed. Items left in queue: " + this.ItemsLeftInQueue;
+                return "Items left in queue: " + this.ItemsLeftInQueue + " - Item with name " + this.FileName + " and file action " + this.FileAction
+                       + " has sucessfully been processed.";
             }
         }
     }

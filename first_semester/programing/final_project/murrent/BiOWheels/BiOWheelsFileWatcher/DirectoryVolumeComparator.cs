@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="DirectoryVolumenComparator.cs" company="MDMCoWorks">
+// * <copyright file="DirectoryVolumeComparator.cs" company="MDMCoWorks">
 // * Copyright (c) 2013 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -12,6 +12,8 @@ namespace BiOWheelsFileWatcher
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.InteropServices;
+
+    using BiOWheelsFileWatcher.Interfaces;
 
     using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
@@ -31,7 +33,7 @@ namespace BiOWheelsFileWatcher
         Justification = "Reviewed.")]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", 
         Justification = "Reviewed.")]
-    internal class DirectoryVolumenComparator
+    public class DirectoryVolumeComparator : IDirectoryVolumeComparator
     {
         /// <summary>
         /// Value of an invalid file handle
@@ -213,18 +215,7 @@ namespace BiOWheelsFileWatcher
             TruncateExisting = 5
         }
 
-        /// <summary>
-        /// Compares two directories
-        /// </summary>
-        /// <param name="directory1">
-        /// First directory
-        /// </param>
-        /// <param name="directory2">
-        /// Second directory
-        /// </param>
-        /// <returns>
-        /// A value indicating whether the directories are on the same physical disc or not
-        /// </returns>
+        /// <inheritdoc/>
         public bool CompareDirectories(string directory1, string directory2)
         {
             bool result = false;

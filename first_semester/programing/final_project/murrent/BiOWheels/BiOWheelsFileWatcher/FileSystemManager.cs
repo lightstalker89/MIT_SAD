@@ -11,6 +11,7 @@ namespace BiOWheelsFileWatcher
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -21,14 +22,16 @@ namespace BiOWheelsFileWatcher
     /// <summary>
     /// Class representing the <see cref="FileSystemManager" />
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", 
+        Justification = "Reviewed.")]
     internal class FileSystemManager : IFileSystemManager
     {
         #region Private Fields
 
         /// <summary>
-        /// Holds an instance of the <see cref="DirectoryVolumenComparator"/>
+        /// Holds an instance of the <see cref="DirectoryVolumeComparator"/>
         /// </summary>
-        private readonly DirectoryVolumenComparator directoryVolumenComparator;
+        private readonly IDirectoryVolumeComparator directoryVolumeComparator;
 
         /// <summary>
         /// Value indicating whether parallel sync is activated or not
@@ -53,9 +56,12 @@ namespace BiOWheelsFileWatcher
         /// <param name="fileComparator">
         /// The file comparator.
         /// </param>
-        internal FileSystemManager(IFileComparator fileComparator)
+        /// <param name="directoryVolumeComparator">
+        /// The directory volume comparator.
+        /// </param>
+        internal FileSystemManager(IFileComparator fileComparator, IDirectoryVolumeComparator directoryVolumeComparator)
         {
-            this.directoryVolumenComparator = new DirectoryVolumenComparator();
+            this.directoryVolumeComparator = directoryVolumeComparator;
             this.FileComparator = fileComparator;
         }
 
@@ -115,7 +121,8 @@ namespace BiOWheelsFileWatcher
             if (item.Destinations.Any())
             {
                 foreach (string pathToDelete in
-                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile))
+                    item.Destinations.Select(destination => destination + Path.DirectorySeparatorChar + item.SourceFile)
+                    )
                 {
                     if (pathToDelete.IsDirectory())
                     {
@@ -251,8 +258,7 @@ namespace BiOWheelsFileWatcher
         {
             foreach (string destination in item.Destinations)
             {
-                string pathToCopy =
-                    Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+                string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
                 this.CreateDirectoryIfNotExists(pathToCopy);
 
@@ -260,7 +266,7 @@ namespace BiOWheelsFileWatcher
 
                 using (
                     FileStream fileStream = new FileStream(
-                        item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                        item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
                                fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                 {
                     this.CopyStreams(fileStream, fileStreamOutPut);
@@ -273,7 +279,9 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Copies the files parallel.
         /// </summary>
-        /// <param name="item">The item.</param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         internal void CopyFileParallel(SyncItem item)
         {
             string sourceDirectory = Directory.GetDirectoryRoot(item.FullQualifiedSourceFileName);
@@ -282,54 +290,53 @@ namespace BiOWheelsFileWatcher
             List<string> destinations = new List<string>();
 
             Parallel.ForEach(
-                item.Destinations,
+                item.Destinations, 
                 destination =>
-                {
-                    if (this.directoryVolumenComparator.CompareDirectories(sourceDirectory, destination))
                     {
-                        destinations.Add(destination);
-                    }
-                    else
-                    {
-                        parallelDestinations.Add(destination);
-                    }
-                });
+                        if (this.directoryVolumeComparator.CompareDirectories(sourceDirectory, destination))
+                        {
+                            destinations.Add(destination);
+                        }
+                        else
+                        {
+                            parallelDestinations.Add(destination);
+                        }
+                    });
 
             Parallel.ForEach(
-                parallelDestinations,
+                parallelDestinations, 
                 destination =>
-                {
-                    string pathToCopy =
-                    Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
-
-                    this.CreateDirectoryIfNotExists(pathToCopy);
-
-                    string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
-
-                    using (
-                   FileStream fileStream = new FileStream(
-                       item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
-                              fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                     {
-                        this.CopyStreams(fileStream, fileStreamOutPut);
-                    }
+                        string pathToCopy =
+                            Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
-                    item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
-                });
+                        this.CreateDirectoryIfNotExists(pathToCopy);
+
+                        string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
+
+                        using (
+                            FileStream fileStream = new FileStream(
+                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
+                                       fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
+                        {
+                            this.CopyStreams(fileStream, fileStreamOutPut);
+                        }
+
+                        item.FullQualifiedSourceFileName.CopyFileAttributesTo(fileToCopy);
+                    });
 
             foreach (string destination in destinations)
             {
-                string pathToCopy =
-                  Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
+                string pathToCopy = Path.GetDirectoryName(destination + Path.DirectorySeparatorChar + item.SourceFile);
 
                 this.CreateDirectoryIfNotExists(pathToCopy);
 
                 string fileToCopy = pathToCopy + Path.DirectorySeparatorChar + Path.GetFileName(item.SourceFile);
 
                 using (
-               FileStream fileStream = new FileStream(
-                   item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
-                          fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
+                    FileStream fileStream = new FileStream(
+                        item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
+                               fileStreamOutPut = new FileStream(fileToCopy, FileMode.Create))
                 {
                     this.CopyStreams(fileStream, fileStreamOutPut);
                 }
@@ -358,7 +365,7 @@ namespace BiOWheelsFileWatcher
                 {
                     using (
                         FileStream fileStream = new FileStream(
-                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
                                    fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
                     {
                         this.CopyStreams(fileStream, fileStreamOutPut);
@@ -381,41 +388,44 @@ namespace BiOWheelsFileWatcher
             List<string> destinations = new List<string>();
 
             Parallel.ForEach(
-                item.Destinations,
+                item.Destinations, 
                 destination =>
-                {
-                    if (this.directoryVolumenComparator.CompareDirectories(sourceDirectory, destination))
                     {
-                        destinations.Add(destination);
-                    }
-                    else
-                    {
-                        parallelDestinations.Add(destination);
-                    }
-                });
+                        if (this.directoryVolumeComparator.CompareDirectories(sourceDirectory, destination))
+                        {
+                            destinations.Add(destination);
+                        }
+                        else
+                        {
+                            parallelDestinations.Add(destination);
+                        }
+                    });
 
             Parallel.ForEach(
-                parallelDestinations,
+                parallelDestinations, 
                 destination =>
-                {
-                    string destinationFile = destination + Path.DirectorySeparatorChar
-                                             + Path.GetFileName(item.SourceFile);
+                    {
+                        string destinationFile = destination + Path.DirectorySeparatorChar
+                                                 + Path.GetFileName(item.SourceFile);
 
-                    if (File.Exists(destinationFile))
-                    {
-                        this.fileComparator.Compare(item.FullQualifiedSourceFileName, destinationFile);
-                    }
-                    else
-                    {
-                        using (
-                            FileStream fileStream = new FileStream(
-                                item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
-                                       fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
+                        if (File.Exists(destinationFile))
                         {
-                            this.CopyStreams(fileStream, fileStreamOutPut);
+                            this.fileComparator.Compare(item.FullQualifiedSourceFileName, destinationFile);
                         }
-                    }
-                });
+                        else
+                        {
+                            using (
+                                FileStream fileStream = new FileStream(
+                                    item.FullQualifiedSourceFileName, 
+                                    FileMode.Open, 
+                                    FileAccess.Read, 
+                                    FileShare.ReadWrite), 
+                                           fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
+                            {
+                                this.CopyStreams(fileStream, fileStreamOutPut);
+                            }
+                        }
+                    });
 
             foreach (string destination in destinations)
             {
@@ -429,7 +439,7 @@ namespace BiOWheelsFileWatcher
                 {
                     using (
                         FileStream fileStream = new FileStream(
-                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+                            item.FullQualifiedSourceFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), 
                                    fileStreamOutPut = new FileStream(destinationFile, FileMode.Create))
                     {
                         this.CopyStreams(fileStream, fileStreamOutPut);

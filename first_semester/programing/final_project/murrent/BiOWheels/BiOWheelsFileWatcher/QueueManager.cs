@@ -19,6 +19,7 @@ namespace BiOWheelsFileWatcher
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Timers;
 
     using BiOWheelsFileHandleWrapper;
     using BiOWheelsFileHandleWrapper.CustomEventArgs;
@@ -27,6 +28,8 @@ namespace BiOWheelsFileWatcher
     using BiOWheelsFileWatcher.Enums;
     using BiOWheelsFileWatcher.Helper;
     using BiOWheelsFileWatcher.Interfaces;
+
+    using Timer = System.Timers.Timer;
 
     /// <summary>
     /// Class representing the <see cref="QueueManager"/> and its interaction logic
@@ -76,7 +79,7 @@ namespace BiOWheelsFileWatcher
         private bool canDequeueItems;
 
         /// <summary>
-        /// A value indicating whether an item can be dequeue from the wait queue or not
+        /// A value indicating whether an item can be taken from the wait queue or not
         /// </summary>
         private bool canDequeueWaitQueue;
 
@@ -93,7 +96,7 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// The sync item wait queue timer
         /// </summary>
-        private System.Timers.Timer syncItemWaitQueueTimer;
+        private Timer syncItemWaitQueueTimer;
 
         #endregion
 
@@ -138,19 +141,25 @@ namespace BiOWheelsFileWatcher
         /// <param name="data">Data from the event</param>
         public delegate void ItemFinalizedHandler(object sender, ItemFinalizedEventArgs data);
 
+        /// <summary>
+        /// Delegate for the <see cref="ItemAddedToWaitQueueHandler"/> event
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="data">The <see cref="UpdateProgressEventArgs"/> instance containing the event data.</param>
+        public delegate void ItemAddedToWaitQueueHandler(object sender, UpdateProgressEventArgs data);
+
         #endregion
 
         #region Event Handler
 
-        /// <summary>
-        /// Event handler for catching an exception
-        /// </summary>
+        /// <inheritdoc/>
         public event CaughtExceptionHandler CaughtException;
 
-        /// <summary>
-        /// Event handler for catching an exception
-        /// </summary>
+        /// <inheritdoc/>
         public event ItemFinalizedHandler ItemFinalized;
+
+        /// <inheritdoc/>
+        public event ItemAddedToWaitQueueHandler ItemAddedToWaitQueue;
 
         #endregion
 
@@ -225,10 +234,10 @@ namespace BiOWheelsFileWatcher
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the wait queue can be dequeued
+        /// Gets or sets a value indicating whether an item can be taken from the wait queue
         /// </summary>
         /// <value>
-        /// <c>true</c> if [can dequeue wait queue]; otherwise, <c>false</c>.
+        /// <c>true</c> if items can be taken from the queue otherwise, <c>false</c>.
         /// </value>
         internal bool CanDequeueWaitQueue
         {
@@ -319,7 +328,7 @@ namespace BiOWheelsFileWatcher
         /// <value>
         /// The synchronize item wait queue timer.
         /// </value>
-        internal System.Timers.Timer SyncItemWaitQueueTimer
+        internal Timer SyncItemWaitQueueTimer
         {
             get
             {
@@ -331,6 +340,7 @@ namespace BiOWheelsFileWatcher
                 this.syncItemWaitQueueTimer = value;
             }
         }
+
         #endregion
 
         #region Methods
@@ -361,10 +371,12 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Enqueues an item to the wait queue.
         /// </summary>
-        /// <param name="item">The item.</param>
+        /// <param name="item">
+        /// The item.
+        /// </param>
         internal void EnqueueWaitQueue(SyncItem item)
         {
-            lock(this.enqueueLockOject)
+            lock (this.enqueueLockOject)
             {
                 Task enqueueTask = Task.Factory.StartNew(() => this.SyncItemWaitQueue.Enqueue(item));
                 enqueueTask.Wait();
@@ -376,9 +388,13 @@ namespace BiOWheelsFileWatcher
         /// <summary>
         /// Occurs when the sync item wait queue timer elapsed.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
-        protected void SyncItemWaitQueueTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.
+        /// </param>
+        protected void SyncItemWaitQueueTimerElapsed(object sender, ElapsedEventArgs e)
         {
             this.CanDequeueWaitQueue = true;
         }
@@ -414,6 +430,23 @@ namespace BiOWheelsFileWatcher
             if (this.ItemFinalized != null)
             {
                 this.ItemFinalized(this, data);
+            }
+        }
+
+        /// <summary>
+        /// Called when an item is added to the wait queue
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="data">
+        /// The <see cref="UpdateProgressEventArgs"/> instance containing the event data.
+        /// </param>
+        protected void OnItemAddedToWaitQueueHandler(object sender, UpdateProgressEventArgs data)
+        {
+            if (this.ItemAddedToWaitQueue != null)
+            {
+                this.ItemAddedToWaitQueue(this, data);
             }
         }
 
@@ -497,7 +530,12 @@ namespace BiOWheelsFileWatcher
                         break;
                 }
 
-                this.OnItemFinalized(this, new ItemFinalizedEventArgs(syncItem.SourceFile, syncItem.FileAction) { ItemsLeftInQueue = this.SyncItemQueue.Count });
+                this.OnItemFinalized(
+                    this, 
+                    new ItemFinalizedEventArgs(syncItem.SourceFile, syncItem.FileAction)
+                        {
+                           ItemsLeftInQueue = this.SyncItemQueue.Count 
+                        });
             }
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
@@ -505,6 +543,10 @@ namespace BiOWheelsFileWatcher
 
                 if (syncItem.Retries > this.MaxSyncItemRetries)
                 {
+                    this.OnItemAddedToWaitQueueHandler(
+                        this, 
+                        new UpdateProgressEventArgs(
+                            syncItem.SourceFile + " has been added to the wait queue because it cannot be accessed"));
                     this.EnqueueWaitQueue(syncItem);
                 }
                 else
@@ -513,7 +555,7 @@ namespace BiOWheelsFileWatcher
                 }
 
                 this.OnCaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         unauthorizedAccessException.GetType(), unauthorizedAccessException.Message));
             }
@@ -530,7 +572,7 @@ namespace BiOWheelsFileWatcher
             catch (DirectoryNotFoundException directoryNotFoundException)
             {
                 this.OnCaughtException(
-                    this,
+                    this, 
                     new CaughtExceptionEventArgs(
                         directoryNotFoundException.GetType(), directoryNotFoundException.Message));
             }
@@ -546,6 +588,10 @@ namespace BiOWheelsFileWatcher
                 if (syncItem.Retries > this.MaxSyncItemRetries)
                 {
                     this.EnqueueWaitQueue(syncItem);
+                    this.OnItemAddedToWaitQueueHandler(
+                        this, 
+                        new UpdateProgressEventArgs(
+                            syncItem.SourceFile + " has been added to the wait queue because it cannot be accessed"));
                 }
                 else
                 {
@@ -607,6 +653,7 @@ namespace BiOWheelsFileWatcher
                 }
             }
         }
+
         #endregion
     }
 }

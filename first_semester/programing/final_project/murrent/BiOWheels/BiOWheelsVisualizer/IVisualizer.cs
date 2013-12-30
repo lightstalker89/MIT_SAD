@@ -17,19 +17,6 @@ namespace BiOWheelsVisualizer
     public interface IVisualizer
     {
         /// <summary>
-        /// Displays the loading bar.
-        /// </summary>
-        /// <param name="loadingMessage">The loading message.</param>
-        /// <param name="backgroundColor">Color of the background.</param>
-        /// <param name="foregroundColor">Color of the foreground.</param>
-        void DisplayLoadingBar(string loadingMessage, ConsoleColor backgroundColor, ConsoleColor foregroundColor);
-
-        /// <summary>
-        /// Displays the progress bar.
-        /// </summary>
-        void DisplayProgressBar();
-
-        /// <summary>
         /// Gets the user input for the given words
         /// </summary>
         /// <param name="displayString">
@@ -79,6 +66,11 @@ namespace BiOWheelsVisualizer
         /// Display help in console
         /// </summary>
         void GetHelp();
+
+        /// <summary>
+        /// Gets the application command help.
+        /// </summary>
+        void GetApplicationCommandHelp();
 
         /// <summary>
         /// Sets the size of the console window.

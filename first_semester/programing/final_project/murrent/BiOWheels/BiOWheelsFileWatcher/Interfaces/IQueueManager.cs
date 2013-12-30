@@ -25,6 +25,11 @@ namespace BiOWheelsFileWatcher.Interfaces
         event QueueManager.ItemFinalizedHandler ItemFinalized;
 
         /// <summary>
+        /// Event handler for an item that has been added to the wait queue
+        /// </summary>
+        event QueueManager.ItemAddedToWaitQueueHandler ItemAddedToWaitQueue;
+
+        /// <summary>
         /// Start the <see cref="QueueManager"/>
         /// </summary>
         void DoWork();

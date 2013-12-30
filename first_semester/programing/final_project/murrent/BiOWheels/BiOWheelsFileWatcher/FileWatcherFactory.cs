@@ -97,12 +97,16 @@ namespace BiOWheelsFileWatcher
         /// <param name="fileComparator">
         /// The file comparator.
         /// </param>
+        /// <param name="directoryVolumeComparator">
+        /// The directory volume comparator.
+        /// </param>
         /// <returns>
         /// An instance of the <see cref="FileSystemManager"/> class
         /// </returns>
-        public static IFileSystemManager CreateFileSystemManager(IFileComparator fileComparator)
+        public static IFileSystemManager CreateFileSystemManager(
+            IFileComparator fileComparator, IDirectoryVolumeComparator directoryVolumeComparator)
         {
-            return new FileSystemManager(fileComparator);
+            return new FileSystemManager(fileComparator, directoryVolumeComparator);
         }
 
         /// <summary>
@@ -121,6 +125,15 @@ namespace BiOWheelsFileWatcher
             IFileSystemManager fileSystemManager, IFileHandleWrapper fileHandleWrapper)
         {
             return new QueueManager(fileSystemManager, fileHandleWrapper);
+        }
+
+        /// <summary>
+        /// Creates the directory volume comparator.
+        /// </summary>
+        /// <returns>An instance of the <see cref="DirectoryVolumeComparator"/> class</returns>
+        public static IDirectoryVolumeComparator CreateDirectoryVolumenComparator()
+        {
+            return new DirectoryVolumeComparator();
         }
     }
 }
