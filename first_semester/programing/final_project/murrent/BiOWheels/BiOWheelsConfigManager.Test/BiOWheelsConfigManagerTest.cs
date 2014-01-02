@@ -42,18 +42,32 @@ namespace BiOWheelsConfigManager.Test
 
             this.config = new Configuration
                 {
-                    BlockCompareOptions = new BlockCompareOptions { BlockCompareFileSizeInMB = 20, BlockSizeInKB = 2048 },
-                    LogFileOptions = new LogFileOptions { LogFileFolder = "log", LogFileSizeInMB = 1 },
-                    ParallelSync = false,
+                    BlockCompareOptions = new BlockCompareOptions { BlockCompareFileSizeInMB = 20, BlockSizeInKB = 2048 }, 
+                    LogFileOptions = new LogFileOptions { LogFileFolder = "log", LogFileSizeInMB = 1 }, 
+                    ParallelSync = false, 
                     DirectoryMappingInfo =
                         new List<DirectoryMappingInfo>
                             {
                                 new DirectoryMappingInfo
                                     {
-                                        DestinationDirectories = new List<string> { @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\A", @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\B" }, 
-                                        ExcludedFromSource = new List<string>{ @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\S"}, 
+                                        DestinationDirectories =
+                                            new List<string>
+                                                {
+                                                    @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\A", 
+                                                    @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\B"
+                                                }, 
+                                        ExcludedFromSource =
+                                            new List<string>
+                                                {
+                                                    @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\S"
+                                                }, 
                                         SourceMappingInfo =
-                                            new SourceMappingInfo { Recursive = false, SourceDirectory = @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\D" }
+                                            new SourceMappingInfo
+                                                {
+                                                    Recursive = false, 
+                                                    SourceDirectory =
+                                                        @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\D"
+                                                }
                                     }
                             }
                 };

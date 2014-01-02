@@ -286,7 +286,7 @@ namespace BiOWheels
                 {
                     Log(
                         "Error while loading the configuration for BiOWheels - " + loaderException.ExceptionType
-                        + " occurred: " + loaderException.Message,
+                        + " occurred: " + loaderException.Message, 
                         MessageType.ERROR);
 
                     WriteLineToConsole("Error while loading the configuration. Press x to exit the program");
@@ -367,9 +367,9 @@ namespace BiOWheels
                         SimpleContainer.Instance.Resolve<ITextToSpeechService>().Speak(
                             "Parallel sync has been " + (!activated ? "activated" : "deactivated"));
                         notifyIcon.ShowBalloonTip(
-                            1500,
-                            "BiOWheels",
-                            "Parallel sync has been " + (!activated ? "activated" : "deactivated..."),
+                            1500, 
+                            "BiOWheels", 
+                            "Parallel sync has been " + (!activated ? "activated" : "deactivated..."), 
                             ToolTipIcon.Info);
 
                         SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
@@ -467,7 +467,7 @@ namespace BiOWheels
                         SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
 
                         Log(
-                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(),
+                            performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(), 
                             MessageType.INFO);
                         break;
 
@@ -558,9 +558,9 @@ namespace BiOWheels
                     directoryMappingInfo =>
                     new DirectoryMapping
                         {
-                            DestinationDirectories = directoryMappingInfo.DestinationDirectories,
-                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory,
-                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive,
+                            DestinationDirectories = directoryMappingInfo.DestinationDirectories, 
+                            SourceDirectory = directoryMappingInfo.SourceMappingInfo.SourceDirectory, 
+                            Recursive = directoryMappingInfo.SourceMappingInfo.Recursive, 
                             ExcludedDirectories = directoryMappingInfo.ExcludedFromSource
                         }).ToList();
 
@@ -612,7 +612,7 @@ namespace BiOWheels
                             if (string.IsNullOrEmpty(fileName))
                             {
                                 Log(
-                                    "Error while loading the configuration. File was not found. Press x to close the application",
+                                    "Error while loading the configuration. File was not found. Press x to close the application", 
                                     MessageType.ERROR);
 
                                 ListenToConsoleKeyInput();
@@ -636,9 +636,9 @@ namespace BiOWheels
             Stream iconResourceStream = new FileStream("Assets/LiveSync.ico", FileMode.Open);
             notifyIcon = new NotifyIcon
                 {
-                    Icon = new Icon(iconResourceStream),
-                    Visible = true,
-                    Text = "BiOWheels",
+                    Icon = new Icon(iconResourceStream), 
+                    Visible = true, 
+                    Text = "BiOWheels", 
                     BalloonTipTitle = "BiOWheels"
                 };
 
@@ -655,7 +655,7 @@ namespace BiOWheels
                 notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Attempting to close BiOWheels...", ToolTipIcon.Info);
 
                 Log(
-                    "Sync is in progress. If you close the application the last job will be finished and all others will be aborted. To close BiOWheels press x else press a",
+                    "Sync is in progress. If you close the application the last job will be finished and all others will be aborted. To close BiOWheels press x else press a", 
                     MessageType.INFO);
 
                 checkedForClosing = true;

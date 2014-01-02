@@ -1,0 +1,11 @@
+﻿message CopyFile
+{
+	required byte file; 
+}
+
+message CopyFilePartial
+{
+	required byte filePart;
+	required int32 startPosition;
+	required int32 endPosition;
+}

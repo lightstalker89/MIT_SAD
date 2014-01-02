@@ -9,8 +9,6 @@
 // *******************************************************/
 namespace BiOWheelsVisualizer
 {
-    using System;
-
     /// <summary>
     /// Interface representing the must implement methods
     /// </summary>

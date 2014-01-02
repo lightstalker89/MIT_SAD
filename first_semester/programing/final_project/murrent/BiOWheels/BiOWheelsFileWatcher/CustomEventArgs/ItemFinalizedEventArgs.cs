@@ -67,8 +67,8 @@ namespace BiOWheelsFileWatcher.CustomEventArgs
         {
             get
             {
-                return "Items left in queue: " + this.ItemsLeftInQueue + " - Item with name " + this.FileName + " and file action " + this.FileAction
-                       + " has sucessfully been processed.";
+                return "Items left in queue: " + this.ItemsLeftInQueue + " - Item with name " + this.FileName
+                       + " and file action " + this.FileAction + " has sucessfully been processed.";
             }
         }
     }
