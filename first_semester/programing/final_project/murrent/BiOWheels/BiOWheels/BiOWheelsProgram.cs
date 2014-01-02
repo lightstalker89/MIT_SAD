@@ -464,6 +464,8 @@ namespace BiOWheels
                     case ConsoleKey.U:
                         IPerformanceMonitor performanceMonitor = SimpleContainer.Instance.Resolve<IPerformanceMonitor>();
 
+                        SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
                         Log(
                             performanceMonitor.GetCPUUsage() + " - " + performanceMonitor.GetRAMUsage(),
                             MessageType.INFO);
