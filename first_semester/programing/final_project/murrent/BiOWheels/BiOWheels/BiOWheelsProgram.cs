@@ -341,7 +341,6 @@ namespace BiOWheels
                 switch (key)
                 {
                     case ConsoleKey.A:
-                        checkedForClosing = false;
                         Log("BiOWheels continues to sync files", MessageType.INFO);
                         notifyIcon.ShowBalloonTip(
                             1500, "BiOWheels", "BiOWheels continues to sync files...", ToolTipIcon.Info);
@@ -351,6 +350,10 @@ namespace BiOWheels
                         if (checkedForClosing)
                         {
                             CloseApplication(0);
+                        }
+                        else
+                        {
+                            CheckBeforeClose();
                         }
 
                         break;
@@ -650,6 +653,8 @@ namespace BiOWheels
         /// </summary>
         private static void CheckBeforeClose()
         {
+            SimpleContainer.Instance.Resolve<ILogger>().SetIsEnabled<ConsoleLogger>(true);
+
             if (isSyncing)
             {
                 notifyIcon.ShowBalloonTip(1500, "BiOWheels", "Attempting to close BiOWheels...", ToolTipIcon.Info);
