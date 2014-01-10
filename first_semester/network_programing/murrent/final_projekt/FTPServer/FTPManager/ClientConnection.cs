@@ -192,11 +192,11 @@ namespace FTPManager
 
         /// <summary>
         /// </summary>
-        private const string RootDirectory = "C:\\temp";
+        private const string RootDirectory = "C:\\temp\\MainDirectory";
 
         /// <summary>
         /// </summary>
-        private string currentDirectory = "C:\\temp";
+        private string currentDirectory = "C:\\temp\\MainDirectory";
 
         /// <summary>
         /// </summary>
@@ -604,7 +604,7 @@ namespace FTPManager
                 default:
                     return "504 Command not implemented for that parameter";
             }
-
+            
             return string.Format("200 Type set to {0}", this.connectionType);
         }
 
