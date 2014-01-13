@@ -21,7 +21,6 @@ namespace FTPServer
     {
         private static TcpClient FTPClient { get; set; }
         private static NetworkStream FTPClientStream { get; set; }
-        //private static TcpClient FTPDataClient { get; set; }
         private static TcpListener FTPListener { get; set; }
         private static TcpListener FTPPassiveListener { get; set; }
         private static Logger Logger { get; set; }
@@ -79,8 +78,8 @@ namespace FTPServer
         {
             Logger.Log(string.Format("Client {0} connected", FTPClientIP));
 
-            //try
-            //{
+            try
+            {
                 FTPClientStream = FTPClient.GetStream();
 
                 SendMessage("220 Server ready\r\n");
@@ -116,7 +115,6 @@ namespace FTPServer
                         case "RETR":
                             break;
                         case "PORT":
-                            //SendMessage(PortResponse(ftpArgument));
                             break;
                         case "STORE":
                             break;
@@ -146,7 +144,6 @@ namespace FTPServer
                             break;
                         case "CWD":
                             SendMessage(ChangeWorkingDirectoryResponse(ftpArgument));
-                            //SendMessage(string.Format("257 \"{0}\" is current directory.\r\n", GetCurrentWorkingDirectory()));
                             break;
                         case "":
                             break;
@@ -156,11 +153,11 @@ namespace FTPServer
                             break;
                     }
                 }
-            //}
-            //catch (Exception)
-            //{
+            }
+            catch (Exception)
+            {
 
-            //}
+            }
         }
 
         private static void SendMessage(string message)
