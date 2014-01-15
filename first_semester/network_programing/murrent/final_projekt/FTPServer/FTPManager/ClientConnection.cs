@@ -7,6 +7,9 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+
+using System.Globalization;
+
 namespace FTPManager
 {
     using System;
@@ -810,6 +813,11 @@ namespace FTPManager
         /// </returns>
         private string ListOperation(NetworkStream dataStream, string pathName)
         {
+            if (!Directory.Exists(pathName))
+            {
+                Directory.CreateDirectory(pathName);
+            }
+
             StreamWriter dataWriter = new StreamWriter(dataStream, Encoding.ASCII);
 
             IEnumerable<string> directories = Directory.EnumerateDirectories(pathName);
@@ -819,8 +827,8 @@ namespace FTPManager
                 DirectoryInfo d = new DirectoryInfo(dir);
 
                 string date = d.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180)
-                                  ? d.LastWriteTime.ToString("MMM dd  yyyy")
-                                  : d.LastWriteTime.ToString("MMM dd HH:mm");
+                                  ? d.LastWriteTime.ToString("MMM dd  yyyy", CultureInfo.GetCultureInfo("en-EN"))
+                                  : d.LastWriteTime.ToString("MMM dd HH:mm", CultureInfo.GetCultureInfo("en-EN"));
 
                 string line = string.Format("drwxr-xr-x    2 2003     2003     {0,8} {1} {2}", "4096", date, d.Name);
 
@@ -835,8 +843,8 @@ namespace FTPManager
                 FileInfo f = new FileInfo(file);
 
                 string date = f.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180)
-                                  ? f.LastWriteTime.ToString("MMM dd  yyyy")
-                                  : f.LastWriteTime.ToString("MMM dd HH:mm");
+                                  ? f.LastWriteTime.ToString("MMM dd  yyyy", CultureInfo.GetCultureInfo("en-EN"))
+                                  : f.LastWriteTime.ToString("MMM dd HH:mm", CultureInfo.GetCultureInfo("en-EN"));
 
                 string line = string.Format("-rw-r--r--    2 2003     2003     {0,8} {1} {2}", f.Length, date, f.Name);
 
