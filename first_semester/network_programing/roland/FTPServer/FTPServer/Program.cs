@@ -7,6 +7,7 @@ using System.Threading;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Globalization;
 
 namespace FTPServer
 {
@@ -46,40 +47,45 @@ namespace FTPServer
 
             CurrentDir = MyRootDir;
             serverThread.Start();
+            // is needed, otherwise application would close.
+            Console.ReadKey();
         }
 
         public static void StartServer()
         {
+            // IPAddress Loopback is used for Local host.
             FTPListener = new TcpListener(IPAddress.Loopback, 21);
             FTPListener.Start();
 
             Logger.Log("Server started!");
 
-            try
+            FTPListener.BeginAcceptTcpClient(HandleClient, FTPListener);
+
+        }
+
+        private static void HandleClient(IAsyncResult result)
+        {
+            FTPClient = FTPListener.EndAcceptTcpClient(result);
+            //for new connection activate Listener!
+            FTPListener.BeginAcceptTcpClient(HandleClient, FTPListener);
+
+            IPEndPoint ipEndPoint = FTPClient.Client.RemoteEndPoint as IPEndPoint;
+
+            if (ipEndPoint != null)
             {
-                FTPClient = FTPListener.AcceptTcpClient();
-
-                IPEndPoint ipEndPoint = FTPClient.Client.RemoteEndPoint as IPEndPoint;
-
-                if (ipEndPoint != null)
-                {
-                    FTPClientIP = ipEndPoint.Address;
-                }
-
-                Thread clientThread = new Thread(ListenToFTPClient);
-                clientThread.Start();
+                FTPClientIP = ipEndPoint.Address;
             }
-            catch (Exception)
-            {
-            }
+
+            Thread clientThread = new Thread(ListenToFTPClient);
+            clientThread.Start();
         }
 
         private static void ListenToFTPClient()
         {
             Logger.Log(string.Format("Client {0} connected", FTPClientIP));
 
-            try
-            {
+            //try
+            //{
                 FTPClientStream = FTPClient.GetStream();
 
                 SendMessage("220 Server ready\r\n");
@@ -106,17 +112,27 @@ namespace FTPServer
                             SendMessage("230 User logged in\r\n");
                             break;
 
-                        case "BYE":
+                        case "QUIT":
+                            SendMessage("221 Service closing control connection\r\n");
                             break;
 
-                        case "BYTE":
+                        case "DELE":
+                            SendMessage(DeleteFileResponse(ftpArgument));
                             break;
 
-                        case "RETR":
+                        case "RMD":
+                            SendMessage(RemoveDirectoryResponse(ftpArgument));
                             break;
+
                         case "PORT":
                             break;
-                        case "STORE":
+
+                        case "MKD":
+                            SendMessage(MakeDirectoryResponse(ftpArgument));
+                            break;
+
+                        case "STOR":
+                            StoreResponse(ftpArgument);
                             break;
 
                         case "LIST":
@@ -132,7 +148,7 @@ namespace FTPServer
                             break;
 
                         case "FEAT":
-                            SendMessage("no-features\r\n");
+                            SendMessage("211 END\r\n");
                             break;
 
                         case "PWD":
@@ -142,10 +158,13 @@ namespace FTPServer
                         case "PASV":
                             SendMessage(PassiveModeResponse());
                             break;
+
                         case "CWD":
                             SendMessage(ChangeWorkingDirectoryResponse(ftpArgument));
                             break;
-                        case "":
+
+                        case "RETR":
+                            RetrieveResponse(ftpArgument);
                             break;
 
                         default:
@@ -153,11 +172,11 @@ namespace FTPServer
                             break;
                     }
                 }
-            }
-            catch (Exception)
-            {
+            //}
+            //catch (Exception)
+            //{
 
-            }
+            //}
         }
 
         private static void SendMessage(string message)
@@ -248,6 +267,7 @@ namespace FTPServer
             {
                 SendMessage("150 Opening Passive mode data transfer for LIST\r\n");
                 FTPPassiveListener.BeginAcceptTcpClient(HandleList, CurrentDir);
+                return "";
             }
 
             return "450 Requested file action not taken\r\n";
@@ -270,11 +290,11 @@ namespace FTPServer
                 DirectoryInfo d = new DirectoryInfo(dir);
 
                 string date = d.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180) ?
-                    d.LastWriteTime.ToString("MMM dd  yyyy") :
-                    d.LastWriteTime.ToString("MMM dd HH:mm");
+                    d.LastWriteTime.ToString("MMM dd  yyyy", CultureInfo.CreateSpecificCulture("en-US")) :
+                    d.LastWriteTime.ToString("MMM dd HH:mm", CultureInfo.CreateSpecificCulture("en-US"));
 
                 string line = string.Format("drwxr-xr-x    2 2003     2003     {0,8} {1} {2}", "4096", date, d.Name);
-
+                Console.WriteLine(line);
                 dataWriter.WriteLine(line);
                 dataWriter.Flush();
             }
@@ -284,8 +304,8 @@ namespace FTPServer
                 FileInfo f = new FileInfo(file);
 
                 string date = f.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180) ?
-                    f.LastWriteTime.ToString("MMM dd  yyyy") :
-                    f.LastWriteTime.ToString("MMM dd HH:mm");
+                    f.LastWriteTime.ToString("MMM dd  yyyy", CultureInfo.CreateSpecificCulture("en-US")) :
+                    f.LastWriteTime.ToString("MMM dd HH:mm", CultureInfo.CreateSpecificCulture("en-US"));
 
                 string line = string.Format("-rw-r--r--    2 2003     2003     {0,8} {1} {2}", f.Length, date, f.Name);
 
@@ -295,6 +315,9 @@ namespace FTPServer
 
             netStream.Close();
             netStream.Dispose();
+
+            dataWriter.Close();
+            dataWriter.Dispose();
 
             ftpDataClient.Close();
             ftpDataClient = null;
@@ -339,6 +362,167 @@ namespace FTPServer
             }
 
             return "250 Changed to new directory\r\n";
+        }
+
+        private static void StoreResponse(string filename)
+        {
+            string path = string.Format("{0}\\{1}", CurrentDir, filename);
+
+            if (path != null)
+            {
+                SendMessage("150 Opening Passive mode data transfer for STOR/STOU\r\n");
+                FTPPassiveListener.BeginAcceptTcpClient(HandleStore, path);
+            }
+            else
+            {
+                SendMessage("450 Requested file action not taken\r\n");
+            }
+        }
+
+        private static void HandleStore(IAsyncResult result)
+        {
+            TcpClient ftpDataClient = FTPPassiveListener.EndAcceptTcpClient(result);
+
+            string path = (string)result.AsyncState;
+
+            using (NetworkStream dataStream = ftpDataClient.GetStream())
+            {
+                using (FileStream fStream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                {
+                    byte[] buffer = new byte[4096];
+                    int currentLength = 0;
+
+                    while ((currentLength = dataStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fStream.Write(buffer, 0, currentLength);
+                    }
+                }
+            }
+
+            ftpDataClient.Close();
+            ftpDataClient = null;
+
+            SendMessage("226 Closing data connection, file transfer successful\r\n");
+        }
+
+        private static string DeleteFileResponse(string filePath)
+        {
+            string fullPath = string.Format("{0}\\{1}", CurrentDir, filePath);
+
+            try
+            {
+                if (File.Exists(fullPath))
+                {
+                    File.Delete(fullPath);
+                    return "250 Requested file action okay, completed\r\n";
+                }
+            }
+            catch (Exception)
+            {
+                return "550 Error deleting File\r\n";
+            }
+
+
+            return "550 File Not Found\r\n";
+        }
+
+        private static string RemoveDirectoryResponse(string dirPath)
+        {
+            string fullPath = string.Format("{0}\\{1}", CurrentDir, dirPath);
+
+            try
+            {
+                if (Directory.Exists(fullPath))
+                {
+                    Directory.Delete(fullPath);
+                    return "250 Requested directory action okay, completed\r\n";
+                }
+            }
+            catch (Exception)
+            {
+                return "550 Error deleting Directory\r\n";
+            }
+
+
+            return "550 directory Not Found\r\n";
+        }
+
+        private static string MakeDirectoryResponse(string dirName)
+        {
+            string fullPath = string.Format("{0}\\{1}", CurrentDir, dirName);
+
+            try
+            {
+                if (!Directory.Exists(fullPath))
+                {
+                    Directory.CreateDirectory(fullPath);
+                    return "250 Requested directory action okay, completed\r\n";
+                }
+            }
+            catch (Exception)
+            {
+                return "550 Error creating Directory\r\n";
+            }
+
+
+            return "550 Directory already exists\r\n";
+        }
+
+        private static void RetrieveResponse(string fileName)
+        {
+            string fullPath = string.Format("{0}\\{1}", CurrentDir, fileName);
+
+            if (File.Exists(fullPath))
+            {
+                SendMessage("150 Opening Passive mode data transfer for RETR\r\n");
+                FTPPassiveListener.BeginAcceptTcpClient(HandleRetrieve, fullPath);
+            }
+
+            SendMessage("550 File Not Found\r\n");
+        }
+
+        private static void HandleRetrieve(IAsyncResult result)
+        {
+            TcpClient ftpDataClient = FTPPassiveListener.EndAcceptTcpClient(result);
+
+            string path = (string)result.AsyncState;
+
+            using (NetworkStream dataStream = ftpDataClient.GetStream())
+            {
+                using (FileStream fStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    
+                    int currentLength = 0;
+
+                    if (Type == SendType.Image)
+                    {
+                        byte[] buffer = new byte[4096];
+                        while ((currentLength = dataStream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            fStream.Write(buffer, 0, currentLength);
+                        }
+                    }
+                    else
+                    {
+                        char[] buffer = new char[4096];
+                        using (StreamReader strReader = new StreamReader(fStream))
+                        {
+                            using (StreamWriter strWriter = new StreamWriter(dataStream, Encoding.ASCII))
+                            {
+                                while ((currentLength = strReader.Read(buffer, 0, buffer.Length)) > 0)
+                                {
+                                    strWriter.Write(buffer, 0, currentLength);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            ftpDataClient.Close();
+            ftpDataClient = null;
+
+            SendMessage("226 Closing data connection, file transfer successful\r\n");
         }
     }
 }
