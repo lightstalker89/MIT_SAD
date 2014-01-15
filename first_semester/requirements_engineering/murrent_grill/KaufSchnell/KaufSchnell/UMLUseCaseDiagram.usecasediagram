@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="55f3e6e2-ba94-4180-8d28-21a0687e619a" name="UMLUseCaseDiagram" linkedPackageId="3f4a9408-a559-49ef-aaa4-fa00e4e9d1b1" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="53373e95-7242-48fd-b664-96567da2ee2d">
+      <profileInstance Id="abedaede-6d46-4477-b659-c2667ce8728c" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="ea00ab0a-f546-4ddb-9125-ef7159bdb79c">
+      <profileInstance Id="1f0d9faf-5c23-428f-806a-ad50d32ea3c3" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="9eab9f80-a76d-41c8-9697-63b4511a1417" name="Kaufschnell" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="c57d4c9a-487d-4dd3-a7e2-16e807ef1d23" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="cd3495d1-6371-42e3-b726-0001a90397ad" name="Kunde" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="54b2df2b-5423-4509-bb4d-11878a8b79e8" />
+        <targetEnds>
+          <association Id="57eb725b-f1a8-4f6b-b28c-d61c75621eae" isDerived="false" sourceEndRoleName="Kunde" targetEndRoleName="Bestellen" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" LastKnownName="Bestellen" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5ae8e5bd-7217-468c-b945-90e7a98897a8" name="Kunde" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="656b7bcc-8f0f-4612-be81-cf25c38bbb6f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="cca42c3e-af3b-4224-a3d5-5ae1c320b890" name="Bestellen" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="565cc7e1-198f-4e6f-80c5-9c7cd9231389" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="30314661-af5a-4cab-a9bb-9fb10ec3a9c5" />
+          </association>
+          <association Id="72c6c965-57e5-480d-83c2-70a1d3961a76" isDerived="false" sourceEndRoleName="Kunde" targetEndRoleName="Katalog anfordern" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="85a903ac-00d0-4ba0-b7f5-98843f690c6a" LastKnownName="Katalog anfordern" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="60aa440d-6f6e-4be8-b197-eca9abcd874a" name="Kunde" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="45deb494-7c0f-4564-b24c-8af0dc1d6b6f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e3fc95cd-ecbf-4498-8e67-8955065948dd" name="Katalog anfordern" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="95fa5191-213b-4d07-82f4-ade6e2749ee9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="6e163621-4f0c-48df-b1f5-a81317d92f32" />
+          </association>
+          <association Id="bb895145-cba3-43b6-82bf-19cbe9cb26e9" isDerived="false" sourceEndRoleName="Kunde" targetEndRoleName="Bezahlen" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="8c1c8ddc-75dc-4e92-8a10-aeb4f9f0f717" LastKnownName="Bezahlen" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a07f8e51-b260-4a24-a8f2-297b8c91bc1b" name="Kunde" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="6d8e542c-2c63-45dd-b830-0e68b188a451" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1cd79a7f-da0b-4cc0-b0de-fd72b7926f99" name="Bezahlen" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8ec7bc47-21e2-42ef-830c-4d5e4c1bf64d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="f2676c9f-9c33-4fce-9c42-dedd1c6dd9e0" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="547556ee-ebf2-40a1-bbb6-f3b5ccc0334d" name="Lieferant" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="135da4ae-4cda-4737-997e-5c1181041b2f" />
+        <targetEnds>
+          <association Id="0a56e68e-3e6f-4506-9ef6-64b6ddd18e24" isDerived="false" sourceEndRoleName="Lieferant" targetEndRoleName="Waren liefern" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="29c9caeb-317e-4033-b6f4-8b991cf90a18" LastKnownName="Waren liefern" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6583890f-2d2e-4b39-92ff-a00d32b68777" name="Lieferant" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8e79cf2b-0890-4e34-90a3-dc070875f75e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="83cba4a7-75a9-4587-8a61-97581d244996" name="Waren liefern" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8efb778d-12d7-435a-8e86-72ac22bff97a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4f70d57e-b755-46b2-b4a5-4c8852baf740" />
+          </association>
+          <association Id="ac73b2ac-93de-49a8-b082-fd637d694460" isDerived="false" sourceEndRoleName="Lieferant" targetEndRoleName="Mahnung versenden" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="564f3a21-bbc8-4855-9fac-89878a1e7b99" LastKnownName="Mahnung versenden" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="9092191e-34b0-406e-a033-8a6c62748240" name="Lieferant" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="613e834d-2dca-4c3d-a07b-ede7c170b429" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7da49115-9347-47d1-9a09-9f550770b6b3" name="Mahnung versenden" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="31ed1910-e047-4298-b99e-807877147873" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="0e3402a9-03a6-4765-8a64-b1b0e1a3c927" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="89184c22-ed91-4f31-b90b-ed631313e054" name="Mitarbeiter" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5c659fb5-e38e-41fc-97d7-bad1817d194d" />
+        <targetEnds>
+          <association Id="be29a991-85d6-4692-8c3e-302ac11b8ce2" isDerived="false" sourceEndRoleName="Mitarbeiter" targetEndRoleName="Bestellung bearbeiten" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2710c9a4-2823-4ac9-978f-d232eda452f3" LastKnownName="Bestellung bearbeiten" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e77d4ed4-4637-4c4e-b556-4c41badcb03d" name="Mitarbeiter" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="0f1641c5-a0b6-4bcb-ae80-19b61a165497" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="64690df9-7ee7-47fb-b8c2-6adeffd40367" name="Bestellung bearbeiten" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="23521288-1302-4322-ae5b-5958889a8092" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="da728dbd-36e3-48ed-9386-77e0e82a8a1d" />
+          </association>
+          <association Id="7db68de0-0b5c-402f-a323-c74eaa46c679" isDerived="false" sourceEndRoleName="Mitarbeiter" targetEndRoleName="Artikel verfügbarkeitt abfragen" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="589c8914-95a5-41ad-827e-dab987f5e906" LastKnownName="Artikel verfügbarkeitt abfragen" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b27fccb5-4bc1-4b82-91ed-06d879254c47" name="Mitarbeiter" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="a6369a6d-f7fe-4692-b42f-c6f90a81a734" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d9389a92-463e-46ab-8776-1bb0fe2e8ff2" name="Artikel verfügbarkeitt abfragen" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1b2fcf64-f9f8-4dd9-b4c4-7f3000a5be86" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="f5274fbd-dfbe-4d4d-86e3-56c371e517fb" />
+          </association>
+          <association Id="379da43e-5d3a-4ce8-902e-3f2fcd26d246" isDerived="false" sourceEndRoleName="Mitarbeiter" targetEndRoleName="Lieferungen verwalten" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="f7476e44-8ff1-4715-95b5-e5abe83d88b6" LastKnownName="Lieferungen verwalten" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="916ca595-7626-47f4-ad4b-9e826c54ea00" name="Mitarbeiter" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e3a2984c-e380-4d9c-a3d2-8d0ebcb510bb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e4757a6d-f6e5-4a05-9933-cd4c92995dd1" name="Lieferungen verwalten" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="faf79795-b96c-4814-aad9-eb035a849ba0" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="5490e4d9-8780-4e0e-af08-49e0f8c1d396" />
+          </association>
+          <association Id="458c76ae-18d3-4f97-a34c-11f9cce16be4" isDerived="false" sourceEndRoleName="Mitarbeiter" targetEndRoleName="Artiken nachbestellen" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="691e1aa0-dafd-4051-80fe-63dfb99935f3" LastKnownName="Artiken nachbestellen" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4ef36bfd-974a-48f5-b1f5-0ac4aa87c3ea" name="Mitarbeiter" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1cffaccc-3f56-4717-8967-bccdeb74e2a7" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="49672248-0b38-4bc8-ab05-90516b216e7a" name="Artiken nachbestellen" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8fda39ab-a5b0-48f3-bc57-04cc61e37379" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="0e2a4899-607e-4936-829a-68b571dbc6c5" />
+          </association>
+          <association Id="3c19d4b9-87d9-44c0-9f46-f12a3ed636eb" isDerived="false" sourceEndRoleName="Mitarbeiter" targetEndRoleName="Lieferung versenden" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="4f044269-29c9-4e1d-9d95-75597fd93a73" LastKnownName="Lieferung versenden" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="141becc7-c4de-482a-9cc3-84dcaf0cacd4" name="Mitarbeiter" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="2bb87b28-b3ae-4d5d-9d5b-16a27a8d9226" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5304b720-b5fd-42d5-989a-852dbfbd9d32" name="Lieferung versenden" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8ae52e0b-4b93-4e2c-a3e8-500a3d2046de" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="cea8e94b-747f-4c8d-821a-1cca5ddd25c2" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" name="Bestellen" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="b9253054-4014-41a8-8550-2fbdeeae782c" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="f4e29194-839d-4d85-ab56-6a77d7c008cd" name="Benutzerdaten erfassen" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2e31f019-e328-42a8-93cd-2698ebfd8e50" />
+        <extendedCases>
+          <extend Id="fa6d9394-9277-46ad-b36c-892d1f079645">
+            <useCaseMoniker Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" LastKnownName="Bestellen" />
+            <elementDefinition Id="f8654ff3-168a-4053-ba90-b06bc2b7b083" />
+          </extend>
+        </extendedCases>
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="2710c9a4-2823-4ac9-978f-d232eda452f3" name="Bestellung bearbeiten" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="154e6458-93dc-42f2-b3b6-83db0c990adb" />
+        <targetEnds>
+          <association Id="fba36e56-ccfa-490d-9359-991eff2b30ad" isDerived="false" sourceEndRoleName="Bestellung bearbeiten" targetEndRoleName="Rückmeldung an den Kunden" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="e3959ae8-044e-40bd-9675-06be2e82d196" LastKnownName="Rückmeldung an den Kunden" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="360d566a-dbf0-4d1e-ba6a-50f775ff5c3f" name="Bestellung bearbeiten" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3e8cd0f8-4a33-40a0-92e4-ebd6c0307ea1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5a86397a-bc58-4c5b-a36a-e489e0b494a9" name="Rückmeldung an den Kunden" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="caa9c809-6032-437f-b7db-92ec9c79b3cc" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="caec8221-24ce-4b53-b113-98fd7855cfb2" />
+          </association>
+        </targetEnds>
+        <additions>
+          <include Id="99778b4e-4578-4070-990d-d44695eddc2d">
+            <useCaseMoniker Id="fde052ac-c683-491a-a652-f6c1c9406fa2" LastKnownName="Bestellung eingegangen" />
+            <elementDefinition Id="bab8b70c-87bb-46f6-8f84-97d0409024b6" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="589c8914-95a5-41ad-827e-dab987f5e906" name="Artikel verfügbarkeitt abfragen" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="94f7d5e1-b936-4682-a24f-3611be68d959" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="f7476e44-8ff1-4715-95b5-e5abe83d88b6" name="Lieferungen verwalten" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="a8767e0a-980b-49ac-bfd3-3c373c464419" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="691e1aa0-dafd-4051-80fe-63dfb99935f3" name="Artiken nachbestellen" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d3330ee4-0a0c-46e4-b931-a76a7dc3c668" />
+        <additions>
+          <include Id="44dc99dd-f8d3-4350-9b58-830f941b2c8e">
+            <useCaseMoniker Id="bebba318-6fe0-4153-b8f7-ccd73981c4e3" LastKnownName="Artikeln nicht mehr verfügbar" />
+            <elementDefinition Id="bad98006-79e9-4eb0-ac8e-37e4029adc46" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="bebba318-6fe0-4153-b8f7-ccd73981c4e3" name="Artikeln nicht mehr verfügbar" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d4ce7933-f5a2-42d3-8c2d-ee3032fa605a" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="fde052ac-c683-491a-a652-f6c1c9406fa2" name="Bestellung eingegangen" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="245a1ec1-badc-4189-859f-c389c665899c" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="85a903ac-00d0-4ba0-b7f5-98843f690c6a" name="Katalog anfordern" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="85325af9-914a-4bae-a2f4-6f8c11b233f7" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="e3959ae8-044e-40bd-9675-06be2e82d196" name="Rückmeldung an den Kunden" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9e8dbc79-5447-4664-9e8a-484490d8d3d5" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="4f044269-29c9-4e1d-9d95-75597fd93a73" name="Lieferung versenden" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2b704c88-7ae8-43d6-936e-c25038393e5d" />
+        <additions>
+          <include Id="21ed682f-20e1-4d4b-ac39-2179432bc7a6">
+            <useCaseMoniker Id="261ffafc-af7d-4230-b67e-f18bd7a2cc40" LastKnownName="Lieferung zusammenstellen" />
+            <elementDefinition Id="c95a0fba-e5e3-4134-81ff-ed38f1f9c8b3" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="fd442e81-ddad-4a62-a7bb-bc6314e5f1f5" name="Rechnung schreiben" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="bbea18a5-8257-402f-b658-d1ad4f71745e" />
+        <extendedCases>
+          <extend Id="ebc18fb8-9fab-4968-b864-176921acad96">
+            <useCaseMoniker Id="4f044269-29c9-4e1d-9d95-75597fd93a73" LastKnownName="Lieferung versenden" />
+            <elementDefinition Id="cad078ba-d2d9-46b0-8baf-92be295fd772" />
+          </extend>
+        </extendedCases>
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="29c9caeb-317e-4033-b6f4-8b991cf90a18" name="Waren liefern" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="69e690e5-8fb9-4edb-b1de-937343d26714" />
+        <additions>
+          <include Id="8e1bb5cc-df2d-4917-b6a9-f2edddff8168">
+            <useCaseMoniker Id="ba57db73-815f-41f5-a80f-4fb8406e1bf8" LastKnownName="Bestellung eingegangen" />
+            <elementDefinition Id="653e6df7-1638-43ac-be3d-5d6e16d0b12b" />
+          </include>
+          <include Id="e87f4b2a-b587-4704-9967-87e4bbf70570">
+            <useCaseMoniker Id="b5f891a6-1056-4889-bdef-3e109ffd7508" LastKnownName="Waren vorhanden" />
+            <elementDefinition Id="dddf8d1a-d843-4a6b-ac99-f0da8036bf69" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="ba57db73-815f-41f5-a80f-4fb8406e1bf8" name="Bestellung eingegangen" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3eda80ca-318f-4d08-a275-5a8dd5e46cd3" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="b5f891a6-1056-4889-bdef-3e109ffd7508" name="Waren vorhanden" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="b937ebac-4af7-4619-b9ea-433a0124dd60" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="8c1c8ddc-75dc-4e92-8a10-aeb4f9f0f717" name="Bezahlen" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="41a27683-404c-44f3-8158-a131bacf5e15" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="564f3a21-bbc8-4855-9fac-89878a1e7b99" name="Mahnung versenden" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="773b2908-9215-487b-ac32-d6bfa68becd3" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="261ffafc-af7d-4230-b67e-f18bd7a2cc40" name="Lieferung zusammenstellen" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="81855917-dc6d-47f1-ab34-422684ef9cba" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="3f4a9408-a559-49ef-aaa4-fa00e4e9d1b1" name="KaufSchnell">
+    <elementDefinition Id="d41b8002-58b6-4b25-b23e-9b055ad2ada4" />
+  </package>
+</useCaseModelRoot>
