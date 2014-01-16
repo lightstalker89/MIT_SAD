@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="55f3e6e2-ba94-4180-8d28-21a0687e619a" name="UMLUseCaseDiagram" linkedPackageId="3f4a9408-a559-49ef-aaa4-fa00e4e9d1b1" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
-  <profileInstances>
-    <packageHasProfileInstances Id="53373e95-7242-48fd-b664-96567da2ee2d">
-      <profileInstance Id="abedaede-6d46-4477-b659-c2667ce8728c" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="ea00ab0a-f546-4ddb-9125-ef7159bdb79c">
-      <profileInstance Id="1f0d9faf-5c23-428f-806a-ad50d32ea3c3" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" dslVersion="1.0.0.0" Id="55f3e6e2-ba94-4180-8d28-21a0687e619a" name="UMLUseCaseDiagram" linkedPackageId="3f4a9408-a559-49ef-aaa4-fa00e4e9d1b1" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
   <packagedElements>
     <useCaseModelRootHasTypes>
       <subsystem Id="9eab9f80-a76d-41c8-9697-63b4511a1417" name="Kaufschnell" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -198,6 +184,22 @@
             </relationshipOwnedElementsInternal>
             <elementDefinition Id="cea8e94b-747f-4c8d-821a-1cca5ddd25c2" />
           </association>
+          <association Id="b4af270b-9b77-4933-8546-e8e1b7664574" isDerived="false" sourceEndRoleName="Mitarbeiter" targetEndRoleName="Kunden verwalten" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="524bfa55-0516-4107-adca-efa37a8c1f44" LastKnownName="Kunden verwalten" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="708bc68e-c892-4e58-a3f6-ce0f25f8d1e1" name="Mitarbeiter" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="9a54ddcb-c378-41b9-b1db-fad5e2b8c32e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="113b86a6-db0f-4f75-9a75-d305df04d4ab" name="Kunden verwalten" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="3a9dbfea-8264-4169-aae4-5d759a08cf35" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="eb9fddb0-3ff3-45da-9f01-d11c8eb4ecdc" />
+          </association>
         </targetEnds>
       </actor>
     </useCaseModelRootHasTypes>
@@ -216,6 +218,10 @@
           <extend Id="fa6d9394-9277-46ad-b36c-892d1f079645">
             <useCaseMoniker Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" LastKnownName="Bestellen" />
             <elementDefinition Id="f8654ff3-168a-4053-ba90-b06bc2b7b083" />
+          </extend>
+          <extend Id="965d4fc3-af32-46eb-884c-a3d9262e66e1">
+            <useCaseMoniker Id="85a903ac-00d0-4ba0-b7f5-98843f690c6a" LastKnownName="Katalog anfordern" />
+            <elementDefinition Id="f500614e-434f-46f0-9c86-93e4c619af43" />
           </extend>
         </extendedCases>
         <subjects>
@@ -403,8 +409,30 @@
         </subjects>
       </useCase>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="524bfa55-0516-4107-adca-efa37a8c1f44" name="Kunden verwalten" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="40642900-3af6-4df2-b411-3188b90a58c6" />
+        <subjects>
+          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
   </packagedElements>
   <package Id="3f4a9408-a559-49ef-aaa4-fa00e4e9d1b1" name="KaufSchnell">
     <elementDefinition Id="d41b8002-58b6-4b25-b23e-9b055ad2ada4" />
+    <profileInstances>
+      <packageHasProfileInstances Id="53373e95-7242-48fd-b664-96567da2ee2d">
+        <profileInstance Id="abedaede-6d46-4477-b659-c2667ce8728c" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="ea00ab0a-f546-4ddb-9125-ef7159bdb79c">
+        <profileInstance Id="1f0d9faf-5c23-428f-806a-ad50d32ea3c3" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </useCaseModelRoot>

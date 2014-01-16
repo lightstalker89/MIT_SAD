@@ -1,8 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm11="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm12="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
   dslVersion="1.0.0.0"
   Id="d41b8002-58b6-4b25-b23e-9b055ad2ada4"
   name="KaufSchnell" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="96b0b15b-267f-46b3-82c9-afa3fa6b4ba3">
+      <body>Artikel vorhanden?</body>
+      <annotatedElements>
+        <decisionNodeMoniker
+          Id="300f4ffd-68ff-40f2-9f6b-b3d9b6385aba"
+          LastKnownName="Decision1"
+          LastKnownLocation="KaufSchnell.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="71c595ac-4416-4e7a-9462-a0dc2893393a">
+      <body>Artikeln in anderen Lagern  vorhanden?</body>
+      <annotatedElements>
+        <decisionNodeMoniker
+          Id="100b7136-9851-493c-bd09-99b95306d400"
+          LastKnownName="Decision4"
+          LastKnownLocation="KaufSchnell.uml" />
+      </annotatedElements>
+    </comment>
+  </ownedCommentsInternal>
   <profileInstances>
     <packageHasProfileInstances
       Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
@@ -2191,6 +2213,84 @@
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
+          <association
+            Id="494499a5-6889-4927-9287-64b816960371"
+            isDerived="false"
+            sourceEndRoleName="Mitarbeiter"
+            targetEndRoleName="Kunden anlegen"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="2c3f40d4-2941-4d59-b736-7d3f23118e55"
+              LastKnownName="Kunden anlegen"
+              LastKnownLocation="KaufSchnell.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4f94769b-37af-4798-848b-2fda35ffee62"
+                  name="Mitarbeiter"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4b875b76-1e1d-4609-ac3a-864d4c18b7ac"
+                  name="Kunden anlegen"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="eb9fddb0-3ff3-45da-9f01-d11c8eb4ecdc"
+            isDerived="false"
+            sourceEndRoleName="Mitarbeiter"
+            targetEndRoleName="Kunden verwalten"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="40642900-3af6-4df2-b411-3188b90a58c6"
+              LastKnownName="Kunden verwalten"
+              LastKnownLocation="KaufSchnell.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9a54ddcb-c378-41b9-b1db-fad5e2b8c32e"
+                  name="Mitarbeiter"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3a9dbfea-8264-4169-aae4-5d759a08cf35"
+                  name="Kunden verwalten"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
         </targetEnds>
       </actor>
     </packageHasNamedElement>
@@ -2220,6 +2320,13 @@
             <useCaseMoniker
               Id="b9253054-4014-41a8-8550-2fbdeeae782c"
               LastKnownName="Bestellen"
+              LastKnownLocation="KaufSchnell.uml" />
+          </extend>
+          <extend
+            Id="f500614e-434f-46f0-9c86-93e4c619af43">
+            <useCaseMoniker
+              Id="85325af9-914a-4bae-a2f4-6f8c11b233f7"
+              LastKnownName="Katalog anfordern"
               LastKnownLocation="KaufSchnell.uml" />
           </extend>
         </extendedCases>
@@ -2547,6 +2654,286 @@
             LastKnownLocation="KaufSchnell.uml" />
         </subjects>
       </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="0da87008-e17e-4f79-91f3-36dfd955d53f"
+        name="Lager"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="2c3f40d4-2941-4d59-b736-7d3f23118e55"
+        name="Kunden anlegen"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="40642900-3af6-4df2-b411-3188b90a58c6"
+        name="Kunden verwalten"
+        isAbstract="false"
+        isLeaf="false">
+        <subjects>
+          <subsystemMoniker
+            Id="c57d4c9a-487d-4dd3-a7e2-16e807ef1d23"
+            LastKnownName="Kaufschnell"
+            LastKnownLocation="KaufSchnell.uml" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <activity
+        Id="04d9e9de-e25e-47fa-bda9-e40c510fc834"
+        name="Activity"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false"
+        isReentrant="false"
+        isReadOnly="false"
+        isSingleExecution="false">
+        <nodes>
+          <opaqueAction
+            Id="a9fdcecd-cd8a-46f7-90be-24cc865b15be"
+            name="Zu liefernde Artikel sammeln"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="fce8935b-cde6-4eb0-abfb-7962c58f1a8e"
+                isLeaf="false">
+                <decisionNodeMoniker
+                  Id="300f4ffd-68ff-40f2-9f6b-b3d9b6385aba"
+                  LastKnownName="Decision1"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="5ce09f07-0ce4-4c80-98f3-bd8782d07260"
+            name="Gültige Bestellung eingegangen"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="d17c900f-cdb8-4125-9e6a-46379410d694"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="a9fdcecd-cd8a-46f7-90be-24cc865b15be"
+                  LastKnownName="Zu liefernde Artikel sammeln"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <initialNode
+            Id="4be854f8-d7ab-469b-bb0f-30403b69021b"
+            name="Initial1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="dd20dc0f-d7ae-49a3-bb75-0066e7210b7a"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="5ce09f07-0ce4-4c80-98f3-bd8782d07260"
+                  LastKnownName="Gültige Bestellung eingegangen"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </initialNode>
+          <opaqueAction
+            Id="fced7037-ed58-445b-80ca-5f03b3713cbc"
+            name="Paket versenden"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="ef036383-8066-4709-a640-2c16ace053c0"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="06887a40-b262-41d6-8eed-4e0b8d2db10e"
+                  LastKnownName="ActivityFinal1"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <activityFinalNode
+            Id="06887a40-b262-41d6-8eed-4e0b8d2db10e"
+            name="ActivityFinal1"
+            isLeaf="false" />
+          <decisionNode
+            Id="300f4ffd-68ff-40f2-9f6b-b3d9b6385aba"
+            name="Decision1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="5c2910a1-0380-4f8d-8977-7ab2f0e67c61"
+                guard="Nein"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="7bdea025-86c6-49ad-b7ef-f2ab987a2b00"
+                  LastKnownName="Anfrage an andere Lager"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="84951d9c-0f50-4e3c-98c1-e447ebbff433"
+                guard="Ja"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="ab43d89d-1564-43d2-8d83-6f4a673e80aa"
+                  LastKnownName="Join1"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction
+            Id="7bdea025-86c6-49ad-b7ef-f2ab987a2b00"
+            name="Anfrage an andere Lager"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="90b5ccbd-aab2-4038-8997-8ca68f958ace"
+                isLeaf="false">
+                <decisionNodeMoniker
+                  Id="100b7136-9851-493c-bd09-99b95306d400"
+                  LastKnownName="Decision4"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <decisionNode
+            Id="100b7136-9851-493c-bd09-99b95306d400"
+            name="Decision4"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="90ea87f1-ec81-4e14-a7ed-83c8c74fa993"
+                guard="Nein"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="194251b1-1609-41d3-942b-28b9c4e1d6f4"
+                  LastKnownName="Artikel bestellen"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+              <controlFlow
+                Id="4fbc8310-deea-4460-9cf0-05559e6292e5"
+                guard="Ja"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="04520864-06be-4f16-86b9-bd2c54eb375c"
+                  LastKnownName="Artikel aus Lager holen"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </decisionNode>
+          <opaqueAction
+            Id="194251b1-1609-41d3-942b-28b9c4e1d6f4"
+            name="Artikel bestellen"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="a4e73917-c9de-4cbf-830f-8847a684034c"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="3a44eea4-01ad-4d4f-99ec-5eca52114ab5"
+                  LastKnownName="Artikel reservieren"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="04520864-06be-4f16-86b9-bd2c54eb375c"
+            name="Artikel aus Lager holen"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="fef5dd6f-4e28-47c8-986c-1304092bee8f"
+                isLeaf="false">
+                <joinNodeMoniker
+                  Id="ab43d89d-1564-43d2-8d83-6f4a673e80aa"
+                  LastKnownName="Join1"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="36772cfb-65e9-43a6-9ce5-c0c66856417a"
+            name="Artikel verpacken"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="efc41211-8061-4f07-9cbc-6461f308fd3f"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="be52dfd1-e97b-4c36-a265-51b55cc2d84a"
+                  LastKnownName="Rechnung erstellen und beilegen"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <joinNode
+            Id="ab43d89d-1564-43d2-8d83-6f4a673e80aa"
+            name="Join1"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="61b5adac-c87c-4eff-b251-b3ef5bd1db6e"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="958ae6ae-fe8b-42ef-9c99-159ea4b955ae"
+                  LastKnownName="Lieferschein erstellen und beilegen"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </joinNode>
+          <opaqueAction
+            Id="be52dfd1-e97b-4c36-a265-51b55cc2d84a"
+            name="Rechnung erstellen und beilegen"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="8eee1b54-a6e5-4c1c-9af7-ea342dab8278"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="fced7037-ed58-445b-80ca-5f03b3713cbc"
+                  LastKnownName="Paket versenden"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <opaqueAction
+            Id="3a44eea4-01ad-4d4f-99ec-5eca52114ab5"
+            name="Artikel reservieren"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="d41e063b-af0f-414e-bfe0-e54d84ff59c6"
+                isLeaf="false">
+                <activityFinalNodeMoniker
+                  Id="5f962757-4f4a-457c-875a-5bca84918770"
+                  LastKnownName="ActivityFinal2"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+          <activityFinalNode
+            Id="5f962757-4f4a-457c-875a-5bca84918770"
+            name="ActivityFinal2"
+            isLeaf="false" />
+          <opaqueAction
+            Id="958ae6ae-fe8b-42ef-9c99-159ea4b955ae"
+            name="Lieferschein erstellen und beilegen"
+            isLeaf="false">
+            <flowNodeTargets>
+              <controlFlow
+                Id="479e6a4e-8145-410f-b13a-57b5f8bfa19c"
+                isLeaf="false">
+                <opaqueActionMoniker
+                  Id="36772cfb-65e9-43a6-9ce5-c0c66856417a"
+                  LastKnownName="Artikel verpacken"
+                  LastKnownLocation="KaufSchnell.uml" />
+              </controlFlow>
+            </flowNodeTargets>
+          </opaqueAction>
+        </nodes>
+      </activity>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
