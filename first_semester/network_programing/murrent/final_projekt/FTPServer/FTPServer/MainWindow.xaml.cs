@@ -85,8 +85,7 @@ namespace FTPServer
                 new Action(
                     () =>
                     this.ListBoxMessages.Items.Add(
-                        DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + "."
-                        + DateTime.Now.Millisecond + " - " + message)));
+                        DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + " - " + message)));
         }
 
         /// <summary>

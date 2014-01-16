@@ -44,86 +44,6 @@ namespace FTPManager
 
         #endregion
 
-        #region Copy Stream Implementations
-
-        /// <summary>
-        /// </summary>
-        /// <param name="input">
-        /// </param>
-        /// <param name="output">
-        /// </param>
-        /// <param name="bufferSize">
-        /// </param>
-        /// <returns>
-        /// </returns>
-        private static long CopyStream(Stream input, Stream output, int bufferSize)
-        {
-            byte[] buffer = new byte[bufferSize];
-            int count = 0;
-            long total = 0;
-
-            while ((count = input.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                output.Write(buffer, 0, count);
-                total += count;
-            }
-
-            return total;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="input">
-        /// </param>
-        /// <param name="output">
-        /// </param>
-        /// <param name="bufferSize">
-        /// </param>
-        /// <returns>
-        /// </returns>
-        private static long CopyStreamAscii(Stream input, Stream output, int bufferSize)
-        {
-            char[] buffer = new char[bufferSize];
-            int count = 0;
-            long total = 0;
-
-            using (StreamReader rdr = new StreamReader(input, Encoding.ASCII))
-            {
-                using (StreamWriter wtr = new StreamWriter(output, Encoding.ASCII))
-                {
-                    while ((count = rdr.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        wtr.Write(buffer, 0, count);
-                        total += count;
-                    }
-                }
-            }
-
-            return total;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="input">
-        /// </param>
-        /// <param name="output">
-        /// </param>
-        /// <returns>
-        /// </returns>
-        private long CopyStream(Stream input, Stream output)
-        {
-            Stream limitedStream = output;
-
-            if (this.connectionType == TransferType.Image)
-            {
-                return CopyStream(input, limitedStream, 4096);
-            }
-
-            return CopyStreamAscii(input, limitedStream, 4096);
-        }
-
-        #endregion
-
         #region Enums
 
         /// <summary>
@@ -234,6 +154,86 @@ namespace FTPManager
             {
                 ProgressUpdate(this, e);
             }
+        }
+
+        #endregion
+
+        #region Copy Stream Methods
+
+        /// <summary>
+        /// </summary>
+        /// <param name="input">
+        /// </param>
+        /// <param name="output">
+        /// </param>
+        /// <param name="bufferSize">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        private static long CopyStream(Stream input, Stream output, int bufferSize)
+        {
+            byte[] buffer = new byte[bufferSize];
+            int count = 0;
+            long total = 0;
+
+            while ((count = input.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                output.Write(buffer, 0, count);
+                total += count;
+            }
+
+            return total;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="input">
+        /// </param>
+        /// <param name="output">
+        /// </param>
+        /// <param name="bufferSize">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        private static long CopyStreamAscii(Stream input, Stream output, int bufferSize)
+        {
+            char[] buffer = new char[bufferSize];
+            int count = 0;
+            long total = 0;
+
+            using (StreamReader rdr = new StreamReader(input, Encoding.ASCII))
+            {
+                using (StreamWriter wtr = new StreamWriter(output, Encoding.ASCII))
+                {
+                    while ((count = rdr.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        wtr.Write(buffer, 0, count);
+                        total += count;
+                    }
+                }
+            }
+
+            return total;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="input">
+        /// </param>
+        /// <param name="output">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        private long CopyStream(Stream input, Stream output)
+        {
+            Stream limitedStream = output;
+
+            if (this.connectionType == TransferType.Image)
+            {
+                return CopyStream(input, limitedStream, 4096);
+            }
+
+            return CopyStreamAscii(input, limitedStream, 4096);
         }
 
         #endregion
@@ -552,6 +552,9 @@ namespace FTPManager
         }
 
         /// <summary>
+        /// The port number is a 16-bit value between 0 and 65535.
+        /// RFC -> all numbers between commas should be 8-bit (between 0 and 255). Thus, the 16-bit port number is represented with 2 8-bit numbers.
+        /// Port number -> 230 * 256 + 205 = 59085
         /// </summary>
         /// <returns>
         /// </returns>
@@ -570,7 +573,7 @@ namespace FTPManager
             short port = (short)passiveListenerEndpoint.Port;
 
             byte[] portArray = BitConverter.GetBytes(port);
-
+                
             if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(portArray);
@@ -827,8 +830,8 @@ namespace FTPManager
                 DirectoryInfo d = new DirectoryInfo(dir);
 
                 string date = d.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180)
-                                  ? d.LastWriteTime.ToString("MMM dd  yyyy", CultureInfo.GetCultureInfo("en-EN"))
-                                  : d.LastWriteTime.ToString("MMM dd HH:mm", CultureInfo.GetCultureInfo("en-EN"));
+                                  ? d.LastWriteTime.ToString("MMM dd  yyyy", CultureInfo.GetCultureInfo("en-US").DateTimeFormat)
+                                  : d.LastWriteTime.ToString("MMM dd HH:mm", CultureInfo.GetCultureInfo("en-US").DateTimeFormat);
 
                 string line = string.Format("drwxr-xr-x    2 2003     2003     {0,8} {1} {2}", "4096", date, d.Name);
 
@@ -843,8 +846,8 @@ namespace FTPManager
                 FileInfo f = new FileInfo(file);
 
                 string date = f.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180)
-                                  ? f.LastWriteTime.ToString("MMM dd  yyyy", CultureInfo.GetCultureInfo("en-EN"))
-                                  : f.LastWriteTime.ToString("MMM dd HH:mm", CultureInfo.GetCultureInfo("en-EN"));
+                                  ? f.LastWriteTime.ToString("MMM dd  yyyy", CultureInfo.GetCultureInfo("en-US").DateTimeFormat)
+                                  : f.LastWriteTime.ToString("MMM dd HH:mm", CultureInfo.GetCultureInfo("en-US").DateTimeFormat);
 
                 string line = string.Format("-rw-r--r--    2 2003     2003     {0,8} {1} {2}", f.Length, date, f.Name);
 
