@@ -554,7 +554,7 @@ namespace FTPManager
         /// <summary>
         /// The port number is a 16-bit value between 0 and 65535.
         /// RFC -> all numbers between commas should be 8-bit (between 0 and 255). Thus, the 16-bit port number is represented with 2 8-bit numbers.
-        /// Port number -> 230 * 256 + 205 = 59085
+        /// Port number -> {4} * 256 + {5} = port
         /// </summary>
         /// <returns>
         /// </returns>
