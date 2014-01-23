@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" dslVersion="1.0.0.0" Id="55f3e6e2-ba94-4180-8d28-21a0687e619a" name="UMLUseCaseDiagram" linkedPackageId="3f4a9408-a559-49ef-aaa4-fa00e4e9d1b1" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm11="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner" dslVersion="1.0.0.0" Id="55f3e6e2-ba94-4180-8d28-21a0687e619a" name="UMLUseCaseDiagram" linkedPackageId="3f4a9408-a559-49ef-aaa4-fa00e4e9d1b1" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
   <packagedElements>
     <useCaseModelRootHasTypes>
       <subsystem Id="9eab9f80-a76d-41c8-9697-63b4511a1417" name="Kaufschnell" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -11,7 +11,7 @@
         <elementDefinition Id="54b2df2b-5423-4509-bb4d-11878a8b79e8" />
         <targetEnds>
           <association Id="57eb725b-f1a8-4f6b-b28c-d61c75621eae" isDerived="false" sourceEndRoleName="Kunde" targetEndRoleName="Bestellen" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" LastKnownName="Bestellen" />
+            <useCaseMoniker Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" LastKnownName="Bestellung aufgegeben" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd Id="5ae8e5bd-7217-468c-b945-90e7a98897a8" name="Kunde" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -204,7 +204,7 @@
       </actor>
     </useCaseModelRootHasTypes>
     <packageHasNamedElement>
-      <useCase Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" name="Bestellen" isAbstract="false" isLeaf="false">
+      <useCase Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" name="Bestellung aufgegeben" isAbstract="false" isLeaf="false">
         <elementDefinition Id="b9253054-4014-41a8-8550-2fbdeeae782c" />
         <subjects>
           <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
@@ -216,7 +216,7 @@
         <elementDefinition Id="2e31f019-e328-42a8-93cd-2698ebfd8e50" />
         <extendedCases>
           <extend Id="fa6d9394-9277-46ad-b36c-892d1f079645">
-            <useCaseMoniker Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" LastKnownName="Bestellen" />
+            <useCaseMoniker Id="1ce3d5bc-4ffc-4d0a-8cea-b1617b1a1810" LastKnownName="Bestellung aufgegeben" />
             <elementDefinition Id="f8654ff3-168a-4053-ba90-b06bc2b7b083" />
           </extend>
           <extend Id="965d4fc3-af32-46eb-884c-a3d9262e66e1">
@@ -280,20 +280,6 @@
     <packageHasNamedElement>
       <useCase Id="691e1aa0-dafd-4051-80fe-63dfb99935f3" name="Artiken nachbestellen" isAbstract="false" isLeaf="false">
         <elementDefinition Id="d3330ee4-0a0c-46e4-b931-a76a7dc3c668" />
-        <additions>
-          <include Id="44dc99dd-f8d3-4350-9b58-830f941b2c8e">
-            <useCaseMoniker Id="bebba318-6fe0-4153-b8f7-ccd73981c4e3" LastKnownName="Artikeln nicht mehr verfügbar" />
-            <elementDefinition Id="bad98006-79e9-4eb0-ac8e-37e4029adc46" />
-          </include>
-        </additions>
-        <subjects>
-          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
-        </subjects>
-      </useCase>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <useCase Id="bebba318-6fe0-4153-b8f7-ccd73981c4e3" name="Artikeln nicht mehr verfügbar" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="d4ce7933-f5a2-42d3-8c2d-ee3032fa605a" />
         <subjects>
           <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
         </subjects>
@@ -331,6 +317,10 @@
             <useCaseMoniker Id="261ffafc-af7d-4230-b67e-f18bd7a2cc40" LastKnownName="Lieferung zusammenstellen" />
             <elementDefinition Id="c95a0fba-e5e3-4134-81ff-ed38f1f9c8b3" />
           </include>
+          <include Id="0c4dfb85-0bae-4be9-ab81-c2302b4861b1">
+            <useCaseMoniker Id="fd442e81-ddad-4a62-a7bb-bc6314e5f1f5" LastKnownName="Rechnung schreiben" />
+            <elementDefinition Id="5a5f63a5-d65c-4dac-a86f-d81dbebc7ce9" />
+          </include>
         </additions>
         <subjects>
           <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
@@ -340,12 +330,6 @@
     <packageHasNamedElement>
       <useCase Id="fd442e81-ddad-4a62-a7bb-bc6314e5f1f5" name="Rechnung schreiben" isAbstract="false" isLeaf="false">
         <elementDefinition Id="bbea18a5-8257-402f-b658-d1ad4f71745e" />
-        <extendedCases>
-          <extend Id="ebc18fb8-9fab-4968-b864-176921acad96">
-            <useCaseMoniker Id="4f044269-29c9-4e1d-9d95-75597fd93a73" LastKnownName="Lieferung versenden" />
-            <elementDefinition Id="cad078ba-d2d9-46b0-8baf-92be295fd772" />
-          </extend>
-        </extendedCases>
         <subjects>
           <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
         </subjects>
@@ -354,32 +338,6 @@
     <packageHasNamedElement>
       <useCase Id="29c9caeb-317e-4033-b6f4-8b991cf90a18" name="Waren liefern" isAbstract="false" isLeaf="false">
         <elementDefinition Id="69e690e5-8fb9-4edb-b1de-937343d26714" />
-        <additions>
-          <include Id="8e1bb5cc-df2d-4917-b6a9-f2edddff8168">
-            <useCaseMoniker Id="ba57db73-815f-41f5-a80f-4fb8406e1bf8" LastKnownName="Bestellung eingegangen" />
-            <elementDefinition Id="653e6df7-1638-43ac-be3d-5d6e16d0b12b" />
-          </include>
-          <include Id="e87f4b2a-b587-4704-9967-87e4bbf70570">
-            <useCaseMoniker Id="b5f891a6-1056-4889-bdef-3e109ffd7508" LastKnownName="Waren vorhanden" />
-            <elementDefinition Id="dddf8d1a-d843-4a6b-ac99-f0da8036bf69" />
-          </include>
-        </additions>
-        <subjects>
-          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
-        </subjects>
-      </useCase>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <useCase Id="ba57db73-815f-41f5-a80f-4fb8406e1bf8" name="Bestellung eingegangen" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="3eda80ca-318f-4d08-a275-5a8dd5e46cd3" />
-        <subjects>
-          <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
-        </subjects>
-      </useCase>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <useCase Id="b5f891a6-1056-4889-bdef-3e109ffd7508" name="Waren vorhanden" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="b937ebac-4af7-4619-b9ea-433a0124dd60" />
         <subjects>
           <subsystemMoniker Id="9eab9f80-a76d-41c8-9697-63b4511a1417" LastKnownName="Kaufschnell" />
         </subjects>

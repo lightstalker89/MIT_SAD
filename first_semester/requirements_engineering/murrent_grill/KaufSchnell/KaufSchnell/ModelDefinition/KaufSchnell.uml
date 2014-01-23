@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm11="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" xmlns:dm12="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm11="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ActivityDesigner"
   dslVersion="1.0.0.0"
   Id="d41b8002-58b6-4b25-b23e-9b055ad2ada4"
   name="KaufSchnell" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -1173,6 +1173,24 @@
                 LastKnownLocation="KaufSchnell.uml" />
             </type_NamedElement>
           </property>
+          <property
+            Id="43391ef4-3282-4eec-b509-534bb4198bc2"
+            name="Teillierferungen"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <type_NamedElement>
+              <undefinedTypeMoniker
+                Id="80558929-8343-4489-9dd5-aa1dcc3bb168"
+                LastKnownName="bool"
+                LastKnownLocation="KaufSchnell.uml" />
+            </type_NamedElement>
+          </property>
         </ownedAttributesInternal>
       </class>
     </packageHasNamedElement>
@@ -1554,7 +1572,7 @@
           </property>
           <property
             Id="2c496653-f4b3-4e22-95ea-ee675a3ca216"
-            name="Abteilungen"
+            name="Abteilung"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -1812,7 +1830,7 @@
             isAbstract="false">
             <useCaseMoniker
               Id="b9253054-4014-41a8-8550-2fbdeeae782c"
-              LastKnownName="Bestellen"
+              LastKnownName="Bestellung aufgegeben"
               LastKnownLocation="KaufSchnell.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -2297,7 +2315,7 @@
     <packageHasNamedElement>
       <useCase
         Id="b9253054-4014-41a8-8550-2fbdeeae782c"
-        name="Bestellen"
+        name="Bestellung aufgegeben"
         isAbstract="false"
         isLeaf="false">
         <subjects>
@@ -2319,7 +2337,7 @@
             Id="f8654ff3-168a-4053-ba90-b06bc2b7b083">
             <useCaseMoniker
               Id="b9253054-4014-41a8-8550-2fbdeeae782c"
-              LastKnownName="Bestellen"
+              LastKnownName="Bestellung aufgegeben"
               LastKnownLocation="KaufSchnell.uml" />
           </extend>
           <extend
@@ -2458,14 +2476,7 @@
         Id="d4ce7933-f5a2-42d3-8c2d-ee3032fa605a"
         name="Artikeln nicht mehr verfügbar"
         isAbstract="false"
-        isLeaf="false">
-        <subjects>
-          <subsystemMoniker
-            Id="c57d4c9a-487d-4dd3-a7e2-16e807ef1d23"
-            LastKnownName="Kaufschnell"
-            LastKnownLocation="KaufSchnell.uml" />
-        </subjects>
-      </useCase>
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <useCase
@@ -2523,6 +2534,13 @@
               LastKnownName="Lieferung zusammenstellen"
               LastKnownLocation="KaufSchnell.uml" />
           </include>
+          <include
+            Id="5a5f63a5-d65c-4dac-a86f-d81dbebc7ce9">
+            <useCaseMoniker
+              Id="bbea18a5-8257-402f-b658-d1ad4f71745e"
+              LastKnownName="Rechnung schreiben"
+              LastKnownLocation="KaufSchnell.uml" />
+          </include>
         </additions>
         <subjects>
           <subsystemMoniker
@@ -2538,15 +2556,6 @@
         name="Rechnung schreiben"
         isAbstract="false"
         isLeaf="false">
-        <extendedCases>
-          <extend
-            Id="cad078ba-d2d9-46b0-8baf-92be295fd772">
-            <useCaseMoniker
-              Id="2b704c88-7ae8-43d6-936e-c25038393e5d"
-              LastKnownName="Lieferung versenden"
-              LastKnownLocation="KaufSchnell.uml" />
-          </extend>
-        </extendedCases>
         <subjects>
           <subsystemMoniker
             Id="c57d4c9a-487d-4dd3-a7e2-16e807ef1d23"
@@ -2590,28 +2599,14 @@
         Id="3eda80ca-318f-4d08-a275-5a8dd5e46cd3"
         name="Bestellung eingegangen"
         isAbstract="false"
-        isLeaf="false">
-        <subjects>
-          <subsystemMoniker
-            Id="c57d4c9a-487d-4dd3-a7e2-16e807ef1d23"
-            LastKnownName="Kaufschnell"
-            LastKnownLocation="KaufSchnell.uml" />
-        </subjects>
-      </useCase>
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <useCase
         Id="b937ebac-4af7-4619-b9ea-433a0124dd60"
         name="Waren vorhanden"
         isAbstract="false"
-        isLeaf="false">
-        <subjects>
-          <subsystemMoniker
-            Id="c57d4c9a-487d-4dd3-a7e2-16e807ef1d23"
-            LastKnownName="Kaufschnell"
-            LastKnownLocation="KaufSchnell.uml" />
-        </subjects>
-      </useCase>
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <useCase
@@ -2934,6 +2929,11 @@
           </opaqueAction>
         </nodes>
       </activity>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="80558929-8343-4489-9dd5-aa1dcc3bb168"
+        name="bool" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
