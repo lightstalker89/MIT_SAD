@@ -53,20 +53,21 @@ namespace BiOWheelsConfigManager.Test
                                         DestinationDirectories =
                                             new List<string>
                                                 {
-                                                    @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\A", 
-                                                    @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\B"
+                                                    @"C:\Users\Mario\Documents\SourceTree\fhwn\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\A", 
+                                                    @"C:\Users\Mario\Documents\SourceTree\fhwn\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\B",
+                                                    @"C:\Users\Mario\Documents\SourceTree\fhwn\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\C\DestinationC",
                                                 }, 
                                         ExcludedFromSource =
                                             new List<string>
                                                 {
-                                                    @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\S"
+                                                    @"C:\Users\Mario\Documents\SourceTree\fhwn\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\SourceD\ExcludedDir"
                                                 }, 
                                         SourceMappingInfo =
                                             new SourceMappingInfo
                                                 {
                                                     Recursive = false, 
                                                     SourceDirectory =
-                                                        @"C:\Users\Mario\Documents\GitHub\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\D"
+                                                        @"C:\Users\Mario\Documents\SourceTree\fhwn\MIT_SAD\first_semester\programing\final_project\murrent\BiOWheels\BiOWheels\bin\Debug\SourceD"
                                                 }
                                     }
                             }
