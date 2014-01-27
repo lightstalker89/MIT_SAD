@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SortHelper;
 
 namespace BinarySearch
@@ -26,9 +29,9 @@ namespace BinarySearch
 
             stopwatch.Start();
 
-            for (int i = 0; i < randomNumbers.Length; i++)
+            foreach (int t in randomNumbers)
             {
-                int result = Search(array.ArraySorted, randomNumbers[i]);
+                int result = Search(array.ArraySorted, t);
 
                 if (result == -1)
                 {
@@ -36,7 +39,7 @@ namespace BinarySearch
                 }
                 else
                 {
-                    Console.WriteLine("Found: " + randomNumbers[i]);
+                    Console.WriteLine("Found: " + t);
                 }
             }
 

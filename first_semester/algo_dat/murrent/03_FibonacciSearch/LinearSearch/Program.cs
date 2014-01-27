@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SortHelper;
 
 namespace LinearSearch
@@ -22,13 +25,13 @@ namespace LinearSearch
                 randomNumbers[i] = random.Next(100);
             }
 
-            stopwatch.Start();
-
             array = new CArray(1000, 100);
 
-            for (int i = 0; i < randomNumbers.Length; i++)
+            stopwatch.Start();
+
+            foreach (int t in randomNumbers)
             {
-                int result = Search(randomNumbers[i]);
+                int result = Search(t);
 
                 if (result == -1)
                 {
@@ -36,7 +39,7 @@ namespace LinearSearch
                 }
                 else
                 {
-                    Console.WriteLine("Found: " + randomNumbers[i]);
+                    Console.WriteLine("Found: " + t);
                 }
             }
 

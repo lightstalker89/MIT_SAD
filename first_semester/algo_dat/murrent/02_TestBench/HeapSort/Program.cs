@@ -1,8 +1,13 @@
-﻿using System;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SortHelper;
 
 namespace HeapSort
@@ -12,7 +17,7 @@ namespace HeapSort
         private static readonly List<double> times = new List<double>();
         private static HeapSorter heapSorter;
         private static CArray numbers;
-        private static readonly int[] selectionSortValueCount = { 100, 1000, 10000, 100000 };
+        private static readonly int[] heapSortValueCount = { 100, 1000, 10000, 100000 };
 
         static void Main(string[] args)
         {
@@ -28,7 +33,7 @@ namespace HeapSort
 
             for (int x = 0; x < 10; ++x)
             {
-                heapSorter = new HeapSorter(numbers.Array);
+                heapSorter = new HeapSorter(numbers.NumberArray);
                 heapSorter.Sort();
                 times.Add(heapSorter.ElapsedTime);
             }

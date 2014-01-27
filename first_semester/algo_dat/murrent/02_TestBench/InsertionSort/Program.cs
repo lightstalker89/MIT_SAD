@@ -1,8 +1,13 @@
-﻿using System;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SortHelper;
 
 namespace InsertionSort
@@ -12,11 +17,11 @@ namespace InsertionSort
         private static readonly List<double> times = new List<double>();
         private static InsertionSorter insertionSorter;
         private static CArray numbers;
-        private static readonly int[] selectionSortValueCount = { 100, 1000, 10000, 100000 };
+        private static readonly int[] insertionSortValueCount = { 100, 1000, 10000, 100000 };
 
         static void Main(string[] args)
         {
-            foreach (int valueCount in selectionSortValueCount)
+            foreach (int valueCount in insertionSortValueCount)
             {
                 numbers = new CArray(valueCount, 589);
                 times.Clear();
@@ -30,7 +35,7 @@ namespace InsertionSort
 
                 for (int x = 0; x < 10; ++x)
                 {
-                    insertionSorter = new InsertionSorter(numbers.Array);
+                    insertionSorter = new InsertionSorter(numbers.NumberArray);
                     insertionSorter.Sort();
                     times.Add(insertionSorter.ElapsedTime);
                 }

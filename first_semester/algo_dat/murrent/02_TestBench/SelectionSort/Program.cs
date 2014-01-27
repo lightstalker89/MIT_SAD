@@ -1,4 +1,11 @@
-﻿using System;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SortHelper;
@@ -28,7 +35,7 @@ namespace SelectionSort
 
                 for (int x = 0; x < 10; ++x)
                 {
-                    selectionSorter = new SelectionSorter(numbers.Array);
+                    selectionSorter = new SelectionSorter(numbers.NumberArray);
                     selectionSorter.Sort();
                     times.Add(selectionSorter.ElapsedTime);
                 }

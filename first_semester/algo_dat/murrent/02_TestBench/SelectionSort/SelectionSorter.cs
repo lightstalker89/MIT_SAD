@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SelectionSort
 {
@@ -22,6 +25,8 @@ namespace SelectionSort
 
         public double ElapsedTime { get; set; }
 
+        public int[] SortedArray { get; set; }
+
         public void Sort()
         {
             stopwatch.Reset();
@@ -35,6 +40,8 @@ namespace SelectionSort
 
             stopwatch.Stop();
             this.ElapsedTime = stopwatch.ElapsedMilliseconds;
+
+            this.SortedArray = arrayToSort;
 
             Console.WriteLine("Sort completed with: " + stopwatch.ElapsedMilliseconds + "ms - " + stopwatch.ElapsedTicks + " ticks");
         }

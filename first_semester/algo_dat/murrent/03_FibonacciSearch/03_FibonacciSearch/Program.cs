@@ -1,6 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using SortHelper;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
 
 namespace _03_FibonacciSearch
 {
