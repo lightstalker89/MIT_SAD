@@ -33,6 +33,7 @@ namespace BinaryTree
             {
                 tree.Insert(random.Next(10000));
             }
+
             Console.WriteLine("Inorder traversal");
             tree.Inorder(tree.Root);
             Console.WriteLine(" ");

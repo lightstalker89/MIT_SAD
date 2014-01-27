@@ -10,6 +10,7 @@
 namespace AVLTree
 {
     using System;
+    using System.Diagnostics;
 
     using SortHelper;
 
@@ -31,6 +32,8 @@ namespace AVLTree
         /// </summary>
         private static CArray numbers;
 
+        private static readonly Stopwatch Stopwatch = new Stopwatch();
+
         #endregion
 
         #region Methods
@@ -41,23 +44,65 @@ namespace AVLTree
         /// </param>
         private static void Main(string[] args)
         {
-            numbers = new CArray(1000, 100000);
+            numbers = new CArray(100, 100000);
+
+            Console.WriteLine("Building tree with unsorted array");
+
+            Stopwatch.Start();
 
             foreach (int number in numbers.NumberArray)
             {
                 CustomAVLTree.Insert(number, number);
             }
+            Stopwatch.Stop();
 
-            Console.WriteLine("Inorder traversal:");
-            CustomAVLTree.InOrder(CustomAVLTree.Root);
+            Console.WriteLine("Time needed for building and inserting: " + Stopwatch.ElapsedMilliseconds + "ms - Ticks: " + Stopwatch.ElapsedTicks);
 
-            Console.WriteLine();
-            Console.WriteLine("Postorder traversal:");
-            CustomAVLTree.PostOrder(CustomAVLTree.Root);
+            Stopwatch.Reset();
 
-            Console.WriteLine();
-            Console.WriteLine("Preorder traversal:");
-            CustomAVLTree.PreOrder(CustomAVLTree.Root);
+            //Console.WriteLine("Inorder traversal:");
+            //CustomAVLTree.InOrder(CustomAVLTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine("Postorder traversal:");
+            //CustomAVLTree.PostOrder(CustomAVLTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine("Preorder traversal:");
+            //CustomAVLTree.PreOrder(CustomAVLTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine("Displaying Tree:");
+            //CustomAVLTree.DisplayTree(CustomAVLTree.Root);
+
+            Console.WriteLine("Building tree with sorted array");
+
+            numbers = new CArray(100,100000);
+
+            Stopwatch.Start();
+
+            foreach (int number in numbers.ArraySorted)
+            {
+                CustomAVLTree.Insert(number, number);
+            }
+            Stopwatch.Stop();
+
+            Console.WriteLine("Time needed for building and inserting: " + Stopwatch.ElapsedMilliseconds + "ms - Ticks: " + Stopwatch.ElapsedTicks);
+
+            //Console.WriteLine("Inorder traversal:");
+            //CustomAVLTree.InOrder(CustomAVLTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine("Postorder traversal:");
+            //CustomAVLTree.PostOrder(CustomAVLTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine("Preorder traversal:");
+            //CustomAVLTree.PreOrder(CustomAVLTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine("Displaying Tree:");
+            //CustomAVLTree.DisplayTree(CustomAVLTree.Root);
 
             Console.ReadKey();
         }

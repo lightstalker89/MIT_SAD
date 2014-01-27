@@ -9,7 +9,11 @@
 // *******************************************************/
 namespace SortHelper
 {
+    #region Usings
+
     using System;
+
+    #endregion
 
     /// <summary>
     /// </summary>

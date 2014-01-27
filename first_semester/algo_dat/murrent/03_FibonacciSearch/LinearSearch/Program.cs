@@ -1,35 +1,59 @@
-﻿// /*
-// ******************************************************************
-// * Copyright (c) 2014, Mario Murrent
-// * All Rights Reserved.
-// ******************************************************************
-// */
-
-using System;
-using System.Diagnostics;
-using SortHelper;
-
+﻿// *******************************************************
+// * <copyright file="Program.cs" company="MDMCoWorks">
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace LinearSearch
 {
-    class Program
-    {
-        private static readonly Random random = new Random();
-        private static CArray array;
-        private static readonly int[] randomNumbers = new int[10];
-        private static readonly Stopwatch stopwatch = new Stopwatch();
+    #region Usings
 
-        static void Main(string[] args)
+    using System;
+    using System.Diagnostics;
+
+    using SortHelper;
+
+    #endregion
+
+    /// <summary>
+    /// </summary>
+    internal class Program
+    {
+        /// <summary>
+        /// </summary>
+        private static readonly Random Random = new Random();
+
+        /// <summary>
+        /// </summary>
+        private static CArray array;
+
+        /// <summary>
+        /// </summary>
+        private static readonly int[] RandomNumbers = new int[10];
+
+        /// <summary>
+        /// </summary>
+        private static readonly Stopwatch Stopwatch = new Stopwatch();
+
+        /// <summary>
+        /// </summary>
+        /// <param name="args">
+        /// </param>
+        private static void Main(string[] args)
         {
             for (int i = 0; i < 10; i++)
             {
-                randomNumbers[i] = random.Next(100);
+                RandomNumbers[i] = Random.Next(100);
             }
 
             array = new CArray(1000, 100);
 
-            stopwatch.Start();
+            Stopwatch.Start();
 
-            foreach (int t in randomNumbers)
+            foreach (int t in RandomNumbers)
             {
                 int result = Search(t);
 
@@ -43,13 +67,19 @@ namespace LinearSearch
                 }
             }
 
-            stopwatch.Stop();
+            Stopwatch.Stop();
 
-            Console.WriteLine("Elapsed: " + stopwatch.ElapsedMilliseconds + "ms - " + stopwatch.ElapsedTicks + " ticks");
+            Console.WriteLine("Elapsed: " + Stopwatch.ElapsedMilliseconds + "ms - " + Stopwatch.ElapsedTicks + " ticks");
             Console.WriteLine("Compare count: " + array.CompareCount);
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="key">
+        /// </param>
+        /// <returns>
+        /// </returns>
         private static int Search(int key)
         {
             int i;

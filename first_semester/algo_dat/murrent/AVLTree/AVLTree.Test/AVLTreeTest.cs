@@ -54,7 +54,6 @@ namespace AVLTree.Test
         {
             foreach (int number in this.numbers)
             {
-
             }
         }
 

@@ -1,4 +1,4 @@
-﻿//   *******************************************************
+﻿// *******************************************************
 // * <copyright file="Tree.cs" company="MDMCoWorks">
 // * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
@@ -10,7 +10,6 @@
 namespace BinaryTree
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// </summary>

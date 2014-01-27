@@ -10,9 +10,15 @@
 namespace AVLTree
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections;
+    using System.Collections.Generic;
 
+    /// <summary>
+    /// </summary>
+    /// <typeparam name="TKey">
+    /// </typeparam>
+    /// <typeparam name="TValue">
+    /// </typeparam>
     public class CustomAVLTree<TKey, TValue> : IEnumerable<TValue>
     {
         /// <summary>
@@ -57,35 +63,98 @@ namespace AVLTree
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="root"></param>
+        public void DisplayTree(CustomAVLNode root)
+        {
+            if (root != null)
+            {
+                this.DisplayBreadthFirst();
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        public void DisplayBreadthFirst()
+        {
+            Queue<CustomAVLNode> breadthFirstQueue = new Queue<CustomAVLNode>();
+            breadthFirstQueue.Enqueue(this.Root);
+
+            while (breadthFirstQueue.Count > 0)
+            {
+                CustomAVLNode node = breadthFirstQueue.Dequeue();
+                Console.Write(node.Value + " ");
+
+                if (node.Left != null)
+                {
+                    breadthFirstQueue.Enqueue(node.Left);
+                }
+
+                if (node.Right != null)
+                {
+                    breadthFirstQueue.Enqueue(node.Right);
+                }
+            }
+        }
+
+        /// <summary>
+        /// </summary>
         private readonly IComparer<TKey> comparer;
+
+        /// <summary>
+        /// </summary>
         public CustomAVLNode Root { get; set; }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="comparer">
+        /// </param>
         public CustomAVLTree(IComparer<TKey> comparer)
         {
             this.comparer = comparer;
         }
 
+        /// <summary>
+        /// </summary>
         public CustomAVLTree()
             : this(Comparer<TKey>.Default)
         {
-
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// </returns>
         public IEnumerator<TValue> GetEnumerator()
         {
             return new AvlNodeEnumerator(this.Root);
         }
 
+        /// <summary>
+        /// </summary>
         public void Clear()
         {
             this.Root = null;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="key">
+        /// </param>
+        /// <param name="value">
+        /// </param>
+        /// <returns>
+        /// </returns>
         public bool Search(TKey key, out TValue value)
         {
             CustomAVLNode node = this.Root;
@@ -113,6 +182,12 @@ namespace AVLTree
             return false;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="key">
+        /// </param>
+        /// <param name="value">
+        /// </param>
         public void Insert(TKey key, TValue value)
         {
             if (this.Root == null)
@@ -156,7 +231,6 @@ namespace AVLTree
                         }
 
                         node = right;
-
                     }
                     else
                     {
@@ -168,17 +242,23 @@ namespace AVLTree
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="node">
+        /// </param>
+        /// <param name="balance">
+        /// </param>
         private void InsertBalance(CustomAVLNode node, int balance)
         {
             while (node != null)
             {
-                balance = (node.Balance += balance);
+                balance = node.Balance += balance;
 
                 if (balance == 0)
                 {
                     return;
                 }
-                
+
                 if (balance == 2)
                 {
                     if (node.Left.Balance == 1)
@@ -192,7 +272,7 @@ namespace AVLTree
 
                     return;
                 }
-                
+
                 if (balance == -2)
                 {
                     if (node.Right.Balance == -1)
@@ -218,6 +298,12 @@ namespace AVLTree
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="key">
+        /// </param>
+        /// <returns>
+        /// </returns>
         public bool Delete(TKey key)
         {
             CustomAVLNode node = this.Root;
@@ -368,11 +454,17 @@ namespace AVLTree
             return false;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="node">
+        /// </param>
+        /// <param name="balance">
+        /// </param>
         private void DeleteBalance(CustomAVLNode node, int balance)
         {
             while (node != null)
             {
-                balance = (node.Balance += balance);
+                balance = node.Balance += balance;
 
                 if (balance == 2)
                 {
@@ -422,6 +514,12 @@ namespace AVLTree
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="node">
+        /// </param>
+        /// <returns>
+        /// </returns>
         private CustomAVLNode RotateLeft(CustomAVLNode node)
         {
             CustomAVLNode right = node.Right;
@@ -457,6 +555,12 @@ namespace AVLTree
             return right;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="node">
+        /// </param>
+        /// <returns>
+        /// </returns>
         private CustomAVLNode RotateRight(CustomAVLNode node)
         {
             CustomAVLNode left = node.Left;
@@ -492,6 +596,12 @@ namespace AVLTree
             return left;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="node">
+        /// </param>
+        /// <returns>
+        /// </returns>
         private CustomAVLNode RotateLeftRight(CustomAVLNode node)
         {
             CustomAVLNode left = node.Left;
@@ -552,6 +662,12 @@ namespace AVLTree
             return leftRight;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="node">
+        /// </param>
+        /// <returns>
+        /// </returns>
         private CustomAVLNode RotateRightLeft(CustomAVLNode node)
         {
             CustomAVLNode right = node.Right;
@@ -612,6 +728,12 @@ namespace AVLTree
             return rightLeft;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="target">
+        /// </param>
+        /// <param name="source">
+        /// </param>
         private static void Replace(CustomAVLNode target, CustomAVLNode source)
         {
             CustomAVLNode left = source.Left;
@@ -634,23 +756,59 @@ namespace AVLTree
             }
         }
 
+        /// <summary>
+        /// </summary>
         public class CustomAVLNode
         {
+            /// <summary>
+            /// </summary>
             public CustomAVLNode Parent;
+
+            /// <summary>
+            /// </summary>
             public CustomAVLNode Left;
+
+            /// <summary>
+            /// </summary>
             public CustomAVLNode Right;
+
+            /// <summary>
+            /// </summary>
             public TKey Key;
+
+            /// <summary>
+            /// </summary>
             public TValue Value;
+
+            /// <summary>
+            /// </summary>
             public int Balance;
         }
 
+        /// <summary>
+        /// </summary>
         public class AvlNodeEnumerator : IEnumerator<TValue>
         {
+            /// <summary>
+            /// </summary>
             private readonly CustomAVLNode root;
+
+            /// <summary>
+            /// </summary>
             private Action action;
+
+            /// <summary>
+            /// </summary>
             private CustomAVLNode current;
+
+            /// <summary>
+            /// </summary>
             private CustomAVLNode right;
 
+            /// <summary>
+            /// </summary>
+            /// <param name="root">
+            /// </param>
             public AvlNodeEnumerator(CustomAVLNode root)
             {
                 this.right = this.root = root;
@@ -658,6 +816,10 @@ namespace AVLTree
                 this.action = root == null ? Action.End : Action.Right;
             }
 
+            /// <summary>
+            /// </summary>
+            /// <returns>
+            /// </returns>
             public bool MoveNext()
             {
                 switch (this.action)
@@ -700,6 +862,8 @@ namespace AVLTree
                 }
             }
 
+            /// <summary>
+            /// </summary>
             public void Reset()
             {
                 this.right = this.root;
@@ -707,6 +871,8 @@ namespace AVLTree
                 this.action = this.root == null ? Action.End : Action.Right;
             }
 
+            /// <summary>
+            /// </summary>
             public TValue Current
             {
                 get
@@ -715,6 +881,8 @@ namespace AVLTree
                 }
             }
 
+            /// <summary>
+            /// </summary>
             object IEnumerator.Current
             {
                 get
@@ -723,18 +891,28 @@ namespace AVLTree
                 }
             }
 
+            /// <summary>
+            /// </summary>
             public void Dispose()
             {
-
             }
 
-            enum Action
+            /// <summary>
+            /// </summary>
+            private enum Action
             {
+                /// <summary>
+                /// </summary>
                 Parent,
+
+                /// <summary>
+                /// </summary>
                 Right,
+
+                /// <summary>
+                /// </summary>
                 End
             }
         }
     }
-
 }
