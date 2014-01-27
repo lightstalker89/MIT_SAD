@@ -1,9 +1,12 @@
-﻿// /*
-// ******************************************************************
-// * Copyright (c) 2014, Mario Murrent
-// * All Rights Reserved.
-// ******************************************************************
-// */
+﻿// *******************************************************
+// * <copyright file="AssemblyInfo.cs" company="MDMCoWorks">
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -29,12 +32,10 @@ using System.Runtime.InteropServices;
 [assembly: Guid("a2964b5b-8dc5-4e83-8f42-d6f34d6a1a5a")]
 
 // Version information for an assembly consists of the following four values:
-//
 //      Major Version
 //      Minor Version 
 //      Build Number
 //      Revision
-//
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]

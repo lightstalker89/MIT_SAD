@@ -14,11 +14,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SelectionSort")]
+[assembly: AssemblyTitle("BinaryTree")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SelectionSort")]
+[assembly: AssemblyProduct("BinaryTree")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e65de1d7-8aea-4dcf-b7da-f808995355ad")]
+[assembly: Guid("8a48a3e8-7f70-48e6-ba8c-9389a8273d3f")]
 
 // Version information for an assembly consists of the following four values:
 //      Major Version

@@ -1,25 +1,45 @@
-﻿// /*
-// ******************************************************************
-// * Copyright (c) 2014, Mario Murrent
-// * All Rights Reserved.
-// ******************************************************************
-// */
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using SortHelper;
-
+﻿// *******************************************************
+// * <copyright file="Program.cs" company="MDMCoWorks">
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace SelectionSort
 {
-    class Program
-    {
-        private static readonly List<double> times = new List<double>();
-        private static SelectionSorter selectionSorter;
-        private static CArray numbers;
-        private static readonly int[] selectionSortValueCount = {100, 1000, 10000, 100000};
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
-        static void Main(string[] args)
+    using SortHelper;
+
+    /// <summary>
+    /// </summary>
+    internal class Program
+    {
+        /// <summary>
+        /// </summary>
+        private static readonly List<double> times = new List<double>();
+
+        /// <summary>
+        /// </summary>
+        private static SelectionSorter selectionSorter;
+
+        /// <summary>
+        /// </summary>
+        private static CArray numbers;
+
+        /// <summary>
+        /// </summary>
+        private static readonly int[] selectionSortValueCount = { 100, 1000, 10000, 100000 };
+
+        /// <summary>
+        /// </summary>
+        /// <param name="args">
+        /// </param>
+        private static void Main(string[] args)
         {
             foreach (int valueCount in selectionSortValueCount)
             {

@@ -1,22 +1,38 @@
-﻿// /*
-// ******************************************************************
-// * Copyright (c) 2014, Mario Murrent
-// * All Rights Reserved.
-// ******************************************************************
-// */
-
-using System;
-using NUnit.Framework;
-using SortHelper;
-
+﻿// *******************************************************
+// * <copyright file="SelectionSortTest.cs" company="MDMCoWorks">
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
+// * </copyright>
+// * <summary>
+// *
+// * </summary>
+// * <author>Mario Murrent</author>
+// *******************************************************/
 namespace SelectionSort.Test
 {
+    using System;
+
+    using NUnit.Framework;
+
+    using SortHelper;
+
+    /// <summary>
+    /// </summary>
     public class SelectionSortTest
     {
+        /// <summary>
+        /// </summary>
         private static readonly int[] selectionSortValueCount = { 100, 1000, 10000, 100000 };
+
+        /// <summary>
+        /// </summary>
         private SelectionSorter insertionSorter;
+
+        /// <summary>
+        /// </summary>
         private static CArray numbers;
 
+        /// <summary>
+        /// </summary>
         [TestCase]
         public void BubbleSorterTest()
         {

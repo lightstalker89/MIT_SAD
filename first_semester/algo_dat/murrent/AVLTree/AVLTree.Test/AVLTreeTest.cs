@@ -21,13 +21,7 @@ namespace AVLTree.Test
     /// </summary>
     public class AVLTreeTest
     {
-        /// <summary>
-        /// </summary>
-        private CustomAVLTree<int> customAVLTree;
-
-        /// <summary>
-        /// </summary>
-        private Random random;
+        #region Fields
 
         /// <summary>
         /// </summary>
@@ -35,15 +29,22 @@ namespace AVLTree.Test
 
         /// <summary>
         /// </summary>
+        private Random random;
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// </summary>
         [SetUp]
         public void Init()
         {
             this.random = new Random();
-            this.customAVLTree = new CustomAVLTree<int>();
 
-            for (int i = 0; i < numbers.Length; i++)
+            for (int i = 0; i < this.numbers.Length; i++)
             {
-                this.numbers[i] = random.Next(100000);
+                this.numbers[i] = this.random.Next(100000);
             }
         }
 
@@ -51,17 +52,12 @@ namespace AVLTree.Test
         /// </summary>
         public void InsertTest()
         {
-            foreach (int number in numbers)
+            foreach (int number in this.numbers)
             {
-                if (this.customAVLTree.RecursiveInsert(number))
-                {
-                    
-                }
-                else
-                {
-                    
-                }
+
             }
         }
+
+        #endregion
     }
 }
