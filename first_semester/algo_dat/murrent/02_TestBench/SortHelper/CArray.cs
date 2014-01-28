@@ -63,6 +63,18 @@ namespace SortHelper
 
         /// <summary>
         /// </summary>
+        public int[] ArraySortedDescending
+        {
+            get
+            {
+                int[] sArray = this.ArraySorted;
+                Array.Reverse(sArray);
+                return sArray;
+            }
+        }
+
+        /// <summary>
+        /// </summary>
         public int CompareCount { get; set; }
 
         /// <summary>

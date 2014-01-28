@@ -15,6 +15,7 @@ namespace _03_FibonacciSearch
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     using SortHelper;
 
@@ -26,7 +27,7 @@ namespace _03_FibonacciSearch
     {
         /// <summary>
         /// </summary>
-        private static List<int> fibonacciNumbers = new List<int>();
+        private static List<int> FibonacciNumbers = new List<int> { 0, 1 };
 
         /// <summary>
         /// </summary>
@@ -38,7 +39,7 @@ namespace _03_FibonacciSearch
 
         /// <summary>
         /// </summary>
-        private static readonly int[] RandomNumbers = new int[10];
+        private static readonly int[] RandomNumbers = new int[20];
 
         /// <summary>
         /// </summary>
@@ -50,18 +51,18 @@ namespace _03_FibonacciSearch
         /// </param>
         private static void Main(string[] args)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < RandomNumbers.Length; i++)
             {
-                RandomNumbers[i] = Random.Next(100);
+                RandomNumbers[i] = Random.Next(100000);
             }
 
-            array = new CArray(100, 100000);
+            array = new CArray(1000, 100000);
 
             Stopwatch.Start();
 
             foreach (int t in RandomNumbers)
             {
-                int result = Search(array.ArraySorted, t);
+                int result = Search(array.ArraySortedDescending, t);
 
                 if (result == -1)
                 {
@@ -92,30 +93,33 @@ namespace _03_FibonacciSearch
         /// </returns>
         public static int Search(int[] arrayToSort, int value)
         {
+            int index = -1;
             int lowerBound = 0;
-            int higherBound = arrayToSort.Length;
+            int higherBound = arrayToSort.Length - 1;
+            bool found = false;
 
-            while (lowerBound <= higherBound)
+            while (!found && (higherBound - lowerBound) > 0)
             {
-                int mid = GetFibonacci((higherBound + lowerBound));
+                int mid = GetFibonacci(higherBound - lowerBound) + lowerBound;
 
                 if (arrayToSort[mid] < value)
                 {
-                    lowerBound = mid + 1;
+                    higherBound = mid;
                 }
                 else if (arrayToSort[mid] > value)
                 {
-                    higherBound = mid - 1;
+                    lowerBound = (higherBound >= mid + 1) ? mid + 1 : mid;
                 }
                 else
                 {
-                    return mid;
+                    found = true;
+                    index = mid;
                 }
+
+                array.CompareCount++;
             }
 
-            array.CompareCount++;
-
-            return -1;
+            return index;
         }
 
         /// <summary>
@@ -126,25 +130,38 @@ namespace _03_FibonacciSearch
         /// </returns>
         public static int GetFibonacci(int value)
         {
-            int a = 0;
-            int b = 1;
-            int lastNumber = 0;
+            int number = 0;
 
-            for (int i = 0; i <= value; i++)
+            if (value == 0)
             {
-                int temp = a;
-                a = b;
-                b = temp + b;
-
-                if (b > value)
-                {
-                    return lastNumber;
-                }
-
-                lastNumber = b;
+                return value;
             }
 
-            return -1;
+            while (value > FibonacciNumbers[number])
+            {
+                number++;
+
+                if (FibonacciNumbers.Count <= number)
+                {
+                    int fibonacciNumber = FibonacciNumbers[number - 1] + FibonacciNumbers[number - 2];
+                    FibonacciNumbers.Add(fibonacciNumber);
+                }
+            }
+
+            return FibonacciNumbers[number - 1];
+        }
+
+        public static int FibonacciRecursive(int x)
+        {
+
+            if (x == 0 || x == 1)
+
+                return x;
+
+            return FibonacciRecursive(x - 1) +
+
+                   FibonacciRecursive(x - 2);
+
         }
     }
 }

@@ -91,7 +91,7 @@ namespace BinarySearch
 
             while (lowerBound <= higherBound)
             {
-                int mid = lowerBound + (lowerBound + higherBound) / 2;
+                int mid = (lowerBound + higherBound) / 2;
 
                 if (arrayToSort[mid] < value)
                 {
@@ -105,9 +105,10 @@ namespace BinarySearch
                 {
                     return mid;
                 }
+
+                array.CompareCount++;
             }
 
-            array.CompareCount++;
             return -1;
         }
     }
