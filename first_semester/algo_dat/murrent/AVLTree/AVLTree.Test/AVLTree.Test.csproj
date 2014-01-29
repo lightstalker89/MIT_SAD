@@ -49,6 +49,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\02_TestBench\SortHelper\SortHelper.csproj">
+      <Project>{FD9BFA90-6523-46AB-ABA6-679B3478A76B}</Project>
+      <Name>SortHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AVLTree\AVLTree.csproj">
       <Project>{57CFAC87-1176-4AD3-A6D9-39848CC7FDBE}</Project>
       <Name>AVLTree</Name>

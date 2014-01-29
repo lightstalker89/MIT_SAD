@@ -15,6 +15,7 @@ namespace _03_FibonacciSearch
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Net.Mime;
     using System.Runtime.CompilerServices;
 
     using SortHelper;
@@ -39,7 +40,7 @@ namespace _03_FibonacciSearch
 
         /// <summary>
         /// </summary>
-        private static readonly int[] RandomNumbers = new int[20];
+        private static readonly int[] RandomNumbers = new int[100];
 
         /// <summary>
         /// </summary>
@@ -51,36 +52,52 @@ namespace _03_FibonacciSearch
         /// </param>
         private static void Main(string[] args)
         {
-            for (int i = 0; i < RandomNumbers.Length; i++)
+            while(true)
             {
-                RandomNumbers[i] = Random.Next(100000);
-            }
 
-            array = new CArray(1000, 100000);
+                array = new CArray(1000, 100000);
 
-            Stopwatch.Start();
-
-            foreach (int t in RandomNumbers)
-            {
-                int result = Search(array.ArraySortedDescending, t);
-
-                if (result == -1)
+                for (int i = 0; i < RandomNumbers.Length; i++)
                 {
-                    Console.WriteLine("Search finished");
+                    RandomNumbers[i] = array.NumberArray[Random.Next(array.NumberArray.Length)];
+                }
+
+                Stopwatch.Start();
+
+                foreach (int t in RandomNumbers)
+                {
+                    int result = Search(array.ArraySortedDescending, t);
+
+                    if (result == -1)
+                    {
+                        Console.WriteLine("Search finished");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Found: " + t);
+                    }
+                }
+
+                Stopwatch.Stop();
+
+                Console.WriteLine(
+                    "Elapsed: " + Stopwatch.ElapsedMilliseconds + "ms - " + Stopwatch.ElapsedTicks + " ticks");
+                Console.WriteLine("Compare count: " + array.CompareCount);
+                Console.WriteLine();
+
+                Stopwatch.Stop();
+
+                Console.WriteLine("Press R to repeat");
+
+                if (Console.ReadKey().Key == ConsoleKey.R)
+                {
+                    Console.Clear();
                 }
                 else
                 {
-                    Console.WriteLine("Found: " + t);
+                    Environment.Exit(0);
                 }
             }
-
-            Stopwatch.Stop();
-
-            Console.WriteLine("Elapsed: " + Stopwatch.ElapsedMilliseconds + "ms - " + Stopwatch.ElapsedTicks + " ticks");
-            Console.WriteLine("Compare count: " + array.CompareCount);
-            Console.ReadKey();
-
-            Stopwatch.Stop();
         }
 
         /// <summary>

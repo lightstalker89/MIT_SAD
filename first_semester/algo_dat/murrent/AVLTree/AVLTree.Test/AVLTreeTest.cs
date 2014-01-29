@@ -12,8 +12,11 @@ namespace AVLTree.Test
     #region Usings
 
     using System;
+    using System.Diagnostics;
 
     using NUnit.Framework;
+
+    using SortHelper;
 
     #endregion
 
@@ -25,11 +28,13 @@ namespace AVLTree.Test
 
         /// <summary>
         /// </summary>
-        private readonly int[] numbers = new int[20];
+        private readonly CustomAVLTree<int, int> customAVLTree = new CustomAVLTree<int, int>();
 
         /// <summary>
         /// </summary>
-        private Random random;
+        private CArray numbers;
+
+        private readonly Stopwatch stopwatch = new Stopwatch();
 
         #endregion
 
@@ -40,23 +45,41 @@ namespace AVLTree.Test
         [SetUp]
         public void Init()
         {
-            this.random = new Random();
-
-            for (int i = 0; i < this.numbers.Length; i++)
-            {
-                this.numbers[i] = this.random.Next(100000);
-            }
+            numbers = new CArray(100, 100000);
         }
 
         /// <summary>
         /// </summary>
-        public void InsertTest()
+        [TestCase]
+        public void TestInsert()
         {
-            foreach (int number in this.numbers)
+            Console.WriteLine("Building tree with unsorted array");
+
+            this.stopwatch.Start();
+
+            foreach (int number in numbers.NumberArray)
             {
+                this.customAVLTree.Insert(number, number);
             }
+
+            this.stopwatch.Stop();
+
+            Console.WriteLine("Time needed for building and inserting: " + this.stopwatch.ElapsedMilliseconds + "ms - Ticks: " + this.stopwatch.ElapsedTicks);
+
+            this.stopwatch.Reset();
         }
 
-        #endregion
+        [TestCase]
+        public void TestSearch()
+        {
+            int[] numbersToSearch = new int[100];
+            Random rnd = new Random();
+
+            for (int i = 0; i < numbersToSearch.Length; i++)
+            {
+                numbersToSearch[i] = rnd.Next(100000);
+            }
+        }
     }
+        #endregion
 }

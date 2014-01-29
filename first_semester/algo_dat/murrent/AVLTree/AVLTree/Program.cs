@@ -22,10 +22,6 @@ namespace AVLTree
 
         /// <summary>
         /// </summary>
-        private static readonly int[] TreeValueCount = { 100, 10000 };
-
-        /// <summary>
-        /// </summary>
         private static readonly CustomAVLTree<int, int> CustomAVLTree = new CustomAVLTree<int, int>();
 
         /// <summary>
@@ -44,7 +40,7 @@ namespace AVLTree
         /// </param>
         private static void Main(string[] args)
         {
-            numbers = new CArray(100, 100000);
+            numbers = new CArray(50, 100000);
 
             Console.WriteLine("Building tree with unsorted array");
 
@@ -77,7 +73,7 @@ namespace AVLTree
 
             Console.WriteLine("Building tree with sorted array");
 
-            numbers = new CArray(100,100000);
+            numbers = new CArray(50, 100000);
 
             Stopwatch.Start();
 
@@ -103,6 +99,28 @@ namespace AVLTree
             //Console.WriteLine();
             //Console.WriteLine("Displaying Tree:");
             //CustomAVLTree.DisplayTree(CustomAVLTree.Root);
+
+            Console.WriteLine("Searching Tree: ");
+
+            int compareCount = 0;
+            int[] numbersToSearch = new int[50];
+            Random rnd = new Random();
+
+            for (int i = 0; i < numbersToSearch.Length; i++)
+            {
+                numbersToSearch[i] = rnd.Next(100000);
+            }
+
+            foreach (int number in numbersToSearch)
+            {
+                int value = 0;
+                if (CustomAVLTree.Search(number, out value))
+                {
+                    Console.WriteLine("Found: " + value);
+                }
+
+                compareCount++;
+            }
 
             Console.ReadKey();
         }

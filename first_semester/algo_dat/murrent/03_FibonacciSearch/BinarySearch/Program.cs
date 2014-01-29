@@ -44,36 +44,51 @@ namespace BinarySearch
         /// </param>
         private static void Main(string[] args)
         {
-            for (int i = 0; i < 10; i++)
+            while (true)
             {
-                RandomNumbers[i] = Random.Next(100);
-            }
+                array = new CArray(1000, 100);
 
-            array = new CArray(1000, 100);
-
-            Stopwatch.Start();
-
-            foreach (int t in RandomNumbers)
-            {
-                int result = Search(array.ArraySorted, t);
-
-                if (result == -1)
+                for (int i = 0; i < RandomNumbers.Length; i++)
                 {
-                    Console.WriteLine("Search finished");
+                    RandomNumbers[i] = array.NumberArray[Random.Next(array.NumberArray.Length)];
+                }
+
+                Stopwatch.Start();
+
+                foreach (int t in RandomNumbers)
+                {
+                    int result = Search(array.ArraySorted, t);
+
+                    if (result == -1)
+                    {
+                        Console.WriteLine("Search finished");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Found: " + t);
+                    }
+                }
+
+                Stopwatch.Stop();
+
+                Console.WriteLine(
+                    "Elapsed: " + Stopwatch.ElapsedMilliseconds + "ms - " + Stopwatch.ElapsedTicks + " ticks");
+                Console.WriteLine("Compare count: " + array.CompareCount);
+                Console.ReadKey();
+
+                Stopwatch.Stop();
+
+                Console.WriteLine("Press R to repeat");
+
+                if (Console.ReadKey().Key == ConsoleKey.R)
+                {
+                    Console.Clear();
                 }
                 else
                 {
-                    Console.WriteLine("Found: " + t);
+                    Environment.Exit(0);
                 }
             }
-
-            Stopwatch.Stop();
-
-            Console.WriteLine("Elapsed: " + Stopwatch.ElapsedMilliseconds + "ms - " + Stopwatch.ElapsedTicks + " ticks");
-            Console.WriteLine("Compare count: " + array.CompareCount);
-            Console.ReadKey();
-
-            Stopwatch.Stop();
         }
 
         /// <summary>
