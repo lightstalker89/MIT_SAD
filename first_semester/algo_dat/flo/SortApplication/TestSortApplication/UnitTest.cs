@@ -15,6 +15,7 @@ namespace TestSortApplication
         private SortAlgo sortAlgoClass;
         private SortHeap sortHeapClass;
         private SearchAlgo searchAlgoClass;
+        private BinaryTree binaryTreeClass;
         List<long> times = new List<long>();
 
         [SetUp]
@@ -23,6 +24,8 @@ namespace TestSortApplication
             sortAlgoClass = new SortAlgo();
             sortHeapClass = new SortHeap();
             searchAlgoClass = new SearchAlgo();
+            binaryTreeClass = new BinaryTree();
+
         }
 
         [TestCase]
@@ -105,10 +108,11 @@ namespace TestSortApplication
             }
         }
 
+        // -------------------- Search --------------------
         [TestCase]
         public void TestLinearSearch()
         {
-            int maxValue = 1000000;
+            int maxValue = 100;
             Random randNum = new Random();
             for (int i = 0; i < 10; i++)
             {
@@ -116,11 +120,11 @@ namespace TestSortApplication
                 int randNumber = randNum.Next(0, maxValue);
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
-                int foundNumber = searchAlgoClass.linearSearch(array, randNumber);
+                int index = searchAlgoClass.linearSearch(array, randNumber);
                 sw.Stop();
-                if (foundNumber == randNumber)
+                if (index != -1)
                 {
-                    Console.WriteLine(String.Concat("Number ", foundNumber, " found in ", sw.ElapsedMilliseconds, " msc"));
+                    Console.WriteLine(String.Concat("Number ", randNumber, " found in ", sw.ElapsedMilliseconds, " msc, and need ", index, " rounds"));
                 }
                 else
                 {
@@ -132,7 +136,7 @@ namespace TestSortApplication
         [TestCase]
         public void TestBinarySearch()
         {
-            int maxValue = 100000;
+            int maxValue = 1000;
             Random randNum = new Random();
             for (int i = 0; i < 10; i++)
             {
@@ -140,11 +144,11 @@ namespace TestSortApplication
                 int randNumber = randNum.Next(0, maxValue);
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
-                int foundNumber = searchAlgoClass.BinarySearch(array, 0, array.Length, randNumber);
+                int index = searchAlgoClass.BinarySearch(array, randNumber);
                 sw.Stop();
-                if (foundNumber == randNumber)
+                if (index != -1)
                 {
-                    Console.WriteLine(String.Concat("Number ", foundNumber, " found in ", sw.ElapsedMilliseconds, " msc"));
+                    Console.WriteLine(String.Concat("Number ", randNumber, " found in ", sw.ElapsedMilliseconds, " msc, and need ", index, " rounds"));
                 }
                 else
                 {
@@ -152,6 +156,27 @@ namespace TestSortApplication
                 }
             }
         }
+
+        // -------------------- Tree --------------------
+        [TestCase]
+        public void TestBinaryTree()
+        {
+            int maxValue = 1000;
+            Random randNum = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                int randNumber = randNum.Next(0, maxValue);
+                //Stopwatch sw = new Stopwatch();
+                //sw.Start();
+                binaryTreeClass.insert(i);
+                //binaryTreeClass.
+                //sw.Stop();
+            }
+            binaryTreeClass.postOrderTraversal();
+            binaryTreeClass.preOrderTraversal();
+            binaryTreeClass.inOrderTraversal();
+        }
+
 
         private int[] InitialiseArray(int maxCount)
         {
