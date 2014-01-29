@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AVLTree.cs" />
+    <Compile Include="BinaryTree.cs" />
     <Compile Include="SearchAlgo.cs" />
     <Compile Include="SortHeap.cs" />
     <Compile Include="SortAlgo.cs" />

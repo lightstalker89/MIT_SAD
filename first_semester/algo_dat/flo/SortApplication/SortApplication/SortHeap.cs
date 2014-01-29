@@ -16,7 +16,7 @@ namespace SortApplication
             for (int i = array.Length - 1; i >= 0; i += -1)
             {
                 vertausche(array, i, 0);
-                versenke(array, 0, i);
+                versickern(array, 0, i);
             }
             return array;
         }
@@ -31,7 +31,7 @@ namespace SortApplication
             //starte von der Mitte rückwärts.
             for (int i = (int)(array.Length / 2 - 1); i >= 1; i += -1)
             {
-                versenke(array, i, array.Length);
+                versickern(array, i, array.Length);
             }
         }
 
@@ -42,7 +42,7 @@ namespace SortApplication
         /// <param name="i">Das zu versenkende Element</param>
         /// <param name="n">Die letzte Stelle im Baum die beachtet werden soll</param>
         /// <remarks></remarks>
-        private void versenke(int[] array, int i, int n)
+        private void versickern(int[] array, int i, int n)
         {
             while (i <= (n / 2 - 1))
             {
