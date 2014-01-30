@@ -100,27 +100,27 @@ namespace AVLTree
             //Console.WriteLine("Displaying Tree:");
             //CustomAVLTree.DisplayTree(CustomAVLTree.Root);
 
-            Console.WriteLine("Searching Tree: ");
+            //Console.WriteLine("Searching Tree: ");
 
-            int compareCount = 0;
-            int[] numbersToSearch = new int[50];
-            Random rnd = new Random();
+            //int compareCount = 0;
+            //int[] numbersToSearch = new int[50];
+            //Random rnd = new Random();
 
-            for (int i = 0; i < numbersToSearch.Length; i++)
-            {
-                numbersToSearch[i] = rnd.Next(100000);
-            }
+            //for (int i = 0; i < numbersToSearch.Length; i++)
+            //{
+            //    numbersToSearch[i] = rnd.Next(100000);
+            //}
 
-            foreach (int number in numbersToSearch)
-            {
-                int value = 0;
-                if (CustomAVLTree.Search(number, out value))
-                {
-                    Console.WriteLine("Found: " + value);
-                }
+            //foreach (int number in numbersToSearch)
+            //{
+            //    int value = 0;
+            //    if (CustomAVLTree.Search(number, out value))
+            //    {
+            //        Console.WriteLine("Found: " + value);
+            //    }
 
-                compareCount++;
-            }
+            //    compareCount++;
+            //}
 
             Console.ReadKey();
         }
