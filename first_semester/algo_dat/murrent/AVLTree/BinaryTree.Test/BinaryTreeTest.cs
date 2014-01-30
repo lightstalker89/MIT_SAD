@@ -65,6 +65,8 @@ namespace BinaryTree.Test
             this.stopwatch.Stop();
 
             Console.WriteLine("Time needed for building and inserting: " + this.stopwatch.ElapsedMilliseconds + "ms - Ticks: " + this.stopwatch.ElapsedTicks);
+            Console.WriteLine();
+            this.customBinaryTree.PrintTree(this.customBinaryTree.Root, string.Empty);
 
             this.stopwatch.Reset();
         }
@@ -88,7 +90,7 @@ namespace BinaryTree.Test
 
             foreach (int number in numbersToSearch)
             {
-                if (this.customBinaryTree.Search(customBinaryTree.Root, number))
+                if (this.customBinaryTree.Search(this.customBinaryTree.Root, number))
                 {
                     Console.WriteLine("Found: " + number);
                 }
@@ -129,7 +131,7 @@ namespace BinaryTree.Test
 
             foreach (int number in numbersToSearch)
             {
-                if (this.customBinaryTree.Search(customBinaryTree.Root, number))
+                if (this.customBinaryTree.Search(this.customBinaryTree.Root, number))
                 {
                     Console.WriteLine("Found: " + number);
                 }

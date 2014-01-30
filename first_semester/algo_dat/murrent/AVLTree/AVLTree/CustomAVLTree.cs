@@ -96,12 +96,19 @@ namespace AVLTree
         /// </summary>
         /// <param name="root">
         /// </param>
-        public void DisplayTree(CustomAVLNode root)
+        /// <param name="prefix">
+        /// </param>
+        public void DisplayTree(CustomAVLNode root, string prefix)
         {
-            if (root != null)
+            if (root == null)
             {
-                this.DisplayBreadthFirst();
+                Console.WriteLine(prefix + "+- <empty>");
+                return;
             }
+
+            Console.WriteLine(prefix + "+- " + root.Key);
+            this.DisplayTree(root.Left, prefix + "|  ");
+            this.DisplayTree(root.Right, prefix + "|  ");
         }
 
         /// <summary>

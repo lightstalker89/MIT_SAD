@@ -101,6 +101,25 @@ namespace BinaryTree
         /// </summary>
         /// <param name="root">
         /// </param>
+        /// <param name="prefix">
+        /// </param>
+        public void PrintTree(Node root, string prefix)
+        {
+            if (root == null)
+            {
+                Console.WriteLine(prefix + "+- <null>");
+                return;
+            }
+
+            Console.WriteLine(prefix + "+- " + root.Item);
+            this.PrintTree(root.LeftChild, prefix + "|  ");
+            this.PrintTree(root.RightChild, prefix + "|  ");
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="root">
+        /// </param>
         public void Preorder(Node root)
         {
             if (root != null)

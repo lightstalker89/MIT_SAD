@@ -67,7 +67,8 @@ namespace AVLTree.Test
             this.stopwatch.Stop();
 
             Console.WriteLine("Time needed for building and inserting: " + this.stopwatch.ElapsedMilliseconds + "ms - Ticks: " + this.stopwatch.ElapsedTicks);
-
+            Console.WriteLine();
+            this.customAVLTree.DisplayTree(this.customAVLTree.Root, string.Empty);
             this.stopwatch.Reset();
         }
 

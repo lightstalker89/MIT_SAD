@@ -91,6 +91,9 @@ namespace AVLTree
             Stopwatch.Stop();
 
             Console.WriteLine("Time needed for building and inserting: " + Stopwatch.ElapsedMilliseconds + "ms - Ticks: " + Stopwatch.ElapsedTicks);
+            Console.WriteLine();
+            CustomAVLTree.DisplayTree(CustomAVLTree.Root, string.Empty);
+            Stopwatch.Reset();
 
             // Console.WriteLine("Inorder traversal:");
             // CustomAVLTree.InOrder(CustomAVLTree.Root);

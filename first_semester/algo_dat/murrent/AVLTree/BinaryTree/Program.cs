@@ -38,6 +38,8 @@ namespace BinaryTree
                 CustomBinaryTree.Insert(random.Next(10000));
             }
 
+            CustomBinaryTree.PrintTree(CustomBinaryTree.Root, string.Empty);
+            Console.WriteLine();
             Console.WriteLine("Inorder traversal");
             CustomBinaryTree.Inorder(CustomBinaryTree.Root);
             Console.WriteLine(" ");
