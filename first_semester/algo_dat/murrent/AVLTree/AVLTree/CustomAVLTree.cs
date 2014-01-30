@@ -9,9 +9,13 @@
 // *******************************************************/
 namespace AVLTree
 {
+    #region Usings
+
     using System;
     using System.Collections;
     using System.Collections.Generic;
+
+    #endregion
 
     /// <summary>
     /// </summary>
@@ -21,6 +25,31 @@ namespace AVLTree
     /// </typeparam>
     public class CustomAVLTree<TKey, TValue> : IEnumerable<TValue>
     {
+
+        /// <summary>
+        /// </summary>
+        private readonly IComparer<TKey> comparer;
+
+        /// <summary>
+        /// </summary>
+        public CustomAVLNode Root { get; set; }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="comparer">
+        /// </param>
+        public CustomAVLTree(IComparer<TKey> comparer)
+        {
+            this.comparer = comparer;
+        }
+
+        /// <summary>
+        /// </summary>
+        public CustomAVLTree()
+            : this(Comparer<TKey>.Default)
+        {
+        }
+
         /// <summary>
         /// </summary>
         /// <param name="root">
@@ -30,8 +59,8 @@ namespace AVLTree
             if (root != null)
             {
                 Console.Write(root.Value + " ");
-                PreOrder(root.Left);
-                PreOrder(root.Right);
+                this.PreOrder(root.Left);
+                this.PreOrder(root.Right);
             }
         }
 
@@ -43,9 +72,9 @@ namespace AVLTree
         {
             if (root != null)
             {
-                InOrder(root.Left);
+                this.InOrder(root.Left);
                 Console.Write(root.Value + " ");
-                InOrder(root.Right);
+                this.InOrder(root.Right);
             }
         }
 
@@ -57,15 +86,16 @@ namespace AVLTree
         {
             if (root != null)
             {
-                PostOrder(root.Left);
-                PostOrder(root.Right);
+                this.PostOrder(root.Left);
+                this.PostOrder(root.Right);
                 Console.Write(root.Value + " ");
             }
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="root"></param>
+        /// <param name="root">
+        /// </param>
         public void DisplayTree(CustomAVLNode root)
         {
             if (root != null)
@@ -100,35 +130,11 @@ namespace AVLTree
 
         /// <summary>
         /// </summary>
-        private readonly IComparer<TKey> comparer;
-
-        /// <summary>
-        /// </summary>
-        public CustomAVLNode Root { get; set; }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="comparer">
-        /// </param>
-        public CustomAVLTree(IComparer<TKey> comparer)
-        {
-            this.comparer = comparer;
-        }
-
-        /// <summary>
-        /// </summary>
-        public CustomAVLTree()
-            : this(Comparer<TKey>.Default)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
         /// <returns>
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         /// <summary>
@@ -210,7 +216,7 @@ namespace AVLTree
                         {
                             node.Left = new CustomAVLNode { Key = key, Value = value, Parent = node };
 
-                            InsertBalance(node, 1);
+                            this.InsertBalance(node, 1);
 
                             return;
                         }
@@ -225,7 +231,7 @@ namespace AVLTree
                         {
                             node.Right = new CustomAVLNode { Key = key, Value = value, Parent = node };
 
-                            InsertBalance(node, -1);
+                            this.InsertBalance(node, -1);
 
                             return;
                         }
@@ -263,11 +269,11 @@ namespace AVLTree
                 {
                     if (node.Left.Balance == 1)
                     {
-                        RotateRight(node);
+                        this.RotateRight(node);
                     }
                     else
                     {
-                        RotateLeftRight(node);
+                        this.RotateLeftRight(node);
                     }
 
                     return;
@@ -277,11 +283,11 @@ namespace AVLTree
                 {
                     if (node.Right.Balance == -1)
                     {
-                        RotateLeft(node);
+                        this.RotateLeft(node);
                     }
                     else
                     {
-                        RotateRightLeft(node);
+                        this.RotateRightLeft(node);
                     }
 
                     return;
@@ -339,13 +345,13 @@ namespace AVLTree
                                 {
                                     parent.Left = null;
 
-                                    DeleteBalance(parent, -1);
+                                    this.DeleteBalance(parent, -1);
                                 }
                                 else
                                 {
                                     parent.Right = null;
 
-                                    DeleteBalance(parent, 1);
+                                    this.DeleteBalance(parent, 1);
                                 }
                             }
                         }
@@ -353,14 +359,14 @@ namespace AVLTree
                         {
                             Replace(node, right);
 
-                            DeleteBalance(node, 0);
+                            this.DeleteBalance(node, 0);
                         }
                     }
                     else if (right == null)
                     {
                         Replace(node, left);
 
-                        DeleteBalance(node, 0);
+                        this.DeleteBalance(node, 0);
                     }
                     else
                     {
@@ -392,7 +398,7 @@ namespace AVLTree
                                 }
                             }
 
-                            DeleteBalance(successor, 1);
+                            this.DeleteBalance(successor, 1);
                         }
                         else
                         {
@@ -443,7 +449,7 @@ namespace AVLTree
                                 }
                             }
 
-                            DeleteBalance(successorParent, -1);
+                            this.DeleteBalance(successorParent, -1);
                         }
                     }
 
@@ -470,7 +476,7 @@ namespace AVLTree
                 {
                     if (node.Left.Balance >= 0)
                     {
-                        node = RotateRight(node);
+                        node = this.RotateRight(node);
 
                         if (node.Balance == -1)
                         {
@@ -479,14 +485,14 @@ namespace AVLTree
                     }
                     else
                     {
-                        node = RotateLeftRight(node);
+                        node = this.RotateLeftRight(node);
                     }
                 }
                 else if (balance == -2)
                 {
                     if (node.Right.Balance <= 0)
                     {
-                        node = RotateLeft(node);
+                        node = this.RotateLeft(node);
 
                         if (node.Balance == 1)
                         {
@@ -495,7 +501,7 @@ namespace AVLTree
                     }
                     else
                     {
-                        node = RotateRightLeft(node);
+                        node = this.RotateRightLeft(node);
                     }
                 }
                 else if (balance != 0)
@@ -887,7 +893,7 @@ namespace AVLTree
             {
                 get
                 {
-                    return Current;
+                    return this.Current;
                 }
             }
 
@@ -903,11 +909,11 @@ namespace AVLTree
             {
                 /// <summary>
                 /// </summary>
-                Parent,
+                Parent, 
 
                 /// <summary>
                 /// </summary>
-                Right,
+                Right, 
 
                 /// <summary>
                 /// </summary>

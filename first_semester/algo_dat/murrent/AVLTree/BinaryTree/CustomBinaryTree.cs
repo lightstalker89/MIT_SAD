@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="Tree.cs" company="MDMCoWorks">
+// * <copyright file="CustomBinaryTree.cs" company="MDMCoWorks">
 // * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -9,21 +9,26 @@
 // *******************************************************/
 namespace BinaryTree
 {
+    #region Usings
+
     using System;
+
+    #endregion
 
     /// <summary>
     /// </summary>
-    public class Tree
+    public class CustomBinaryTree
     {
+
         /// <summary>
         /// </summary>
         public Node Root { get; set; }
 
         /// <summary>
         /// </summary>
-        public Tree()
+        public CustomBinaryTree()
         {
-            Root = null;
+            this.Root = null;
         }
 
         /// <summary>
@@ -71,6 +76,29 @@ namespace BinaryTree
 
         /// <summary>
         /// </summary>
+        /// <param name="node">
+        /// </param>
+        /// <param name="key">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public bool Search(Node node, int key)
+        {
+            if (node == null)
+            {
+                return false;
+            }
+
+            if (key < node.Item)
+            {
+                return this.Search(node.LeftChild, key);
+            }
+
+            return this.Search(node.RightChild, key);
+        }
+
+        /// <summary>
+        /// </summary>
         /// <param name="root">
         /// </param>
         public void Preorder(Node root)
@@ -78,8 +106,8 @@ namespace BinaryTree
             if (root != null)
             {
                 Console.Write(root.Item + " ");
-                Preorder(root.LeftChild);
-                Preorder(root.RightChild);
+                this.Preorder(root.LeftChild);
+                this.Preorder(root.RightChild);
             }
         }
 
@@ -91,9 +119,9 @@ namespace BinaryTree
         {
             if (root != null)
             {
-                Inorder(root.LeftChild);
+                this.Inorder(root.LeftChild);
                 Console.Write(root.Item + " ");
-                Inorder(root.RightChild);
+                this.Inorder(root.RightChild);
             }
         }
 
@@ -105,8 +133,8 @@ namespace BinaryTree
         {
             if (root != null)
             {
-                Postorder(root.LeftChild);
-                Postorder(root.RightChild);
+                this.Postorder(root.LeftChild);
+                this.Postorder(root.RightChild);
                 Console.Write(root.Item + " ");
             }
         }

@@ -9,7 +9,11 @@
 // *******************************************************/
 namespace BinaryTree
 {
+    #region Usings
+
     using System;
+
+    #endregion
 
     /// <summary>
     /// </summary>
@@ -17,7 +21,7 @@ namespace BinaryTree
     {
         /// <summary>
         /// </summary>
-        private static readonly Tree tree = new Tree();
+        private static readonly CustomBinaryTree CustomBinaryTree = new CustomBinaryTree();
 
         /// <summary>
         /// </summary>
@@ -31,21 +35,21 @@ namespace BinaryTree
         {
             for (int i = 0; i < 50; i++)
             {
-                tree.Insert(random.Next(10000));
+                CustomBinaryTree.Insert(random.Next(10000));
             }
 
             Console.WriteLine("Inorder traversal");
-            tree.Inorder(tree.Root);
+            CustomBinaryTree.Inorder(CustomBinaryTree.Root);
             Console.WriteLine(" ");
 
             Console.WriteLine();
             Console.WriteLine("Preorder traversal:");
-            tree.Preorder(tree.Root);
+            CustomBinaryTree.Preorder(CustomBinaryTree.Root);
             Console.WriteLine(" ");
 
             Console.WriteLine();
             Console.WriteLine("Postorder traversal:");
-            tree.Postorder(tree.Root);
+            CustomBinaryTree.Postorder(CustomBinaryTree.Root);
             Console.WriteLine(" ");
 
             Console.ReadLine();

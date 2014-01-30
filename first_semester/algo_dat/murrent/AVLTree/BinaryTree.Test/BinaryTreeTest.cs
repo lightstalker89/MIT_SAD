@@ -1,5 +1,5 @@
 ﻿// *******************************************************
-// * <copyright file="AVLTreeTest.cs" company="MDMCoWorks">
+// * <copyright file="BinaryTreeTest.cs" company="MDMCoWorks">
 // * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
@@ -7,7 +7,7 @@
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
-namespace AVLTree.Test
+namespace BinaryTree.Test
 {
     #region Usings
 
@@ -22,13 +22,13 @@ namespace AVLTree.Test
 
     /// <summary>
     /// </summary>
-    public class AVLTreeTest
+    public class BinaryTreeTest
     {
         #region Fields
 
         /// <summary>
         /// </summary>
-        private readonly CustomAVLTree<int, int> customAVLTree = new CustomAVLTree<int, int>();
+        private readonly CustomBinaryTree customBinaryTree = new CustomBinaryTree();
 
         /// <summary>
         /// </summary>
@@ -39,8 +39,6 @@ namespace AVLTree.Test
         private readonly Stopwatch stopwatch = new Stopwatch();
 
         #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// </summary>
@@ -61,7 +59,7 @@ namespace AVLTree.Test
 
             foreach (int number in this.numbers.NumberArray)
             {
-                this.customAVLTree.Insert(number, number);
+                this.customBinaryTree.Insert(number);
             }
 
             this.stopwatch.Stop();
@@ -90,11 +88,9 @@ namespace AVLTree.Test
 
             foreach (int number in numbersToSearch)
             {
-                int foundNumber;
-
-                if (this.customAVLTree.Search(number, out foundNumber))
+                if (this.customBinaryTree.Search(customBinaryTree.Root, number))
                 {
-                    Console.WriteLine("Found: " + foundNumber);
+                    Console.WriteLine("Found: " + number);
                 }
                 else
                 {
@@ -133,11 +129,9 @@ namespace AVLTree.Test
 
             foreach (int number in numbersToSearch)
             {
-                int foundNumber;
-
-                if (this.customAVLTree.Search(number, out foundNumber))
+                if (this.customBinaryTree.Search(customBinaryTree.Root, number))
                 {
-                    Console.WriteLine("Found: " + foundNumber);
+                    Console.WriteLine("Found: " + number);
                 }
                 else
                 {
@@ -155,5 +149,4 @@ namespace AVLTree.Test
             Console.WriteLine("Compared: " + compareCount + "time(s)");
         }
     }
-        #endregion
 }

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0C258DF9-4651-4316-90D0-31E4F5C7C47A}</ProjectGuid>
+    <ProjectGuid>{E9A01175-20A6-4990-9CEB-7D0B9C0D584E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BinaryTree</RootNamespace>
-    <AssemblyName>BinaryTree</AssemblyName>
+    <RootNamespace>Bsp2a</RootNamespace>
+    <AssemblyName>Bsp2a</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,10 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Node.cs" />
+    <Compile Include="BubbleSort.cs" />
+    <Compile Include="InsertionSort.cs" />
+    <Compile Include="ISort.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CustomBinaryTree.cs" />
+    <Compile Include="SelectionSort.cs" />
+    <Compile Include="Timing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

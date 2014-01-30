@@ -9,7 +9,11 @@
 // *******************************************************/
 namespace BinaryTree
 {
+    #region Usings
+
     using System;
+
+    #endregion
 
     /// <summary>
     /// </summary>
