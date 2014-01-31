@@ -23,7 +23,9 @@ namespace Algodat_UE3
 
             LinearSearch linSearch = new LinearSearch();
             BinarySearch binSearch = new BinarySearch();
-            int[] randomNumbers = GenerateRandomArray(1000, 100);
+            FibonacciSearch fiboSearch = new FibonacciSearch();
+
+            int[] randomNumbers = GenerateRandomArray(10000, 1000);
 
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -59,6 +61,23 @@ namespace Algodat_UE3
             watch.Stop();
             Console.WriteLine("Binary Time: " + watch.ElapsedMilliseconds + "ms");
             Console.WriteLine("Binary Compare count: " + binSearch.CompareCount);
+            watch.Reset();
+
+            watch.Start();
+
+            for (int i = 0; i < searchNumbers.Length; i++)
+            {
+                int result = fiboSearch.Search(searchNumbers[i], randomNumbers);
+
+                if (result != -1)
+                {
+                    Console.WriteLine("Found: " + searchNumbers[i]);
+                }
+            }
+
+            watch.Stop();
+            Console.WriteLine("Fibonacci Time: " + watch.ElapsedMilliseconds + "ms");
+            Console.WriteLine("Fibonacci Compare count: " + binSearch.CompareCount);
             watch.Reset();
         }
 
