@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="QueueSampleTest.cs" company="MDMCoWorks">
-// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -9,12 +9,16 @@
 // *******************************************************/
 namespace QueueSample.Test
 {
+    #region Usings
+
     using System.Globalization;
     using System.Linq;
 
     using NSubstitute;
 
     using NUnit.Framework;
+
+    #endregion
 
     /// <summary>
     /// The <see ref="QueueSampleTest"/> class and its interaction logic 
@@ -43,7 +47,7 @@ namespace QueueSample.Test
         [TestCase]
         public void QueueSampleClassTest()
         {
-            Assert.That(queue.MaxQueueItems.Equals(10));
+            Assert.That(this.queue.MaxQueueItems.Equals(10));
         }
 
         /// <summary>
@@ -84,7 +88,7 @@ namespace QueueSample.Test
         [TestCase]
         public void DequeueEmptyQueueTest()
         {
-            EmptyQueue();
+            this.EmptyQueue();
 
             Assert.Throws<QueueIsEmptyException>(() => this.queue.Dequeue());
         }
@@ -95,7 +99,7 @@ namespace QueueSample.Test
         [TestCase]
         public void DequeueTest()
         {
-            FillQueue();
+            this.FillQueue();
 
             for (int i = 9; i >= 0; --i)
             {
@@ -122,7 +126,7 @@ namespace QueueSample.Test
 
             Assert.That(countBefore.Equals(countAfter));
             Assert.NotNull(item);
-            Assert.Contains(item, this.queue.Queue.ToList());
+            Assert.Contains(item, Enumerable.ToList<string>(this.queue.Queue));
         }
 
         /// <summary>

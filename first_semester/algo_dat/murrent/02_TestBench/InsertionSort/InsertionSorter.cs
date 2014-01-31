@@ -9,8 +9,12 @@
 // *******************************************************/
 namespace InsertionSort
 {
+    #region Usings
+
     using System;
     using System.Diagnostics;
+
+    #endregion
 
     /// <summary>
     /// </summary>
@@ -50,31 +54,31 @@ namespace InsertionSort
         /// </summary>
         public void Sort()
         {
-            stopwatch.Reset();
-            stopwatch.Start();
+            this.stopwatch.Reset();
+            this.stopwatch.Start();
 
-            for (int j = 0; j < arrayLength; j++)
+            for (int j = 0; j < this.arrayLength; j++)
             {
-                int key = arrayToSort[j];
+                int key = this.arrayToSort[j];
                 int i = j - 1;
 
-                while (i >= 0 && arrayToSort[i] > key)
+                while (i >= 0 && this.arrayToSort[i] > key)
                 {
-                    arrayToSort[i + 1] = arrayToSort[i];
+                    this.arrayToSort[i + 1] = this.arrayToSort[i];
 
                     i = i - 1;
                 }
 
-                arrayToSort[i + 1] = key;
+                this.arrayToSort[i + 1] = key;
             }
 
-            stopwatch.Stop();
-            this.ElapsedTime = stopwatch.ElapsedMilliseconds;
+            this.stopwatch.Stop();
+            this.ElapsedTime = this.stopwatch.ElapsedMilliseconds;
 
-            this.SortedArray = arrayToSort;
+            this.SortedArray = this.arrayToSort;
 
             Console.WriteLine(
-                "Sort completed with: " + stopwatch.ElapsedMilliseconds + "ms - " + stopwatch.ElapsedTicks + " ticks");
+                "Sort completed with: " + this.stopwatch.ElapsedMilliseconds + "ms - " + this.stopwatch.ElapsedTicks + " ticks");
         }
     }
 }

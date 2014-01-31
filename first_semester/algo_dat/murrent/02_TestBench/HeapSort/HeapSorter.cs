@@ -9,8 +9,12 @@
 // *******************************************************/
 namespace HeapSort
 {
+    #region Usings
+
     using System;
     using System.Diagnostics;
+
+    #endregion
 
     /// <summary>
     /// </summary>
@@ -50,8 +54,8 @@ namespace HeapSort
         /// </summary>
         public void Sort()
         {
-            stopwatch.Reset();
-            stopwatch.Start();
+            this.stopwatch.Reset();
+            this.stopwatch.Start();
 
             this.GenerateMaxHeap(this.arrayToSort);
 
@@ -61,13 +65,13 @@ namespace HeapSort
                 this.Sink(this.arrayToSort, 0, i);
             }
 
-            stopwatch.Stop();
-            this.ElapsedTime = stopwatch.ElapsedMilliseconds;
+            this.stopwatch.Stop();
+            this.ElapsedTime = this.stopwatch.ElapsedMilliseconds;
 
-            this.SortedArray = arrayToSort;
+            this.SortedArray = this.arrayToSort;
 
             Console.WriteLine(
-                "Sort completed with: " + stopwatch.ElapsedMilliseconds + "ms - " + stopwatch.ElapsedTicks + " ticks");
+                "Sort completed with: " + this.stopwatch.ElapsedMilliseconds + "ms - " + this.stopwatch.ElapsedTicks + " ticks");
         }
 
         /// <summary>

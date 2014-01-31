@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="StackSampleTest.cs" company="MDMCoWorks">
-// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -9,12 +9,16 @@
 // *******************************************************/
 namespace StackSample.Test
 {
+    #region Usings
+
     using System.Globalization;
     using System.Linq;
 
     using NSubstitute;
 
     using NUnit.Framework;
+
+    #endregion
 
     /// <summary>
     /// The <see ref="StackSampleTest"/> class and its interaction logic 
@@ -31,8 +35,8 @@ namespace StackSample.Test
         [SetUp]
         public void Init()
         {
-            stack = Substitute.For<StackSample<string>>();
-            stack.MaxStackItems = 10;
+            this.stack = Substitute.For<StackSample<string>>();
+            this.stack.MaxStackItems = 10;
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace StackSample.Test
         [TestCase]
         public void StackSampleClassTest()
         {
-            Assert.That(stack.MaxStackItems.Equals(10));
+            Assert.That(this.stack.MaxStackItems.Equals(10));
         }
 
         /// <summary>
@@ -82,7 +86,7 @@ namespace StackSample.Test
         [TestCase]
         public void PopEmptyStackTest()
         {
-            EmptyStack();
+            this.EmptyStack();
 
             Assert.Throws<StackIsEmptyException>(() => this.stack.Pop());
         }
@@ -93,7 +97,7 @@ namespace StackSample.Test
         [TestCase]
         public void PopTest()
         {
-            FillStack();
+            this.FillStack();
 
             for (int i = 9; i >= 0; --i)
             {

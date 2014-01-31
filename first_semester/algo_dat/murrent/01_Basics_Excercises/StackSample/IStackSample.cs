@@ -1,6 +1,6 @@
 // *******************************************************
 // * <copyright file="IStackSample.cs" company="MDMCoWorks">
-// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *

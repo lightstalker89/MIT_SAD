@@ -9,11 +9,15 @@
 // *******************************************************/
 namespace InsertionSort.Test
 {
+    #region Usings
+
     using System;
 
     using NUnit.Framework;
 
     using SortHelper;
+
+    #endregion
 
     /// <summary>
     /// </summary>
@@ -42,13 +46,13 @@ namespace InsertionSort.Test
 
                 for (int x = 0; x < 10; ++x)
                 {
-                    insertionSorter = new InsertionSorter(numbers.NumberArray);
-                    insertionSorter.Sort();
+                    this.insertionSorter = new InsertionSorter(numbers.NumberArray);
+                    this.insertionSorter.Sort();
                 }
 
                 Array.Sort(numbers.NumberArray);
 
-                Assert.AreEqual(numbers.NumberArray, insertionSorter.SortedArray);
+                Assert.AreEqual(numbers.NumberArray, this.insertionSorter.SortedArray);
             }
         }
     }

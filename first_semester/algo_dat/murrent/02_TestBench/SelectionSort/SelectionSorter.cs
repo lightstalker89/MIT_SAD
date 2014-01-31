@@ -9,8 +9,12 @@
 // *******************************************************/
 namespace SelectionSort
 {
+    #region Usings
+
     using System;
     using System.Diagnostics;
+
+    #endregion
 
     /// <summary>
     /// </summary>
@@ -50,22 +54,22 @@ namespace SelectionSort
         /// </summary>
         public void Sort()
         {
-            stopwatch.Reset();
-            stopwatch.Start();
+            this.stopwatch.Reset();
+            this.stopwatch.Start();
 
-            for (int i = 0; i < arrayLength - 1; ++i)
+            for (int i = 0; i < this.arrayLength - 1; ++i)
             {
                 int minPos = this.FindMinPosition(i);
                 this.SwapPositions(minPos, i);
             }
 
-            stopwatch.Stop();
-            this.ElapsedTime = stopwatch.ElapsedMilliseconds;
+            this.stopwatch.Stop();
+            this.ElapsedTime = this.stopwatch.ElapsedMilliseconds;
 
-            this.SortedArray = arrayToSort;
+            this.SortedArray = this.arrayToSort;
 
             Console.WriteLine(
-                "Sort completed with: " + stopwatch.ElapsedMilliseconds + "ms - " + stopwatch.ElapsedTicks + " ticks");
+                "Sort completed with: " + this.stopwatch.ElapsedMilliseconds + "ms - " + this.stopwatch.ElapsedTicks + " ticks");
         }
 
         /// <summary>
@@ -78,9 +82,9 @@ namespace SelectionSort
         {
             int minPos = positionFrom;
 
-            for (int i = positionFrom + 1; i < arrayLength; ++i)
+            for (int i = positionFrom + 1; i < this.arrayLength; ++i)
             {
-                if (arrayToSort[i] < arrayToSort[minPos])
+                if (this.arrayToSort[i] < this.arrayToSort[minPos])
                 {
                     minPos = i;
                 }

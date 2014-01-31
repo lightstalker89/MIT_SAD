@@ -93,8 +93,13 @@ namespace BinaryTree
             {
                 return this.Search(node.LeftChild, key);
             }
+            
+            if (key > node.Item)
+            {
+                return this.Search(node.RightChild, key);                
+            }
 
-            return this.Search(node.RightChild, key);
+            return true;
         }
 
         /// <summary>

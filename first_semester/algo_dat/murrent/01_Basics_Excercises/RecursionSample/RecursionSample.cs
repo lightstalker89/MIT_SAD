@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="RecursionSample.cs" company="MDMCoWorks">
-// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -9,8 +9,12 @@
 // *******************************************************/
 namespace RecursionSample
 {
+    #region Usings
+
     using System;
     using System.Numerics;
+
+    #endregion
 
     /// <summary>
     /// The <see ref="RecursionSample"/> class and its interaction logic 

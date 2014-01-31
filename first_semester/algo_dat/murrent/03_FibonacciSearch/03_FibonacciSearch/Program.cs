@@ -14,9 +14,6 @@ namespace _03_FibonacciSearch
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Net.Mime;
-    using System.Runtime.CompilerServices;
 
     using SortHelper;
 
@@ -168,16 +165,22 @@ namespace _03_FibonacciSearch
             return FibonacciNumbers[number - 1];
         }
 
-        public static int FibonacciRecursive(int x)
+        /// <summary>
+        /// </summary>
+        /// <param name="number">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public static int FibonacciRecursive(int number)
         {
 
-            if (x == 0 || x == 1)
+            if (number == 0 || number == 1)
 
-                return x;
+                return number;
 
-            return FibonacciRecursive(x - 1) +
+            return FibonacciRecursive(number - 1) +
 
-                   FibonacciRecursive(x - 2);
+                   FibonacciRecursive(number - 2);
 
         }
     }

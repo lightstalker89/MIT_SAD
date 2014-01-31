@@ -9,11 +9,15 @@
 // *******************************************************/
 namespace BubbleSort.Test
 {
+    #region Usings
+
     using System;
 
     using NUnit.Framework;
 
     using SortHelper;
+
+    #endregion
 
     /// <summary>
     /// </summary>
@@ -42,13 +46,13 @@ namespace BubbleSort.Test
 
                 for (int x = 0; x < 10; ++x)
                 {
-                    bubbleSorter = new BubbleSorter(numbers.NumberArray);
-                    bubbleSorter.Sort();
+                    this.bubbleSorter = new BubbleSorter(numbers.NumberArray);
+                    this.bubbleSorter.Sort();
                 }
 
                 Array.Sort(numbers.NumberArray);
 
-                Assert.AreEqual(numbers.NumberArray, bubbleSorter.SortedArray);
+                Assert.AreEqual(numbers.NumberArray, this.bubbleSorter.SortedArray);
             }
         }
     }

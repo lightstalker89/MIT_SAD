@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="RecursionSampleTest.cs" company="MDMCoWorks">
-// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -9,6 +9,8 @@
 // *******************************************************/
 namespace RecursionSample.Test
 {
+    #region Usings
+
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -17,6 +19,8 @@ namespace RecursionSample.Test
     using NSubstitute;
 
     using NUnit.Framework;
+
+    #endregion
 
     /// <summary>
     /// The <see ref="RecursionSampleTest"/> class and its interaction logic 
