@@ -102,7 +102,7 @@ namespace AVLTree
         {
             if (root == null)
             {
-                Console.WriteLine(prefix + "+- <empty>");
+                Console.WriteLine(prefix + "+- <null>");
                 return;
             }
 
@@ -916,11 +916,11 @@ namespace AVLTree
             {
                 /// <summary>
                 /// </summary>
-                Parent, 
+                Parent,
 
                 /// <summary>
                 /// </summary>
-                Right, 
+                Right,
 
                 /// <summary>
                 /// </summary>

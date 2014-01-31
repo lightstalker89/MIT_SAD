@@ -12,6 +12,7 @@ namespace AVLTree.Test
     #region Usings
 
     using System;
+    using System.Configuration;
     using System.Diagnostics;
 
     using NUnit.Framework;
@@ -70,6 +71,13 @@ namespace AVLTree.Test
             Console.WriteLine();
             this.customAVLTree.DisplayTree(this.customAVLTree.Root, string.Empty);
             this.stopwatch.Reset();
+
+            foreach (int number in this.numbers.NumberArray)
+            {
+                int foundNumber = 0;
+
+                Assert.IsTrue(this.customAVLTree.Search(number, out foundNumber));
+            }
         }
 
         /// <summary>
