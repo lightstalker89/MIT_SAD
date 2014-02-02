@@ -38,7 +38,7 @@ namespace HeapSort.Test
         /// <summary>
         /// </summary>
         [TestCase]
-        public void BubbleSorterTest()
+        public void HeapSorterTest()
         {
             foreach (int valueCount in heapSortValueCount)
             {
