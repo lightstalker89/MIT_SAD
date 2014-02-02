@@ -178,47 +178,41 @@ namespace Prototyp.Log
             string path = Path.Combine(Environment.CurrentDirectory, LOGFILENAME);
             string overflowPath = Path.Combine(Environment.CurrentDirectory, OVERFLOWLOGFILENAME);
 
-            try
+            if (!File.Exists(path))
             {
-                if (!File.Exists(path))
-                {
-                    File.Create(path).Dispose();
-                }
-
-                FileInfo info = new FileInfo(path);
-                long fileSize = info.Length;
-
-                // calculate new size of the log file
-                long newFileSize = fileSize + Encoding.ASCII.GetBytes(output).Length;
-
-                if (this.Config == null)
-                {
-                    throw new LoggerException("Config file null reference exception! Check the path to the config file!");
-                }
-
-                if (newFileSize > this.Config.FileSizeLogFile)
-                {
-                    if (File.Exists(overflowPath))
-                    {
-                        File.Delete(overflowPath);
-                    }
-
-                    File.Move(path, overflowPath);
-
-                    // Dispose makes the file accessable for other processes
-                    File.Create(path).Dispose();
-                }
-
-                // Append the data to the log file 
-                using (StreamWriter sw = new StreamWriter(path, true))
-                {
-                    sw.WriteLine(output);
-                }
+                File.Create(path).Dispose();
             }
-            catch (Exception ex)
+
+            FileInfo info = new FileInfo(path);
+            long fileSize = info.Length;
+
+            // calculate new size of the log file
+            long newFileSize = fileSize + Encoding.ASCII.GetBytes(output).Length;
+
+            if (this.Config == null)
             {
-                this.logs.Enqueue(new LogEntry(string.Format("Logger: Error on logging! {0}", ex.Message), LoggingType.Error));
+                throw new LoggerException("Config file null reference exception! Check the path to the config file!");
             }
+
+            if (newFileSize > this.Config.FileSizeLogFile)
+            {
+                if (File.Exists(overflowPath))
+                {
+                    File.Delete(overflowPath);
+                }
+
+                File.Move(path, overflowPath);
+
+                // Dispose makes the file accessable for other processes
+                File.Create(path).Dispose();
+            }
+
+            // Append the data to the log file 
+            using (StreamWriter sw = new StreamWriter(path, true))
+            {
+                sw.WriteLine(output);
+            }
+            
         }
 
         /// <summary>

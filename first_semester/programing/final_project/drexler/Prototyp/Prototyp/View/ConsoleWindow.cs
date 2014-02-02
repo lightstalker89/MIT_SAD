@@ -444,7 +444,7 @@ namespace Prototyp.View
         /// Split strings which are too long for the window
         /// </summary>
         /// <param name="str">String string</param>
-        /// <param name="chunkSize">Chunksize</param>
+        /// <param name="chunkSize">Chunk size</param>
         /// <returns>Split strings</returns>
         private IEnumerable<string> SplitStringAtLenght(string str, int chunkSize)
         {

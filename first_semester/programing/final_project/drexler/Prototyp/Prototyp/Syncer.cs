@@ -140,9 +140,9 @@ namespace Prototyp
                                     if (!System.IO.Directory.Exists(filePath))
                                     {
                                         FileStream sourceInput = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                                        FileStream targetInput = new FileStream(Path.Combine(item.TargetDirectory, item.FileName), FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
+                                        FileStream targetInput = new FileStream(Path.Combine(item.TargetDirectory, item.FileName), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
 
-                                        if (sourceInput.Length > this.config.FileSizeForBlockCompare)
+                                        if ((sourceInput.Length > this.config.FileSizeForBlockCompare) && ( this.config.FileSizeForBlockCompare > this.config.BlockSize))
                                         {
                                             this.CopyViaBlockCompare(sourceInput, targetInput);
                                         }
@@ -175,10 +175,6 @@ namespace Prototyp
                                     // if (!System.IO.Directory.Exists(filePath))
                                     if ((info.Attributes & FileAttributes.Directory) == FileAttributes.Directory) 
                                     {
-                                        // FileStream sourceInput = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                                        // FileStream targetInput = new FileStream(Path.Combine(item.TargetDirectory, item.FileName), FileMode.OpenOrCreate, FileAccess.Read, FileShare.ReadWrite);
-
-                                        // this.CopyFile(sourceInput, targetInput);
                                         info.CopyTo(Path.Combine(item.TargetDirectory, item.FileName), true);
                                         item.Status = Jobstatus.success;
                                         item.End = DateTime.Now;
@@ -402,38 +398,42 @@ namespace Prototyp
         private void CopyViaBlockCompare(FileStream sourceInput, FileStream targetInput)
         {
             //// TODO
-            //// try
-            //// {
-            ////    int i,j = 0;
-            ////    byte[] buffer;
-            ////    int positionSource = 0;
-            ////    int positionTarget = 0;
+             try
+             {
+                int i, j = 0;
+                int positionSource = 0;
+                int positionTarget = 0;
+                byte[] bufferSource;
+                byte[] bufferTarget;
 
-            ////    if (this.config != null && this.config.BlockSize > 0)
-            ////    {
-            ////        buffer = new byte[this.config.BlockSize];
-            ////    }
-            ////    else
-            ////    {
-            ////        buffer = new byte[4096];
-            ////    }
-            ////    do
-            ////    {
-            ////        i = sourceInput.Read(buffer,positionSource,buffer.Length);
-            ////        j = targetInput.Read(buffer, positionTarget,);
+                if (this.config != null && this.config.BlockSize > 0)
+                {
+                    bufferSource = new byte[this.config.BlockSize];
+                    bufferTarget = new byte[this.config.BlockSize];
+                }
+                else
+                {
+                    bufferSource = new byte[4096];
+                    bufferTarget = new byte[4096];
+                }
+                do
+                {
+                    i = sourceInput.Read(bufferSource, 0, bufferSource.Length);
+                    j = targetInput.Read(bufferTarget, 0, bufferTarget.Length);
 
-            ////        //if (i != j)
-            ////        //{
+                    // buffers are unequal so write changed bytes to target
+                    if (!bufferSource.Take(i).SequenceEqual(bufferTarget.Take(j)))
+                    {
 
-            ////        //}
+                        targetInput.Write(bufferSource, 0, bufferSource.Length);
+                    }
 
-            ////    } while (i != -1 && j != -1);
-            //// }
-            //// catch (Exception ex)
-            //// {
-                
-            ////    throw;
-            //// }
+                } while (i != -1 && j != -1);
+             }
+             catch (Exception ex)
+             {
+                throw;
+             }
         }
 
         //// TODO
@@ -491,7 +491,7 @@ namespace Prototyp
             }
             catch (IOException ex)
             {
-                throw ex;
+                throw;
             }
             
             // Get the file contents of the directory to copy.

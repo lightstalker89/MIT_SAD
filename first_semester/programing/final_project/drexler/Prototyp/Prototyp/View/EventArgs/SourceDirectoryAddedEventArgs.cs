@@ -17,6 +17,9 @@ namespace Prototyp.View.EventArgs
     /// </summary>
     public class SourceDirectoryAddedEventArgs : System.EventArgs
     {
+        /// <summary>
+        /// Source directory
+        /// </summary>
         private Directory sourceDirectory;
 
         /// <summary>

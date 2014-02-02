@@ -348,16 +348,38 @@ namespace Prototyp
 
             while (true)
             {
-                while (logger.Logs.Count > 0)
+                if (logger.Logs.Count > 0)
                 {
-                    Log.LogEntry temp = null;
-                    this.logger.Logs.TryDequeue(out temp);
-
-                    if (temp != null)
+                    while (logger.Logs.Count > 0)
                     {
-                        logger.WriteToConsole(temp.Message, temp.LogType, this.logWindow);
-                        logger.WriteToFile(temp.Message, temp.LogType);
+                        Log.LogEntry temp = null;
+                        this.logger.Logs.TryDequeue(out temp);
+
+                        if (temp != null)
+                        {
+                            try
+                            {
+                                logger.WriteToConsole(temp.Message, temp.LogType, this.logWindow);
+                                logger.WriteToFile(temp.Message, temp.LogType);
+                            }
+                            catch (Exception ex)
+                            {
+                                this.logger.Logs.Enqueue(new LogEntry(string.Format("Logger: Error on logging! {0}", ex.Message), LoggingType.Error));
+                                break;
+                            }
+                        }
                     }
+                }
+                else
+                {
+                    try
+                    {
+                        Thread.Sleep(2000);
+                    }
+                    catch (ThreadInterruptedException e)
+                    {
+                        this.logger.Logs.Enqueue(new Log.LogEntry("Syncer:[Exception] Interrupted Exception" + e.Message, LoggingType.Error));
+                    } 
                 }
             }
         }

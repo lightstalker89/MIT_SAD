@@ -25,8 +25,8 @@
     </Directory>
   </SourceDirectories>
   
-  <FileSize>20000</FileSize>
-  <BlockSize>10000</BlockSize>
+  <FileSize>500</FileSize>
+  <BlockSize>200</BlockSize>
   <ParallelSync>False</ParallelSync>
   <LogFileSize>20000</LogFileSize>
 </Config>
