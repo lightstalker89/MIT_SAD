@@ -142,7 +142,7 @@ namespace Prototyp
                                         FileStream sourceInput = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                                         FileStream targetInput = new FileStream(Path.Combine(item.TargetDirectory, item.FileName), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
 
-                                        if ((sourceInput.Length > this.config.FileSizeForBlockCompare) && ( this.config.FileSizeForBlockCompare > this.config.BlockSize))
+                                        if ((sourceInput.Length > this.config.FileSizeForBlockCompare) && (this.config.FileSizeForBlockCompare > this.config.BlockSize))
                                         {
                                             this.CopyViaBlockCompare(sourceInput, targetInput);
                                         }
@@ -397,15 +397,14 @@ namespace Prototyp
         /// <param name="targetInput">FileStream from target file</param>
         private void CopyViaBlockCompare(FileStream sourceInput, FileStream targetInput)
         {
-            //// TODO
-             try
-             {
+            //// TODO Compare blocks and copy differnt blocks
+            try
+            {
                 int i, j = 0;
-                int positionSource = 0;
-                int positionTarget = 0;
                 byte[] bufferSource;
                 byte[] bufferTarget;
 
+                // Check if block size is configured else take frame size (4k)
                 if (this.config != null && this.config.BlockSize > 0)
                 {
                     bufferSource = new byte[this.config.BlockSize];
@@ -416,30 +415,32 @@ namespace Prototyp
                     bufferSource = new byte[4096];
                     bufferTarget = new byte[4096];
                 }
+
                 do
                 {
                     i = sourceInput.Read(bufferSource, 0, bufferSource.Length);
                     j = targetInput.Read(bufferTarget, 0, bufferTarget.Length);
 
-                    // buffers are unequal so write changed bytes to target
+                    // buffers are not equal so write changed bytes to target
                     if (!bufferSource.Take(i).SequenceEqual(bufferTarget.Take(j)))
                     {
-
+                        long currentPos = targetInput.Position;
+                        targetInput.Position = targetInput.Position - j;
                         targetInput.Write(bufferSource, 0, bufferSource.Length);
                     }
+                } 
+                while (i != 0 && j != 0);
 
-                } while (i != -1 && j != -1);
-             }
-             catch (Exception ex)
-             {
-                throw;
-             }
+                sourceInput.Close();
+                sourceInput.Dispose();
+                targetInput.Close();
+                targetInput.Dispose();
+            }
+            catch (Exception ex)
+            {
+                this.logger.Logs.Enqueue(new LogEntry(string.Format("Syncer: [Exception] Error- {0}", ex.Message), LoggingType.Error));
+            }
         }
-
-        //// TODO
-        //// private bool CompareByteBlocks(byte[] sourceBlock,int readSourceBytes, byte[] targetBlock, int readTargetBytes)
-        //// {
-        //// }
 
         /// <summary>
         /// Copy source file to the target, create if not exist
@@ -489,7 +490,7 @@ namespace Prototyp
                     System.IO.Directory.CreateDirectory(destDirName);
                 }
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 throw;
             }

@@ -211,8 +211,7 @@ namespace Prototyp.Log
             using (StreamWriter sw = new StreamWriter(path, true))
             {
                 sw.WriteLine(output);
-            }
-            
+            }      
         }
 
         /// <summary>
