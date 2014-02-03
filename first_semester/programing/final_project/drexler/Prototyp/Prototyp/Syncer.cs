@@ -424,12 +424,11 @@ namespace Prototyp
                     // buffers are not equal so write changed bytes to target
                     if (!bufferSource.Take(i).SequenceEqual(bufferTarget.Take(j)))
                     {
-                        long currentPos = targetInput.Position;
                         targetInput.Position = targetInput.Position - j;
                         targetInput.Write(bufferSource, 0, bufferSource.Length);
                     }
                 } 
-                while (i != 0 && j != 0);
+                while (i != 0);
 
                 sourceInput.Close();
                 sourceInput.Dispose();
