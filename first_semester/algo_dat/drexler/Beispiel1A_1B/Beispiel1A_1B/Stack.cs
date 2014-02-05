@@ -19,12 +19,13 @@ namespace Beispiel1A_1B
     /// <typeparam name="T">type of the items</typeparam>
     public class Stack<T>
     {
-        IList<T> collection;
-        const int STACKSIZE = 500;
+        private IList<T> collection;
+        private int stackSize;
 
-        public Stack()
+        public Stack(int size)
         {
-            collection = new List<T>(500);
+            this.stackSize = size;
+            this.collection = new List<T>();
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Beispiel1A_1B
         {
             try
             {
-                if (!(collection.Count == STACKSIZE))
+                if (collection.Count < this.stackSize)
                 {
                     collection.Add(o);
                 }

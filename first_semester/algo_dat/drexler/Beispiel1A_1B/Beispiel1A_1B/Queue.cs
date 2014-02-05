@@ -20,14 +20,16 @@ namespace Beispiel1A_1B
     public class Queue<T>
     {
         private IList<T> collection;
-        private const int QUEUESIZE = 500;
+        private int queueSize;
 
         /// <summary>
         /// Initialisiert eine neue, leere Instanz der Queue-Klasse, 
         /// die anfänglich über die Standardkapazität verfügt und den Standardzuwachsfaktor verwendet.
         /// </summary>
-        public Queue()
+        /// <param name="size">Maximum items in the queue</param>
+        public Queue(int size)
         {
+            this.queueSize = size;
             collection = new List<T>();
         }
 
@@ -61,7 +63,7 @@ namespace Beispiel1A_1B
         {
             try
             {
-                if (!(collection.Count() == QUEUESIZE))
+                if (collection.Count < this.queueSize)
                 {
                     collection.Add(o);
                 }

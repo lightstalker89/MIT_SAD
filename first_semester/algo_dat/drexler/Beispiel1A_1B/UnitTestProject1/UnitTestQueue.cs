@@ -23,7 +23,7 @@ namespace UnitTestProject1
             string input = string.Empty;
             string output = string.Empty;
 
-            Beispiel1A_1B.Queue<string> myQueue = new Beispiel1A_1B.Queue<string>();
+            Beispiel1A_1B.Queue<string> myQueue = new Beispiel1A_1B.Queue<string>(11);
 
             try
             {
@@ -63,7 +63,7 @@ namespace UnitTestProject1
             string input = string.Empty;
             string output = string.Empty;
 
-            Beispiel1A_1B.Queue<string> myQueue = new Beispiel1A_1B.Queue<string>();
+            Beispiel1A_1B.Queue<string> myQueue = new Beispiel1A_1B.Queue<string>(11);
 
             try
             {
@@ -105,7 +105,7 @@ namespace UnitTestProject1
             string output = string.Empty;
             string peekOutput = string.Empty;
 
-            Beispiel1A_1B.Queue<string> myQueue = new Beispiel1A_1B.Queue<string>();
+            Beispiel1A_1B.Queue<string> myQueue = new Beispiel1A_1B.Queue<string>(11);
             try
             {
                 for (int i = 0; i < 11; ++i)
@@ -151,16 +151,17 @@ namespace UnitTestProject1
             string input = string.Empty;
             string output = string.Empty;
 
-            Beispiel1A_1B.Queue<string> myQueue = new Beispiel1A_1B.Queue<string>();
+            Beispiel1A_1B.Queue<string> myQueue = new Beispiel1A_1B.Queue<string>(490);
 
             try
             {
                 for (long i = 0; i < 501; ++i)
                 {
                     myQueue.Enqueue(String.Format("item{0}", i));
-                    if (i == 500)
+                    if (i == 490)
                         input = String.Format("item{0}", i);
                 }
+
                 output = myQueue.Dequeue();
             }
             catch (OutOfMemoryException e)

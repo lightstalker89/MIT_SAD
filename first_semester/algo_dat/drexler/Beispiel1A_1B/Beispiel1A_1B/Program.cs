@@ -21,8 +21,8 @@ namespace Beispiel1A_1B
             RandomNumbers numbers = new RandomNumbers();
             ArrayList randomNumbers = numbers.GetNonRepeatingRandomNumbers(10);
 
-            Queue<int> myQueue = new Queue<int>();
-            Stack<int> myStack = new Stack<int>();
+            Queue<int> myQueue = new Queue<int>(10);
+            Stack<int> myStack = new Stack<int>(10);
 
             foreach (int i in randomNumbers)
             {

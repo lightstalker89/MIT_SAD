@@ -18,7 +18,7 @@ namespace UnitTestProject1
             string input = string.Empty;
             string output = string.Empty;
 
-            Stack<string> myStack = new Stack<string>();
+            Stack<string> myStack = new Stack<string>(11);
 
             try
             {
@@ -58,7 +58,7 @@ namespace UnitTestProject1
             string input = string.Empty;
             string output = string.Empty;         
 
-            Stack<string> myStack = new Stack<string>();
+            Stack<string> myStack = new Stack<string>(11);
 
             try
             {
@@ -100,7 +100,7 @@ namespace UnitTestProject1
             string output = string.Empty;
             string peekOutput = string.Empty;
 
-            Stack<string> myStack = new Stack<string>();
+            Stack<string> myStack = new Stack<string>(11);
             try
             {
                 for (int i = 0; i < 11; ++i)
@@ -145,14 +145,14 @@ namespace UnitTestProject1
             string input = string.Empty;
             string output = string.Empty;
 
-            Stack<string> myStack = new Stack<string>();
+            Stack<string> myStack = new Stack<string>(490);
 
             try
             {
                 for (long i = 0; i < 501; ++i)
                 {
                     myStack.Push(String.Format("item{0}", i));
-                    if (i == 500)
+                    if (i == 490)
                         input = String.Format("item{0}", i);
                 }
                 output = myStack.Pop();
