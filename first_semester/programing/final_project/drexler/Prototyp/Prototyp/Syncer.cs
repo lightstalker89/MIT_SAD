@@ -425,7 +425,7 @@ namespace Prototyp
                     if (!bufferSource.Take(i).SequenceEqual(bufferTarget.Take(j)))
                     {
                         targetInput.Position = targetInput.Position - j;
-                        targetInput.Write(bufferSource, 0, bufferSource.Length);
+                        targetInput.Write(bufferSource, 0, i);
                     }
                 } 
                 while (i != 0);
