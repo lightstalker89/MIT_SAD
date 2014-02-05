@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Stack.cs" company="MD Development">
+//     Copyright (c) MD Development. All rights reserved.
+// </copyright>
+// <author>Michael Drexler</author>
+//-----------------------------------------------------------------------
 namespace Beispiel1A_1B
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// My stack implementation
+    /// </summary>
+    /// <typeparam name="T">type of the items</typeparam>
     public class Stack<T>
     {
         IList<T> collection;
@@ -75,6 +85,25 @@ namespace Beispiel1A_1B
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Representing the items within the stack as a string
+        /// </summary>
+        /// <returns>Stack items as a string</returns>
+        public string MyToString()
+        {
+            string values = string.Empty;
+
+            if (this.collection != null && this.collection.Count > 0)
+            {
+                do
+                {
+                    values += this.Pop().ToString() + " ";
+                } while (this.collection.Count != 0);
+            }
+
+            return values;
         }
     }
 }

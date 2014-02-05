@@ -112,19 +112,19 @@ namespace UnitTestProject1
                 peekOutput = myStack.Peek();
 
             }
-            catch (NotSupportedException e)
+            catch (NotSupportedException)
             {
                 message = "Not supported Exception";
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 message = "Invalid operation Exception";
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException)
             {
                 message = "Argument null Exception";
             }
-            catch (OutOfMemoryException e)
+            catch (OutOfMemoryException)
             {
                 message = "Out of memory Exception";
             }
@@ -157,11 +157,11 @@ namespace UnitTestProject1
                 }
                 output = myStack.Pop();
             }
-            catch (OutOfMemoryException e)
+            catch (OutOfMemoryException)
             {
                 message = "Out of memory exception";
             }
-            catch (NotSupportedException e)
+            catch (NotSupportedException)
             {
                 message = "Not supported exception";
             }
