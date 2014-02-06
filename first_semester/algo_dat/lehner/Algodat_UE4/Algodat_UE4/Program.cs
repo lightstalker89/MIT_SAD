@@ -29,8 +29,8 @@ namespace Algodat_UE4
             tree.Print();
 
             AVLTree avlTree = new AVLTree();
-            avlTree.CreateTree(randNumbers);
-            Console.WriteLine("Balance factor: {0}", avlTree.BalanceFactor());
+            avlTree.CreateAVLTree(randNumbers);
+            avlTree.Print();
         }
     }
 }
