@@ -11,6 +11,13 @@ namespace Beispiel1C
     {
         static void Main(string[] args)
         {
+            long a = Fakultaet.BerechneStandardRekusion(1000000);
+            Console.WriteLine(a.ToString());
+            long b = Fakultaet.BerechneTailRekursion(1000000, 1);
+            Console.WriteLine(b.ToString());     
+            long c = Fakultaet.BerechneOhneRekursion(1000000);
+            Console.WriteLine(c.ToString());
+            Console.ReadKey();
             //Stopwatch sw = new Stopwatch();
             //sw.Start();
             //DisplayNums(nums);

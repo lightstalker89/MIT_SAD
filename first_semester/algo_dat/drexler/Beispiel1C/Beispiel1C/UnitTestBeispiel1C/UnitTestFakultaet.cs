@@ -11,27 +11,27 @@ namespace UnitTestBeispiel1C
         [TestMethod]
         public void BerechneStandardReksuion()
         {
-            int result = Fakultaet.BerechneStandardRekusion(5);
+            long result = Fakultaet.BerechneStandardRekusion(5);
             Assert.AreEqual(120, result);
         }
 
         [TestMethod]
         public void BerechneLimitStandardRekusion()
         {
-            
+            // Untersuche die Grenzen der Funktionen
         }
 
         [TestMethod]
         public void BerechneTailRekursion()
         {
-            int result = Fakultaet.BerechneTailRekursion(5, 1);
+            long result = Fakultaet.BerechneTailRekursion(5, 1);
             Assert.AreEqual(120, result);
         }
 
         [TestMethod]
         public void BerechneOhneRekursion()
         {
-            int result = Fakultaet.BerechneOhneRekursion(5, 1);
+            int result = Fakultaet.BerechneOhneRekursion(5);
             Assert.AreEqual(120, result);
         }
     }

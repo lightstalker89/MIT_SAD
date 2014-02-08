@@ -14,7 +14,7 @@ namespace Beispiel1C
         /// übergeben => Am Stack zwischengespeichert
         /// </summary>
         /// <param name="n">Faktor</param>
-        public static int BerechneStandardRekusion(int n)
+        public static long BerechneStandardRekusion(long n)
         {
             if (n <= 1)
             {
@@ -30,8 +30,8 @@ namespace Beispiel1C
         /// Der Unterschied => Return-Wert muss nicht am Stack gespeichert werden
         /// und es steht dem neuen rekursiven Funktionsaufruf wieder der ganze Stack zur Verfügung
         /// </summary>
-        /// <param name="n"></param>
-        public static int BerechneTailRekursion(int n, int result)
+        /// <param name="n">Faktor</param>
+        public static long BerechneTailRekursion(int n, long result)
         {
             if (n <= 1)
             {
@@ -46,13 +46,24 @@ namespace Beispiel1C
         /// </summary>
         /// <param name="n">Faktor</param>
         /// <param name="a"></param>
-        public static int BerechneOhneRekursion(int n, int a)
+        public static int BerechneOhneRekursion(int n)
         {
-            int temp = a;
+            int temp = 1;
+
+            if (n < 0)
+            {
+                throw new ArgumentOutOfRangeException("Unvalid parameter");
+            }
+            else if (n == 0 || n == 1)
+            {
+                return 1;
+            }
+
             for (int i = 1; i <= n; ++i)
             {
                 temp *= i;
             }
+
             return temp;
         }
     }

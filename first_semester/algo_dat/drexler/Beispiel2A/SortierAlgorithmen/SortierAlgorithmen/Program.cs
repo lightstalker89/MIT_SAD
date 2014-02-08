@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ListRandomNumbers;
+using Timing;
+using System.Collections;
 
 namespace SortierAlgorithmen
 {
@@ -10,34 +13,46 @@ namespace SortierAlgorithmen
     {
         static void Main(string[] args)
         {
-            Random random = new Random();
-            List<int> unsortedList = new List<int>();
-            int i = 10;
-            while (i >= 0)
-            {
-                unsortedList.Add(random.Next(20));
-                --i;
-            }
+            List<int> sortedList = new List<int>();
+            CArray unsortedArray = new CArray(10);
+            unsortedArray.Init(500);
 
-            SortAlgorithm sortAlgorithm = new SelectionSort();
             Console.WriteLine("UnsortedList");
-            sortAlgorithm.Output(unsortedList);
 
-
-            // Console.WriteLine(("Selection-Sort"));
-            // sortAlgorithm.Output(sortAlgorithm.Sort(unsortedList));
-
-            //Console.ReadKey();
-
-            //sortAlgorithm = new InsertionSort();
-            //Console.WriteLine("Insertion-Sort");
-            //sortAlgorithm.Output(sortAlgorithm.Sort(unsortedList));
+            // Selection Sort
+            SortAlgorithm selectionSort = new SelectionSort();
+            selectionSort.Output(unsortedArray.Array.ToList<int>());
+            Console.WriteLine(("Selection-Sort"));
+            Timing.Timing timing = new Timing.Timing();
+            timing.StartTime();
+            sortedList = selectionSort.Sort(unsortedArray.Array.ToList<int>());
+            timing.StopTime();
+            selectionSort.Output(sortedList);
+            Console.WriteLine("Time result: {0}", timing.Result().ToString());
 
             Console.ReadKey();
 
-            sortAlgorithm = new BubbleSort();
+            // Insertion Sort
+            SortAlgorithm insertionSort = new InsertionSort();
+            Console.WriteLine("Insertion-Sort");
+            timing = new Timing.Timing();
+            timing.StartTime();
+            sortedList = insertionSort.Sort(unsortedArray.Array.ToList<int>());
+            timing.StopTime();
+            insertionSort.Output(sortedList);
+            Console.WriteLine("Time result: {0}", timing.Result().ToString());
+
+            Console.ReadKey();
+
+            // Bubble Sort
+            SortAlgorithm bubbleSort = new BubbleSort();
             Console.WriteLine("Bubble-Sort");
-            sortAlgorithm.Output(sortAlgorithm.Sort(unsortedList));
+            timing = new Timing.Timing();
+            timing.StartTime();
+            sortedList = bubbleSort.Sort(unsortedArray.Array.ToList<int>());
+            timing.StopTime();
+            bubbleSort.Output(sortedList);
+            Console.WriteLine("Time result: {0}", timing.Result().ToString());
 
             Console.ReadKey();
         }

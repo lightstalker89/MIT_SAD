@@ -23,8 +23,8 @@ namespace Timing
         /// </summary>
         public Timing()
         {
-            startTime = new TimeSpan(0);
-            duration = new TimeSpan(0);
+            this.startTime = new TimeSpan(0);
+            this.duration = new TimeSpan(0);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Timing
         /// </summary>
         public void StopTime()
         {
-            duration = Process.GetCurrentProcess().Threads[0].UserProcessorTime.Subtract(startTime);
+            this.duration = Process.GetCurrentProcess().Threads[0].UserProcessorTime.Subtract(startTime);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Timing
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            startTime = Process.GetCurrentProcess().Threads[0].UserProcessorTime;
+            this.startTime = Process.GetCurrentProcess().Threads[0].UserProcessorTime;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Timing
         /// <returns></returns>
         public TimeSpan Result()
         {
-            return duration;
+            return this.duration;
         }
     }
 }

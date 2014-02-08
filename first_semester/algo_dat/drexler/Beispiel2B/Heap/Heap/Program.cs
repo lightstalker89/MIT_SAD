@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ListRandomNumbers;
+using System.Collections;
 
 namespace Heap
 {
@@ -10,22 +12,15 @@ namespace Heap
     {
         static void Main(string[] args)
         {
-            Random random = new Random();
-            List<int> unsortedList = new List<int>();
-            int i = 10;
-            while (i >= 0)
-            {
-                unsortedList.Add(random.Next(20));
-                --i;
-            }
-
+            RandomNumbers rnumbers = new RandomNumbers();
+            ArrayList unsortedArray = rnumbers.GetNonRepeatingRandomNumbers(10);
 
             HeapSort sortAlgorithm = new HeapSort();
             Console.WriteLine("UnsortedList");
-            sortAlgorithm.Output(unsortedList);
-            unsortedList = sortAlgorithm.Sort(unsortedList);
+            sortAlgorithm.Output(unsortedArray);
+            unsortedArray = sortAlgorithm.Sort(unsortedArray);
             Console.WriteLine("-HeapSort- SortedList");
-            sortAlgorithm.Output(unsortedList);
+            sortAlgorithm.Output(unsortedArray);
 
             Console.ReadKey();
         }
