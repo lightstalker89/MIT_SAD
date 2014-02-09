@@ -376,35 +376,37 @@ namespace Algodat_UE4
             }
         }
 
+        public bool Find(int number)
+        {
+            return this.FindNode(this.RootNode, number);
+        }
+
         public bool FindNode(AVLNode n, int value)
         {
-
-            if (n == null || value < 0)
-                return false;
 
             while(n != null)
             {
                 if (value > n.Value)
                 {
-                    if (n.RightNode != null && value == n.RightNode.Value)
-                    {
-                        return true;
-                    }
-                    else
-                    {
+                    //if (n.RightNode != null && value == n.RightNode.Value)
+                    //{
+                    //    return true;
+                    //}
+                    //else
+                    //{
                         n = n.RightNode;
-                    }
+                    //}
                 }
                 else if (value < n.Value)
                 {
-                    if (n.LeftNode != null && value == n.LeftNode.Value)
-                    {
-                        return true;
-                    }
-                    else
-                    {
+                    //if (n.LeftNode != null && value == n.LeftNode.Value)
+                    //{
+                    //    return true;
+                    //}
+                    //else
+                    //{
                         n = n.LeftNode;
-                    }
+                    //}
                 }
                 else
                 {
