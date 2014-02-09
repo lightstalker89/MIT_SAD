@@ -15,7 +15,7 @@ namespace Algodat_UE4
 
             for (int i = 0; i < 10; i++)
             {
-                randNumbers[i] = r.Next(100);
+                randNumbers[i] = r.Next(1000);
             }
 
             //Array.Sort(randNumbers);
@@ -24,10 +24,31 @@ namespace Algodat_UE4
 
             BinaryTree tree = new BinaryTree();
             tree.CreateTree(randNumbers);
+            Console.WriteLine("BINARY");
             tree.Print();
-            tree.Delete(randNumbers[5]);
-            tree.Print();
+            Console.WriteLine("++++++++++++++++++++++++");
+            if (tree.Find(randNumbers[5]))
+            {
+                Console.WriteLine("Found!!");
+            } 
+            else 
+            {
+                Console.WriteLine("Not Found!!");
+            }
 
+            tree.Remove(randNumbers[5]);
+            if (tree.Find(randNumbers[5]))
+            {
+                Console.WriteLine("Found!!");
+            }
+            else
+            {
+                Console.WriteLine("Not Found!!");
+            }
+            tree.Print();
+            Console.WriteLine("++++++++++++++++++++++++");
+
+            Console.WriteLine("AVL");
             AVLTree avlTree = new AVLTree();
             avlTree.CreateAVLTree(randNumbers);
             avlTree.Print();
