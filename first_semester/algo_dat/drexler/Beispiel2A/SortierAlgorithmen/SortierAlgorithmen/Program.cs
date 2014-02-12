@@ -14,18 +14,17 @@ namespace SortierAlgorithmen
         static void Main(string[] args)
         {
             List<int> sortedList = new List<int>();
-            CArray unsortedArray = new CArray(10);
-            unsortedArray.Init(500);
+            CArray unsortedArray = new CArray(1000, 1500);
 
             Console.WriteLine("UnsortedList");
 
             // Selection Sort
             SortAlgorithm selectionSort = new SelectionSort();
-            selectionSort.Output(unsortedArray.Array.ToList<int>());
+            selectionSort.Output(unsortedArray.UnsortedArray.ToList<int>());
             Console.WriteLine(("Selection-Sort"));
             Timing.Timing timing = new Timing.Timing();
             timing.StartTime();
-            sortedList = selectionSort.Sort(unsortedArray.Array.ToList<int>());
+            sortedList = selectionSort.Sort(unsortedArray.UnsortedArray.ToList<int>());
             timing.StopTime();
             selectionSort.Output(sortedList);
             Console.WriteLine("Time result: {0}", timing.Result().ToString());
@@ -37,7 +36,7 @@ namespace SortierAlgorithmen
             Console.WriteLine("Insertion-Sort");
             timing = new Timing.Timing();
             timing.StartTime();
-            sortedList = insertionSort.Sort(unsortedArray.Array.ToList<int>());
+            sortedList = insertionSort.Sort(unsortedArray.UnsortedArray.ToList<int>());
             timing.StopTime();
             insertionSort.Output(sortedList);
             Console.WriteLine("Time result: {0}", timing.Result().ToString());
@@ -49,7 +48,7 @@ namespace SortierAlgorithmen
             Console.WriteLine("Bubble-Sort");
             timing = new Timing.Timing();
             timing.StartTime();
-            sortedList = bubbleSort.Sort(unsortedArray.Array.ToList<int>());
+            sortedList = bubbleSort.Sort(unsortedArray.UnsortedArray.ToList<int>());
             timing.StopTime();
             bubbleSort.Output(sortedList);
             Console.WriteLine("Time result: {0}", timing.Result().ToString());

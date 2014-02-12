@@ -32,7 +32,7 @@ namespace Timing
         /// </summary>
         public void StopTime()
         {
-            this.duration = Process.GetCurrentProcess().Threads[0].UserProcessorTime.Subtract(startTime);
+            this.duration = Process.GetCurrentProcess().Threads[0].UserProcessorTime.Subtract(this.startTime);
         }
 
         /// <summary>
