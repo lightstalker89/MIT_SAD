@@ -47,6 +47,7 @@ namespace Algodat_UE4
                 else
                 {
                     rootNode.LeftNode = node;
+                    node.ParentNode = rootNode;
                 }
             }
             else if (rootNode.Value <= node.Value)
@@ -58,75 +59,172 @@ namespace Algodat_UE4
                 else
                 {
                     rootNode.RightNode = node;
+                    node.ParentNode = rootNode;
                 }
             }
         }
 
         public void Print()
         {
-            this.PrintTree(this.RootNode);
+            this.PrintTree(this.RootNode, "*");
         }
 
-        private void PrintTree(Node node)
+        private void PrintTree(Node root, string prefix)
         {
-
-            Queue q = new Queue();
-            q.Enqueue(node);//You don't need to write the root here, it will be written in the loop
-            q.Enqueue(new Node(-1));//newline
-
-            while (q.Count > 0)
+            if (root == null)
             {
-                Node n = q.Dequeue() as Node;
-
-                if (n.Value == -1)
-                {
-                    Console.WriteLine();
-                    if (q.Count > 0)
-                    {
-                        q.Enqueue(new Node(-1));
-                    }
-                }
-                else
-                {
-                    Console.Write("{0}\t", n.Value); //Only write the value when you dequeue it
-                    if (n.LeftNode != null)
-                    {
-                        //Console.Write("l{0}\t", n.LeftNode.Value);
-                        q.Enqueue(n.LeftNode);//enqueue the left child
-                    }
-                    if (n.RightNode != null)
-                    {
-                        //Console.Write("r{0}\t", n.RightNode.Value);
-                        q.Enqueue(n.RightNode);//enque the right child
-                    }
-                }
-            }
-        }
-
-        public void Delete(int value)
-        {
-            this.DeleteNode(this.RootNode, value);
-        }
-
-        private void DeleteNode(Node n, int value)
-        {
-            if (n == null || value < 0)
+                Console.WriteLine(prefix + "+- <null>");
                 return;
+            }
 
-            if (value > n.Value)
+            Console.WriteLine(prefix + "+- " + root.Value);
+            this.PrintTree(root.LeftNode, prefix + "|  ");
+            this.PrintTree(root.RightNode, prefix + "|  ");
+        }
+
+        public void Remove(int number)
+        {
+            this.RemoveNode(this.RootNode, number);
+        }
+
+        public void RemoveNode(Node p, int number)
+        {
+            if (p == null)
             {
-                if (n.RightNode != null && value == n.RightNode.Value)
-                    n.RightNode = null;
-                else
-                    this.DeleteNode(n.RightNode, value);
+                return;
             }
             else
             {
-                if (n.LeftNode != null && value == n.LeftNode.Value)
-                    n.LeftNode = null;
-                else
-                    this.DeleteNode(n.LeftNode, value);
+                if (p.Value > number)
+                {
+                    this.RemoveNode(p.LeftNode, number);
+                }
+                else if (p.Value < number)
+                {
+                    this.RemoveNode(p.RightNode, number);
+                }
+                else if (p.Value == number)
+                {
+                    this.RemoveFoundNode(p);
+                }
             }
+        }
+
+        public void RemoveFoundNode(Node q)
+        {
+            Node r;
+
+            if (q.LeftNode == null || q.RightNode == null)
+            {
+                if (q.ParentNode == null)
+                {
+                    this.RootNode = null;
+                    q = null;
+                    return;
+                }
+                r = q;
+            }
+            else
+            {
+                r = this.Successor(q);
+                q.Value = r.Value;
+            }
+
+            Node p;
+            if (r.LeftNode != null)
+            {
+                p = r.LeftNode;
+            }
+            else
+            {
+                p = r.RightNode;
+            }
+
+            if (p != null)
+            {
+                p.ParentNode = r.ParentNode;
+            }
+
+            if (r.ParentNode == null)
+            {
+                this.RootNode = p;
+            }
+            else
+            {
+                if (r == r.ParentNode.LeftNode)
+                {
+                    r.ParentNode.LeftNode = p;
+                }
+                else
+                {
+                    r.ParentNode.RightNode = p;
+                }
+            }
+            r = null;
+        }
+
+        public Node Successor(Node q)
+        {
+            if (q.RightNode != null)
+            {
+                Node r = q.RightNode;
+                while (r.LeftNode != null)
+                {
+                    r = r.LeftNode;
+                }
+                return r;
+            }
+            else
+            {
+                Node p = q.ParentNode;
+                while (p != null && q == p.RightNode)
+                {
+                    q = p;
+                    p = q.ParentNode;
+                }
+                return p;
+            }
+        }
+
+        public bool Find(int value)
+        {
+            return this.FindNode(this.RootNode, value);
+        }
+
+        public bool FindNode(Node n, int value)
+        {
+
+            while (n != null)
+            {
+                if (value > n.Value)
+                {
+                    //if (n.RightNode != null && value == n.RightNode.Value)
+                    //{
+                    //    return true;
+                    //}
+                    //else
+                    //{
+                        n = n.RightNode;
+                    //}
+                }
+                else if (value < n.Value)
+                {
+                    //if (n.LeftNode != null && value == n.LeftNode.Value)
+                    //{
+                    //    return true;
+                    //}
+                    //else
+                    //{
+                        n = n.LeftNode;
+                    //}
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algodat_UE4", "Algodat_UE4\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AVLTreeTest", "AVLTreeTest\AVLTreeTest.csproj", "{15CBADBD-F86D-402D-A40E-B228C507EE68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryTreeTest", "BinaryTreeTest\BinaryTreeTest.csproj", "{357D9D03-7CB5-4655-A964-269F40259865}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{15CBADBD-F86D-402D-A40E-B228C507EE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15CBADBD-F86D-402D-A40E-B228C507EE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15CBADBD-F86D-402D-A40E-B228C507EE68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{357D9D03-7CB5-4655-A964-269F40259865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{357D9D03-7CB5-4655-A964-269F40259865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{357D9D03-7CB5-4655-A964-269F40259865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{357D9D03-7CB5-4655-A964-269F40259865}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
