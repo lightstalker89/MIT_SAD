@@ -1,10 +1,10 @@
-﻿Beispiel 1a, 1b:
+﻿Beispiel 1a, 1b: (FERTIG)
 	- Implementiere folgende Klassen:
 		* Stack
 		* Queue
 	- Und demonstriere ihr Verhalten mit jeweils 10 Elementen.
 	
-Beispiel 1c:
+Beispiel 1c: (FERTIG)
 	- Implementiere die rekursive Berechnung der Faktoriellen von n
 		* Als Standardrekursion
 		* Als Tail Rekursion
@@ -13,7 +13,7 @@ Beispiel 1c:
 	- Unsersuche die Grenzen der Funktionen
 		* Wie weit kann jede der Funktionen rechnen?
 		
-Beispiel 2a:
+Beispiel 2a: (FERTIG)
 	- Implementiere folgende Sortierverfahren
 		* Selection Sort
 		* Bubble Sort
@@ -21,11 +21,11 @@ Beispiel 2a:
 	- Und untersuche ihr Sortierverhalten bei 100, 1000, 10000 und 100000 Werten
 	- Benutze dazu die Timing Klasse
 	
-Beispiel 2b:
+Beispiel 2b: (FERTIG)
 	- Schreibe eine einfache Heap-Implementierung
 	- Sortiere 100 integer Werte
 
-Beispiel 3a:
+Beispiel 3a: (FERTIG)
 	- Verwende wieder die CArray Klasse für 1000 zufällige Elemente
 		* Füge eine neue Variable compCount hinzu
 		* Suche nach 10 zufällig bestimmten Werten

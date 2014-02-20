@@ -28,40 +28,29 @@ namespace Beispiel3A
             Console.SetWindowSize(150, 69);
 
             // Random numbers (Range: 1 - 4);
-            CArray randomNumbers = new CArray(2, 4);
+            CArray array = new CArray(10, 15);
+            Random random = new Random();
+            int searchedValue = random.Next(15);
 
             // LINEAR SEARCH START
             SearchAlogrithm linearSearch = new LinearSearch();
             int compcount = 0;
-            MyToString(randomNumbers.UnsortedArray);
-            int index = linearSearch.Search(randomNumbers.UnsortedArray, 2, out compcount);
-            Console.WriteLine("Searched value: {0}, Found index: {1}, compare count: {2}", 2, index, compcount);
+            MyToString(array.UnsortedArray);
+            int index = linearSearch.Search(array.UnsortedArray, searchedValue, out compcount);
+            Console.WriteLine("Searched value: {0}, Found index: {1}, compare count: {2}", searchedValue, index, compcount);
 
             Console.ReadKey();
 
-            compcount = 0;
-            MyToString(randomNumbers.UnsortedArray);
-            int minValue = linearSearch.Min(randomNumbers.UnsortedArray, out compcount);
-            Console.WriteLine("Index of min value from unsorted list: {0}, compare count: {1}", minValue, compcount);
-
-            Console.ReadKey();
-
-            compcount = 0;
-            MyToString(randomNumbers.UnsortedArray);
-            int maxValue = linearSearch.Max(randomNumbers.UnsortedArray, out compcount);
-            Console.WriteLine("Index of max value from unsorted list: {0}, compare count: {1}", maxValue, compcount);
-
-            Console.ReadKey();
             // LINEAR SEARCH END
 
             // BINARY SEARCH START
             compcount = 0;
             SearchAlogrithm binarySearch = new BinarySearch();
-            MyToString(randomNumbers.SortedArray);
-            index = binarySearch.Search(randomNumbers.SortedArray, 2, out compcount);
-            Console.WriteLine("Searched value: {0}, Found index: {1}, compare count: {2}", 2, index, compcount);
-            Console.WriteLine("Index of min value from sorted list: {0}", binarySearch.Min(randomNumbers.SortedArray, out compcount));
-            Console.WriteLine("Index of max value from sorted list: {0}", binarySearch.Max(randomNumbers.SortedArray, out compcount));
+            MyToString(array.SortedArray);
+            index = binarySearch.Search(array.SortedArray, searchedValue, out compcount);
+            Console.WriteLine("Searched value: {0}, Found index: {1}, compare count: {2}", searchedValue, index, compcount);
+            Console.WriteLine("Index of min value from sorted list: {0}", binarySearch.Min(array.SortedArray, out compcount));
+            Console.WriteLine("Index of max value from sorted list: {0}", binarySearch.Max(array.SortedArray, out compcount));
             // BINARY SEARCH END
 
             Console.ReadKey();
