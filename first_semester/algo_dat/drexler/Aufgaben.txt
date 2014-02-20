@@ -1,4 +1,4 @@
-Beispiel 1a, 1b:
+﻿Beispiel 1a, 1b:
 	- Implementiere folgende Klassen:
 		* Stack
 		* Queue
@@ -37,18 +37,6 @@ Beispiel 3a:
 Beispiel 3b:
 	- Aus Beispiel 2 wird ein sortiertes Array (absteigend) gewonnen
 	- Implementiere eine Fibonacci-Suche in diesem Array und gib für 3 Elemente die Such-Indizes an!
-	
-Beispiel 4:
-	- C# stellt eine Hashtable Klasse zur Verfügung (System.Collections)
-	- Schreibe ein Programm, das einen Text einliest und die Wörter
-		* in einer Hashtable
-		* in einem modifizierten CArray (für Strings)
-		
-	  einträgt. Untersuche mit der bereits bekannten Timing-Klasse das Suchverhalten für jeweils 20 verschiedene Wörter.
-	  
-Beispiel 5:
-	- Modifiziere die Liste derart, dass eine doppelt verkettete Liste ensteht.
-	- Schreibe einen Iterator, der das Durchlaufen der Liste in die verkehrte Richtung gestattet.
 	
 Beispiel 6:
 	- Schreibe einen AVL-Baum Klasse
