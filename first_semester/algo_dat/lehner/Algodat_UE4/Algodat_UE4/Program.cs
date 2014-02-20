@@ -11,16 +11,16 @@ namespace Algodat_UE4
         static void Main(string[] args)
         {
             Random r = new Random();
-            int[] randNumbers = new int[10];
+            //int[] randNumbers = new int[10];
 
-            for (int i = 0; i < 10; i++)
-            {
-                randNumbers[i] = r.Next(1000);
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    randNumbers[i] = r.Next(1000);
+            //}
 
             //Array.Sort(randNumbers);
 
-            int[] test = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+           int[] randNumbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
             BinaryTree tree = new BinaryTree();
             tree.CreateTree(randNumbers);

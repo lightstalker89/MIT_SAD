@@ -9,19 +9,17 @@ namespace BinaryTreeTest
     [TestClass]
     public class UnitTest1
     {
-        private int[] numbers;
+        private const int numberCount = 10000;
+
+        private int[] numbers = new int[numberCount];
         private BinaryTree binaryTree { get; set; }
 
         public UnitTest1()
         {
-            Random r = new Random();
-            this.numbers = new int[10000];
-
-            for (int i = 0; i < this.numbers.Length; i++)
+            for (int i = 0; i < numberCount; i++)
             {
-                this.numbers[i] = r.Next(100000);
+                this.numbers[i] = i + 1;
             }
-
             this.binaryTree = new BinaryTree();
         }
 
@@ -56,7 +54,7 @@ namespace BinaryTreeTest
 
             for (int i = 0; i < searchNumbers.Length; i++)
             {
-                searchNumbers[i] = rnd.Next(100000);
+                searchNumbers[i] = rnd.Next(numberCount);
             }
 
             Stopwatch stopwatch = new Stopwatch();
@@ -92,7 +90,7 @@ namespace BinaryTreeTest
 
             for (int i = 0; i < searchNumbers.Length; i++)
             {
-                searchNumbers[i] = rnd.Next(1000);
+                searchNumbers[i] = rnd.Next(numberCount);
             }
 
             Array.Sort(searchNumbers);
