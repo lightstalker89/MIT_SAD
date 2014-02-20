@@ -18,10 +18,23 @@ namespace FibonacciSearch
         static void Main(string[] args)
         {
             CArray array = new CArray(10,15);
+            Random random = new Random();
+            int[] searchValues = new int[3];
+
+            for (int i = 0; i < searchValues.Length; i++)
+            {
+                searchValues[i] = random.Next(15);
+            }
+
             FibonacciSearch a = new FibonacciSearch();
             Output(array.SortedArray);
-            int searchedValue = a.Search(array.SortedArray, 5);
-            Console.WriteLine("Searched value: {0}", searchedValue);
+
+            foreach (int item in searchValues)
+            {
+                int index = a.Search(array.SortedArray, item);
+                Console.WriteLine("Searched value: {0}; Index: {1}", item, index);
+            }
+
             Console.ReadKey();
         }
 
