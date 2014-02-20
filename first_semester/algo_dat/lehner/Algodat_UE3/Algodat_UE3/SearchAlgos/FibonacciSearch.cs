@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Algodat_UE3.SearchAlgos
 {
-    class FibonacciSearch
+    public class FibonacciSearch
     {
 
         public int CompareCount {get; private set; }
@@ -21,7 +21,7 @@ namespace Algodat_UE3.SearchAlgos
         public int Search(int number, int[] compareArray)
         {
             int FirstIndex = 0;
-            int LastIndex = compareArray.Length;
+            int LastIndex = compareArray.Length - 1;
 
             if (number > compareArray[compareArray.Length - 1])
             {
@@ -56,7 +56,7 @@ namespace Algodat_UE3.SearchAlgos
             return -1;
         }
 
-        private int FindFibonacciNumber(int firstIndex, int lastIndex)
+        public int FindFibonacciNumber(int firstIndex, int lastIndex)
         {
             int value = lastIndex - firstIndex;
 
