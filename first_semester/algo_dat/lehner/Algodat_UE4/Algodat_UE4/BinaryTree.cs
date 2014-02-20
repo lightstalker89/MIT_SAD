@@ -25,13 +25,11 @@ namespace Algodat_UE4
                 {
                     Node n = new Node(numbers[i]);
                     this.RootNode = n;
-                    Console.WriteLine("Root: {0}", this.RootNode.Value);
                 }
                 else
                 {
                     Node node = new Node(numbers[i]);
                     this.AddNode(this.RootNode, node);
-                    Console.WriteLine("Node: {0}", node.Value);
                 }
             }
         }

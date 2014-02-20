@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Algodat_UE3.SearchAlgos
 {
-    class BinarySearch
+    public class BinarySearch
     {
         public int CompareCount {get; private set; }
 
@@ -18,7 +18,7 @@ namespace Algodat_UE3.SearchAlgos
         public int Search(int number, int[] compareArray)
         {
             int FirstIndex = 0;
-            int LastIndex = compareArray.Length;
+            int LastIndex = compareArray.Length - 1;
 
             if (number > compareArray[compareArray.Length - 1])
             {
@@ -53,8 +53,9 @@ namespace Algodat_UE3.SearchAlgos
             return -1;
         }
 
-        private int FindMiddle(int first, int last)
+        public int FindMiddle(int first, int last)
         {
+            Console.WriteLine("First {0}, Last {1}", first, last);
             return (first + last) / 2;
         }
     }

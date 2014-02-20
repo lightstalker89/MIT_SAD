@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
-
 using Algodat_UE4;
 
 namespace AVLTreeTest
@@ -9,20 +8,17 @@ namespace AVLTreeTest
     [TestClass]
     public class UnitTest1
     {
+        private const int numberCount = 10000;
 
-        private int[] numbers;
+        private int[] numbers = new int[numberCount];
         private AVLTree avlTree { get; set; }
 
         public UnitTest1() 
         {
-            Random r = new Random();
-            this.numbers = new int[100000];
-
-            for (int i = 0; i < this.numbers.Length; i++)
+            for (int i = 0; i < numberCount; i++)
             {
-                this.numbers[i] = r.Next(100000);
+                this.numbers[i] = i + 1;
             }
-
             this.avlTree = new AVLTree();
         }
 
@@ -57,7 +53,7 @@ namespace AVLTreeTest
 
             for (int i = 0; i < searchNumbers.Length; i++)
             {
-                searchNumbers[i] = rnd.Next(100000);
+                searchNumbers[i] = rnd.Next(numberCount);
             }
 
             Stopwatch stopwatch = new Stopwatch();
@@ -93,7 +89,7 @@ namespace AVLTreeTest
 
             for (int i = 0; i < searchNumbers.Length; i++)
             {
-                searchNumbers[i] = rnd.Next(100000);
+                searchNumbers[i] = rnd.Next(numberCount);
             }
 
             Array.Sort(searchNumbers);

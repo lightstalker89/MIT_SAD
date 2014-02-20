@@ -1,7 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algodat_UE3", "Algodat_UE3\Algodat_UE3.csproj", "{3B4DB85E-43EA-46BA-AF7E-5C2179B09335}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinarySearchTests", "BinarySearchTests\BinarySearchTests.csproj", "{0E0748E8-E7CC-4D0E-98AF-AEE230C42692}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FibonacciSearchTests", "FibonacciSearchTests\FibonacciSearchTests.csproj", "{4FB4A736-5B74-4E98-AB1B-B3B82A45C028}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearSearchTests", "LinearSearchTests\LinearSearchTests.csproj", "{69418B45-B52A-4F18-A392-6839C045443B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +21,18 @@ Global
 		{3B4DB85E-43EA-46BA-AF7E-5C2179B09335}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B4DB85E-43EA-46BA-AF7E-5C2179B09335}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B4DB85E-43EA-46BA-AF7E-5C2179B09335}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E0748E8-E7CC-4D0E-98AF-AEE230C42692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E0748E8-E7CC-4D0E-98AF-AEE230C42692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E0748E8-E7CC-4D0E-98AF-AEE230C42692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E0748E8-E7CC-4D0E-98AF-AEE230C42692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FB4A736-5B74-4E98-AB1B-B3B82A45C028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FB4A736-5B74-4E98-AB1B-B3B82A45C028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FB4A736-5B74-4E98-AB1B-B3B82A45C028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FB4A736-5B74-4E98-AB1B-B3B82A45C028}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69418B45-B52A-4F18-A392-6839C045443B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69418B45-B52A-4F18-A392-6839C045443B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69418B45-B52A-4F18-A392-6839C045443B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69418B45-B52A-4F18-A392-6839C045443B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
