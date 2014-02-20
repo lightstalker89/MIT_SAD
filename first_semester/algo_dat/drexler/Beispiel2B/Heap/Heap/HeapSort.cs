@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Heap
 {
-    class HeapSort
+    public class HeapSort
     {
-        public ArrayList Sort(ArrayList unsortedList)
+        public List<int> Sort(List<int> unsortedList)
         {
             generateMaxHeap(unsortedList);
 
             //hier wird sortiert
-            for (int i = unsortedList.Count - 1; i >= 0; --i)
+            for (int i = unsortedList.Count - 1; i >= 0; i += -1)
             {
                 Vertausche(unsortedList, i, 0);
                 Versickere(unsortedList, 0, i);
@@ -23,16 +23,16 @@ namespace Heap
             return unsortedList;
         }
 
-        private void generateMaxHeap(ArrayList unsortedList)
+        private void generateMaxHeap(List<int> unsortedList)
         {
             //starte von der Mitte rückwärts.
-            for (int i = (int)(unsortedList.Count / 2 - 1); i >= 1; --i)
+            for (int i = (unsortedList.Count / 2 - 1); i >= 1; i += -1)
             {
                 Versickere(unsortedList, i, unsortedList.Count);
             }
         }
 
-        public void Versickere(ArrayList unsortedList, int i, int n)
+        public void Versickere(List<int> unsortedList, int i, int n)
         {
             while (i <= (n / 2 - 1))
             {
@@ -66,15 +66,15 @@ namespace Heap
             }
         }
 
-        public void Vertausche(ArrayList unsortedList, int parentIndex, int childIndex)
+        public void Vertausche(List<int> unsortedList, int parentIndex, int childIndex)
         {
-            int temp = (int)unsortedList[parentIndex];
+            int temp = unsortedList[parentIndex];
             unsortedList[parentIndex] = unsortedList[childIndex];
             unsortedList[childIndex] = temp;
         }
 
 
-        public void Output(ArrayList sortedList)
+        public void Output(List<int> sortedList)
         {
             foreach (int item in sortedList)
             {

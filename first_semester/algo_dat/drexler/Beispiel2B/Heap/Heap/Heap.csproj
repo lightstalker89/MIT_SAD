@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ListRandomNumbers">
+    <Reference Include="ListRandomNumbers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\ClassLibraries\NonRepeatingRandomNumbers\ListRandomNumbers\ListRandomNumbers\bin\Debug\ListRandomNumbers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -42,8 +43,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Timing">
+      <HintPath>..\..\..\ClassLibraries\StopWatch\Timing\Timing\bin\Debug\Timing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CArray.cs" />
     <Compile Include="HeapSort.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
