@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,11 +12,11 @@ namespace Beispiel1C
     {
         static void Main(string[] args)
         {
-            long a = Fakultaet.BerechneStandardRekusion(1000000);
+            BigInteger a = Fakultaet.BerechneStandardRekusion(800);
             Console.WriteLine(a.ToString());
-            long b = Fakultaet.BerechneTailRekursion(1000000, 1);
+            BigInteger b = Fakultaet.BerechneTailRekursion(800, 1);
             Console.WriteLine(b.ToString());     
-            long c = Fakultaet.BerechneOhneRekursion(1000000);
+            BigInteger c = Fakultaet.BerechneOhneRekursion(800);
             Console.WriteLine(c.ToString());
             Console.ReadKey();
         }

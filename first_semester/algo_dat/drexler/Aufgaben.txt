@@ -34,11 +34,11 @@ Beispiel 3a: (FERTIG)
 		* Und gib jeweils die Anzahl der Vergleiche aus
 		* Implementiere auch eine Funktion min() und max()
 
-Beispiel 3b:
+Beispiel 3b: (FERTIG)
 	- Aus Beispiel 2 wird ein sortiertes Array (absteigend) gewonnen
 	- Implementiere eine Fibonacci-Suche in diesem Array und gib für 3 Elemente die Such-Indizes an!
 	
-Beispiel 6:
+Beispiel 6: (FERTIG)
 	- Schreibe einen AVL-Baum Klasse
 		* Unittest für 4 Einfüge-Szenarien
 		* Ausgabe der Baumstruktur

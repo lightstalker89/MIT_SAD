@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using System.Numerics;
 using Beispiel1C;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,13 +10,13 @@ namespace UnitTestBeispiel1C
     [TestClass]
     public class UnitTestFakultaet
     {
-        private Dictionary<int, int> factorial;
+        private Dictionary<long, long> factorial;
         private Stopwatch stopwatch = new Stopwatch();
 
         [TestInitialize]
         public void Init()
         {
-            factorial = new Dictionary<int, int>
+            factorial = new Dictionary<long, long>
             {
                 {0, 1},
                 {1, 1},
@@ -46,7 +46,7 @@ namespace UnitTestBeispiel1C
         [TestMethod]
         public void BerechneStandardReksuion()
         {
-            long result = Fakultaet.BerechneStandardRekusion(5);
+            BigInteger result = Fakultaet.BerechneStandardRekusion(5);
             Assert.AreEqual(120, result);
         }
 
@@ -61,12 +61,12 @@ namespace UnitTestBeispiel1C
                 stopwatch.Reset();
                 stopwatch.Start();
 
-                foreach (int item in this.factorial.Keys)
+                foreach (long item in this.factorial.Keys)
                 {
-                    int value = 0;
+                    long value = 0;
                     this.factorial.TryGetValue(item, out value);
                     lastItem = item;
-                    long result = Fakultaet.BerechneStandardRekusion(value);
+                    Debug.WriteLine("Fakturielle von {0} ist {1}", value, Fakultaet.BerechneStandardRekusion(value).ToString());
                 }
             }
             catch (StackOverflowException ex)
@@ -91,13 +91,13 @@ namespace UnitTestBeispiel1C
                 stopwatch.Reset();
                 stopwatch.Start();
 
-                foreach (int item in this.factorial.Keys)
+                foreach (long item in this.factorial.Keys)
                 {
-                    int value = 0;
+                    long value = 0;
                     this.factorial.TryGetValue(item, out value);
                     lastItem = item;
-                    long result = 0;
-                    long returnValue = Fakultaet.BerechneTailRekursion(value, result);
+                    BigInteger result = 1;
+                    Debug.WriteLine("Fakturielle von {0} ist {1}", value, Fakultaet.BerechneTailRekursion(value, result).ToString());
                 }
             }
             catch (StackOverflowException ex)
@@ -122,12 +122,12 @@ namespace UnitTestBeispiel1C
                 stopwatch.Reset();
                 stopwatch.Start();
 
-                foreach (int item in this.factorial.Keys)
+                foreach (long item in this.factorial.Keys)
                 {
-                    int value = 0;
+                    long value = 0;
                     this.factorial.TryGetValue(item, out value);
                     lastItem = item;
-                    long returnValue = Fakultaet.BerechneOhneRekursion(value);
+                    Debug.WriteLine("Fakturielle von {0} ist {1}", value, Fakultaet.BerechneOhneRekursion(value).ToString());
                 }
             }
             catch (StackOverflowException ex)
@@ -144,14 +144,14 @@ namespace UnitTestBeispiel1C
         [TestMethod]
         public void BerechneTailRekursion()
         {
-            long result = Fakultaet.BerechneTailRekursion(5, 1);
+            BigInteger result = Fakultaet.BerechneTailRekursion(5, 1);
             Assert.AreEqual(120, result);
         }
 
         [TestMethod]
         public void BerechneOhneRekursion()
         {
-            int result = Fakultaet.BerechneOhneRekursion(5);
+            BigInteger result = Fakultaet.BerechneOhneRekursion(5);
             Assert.AreEqual(120, result);
         }
     }

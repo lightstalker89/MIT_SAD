@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace Beispiel1C
 {
@@ -14,9 +15,14 @@ namespace Beispiel1C
         /// übergeben => Am Stack zwischengespeichert
         /// </summary>
         /// <param name="n">Faktor</param>
-        public static long BerechneStandardRekusion(long n)
+        public static BigInteger BerechneStandardRekusion(long n)
         {
-            if (n <= 1)
+            if (n < 0)
+            {
+                throw new ArgumentException("Number must be greater than 0");
+            }
+
+            if (n < 2)
             {
                 return 1;
             }
@@ -31,9 +37,14 @@ namespace Beispiel1C
         /// und es steht dem neuen rekursiven Funktionsaufruf wieder der ganze Stack zur Verfügung
         /// </summary>
         /// <param name="n">Faktor</param>
-        public static long BerechneTailRekursion(int n, long result)
+        public static BigInteger BerechneTailRekursion(long n, BigInteger result)
         {
-            if (n <= 1)
+            if (n < 0)
+            {
+                throw new ArgumentException("Number must be greater than 0");
+            }
+
+            if (n < 2)
             {
                 return result;
             }
@@ -46,9 +57,9 @@ namespace Beispiel1C
         /// </summary>
         /// <param name="n">Faktor</param>
         /// <param name="a"></param>
-        public static int BerechneOhneRekursion(int n)
+        public static BigInteger BerechneOhneRekursion(long n)
         {
-            int temp = 1;
+            BigInteger temp = 1;
 
             if (n < 0)
             {
@@ -59,7 +70,7 @@ namespace Beispiel1C
                 return 1;
             }
 
-            for (int i = 1; i <= n; ++i)
+            for (long i = 1; i <= n; ++i)
             {
                 temp *= i;
             }
