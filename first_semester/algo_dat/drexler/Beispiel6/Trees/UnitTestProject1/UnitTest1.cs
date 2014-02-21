@@ -49,7 +49,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void InsertUnsortedArray()
         {
-            this.array = new CArray(100, 300);
+            this.array = new CArray(100000, 130000);
             this.stopWatch.Reset();
             this.stopWatch.Start();
             foreach (int item in this.array.UnsortedArray)
@@ -76,7 +76,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void AVLSearchUnsortedArray()
         {
-            this.array = new CArray(1000, 100000);
+            this.array = new CArray(100000, 120000);
             this.array.CompareCount = 0;
             int[] randomSearchValue = new int[100];
 
@@ -93,7 +93,7 @@ namespace UnitTestProject1
             Random random = new Random();
             for (int i = 0; i < 100; i++)
             {
-                randomSearchValue[i] = random.Next(100000);
+                randomSearchValue[i] = random.Next(120000);
             }
 
             this.stopWatch.Reset();
@@ -122,7 +122,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void AVLSearchSortedArray()
         {
-            this.array = new CArray(1000, 100000);
+            this.array = new CArray(100000, 120000);
             this.array.CompareCount = 0;
             int[] randomSearchValue = new int[100];
 
@@ -139,7 +139,7 @@ namespace UnitTestProject1
             Random random = new Random();
             for (int i = 0; i < 100; i++)
             {
-                randomSearchValue[i] = random.Next(100000);
+                randomSearchValue[i] = random.Next(120000);
             }
 
             Array.Sort(randomSearchValue);
@@ -170,7 +170,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void BinarySearchSortedArray()
         {
-            this.array = new CArray(1000, 100000);
+            this.array = new CArray(100000, 120000);
             this.array.CompareCount = 0;
             int[] randomSearchValue = new int[100];
 
@@ -187,7 +187,7 @@ namespace UnitTestProject1
             Random random = new Random();
             for (int i = 0; i < 100; i++)
             {
-                randomSearchValue[i] = random.Next(100000);
+                randomSearchValue[i] = random.Next(120000);
             }
 
             Array.Sort(randomSearchValue);
@@ -218,7 +218,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void BinarySearchUnsortedArray()
         {
-            this.array = new CArray(1000, 100000);
+            this.array = new CArray(100000, 120000);
             this.array.CompareCount = 0;
             int[] randomSearchValue = new int[100];
 
@@ -235,7 +235,7 @@ namespace UnitTestProject1
             Random random = new Random();
             for (int i = 0; i < 100; i++)
             {
-                randomSearchValue[i] = random.Next(100000);
+                randomSearchValue[i] = random.Next(120000);
             }
 
             this.stopWatch.Reset();
