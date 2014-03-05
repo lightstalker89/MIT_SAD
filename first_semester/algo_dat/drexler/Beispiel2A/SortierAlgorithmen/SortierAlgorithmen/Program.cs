@@ -18,7 +18,7 @@ namespace SortierAlgorithmen
             List<int> sortedList = new List<int>();
             // CArray unsortedArray = new CArray(100, 150);
             // CArray unsortedArray = new CArray(1000, 1200);
-            CArray unsortedArray = new CArray(100000, 120000);
+            CArray unsortedArray = new CArray(10000, 12000);
 
             Console.WriteLine("UnsortedList");
 
