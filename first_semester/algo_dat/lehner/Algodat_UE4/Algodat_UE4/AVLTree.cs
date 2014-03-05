@@ -78,7 +78,6 @@ namespace Algodat_UE4
         public void RecursiveBalance(AVLNode cur)
         {
 
-            // we do not use the balance in this class, but the store it anyway
             int balance = cur.GetBalance();
 
             // check the balance
@@ -388,25 +387,11 @@ namespace Algodat_UE4
             {
                 if (value > n.Value)
                 {
-                    //if (n.RightNode != null && value == n.RightNode.Value)
-                    //{
-                    //    return true;
-                    //}
-                    //else
-                    //{
-                        n = n.RightNode;
-                    //}
+                    n = n.RightNode;
                 }
                 else if (value < n.Value)
                 {
-                    //if (n.LeftNode != null && value == n.LeftNode.Value)
-                    //{
-                    //    return true;
-                    //}
-                    //else
-                    //{
-                        n = n.LeftNode;
-                    //}
+                    n = n.LeftNode;
                 }
                 else
                 {

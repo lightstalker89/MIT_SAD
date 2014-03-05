@@ -40,12 +40,10 @@ namespace RecursiveCalculation
 
         public long CalcTailRecursive(int temp, long value)
         {
-            //TODO!!!!!
             if (temp < 0)
             {
                 throw new ArgumentException("No positive number!");
             }
-            Console.WriteLine("temp: {0}", temp);
             return temp < 2 ? value : this.CalcTailRecursive(temp - 1, value * temp);
         }
     }
@@ -60,7 +58,7 @@ namespace RecursiveCalculation
             long tailRecursive = factor.CalcTailRecursive(21, 1);
 
             Console.WriteLine("results: \nNormal: {0}\nRecursive: {1}\nTail Recursive: {2}", normal, recursive, tailRecursive);
-
+            
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Algodat_UE2.Algos
             }
             //this.PrintArray(numberArray);
         }
-
+        // generate max heap tree
         private void generateMaxHeap(int[] a)
         {
             for (int i = (int)(a.Length / 2 - 1); i >= 1; i += -1)
@@ -33,14 +33,18 @@ namespace Algodat_UE2.Algos
         {
             while (i <= (n / 2 - 1))
             {
+                // index of left child
                 int childIndex = (i + 1) * 2 - 1;
 
+                // check for if right child exists
                 if (childIndex + 1 <= n - 1)
                 {
+                    // if right child is bigger take it
                     if (a[childIndex] < a[childIndex + 1])
                         childIndex += 1;
                 }
 
+                // check if element has to sink
                 if (a[i] < a[childIndex])
                 {
                     this.change(a, i, childIndex);
@@ -51,7 +55,7 @@ namespace Algodat_UE2.Algos
 
             }
         }
-
+        // switch elements
         private void change(int[] a, int i, int childIndex)
         {
             int z = a[i];
