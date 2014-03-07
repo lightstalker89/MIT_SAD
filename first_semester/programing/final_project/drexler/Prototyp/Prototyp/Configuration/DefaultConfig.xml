@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                       xsi:schemaLocation="http://www.judo-eisenstadt.at/FHWN ConfigScheme.xsd"
+                       xmlns="http://www.judo-eisenstadt.at/FHWN">
+  <SourceDirectories>
+    <Directory type="Local">
+      <Path>C:\Temp</Path>
+      <IncludeSubdirectories>True</IncludeSubdirectories>
+      <TargetDirectories>
+        <Directory type="Local">
+          <Path>C:\Test</Path>
+        </Directory>
+        <!--<Directory type="Shared">
+          <Path>\\192.168.1.3\Family\FH_SyncerTest</Path>
+        </Directory>-->
+        <!--<Directory type="Network" ip="192.168.1.2" port="4000">
+          <Path>C:\Test</Path>
+        </Directory>-->
+      </TargetDirectories>
+      <ExceptionDirectories>
+        <Directory type="Local">
+          <Path>C:\Temp\Neuer Ordner</Path>
+        </Directory>
+      </ExceptionDirectories>
+    </Directory>
+  </SourceDirectories>
+  
+  <FileSize>500</FileSize>
+  <BlockSize>200</BlockSize>
+  <ParallelSync>False</ParallelSync>
+  <LogFileSize>20000</LogFileSize>
+</Config>

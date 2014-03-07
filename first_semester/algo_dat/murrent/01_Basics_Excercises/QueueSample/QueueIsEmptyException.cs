@@ -1,6 +1,6 @@
 ﻿// *******************************************************
 // * <copyright file="QueueIsEmptyException.cs" company="MDMCoWorks">
-// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
@@ -9,7 +9,11 @@
 // *******************************************************/
 namespace QueueSample
 {
+    #region Usings
+
     using System;
+
+    #endregion
 
     /// <summary>
     /// </summary>

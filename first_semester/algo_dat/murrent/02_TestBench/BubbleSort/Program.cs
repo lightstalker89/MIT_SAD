@@ -9,11 +9,15 @@
 // *******************************************************/
 namespace BubbleSort
 {
+    #region Usings
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using SortHelper;
+
+    #endregion
 
     /// <summary>
     /// </summary>

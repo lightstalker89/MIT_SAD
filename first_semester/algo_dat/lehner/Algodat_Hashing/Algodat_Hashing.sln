@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algodat_Hashing", "Algodat_Hashing\Algodat_Hashing.csproj", "{D3F3115C-8AC5-40EB-9CD8-89AB3AE95383}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashingTest", "HashingTest\HashingTest.csproj", "{24DD29F7-CCFF-471B-B6C8-4C58E4D0EFE7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3F3115C-8AC5-40EB-9CD8-89AB3AE95383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F3115C-8AC5-40EB-9CD8-89AB3AE95383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F3115C-8AC5-40EB-9CD8-89AB3AE95383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F3115C-8AC5-40EB-9CD8-89AB3AE95383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24DD29F7-CCFF-471B-B6C8-4C58E4D0EFE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24DD29F7-CCFF-471B-B6C8-4C58E4D0EFE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24DD29F7-CCFF-471B-B6C8-4C58E4D0EFE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24DD29F7-CCFF-471B-B6C8-4C58E4D0EFE7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

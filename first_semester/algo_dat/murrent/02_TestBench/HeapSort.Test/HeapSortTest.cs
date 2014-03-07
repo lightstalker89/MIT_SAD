@@ -9,11 +9,15 @@
 // *******************************************************/
 namespace HeapSort.Test
 {
+    #region Usings
+
     using System;
 
     using NUnit.Framework;
 
     using SortHelper;
+
+    #endregion
 
     /// <summary>
     /// </summary>
@@ -34,7 +38,7 @@ namespace HeapSort.Test
         /// <summary>
         /// </summary>
         [TestCase]
-        public void BubbleSorterTest()
+        public void HeapSorterTest()
         {
             foreach (int valueCount in heapSortValueCount)
             {
@@ -42,13 +46,13 @@ namespace HeapSort.Test
 
                 for (int x = 0; x < 10; ++x)
                 {
-                    heapSorter = new HeapSorter(numbers.NumberArray);
-                    heapSorter.Sort();
+                    this.heapSorter = new HeapSorter(numbers.NumberArray);
+                    this.heapSorter.Sort();
                 }
 
                 Array.Sort(numbers.NumberArray);
 
-                Assert.AreEqual(numbers.NumberArray, heapSorter.SortedArray);
+                Assert.AreEqual(numbers.NumberArray, this.heapSorter.SortedArray);
             }
         }
     }

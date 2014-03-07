@@ -1,21 +1,28 @@
 ﻿// *******************************************************
 // * <copyright file="StackSample.cs" company="MDMCoWorks">
-// * Copyright (c) 2013 Mario Murrent. All rights reserved.
+// * Copyright (c) 2014 Mario Murrent. All rights reserved.
 // * </copyright>
 // * <summary>
 // *
 // * </summary>
 // * <author>Mario Murrent</author>
 // *******************************************************/
+#region Usings
 
 using System.Runtime.CompilerServices;
+
+#endregion
 
 [assembly: InternalsVisibleTo("StackSample.Test")]
 
 namespace StackSample
 {
+    #region Usings
+
     using System.Collections.Generic;
     using System.Linq;
+
+    #endregion
 
     /// <summary>
     /// The <see ref="StackSample"/> class and its interaction logic 
