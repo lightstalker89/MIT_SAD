@@ -1,6 +1,7 @@
 <?php
 $uv = '2jf75eop#a20ß3kdhg733!';
 
+session_start();
 if(isset($_POST['login']))
 {
 	$password = '$2y$10$AX0g6kDwyvur7qDOzg9AfufsggY6tRwK4ZSYIUD36be24PBcWw46S';
@@ -9,8 +10,11 @@ if(isset($_POST['login']))
 				?>
 		</br>
 		<?php
-		//echo password_hash($_POST['password'], PASSWORD_DEFAULT);
 		if(password_verify($_POST['password'], $password)){
+			$_POST['uid'] = "001A1";
+			
+			$_SESSION['username'] = $_POST['username'];
+			
 			echo "Success";
 		}else{
 			echo "Failed";
