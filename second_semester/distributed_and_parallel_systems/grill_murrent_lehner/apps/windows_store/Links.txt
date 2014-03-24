@@ -1,0 +1,3 @@
+http://msdn.microsoft.com/en-us/library/windows/desktop/dn457944(v=vs.85).aspx
+http://blogs.msdn.com/b/stephe/archive/2013/12/11/win8-1-transfering-a-file-between-2-peers-using-wifi-direct-and-proximity-api.aspx
+http://blogs.esri.com/esri/apl/2013/10/07/proximity-map-for-windows-store/
