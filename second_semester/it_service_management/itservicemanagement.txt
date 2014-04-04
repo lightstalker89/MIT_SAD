@@ -1,0 +1,33 @@
++) Definition ITSM (Maßnahmen, Methoden, Kunden- Serviceorientierung)
++) Was ist ein IT Service (5 Elemente, Unterschiede Allgemeint vs. ITIL Definition)
++) Serviceorientierung (Geschäftsprozesse - Services - Ressourcen)
++) Konzepte Überblick / Einordnung
+	+*) ISO 27000
+	 *) ISO 20000
+	 *) SPICE
+	 *) ITIL
++) IT Process Definition
++) Process Definition
++) Prozessorganisation vs. Hierarchie
++) Prozessrollen
++) Deming Cycle
++) Prozessmetriken
++) Phasen / Publikationen ITIL
++) ITIL v2, 3 and 2001 - Bild!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!LERNEN!!!!!!!!!!!!!!!!!!!!!!!!!AUSWENDING!!!!!!!!!!!!!!!!!!!!!
++) Good Practice / Best Practice - wie kommt es dazu?
++) Definition IT-Service nach ITIL
++) Definition Service Management
++) Externe Einflüsse
++) Funktionen, Rollen, Prozess
++) Service Desk
++)
++)
++)
++)
++)
++)
+
+------------------------------------------------------
+*) Beschreiben Sie je Phase drei Prozesse - Beispielfrage
+*) Zählen Sie drei oder vier arten von Service Desks auf
+------------------------------------------------------
