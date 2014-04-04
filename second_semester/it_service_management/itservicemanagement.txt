@@ -20,12 +20,17 @@
 +) Externe Einflüsse
 +) Funktionen, Rollen, Prozess
 +) Service Desk
-+)
-+)
-+)
-+)
-+)
-+)
++) Logik der Wertschöpfung durch Services
++) Ökonomischer Wert
++) Service Provider und Service Supplier
++) Serviceportfolio, -pipeline, -katalog
++) Serviceportfolio vs. Service Katalog
++) Herausforderung des Demand Management
++) Aktivitätsbasiertes Demand Management
++) 
++) 
++) 
++) 
 
 ------------------------------------------------------
 *) Beschreiben Sie je Phase drei Prozesse - Beispielfrage
