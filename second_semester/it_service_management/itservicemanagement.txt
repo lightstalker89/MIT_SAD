@@ -27,7 +27,8 @@
 +) Serviceportfolio vs. Service Katalog
 +) Herausforderung des Demand Management
 +) Aktivitätsbasiertes Demand Management
-+) 
++) Business Case
++) Risiko
 +) 
 +) 
 +) 
