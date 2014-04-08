@@ -1,26 +1,100 @@
 <!DOCTYPE html>
 <html>
 <style>
-#list5 ol { font-size:18px; }
-#list5 ol li { font-weight: bold; padding:2px;}
-#list5 ol li ol li { height:15px; margin-left:10px; font-weight: normal; }
+ol {
+    counter-reset: li; /* Initiate a counter */
+    list-style: none; /* Remove default numbering */
+    *list-style: decimal; /* Keep using default numbering for IE6/7 */
+    font: 15px 'trebuchet MS', 'lucida sans';
+    padding: 0;
+    margin-bottom: 4em;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	font-weight: bold;
+}
+
+ol ol {
+    margin: 0 0 0 2em; /* Add some left margin for inner lists */
+	font-weight: normal;
+}
+
+.rounded-list a{
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em 2em;
+    *padding: .4em;
+    margin: .5em 0;
+    background: #ddd;
+    color: #444;
+    text-decoration: none;
+    border-radius: .3em;
+    transition: all .3s ease-out;   
+}
+
+.rounded-list a:hover{
+    background: #eee;
+}
+
+.rounded-list a:hover:before{
+    transform: rotate(360deg);  
+}
+
+.rounded-list a:before{
+    content: counter(li);
+    counter-increment: li;
+    position: absolute; 
+    left: -1.3em;
+    top: 50%;
+    margin-top: -1.3em;
+    background: #87ceeb;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border: .3em solid #fff;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 2em;
+    transition: all .3s ease-out;
+}
+
+#main{
+	margin-left: 20px;
+}
 </style>
 <body>
-<div id="list5">
+<div id="main">
+<ol class="rounded-list">
+    <li><a href="#">Javascript</a>
+        <ol>
+             <li><a target="_blank" href="http://zeekat.nl/articles/constructors-considered-mildly-confusing.html">Constructors</a></li>
+            <li><a target="_blank" href="http://api.jquery.com/">jQuery</a></li>
+			<li><a target="_blank" href="https://github.com/stevekwan/best-practices/blob/master/javascript/best-practices.md">Best Practices</a></li>
+			<li><a target="_blank" href="http://flippinawesome.org/2013/12/23/45-useful-javascript-tips-tricks-and-best-practices/">Useful Tips and Tricks / Best Practices</a></li>
+			<li><a target="_blank" href="http://code.tutsplus.com/tutorials/24-javascript-best-practices-for-beginners--net-5399">Best Practices for Beginners</a></li>
+        </ol>
+    </li>
+    <li><a href="#">JavsScript Design Principles</a>
+		<ol>
+			<li><a target="_blank" href="http://de.slideshare.net/pankorho/touch-uis-are-quite-different">Touch UI</a></li>
+            <li><a target="_blank" href="http://www.nngroup.com/articles/ten-usability-heuristics/">Usability Heuristics</a></li>
+		</ol>
+	</li>
+    <li><a href="#">Tools</a>
+	 <ol>
+			<li><a target="_blank" href="http://nodejs.org/">NodeJS</a></li>
+            <li><a target="_blank" href="http://colorschemedesigner.com/">Color Scheme Designer</a></li>
+         </ol>
+	</li>
+   <li><a href="#">Debugger</a>
    <ol>
-      <li>JavaScript
-         <ol>
-            <li><a href="http://zeekat.nl/articles/constructors-considered-mildly-confusing.html">Constructors</a></li>
-            <li><a href="http://api.jquery.com/">jQuery</a></li>
-         </ol>
-      </li>
-      <li>JavsScript Design Principles
-         <ol>
-            <li><a href="http://de.slideshare.net/pankorho/touch-uis-are-quite-different">Touch UI</a></li>
-            <li><a href="http://www.nngroup.com/articles/ten-usability-heuristics/">Usability Heuristics</a></li>
-         </ol>
-      </li>
-   </ol>
+			<li><a target="_blank" href="http://www.jslint.com/">JSLint</a></li>
+		</ol>
+   </li>   
+   <li><a href="#">Libraries</a>
+		<ol>
+			<li><a target="_blank" href="http://momentjs.com/">Date Library</a></li>
+		</ol>
+   </li>      
+</ol>
 </div>
 </body>
 </html>
