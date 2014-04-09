@@ -6,6 +6,17 @@
 +) Impressum / Links / Web / Hosting / fremder Inhalt
 +) Spamming - Fallbeispiel
 +) Lizenzvertrag
-
++) Bei Urherberecht kommt der Teil mit den Sondervorschriften für Computerprogramme nicht
++) Wann muss man den Quellcode herausgeben --> Wenn es vereinbart ist, wenn nicht dann wenn der Auftraggeber im berechtigten glauben war den Quellcode zu erhalten dann würde er vor einem Gericht ws einen Zuspruch bekommen
++) S. 57 Prüfungschema kommt nicht
++) Welche Geschäftspraktiken sind laut dem UWG verboten
++) Welche Sanktionen kennen Sie
++) Was sind sensible Daten
++) Vertragsrecht, Welche Sicherungsmittel gibt es
++) Was man im Datenschutzrechte machen muss bevor Datenschutz anwended
++) Klassischen Vertragsrecht Formvorschrift --> Beispiel, muss man sie immer einhalten
++) E-Comerce Gesetzt -> Impresumsplicht, Offenlegung für Service provider
++) Was kann man gegen den Vorwurf von Spaming machen --> Sagen das es nicht mehr als 60 Teilnehmer waren etc.
++) Headlines was man in den Vertrag schreiben muss für eine Standardsoftware (Vertrag muss nicht geschrieben werden bei der Prüfung)
 
 !! Falls Gesetzestext notwendig, wird dieser abgebildet
