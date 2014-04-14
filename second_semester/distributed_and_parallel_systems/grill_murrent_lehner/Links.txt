@@ -1,3 +1,8 @@
+General:
 http://www.stevebate.net/chibios-rpi/GettingStarted.html
 http://phys.org/news/2012-07-gm-wi-fi-application-vehiclepedestrian-accidents.html
 http://dishingtech.blogspot.co.at/2012/01/realtek-wi-fi-direct-programming-guide.html
+
+iOS:
+http://stackoverflow.com/questions/19067794/ios-7-multipeer-connectivity-and-android-wifi-direct
+https://developer.apple.com/library/ios/documentation/MultipeerConnectivity/Reference/MultipeerConnectivityFramework/Introduction/Introduction.html#//apple_ref/doc/uid/TP40013328-CH1-SW1
