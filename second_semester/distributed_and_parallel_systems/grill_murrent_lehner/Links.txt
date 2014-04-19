@@ -10,3 +10,8 @@ Raspberry Pi:
 http://www.stevebate.net/chibios-rpi/GettingStarted.html
 http://www.youtube.com/watch?v=6GPv8TfZqe4
 http://www.youtube.com/watch?v=-HCrfkKeIM0
+http://www.raspberrypi.org/documentation/installation/installing-images/
+http://www.raspberrypi.org/downloads/
+http://tech.enekochan.com/2014/02/15/tp-link-tl-wn725n-version-2-in-raspbian-2014-01-07-wheezy-raspbian-with-kernel-3-10-25/
+http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&DownTypeID=3&GetDown=false&Downloads=true
+http://www.bartbania.com/index.php/easy-wireless-configuration-for-raspberry-pi/
