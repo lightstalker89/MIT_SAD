@@ -1,0 +1,19 @@
+http://developer.android.com/guide/topics/connectivity/wifip2p.html
+http://developer.android.com/training/connect-devices-wirelessly/wifi-direct.html
+
+http://stackoverflow.com/questions/10544906/how-to-auto-accept-wifi-direct-connection-request-in-android/18629705#18629705
+https://code.google.com/p/android/issues/detail?id=30880
+
+http://de.wikipedia.org/wiki/MIMO_%28Nachrichtentechnik%29
+
+
+________________________________________________________________
+
+
+First Chapter.
+
+http://developer.android.com/guide/topics/connectivity/wifip2p.html
+http://books.google.at/books?id=-peYIFTCW74C&pg=PA111&redir_esc=y#v=onepage&q&f=false
+http://en.wikipedia.org/wiki/Wi-Fi_Alliance
+http://www.isb.co.jp/product/mobile_solution/e/wifi_direct_android.html
+http://www.isb.co.jp/product/mobile_solution/e/wifi_direct.html

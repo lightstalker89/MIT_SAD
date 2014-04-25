@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+     <fragment
+            class="com.grill.car2car.DeviceListFragment"
+            android:id="@+id/frag_list"
+            android:layout_weight="0.50"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <!-- Preview: layout=@layout/row_devices -->
+        </fragment>
+        <fragment
+            class="com.grill.car2car.MapDetailFragment"
+            android:id="@+id/frag_maps"
+            android:layout_weight="0.50"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <!-- Preview: layout=@layout/device_detail -->
+        </fragment>
+</LinearLayout>
