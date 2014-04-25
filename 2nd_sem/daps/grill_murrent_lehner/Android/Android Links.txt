@@ -17,3 +17,7 @@ http://books.google.at/books?id=-peYIFTCW74C&pg=PA111&redir_esc=y#v=onepage&q&f=
 http://en.wikipedia.org/wiki/Wi-Fi_Alliance
 http://www.isb.co.jp/product/mobile_solution/e/wifi_direct_android.html
 http://www.isb.co.jp/product/mobile_solution/e/wifi_direct.html
+
+Subchapter
+
+http://developer.android.com/guide/topics/connectivity/wifip2p.html
