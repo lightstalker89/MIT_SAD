@@ -3,33 +3,27 @@ using C2C.Data;
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+
 using Windows.ApplicationModel.Resources;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Universal Hub Application project template is documented at http://go.microsoft.com/fwlink/?LinkID=391955
 
 namespace C2C
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     /// A page that displays a grouped collection of items.
     /// </summary>
     public sealed partial class HubPage : Page
     {
+        Windows.Devices.WiFiDirect.WiFiDirectDevice wiFiDirectDevice;
+
         private readonly NavigationHelper navigationHelper;
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
@@ -46,12 +40,33 @@ namespace C2C
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-            this.Loaded += HubPage_Loaded;
+            this.Loaded += this.HubPageLoaded;
         }
 
-        void HubPage_Loaded(object sender, RoutedEventArgs e)
+        private async Task<IEnumerable<String>> GetWiFiDirectDevices()
         {
-            throw new NotImplementedException();
+            try
+            {
+                String deviceSelector = Windows.Devices.WiFiDirect.WiFiDirectDevice.GetDeviceSelector();
+                var devInfoCollection = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(deviceSelector);
+                
+                return from devInfo in devInfoCollection
+                       select devInfo.Name;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        private async void HubPageLoaded(object sender, RoutedEventArgs e)
+        {
+            IEnumerable<String> devices = await GetWiFiDirectDevices();
+            
+            foreach (string device in devices)
+            {
+                
+            }
         }
 
         /// <summary>
