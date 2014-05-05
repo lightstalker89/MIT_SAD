@@ -19,6 +19,9 @@ using C2C.Common;
 
 namespace C2C
 {
+    using Windows.Networking.Proximity;
+    using Windows.UI.Popups;
+
     /// <summary>
     /// A page that displays a grouped collection of items.
     /// </summary>
@@ -48,6 +51,46 @@ namespace C2C
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
+            this.Loaded += HubPage_Loaded;
+        }
+
+        async void HubPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            string message = "";
+
+            PeerFinder.Start();
+
+            IEnumerable<PeerInformation> peers;
+
+            if ((PeerFinder.SupportedDiscoveryTypes & PeerDiscoveryTypes.Browse) ==
+                                     PeerDiscoveryTypes.Browse)
+            {
+                if (PeerFinder.AllowWiFiDirect)
+                {
+                    // Find all discoverable peers with compatible roles
+                    peers = await PeerFinder.FindAllPeersAsync();
+                    if (peers == null)
+                    {
+                        message = ("Found no peer");
+                    }
+                    else
+                    {
+                        message = (string.Format("I found {0} devices(s) executing this same app !", peers.Count()));
+                    }
+                }
+                else
+                {
+                    message = ("WIFI direct not available");
+                }
+            }
+            else
+            {
+                message = ("Browse not available");
+            }
+
+            MessageDialog messageDialog = new MessageDialog(message);
+
+            messageDialog.ShowAsync();
         }
 
         /// <summary>

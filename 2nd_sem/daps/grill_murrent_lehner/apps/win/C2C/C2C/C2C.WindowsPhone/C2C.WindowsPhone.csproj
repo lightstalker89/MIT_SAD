@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ae734450-4553-4ac1-96b8-9d977e69098c}</ProjectGuid>
+    <ProjectGuid>{AE734450-4553-4AC1-96B8-9D977E69098C}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>C2C</RootNamespace>
@@ -82,7 +82,7 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
-  <ItemGroup>    
+  <ItemGroup>
     <Compile Include="HubPage.xaml.cs">
       <DependentUpon>HubPage.xaml</DependentUpon>
     </Compile>
@@ -108,6 +108,7 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
     <Content Include="Assets\HubBackground.theme-dark.png" />
     <Content Include="Assets\HubBackground.theme-light.png" />
+    <Content Include="StoreManifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="HubPage.xaml">
@@ -127,7 +128,7 @@
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="..\C2C.Shared\C2C.Shared.projitems" Label="Shared" />
-    <PropertyGroup Condition=" '$(TargetPlatformIdentifier)' == '' ">
+  <PropertyGroup Condition=" '$(TargetPlatformIdentifier)' == '' ">
     <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />

@@ -17,6 +17,13 @@ namespace C2C
 {
     using System.Threading.Tasks;
 
+    using Windows.Devices.Enumeration;
+    using Windows.Devices.WiFiDirect;
+    using Windows.Foundation;
+    using Windows.Networking;
+    using Windows.Networking.Proximity;
+    using Windows.UI.Popups;
+
     /// <summary>
     /// A page that displays a grouped collection of items.
     /// </summary>
@@ -27,6 +34,9 @@ namespace C2C
         private readonly NavigationHelper navigationHelper;
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+
+        DeviceInformationCollection devInfoCollection;
+        Windows.Devices.WiFiDirect.WiFiDirectDevice wfdDevice;
 
         public HubPage()
         {
@@ -43,31 +53,83 @@ namespace C2C
             this.Loaded += this.HubPageLoaded;
         }
 
-        private async Task<IEnumerable<String>> GetWiFiDirectDevices()
+        private async void HubPageLoaded(object sender, RoutedEventArgs e)
         {
+            this.GetDevices();
+        }
+
+        async void Connect(object sender, RoutedEventArgs e)
+        {
+            string message = "";
+
+            DeviceInformation chosenDevInfo = null;
+            EndpointPair endpointPair = null;
             try
             {
-                String deviceSelector = Windows.Devices.WiFiDirect.WiFiDirectDevice.GetDeviceSelector();
-                var devInfoCollection = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(deviceSelector);
-                
-                return from devInfo in devInfoCollection
-                       select devInfo.Name;
+
+                // Connect to the selected WiFiDirect device
+                wfdDevice = await Windows.Devices.WiFiDirect.WiFiDirectDevice.FromIdAsync(chosenDevInfo.Id);
+
+                if (wfdDevice == null)
+                {
+                    return;
+                }
+
+                // Register for Connection status change notification
+                wfdDevice.ConnectionStatusChanged += wfdDevice_ConnectionStatusChanged;
+
+                // Get the EndpointPair collection
+                var EndpointPairCollection = wfdDevice.GetConnectionEndpointPairs();
+                if (EndpointPairCollection.Count > 0)
+                {
+                    endpointPair = EndpointPairCollection[0];
+                }
+                else
+                {
+                    return;
+                }
+
             }
-            catch (Exception ex)
+            catch (Exception err)
             {
-                return null;
             }
         }
 
-        private async void HubPageLoaded(object sender, RoutedEventArgs e)
+        void wfdDevice_ConnectionStatusChanged(Windows.Devices.WiFiDirect.WiFiDirectDevice sender, object args)
         {
-            IEnumerable<String> devices = await GetWiFiDirectDevices();
-            
-            foreach (string device in devices)
-            {
-                
-            }
+                    }
+
+        void Disconnect(object sender, RoutedEventArgs e)
+        {
+            wfdDevice.Dispose();
         }
+
+        async void GetDevices()
+        {
+            try
+            {
+                devInfoCollection = null;
+
+                String deviceSelector = Windows.Devices.WiFiDirect.WiFiDirectDevice.GetDeviceSelector();
+
+                devInfoCollection = await DeviceInformation.FindAllAsync(deviceSelector);
+                if (devInfoCollection.Count == 0)
+                {
+                }
+                else
+                {
+                    foreach (var devInfo in devInfoCollection)
+                    {
+                    }
+                    
+                }
+            }
+            catch (Exception err)
+            {
+            }
+
+        }
+
 
         /// <summary>
         /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
