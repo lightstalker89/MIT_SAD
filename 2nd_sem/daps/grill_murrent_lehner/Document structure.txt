@@ -1,0 +1,31 @@
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+*-                                                     -*
+*- This is the first proposal of the Document structure-*
+*-                                                     -*
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+
+1.Introduction
+	1.2 Motivation
+	1.3 Current Situation
+2. Car2Car
+	2.1 Communication Actors
+	2.2 Safety Scenarios
+	2.3 Communication traffic efficiency
+	2.4 Communication infotainment and other services
+3. WiFi-Direct (Perhaps above point two?)
+4. Prototypes
+	4.1 Windows Phone
+		4.2 ...
+	4.2 Android
+		4.2.1 API Description
+		4.2.2 Android sample application
+		4.2.3 Limitations and problems
+	4.3 Raspberry Pi
+		4.3.1 Setup description
+		4.3.2 Establish a WiFi-Direct connection
+		4.3.3 Limitations and problems
+5. Evaluation
+6. Conclusion and outlook
+
+		
