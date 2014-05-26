@@ -1,0 +1,64 @@
+\documentclass[bachelor,german]{hgbthesis}
+% Zulässige Class Options: 
+%   Typ der Arbeit: diplom, master (default), bachelor, praktikum 
+%   Hauptsprache: german (default), english
+%%------------------------------------------------------------
+
+\graphicspath{{images/}}    % wo liegen die Bilder?
+\AddBibFile{literatur.bib}  % Angabe der BibTeX-Datei
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+
+\title{Research of different technologies for building a Car2Car communication system}
+\author{Roland Leher, Florian Grill und Mario Murrent}
+\studiengang{Software Architecture and Design}
+\studienort{Wiener Neustadt}
+\abgabedatum{2014}{06}{16}	% {YYYY}{MM}{DD}
+\gegenstand{2. Semesters}
+%% für Bachelorarbeit und Praktikumsbericht entsprechende Einträge ergänzen:
+
+%%% zusätzlich für eine Bachelorarbeit: ---------------------
+%\nummer{0910276015}   % XX...X = Stud-ID, z.B. 0310238045-A  
+                        % (A = 1. Bachelorarbeit)
+\semester{Sommersemester 2014} 
+
+\fhbetreuer{Günter Khyo}
+\fhbetreuertel{}
+\fhbetreuermail{khyo@fhwn.ac.at}
+
+%%%----------------------------------------------------------
+\frontmatter
+\maketitle
+\tableofcontents
+%%%----------------------------------------------------------
+
+%\include{kurzfassung}		
+%\include{abstract}	
+\include{abkuerzungen}	
+
+%%%----------------------------------------------------------
+\mainmatter         % Hauptteil (ab hier arab. Seitenzahlen)
+%%%----------------------------------------------------------
+
+
+\include{introduction}
+\include{car2car}
+\include{wifidirect}
+\include{prototypes}
+\include{evaluation}
+\include{conclusion}
+
+
+%%%----------------------------------------------------------
+
+\addcontentsline{toc}{chapter}{Listings}
+\lstlistoflistings
+\listoffigures
+
+
+%%%----------------------------------------------------------
+\MakeBibliography
+%%%----------------------------------------------------------
+
+\end{document}

@@ -1,0 +1,17 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\select@language {ngerman}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}Car2Car}{2}{chapter.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}Wifi Direct}{3}{chapter.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Evaluation}{4}{chapter.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}Conclusion and Outlook}{5}{chapter.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Listings}{6}{chapter.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Quellenverzeichnis}{8}{chapter*.5}

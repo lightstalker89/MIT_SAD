@@ -1,0 +1,336 @@
+% This file was created with JabRef 2.8.1.
+% Encoding: Cp1252
+
+@MISC{rfc5985,
+  author = {M. Barnes},
+  title = {{HTTP-Enabled Location Delivery (HELD)}},
+  howpublished = {RFC 5985 (Proposed Standard)},
+  month = sep,
+  year = {2010},
+  number = {5985},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc5985.txt}
+}
+
+@TECHREPORT{XML,
+  author = {Tim Bray and Jean Paoli and Eve Maler and Fran\c{c}ois Yergeau and
+	C. M. Sperberg-McQueen},
+  title = {Extensible Markup Language ({XML}) 1.0 (Fifth Edition)},
+  institution = {W3C},
+  year = {2008},
+  type = {{W3C} Recommendation},
+  month = nov,
+  note = {http://www.w3.org/TR/2008/REC-xml-20081126/},
+  bibsource = {http://w2.syronex.com/jmr/w3c-biblio}
+}
+
+@MISC{rfc6195,
+  author = {D. {Eastlake 3rd}},
+  title = {{Domain Name System (DNS) IANA Considerations}},
+  howpublished = {RFC 6195 (Best Current Practice)},
+  month = mar,
+  year = {2011},
+  number = {6195},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc6195.txt}
+}
+
+@MISC{rfc2616,
+  author = {R. Fielding and J. Gettys and J. Mogul and H. Frystyk and L. Masinter
+	and P. Leach and T. Berners-Lee},
+  title = {{Hypertext Transfer Protocol -- HTTP/1.1}},
+  howpublished = {RFC 2616 (Draft Standard)},
+  month = jun,
+  year = {1999},
+  note = {Updated by RFCs 2817, 5785, 6266, 6585},
+  number = {2616},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc2616.txt}
+}
+
+@MISC{rfc6451,
+  author = {Andrea Forte and Henning Schulzrinne},
+  title = {Location-to-Service Translation (LoST) Protocol Extensions},
+  month = dec,
+  year = {2011},
+  abstract = {An important class of location-based services answers the question,
+	"What instances of this service are closest to me?" Examples include
+	finding restaurants, gas stations, stores, automated teller machines,
+	wireless access points (hot spots), or parking spaces. Currently,
+	the Location-to-Service Translation (LoST) protocol only supports
+	mapping locations to a single service based on service regions. This
+	document describes an extension that allows queries of the type "N
+	nearest", "within distance X", and "served by".},
+  institution = {Internet Engineering Task Force},
+  number = {6451},
+  type = {Request for Comments}
+}
+
+@MISC{rfc5222,
+  author = {Ted Hardie and Andrew L. Newton and Henning Schulzrinne and Hannes
+	Tschofenig},
+  title = {{LoST:} A {Location-to-Service} Translation Protocol},
+  howpublished = {RFC 5222 (Proposed Standard)},
+  month = aug,
+  year = {2008},
+  abstract = {This document describes an XML-based protocol for mapping service
+	identifiers and geodetic or civic location information to service
+	contact URIs. In particular, it can be used to determine the location-appropriate
+	Public Safety Answering Point (PSAP) for emergency services.},
+  days = {1},
+  institution = {Internet Engineering Task Force},
+  number = {5222},
+  type = {RFC},
+  url = {http://www.rfc-editor.org/rfc/rfc5222.txt}
+}
+
+@MISC{rfc2915,
+  author = {M. Mealling and R. Daniel},
+  title = {{The Naming Authority Pointer (NAPTR) DNS Resource Record}},
+  howpublished = {RFC 2915 (Proposed Standard)},
+  month = sep,
+  year = {2000},
+  note = {Obsoleted by RFCs 3401, 3402, 3403, 3404},
+  number = {2915},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc2915.txt}
+}
+
+@MISC{rfc4119,
+  author = {J. Peterson},
+  title = {{A Presence-based GEOPRIV Location Object Format}},
+  howpublished = {RFC 4119 (Proposed Standard)},
+  month = dec,
+  year = {2005},
+  note = {Updated by RFCs 5139, 5491},
+  number = {4119},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc4119.txt}
+}
+
+@MISC{rfc2818,
+  author = {E. Rescorla},
+  title = {{HTTP Over TLS}},
+  howpublished = {RFC 2818 (Informational)},
+  month = may,
+  year = {2000},
+  note = {Updated by RFC 5785},
+  number = {2818},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc2818.txt}
+}
+
+@MISC{rfc3261,
+  author = {J. Rosenberg and H. Schulzrinne and G. Camarillo and A. Johnston
+	and J. Peterson and R. Sparks and M. Handley and E. Schooler},
+  title = {{SIP: Session Initiation Protocol}},
+  howpublished = {RFC 3261 (Proposed Standard)},
+  month = jun,
+  year = {2002},
+  note = {Updated by RFCs 3265, 3853, 4320, 4916, 5393, 5621, 5626, 5630, 5922,
+	5954, 6026, 6141, 6665},
+  number = {3261},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc3261.txt}
+}
+
+@MISC{rfc6121,
+  author = {P. Saint-Andre},
+  title = {{Extensible Messaging and Presence Protocol (XMPP): Instant Messaging
+	and Presence}},
+  howpublished = {RFC 6121 (Proposed Standard)},
+  month = mar,
+  year = {2011},
+  number = {6121},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc6121.txt}
+}
+
+@MISC{rfc5582,
+  author = {Henning Schulzrinne},
+  title = {{Location-to-URL} Mapping Architecture and Framework},
+  howpublished = {RFC 5582},
+  month = sep,
+  year = {2009},
+  abstract = {This document describes an architecture for a global, scalable, resilient,
+	and administratively distributed system for mapping geographic location
+	information to URLs, using the Location-to-Service Translation (LoST)
+	protocol. The architecture generalizes well-known approaches found
+	in hierarchical lookup systems such as DNS.},
+  days = {1},
+  institution = {Internet Engineering Task Force},
+  number = {5582},
+  type = {RFC},
+  url = {http://www.rfc-editor.org/rfc/rfc5582.txt}
+}
+
+@MISC{rfc5031,
+  author = {Henning Schulzrinne},
+  title = {A Uniform Resource Name {(URN)} for Emergency and Other {Well-Known}
+	Services},
+  howpublished = {RFC 5031 (Proposed Standard)},
+  month = jan,
+  year = {2008},
+  abstract = {The content of many communication services depends on the context,
+	such as the user's location. We describe a 'service' URN that allows
+	well-known context-dependent services that can be resolved in a distributed
+	manner to be identified. Examples include emergency services, directory
+	assistance, and call-before-you-dig hot lines.},
+  days = {1},
+  institution = {Internet Engineering Task Force},
+  number = {5031},
+  publisher = {IETF},
+  series = {Request for Comments},
+  type = {RFC},
+  url = {http://www.ietf.org/rfc/rfc5031.txt}
+}
+
+@MISC{rfc5223,
+  author = {Henning Schulzrinne and James Polk and Hannes Tschofenig},
+  title = {Discovering {Location-to-Service} Translation {(LoST)} Servers Using
+	the Dynamic Host Configuration Protocol {(DHCP)}},
+  month = aug,
+  year = {2008},
+  abstract = {The Location-to-Service Translation (LoST) Protocol describes an XML-based
+	protocol for mapping service identifiers and geospatial or civic
+	location information to service contact Uniform Resource Locators
+	(URLs). LoST servers can be located anywhere, but a placement closer
+	to the end host, e.g., in the access network, is desirable. In disaster
+	situations with intermittent network connectivity, such a LoST server
+	placement provides benefits regarding the resiliency of emergency
+	service communication. This document describes how a LoST client
+	can discover a LoST server using the Dynamic Host Configuration Protocol
+	(DHCP).},
+  days = {1},
+  institution = {Internet Engineering Task Force},
+  number = {5223},
+  type = {RFC},
+  url = {http://www.rfc-editor.org/rfc/rfc5223.txt}
+}
+
+@INPROCEEDINGS{schulzrinne2007lost,
+  author = {Schulzrinne, Henning and Tschofenig, Hannes and Newton, Andrew and
+	Hardie, Ted},
+  title = {Lost: A protocol for mapping geographic locations to public safety
+	answering points},
+  booktitle = {Performance, Computing, and Communications Conference, 2007. IPCCC
+	2007. IEEE Internationa},
+  year = {2007},
+  pages = {606--611},
+  organization = {IEEE}
+}
+
+@MISC{rfc3863,
+  author = {H. Sugano and S. Fujimoto and G. Klyne and A. Bateman and W. Carr
+	and J. Peterson},
+  title = {{Presence Information Data Format (PIDF)}},
+  howpublished = {RFC 3863 (Proposed Standard)},
+  month = aug,
+  year = {2004},
+  number = {3863},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc3863.txt}
+}
+
+@MISC{rfc5069,
+  author = {Tom Taylor and Hannes Tschofenig and Henning Schulzrinne and Murugaraj
+	Shanmugam},
+  title = {Security Threats and Requirements for Emergency Call Marking and
+	Mapping},
+  month = jan,
+  year = {2008},
+  abstract = {This document reviews the security threats associated with the marking
+	of signalling messages to indicate that they are related to an emergency,
+	and with the process of mapping locations to Universal Resource Identifiers
+	(URIs) that point to Public Safety Answering Points (PSAPs). This
+	mapping occurs as part of the process of routing emergency calls
+	through the IP network. Based on the identified threats, this document
+	establishes a set of security requirements for the mapping protocol
+	and for the handling of emergency-marked calls. This memo provides
+	information for the Internet community.},
+  days = {1},
+  institution = {Internet Engineering Task Force},
+  number = {5069},
+  type = {RFC},
+  url = {http://www.rfc-editor.org/rfc/rfc5069.txt}
+}
+
+@MISC{rfc5139,
+  author = {M. Thomson and J. Winterbottom},
+  title = {Revised Civic Location Format for Presence Information Data Format
+	Location Object (PIDF-LO)},
+  month = dec,
+  year = {2008},
+  abstract = {This document defines an XML format for the representation of civic
+	location. This format is designed for use with Presence Information
+	Data Format Location Object (PIDF-LO) documents and replaces the
+	civic location format in RFC 4119. The format is based on the civic
+	address definition in PIDF-LO, but adds several new elements based
+	on the civic types defined for Dynamic Host Configuration Protocol
+	(DHCP), and adds a hierarchy to address complex road identity schemes.
+	The format also includes support for the xml:lang language tag and
+	restricts the types of elements where appropriate.},
+  institution = {Internet Engineering Task Force},
+  number = {5139},
+  type = {Request for Comments}
+}
+
+@MISC{rfc5491,
+  author = {J. Winterbottom and M. Thomson and H. Tschofenig},
+  title = {{GEOPRIV Presence Information Data Format Location Object (PIDF-LO)
+	Usage Clarification, Considerations, and Recommendations}},
+  howpublished = {RFC 5491 (Proposed Standard)},
+  month = mar,
+  year = {2009},
+  number = {5491},
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  url = {http://www.ietf.org/rfc/rfc5491.txt}
+}
+
+@BOOK{Wolf200811,
+  title = {Handbuch Notruf (German Edition)},
+  publisher = {Books On Demand},
+  year = {2008},
+  author = {Karl Heinz Wolf},
+  month = {11},
+  isbn = {9783837066968},
+  price = {$43.50},
+  timestamp = {2013.03.11},
+  totalpages = {154},
+  url = {http://amazon.com/o/ASIN/3837066967/}
+}
+
+@BOOK{WolfBarnes201012,
+  title = {VoIP Emergency Calling: Foundations and Practice},
+  publisher = {Wiley},
+  year = {2010},
+  author = {Karl Heinz Wolf and Richard Barnes},
+  edition = {1},
+  month = {12},
+  isbn = {9780470665947},
+  price = {$120.00},
+  timestamp = {2013.03.11},
+  totalpages = {240},
+  url = {http://amazon.com/o/ASIN/0470665947/}
+}
+
