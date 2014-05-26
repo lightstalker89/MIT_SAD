@@ -49,8 +49,8 @@
 
 % Set up the header and footer
 \pagestyle{fancy}
-\lhead{\hmwkAuthorName} % Top left header
-\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle} % Top center head
+\lhead{} % Top left header
+\chead{\hmwkTitle} % Top center head
 \rhead{\firstxmark} % Top right header
 \lfoot{\lastxmark} % Bottom left footer
 \cfoot{} % Bottom center footer
@@ -118,7 +118,7 @@
 \nobreak\extramarks{#1}{}\nobreak
 }
 
-\setcounter{secnumdepth}{0} % Removes default section numbers
+\setcounter{secnumdepth}{4} % Removes default section numbers
 \newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
 
 \newcommand{\homeworkProblemName}{}
@@ -149,7 +149,7 @@
 %----------------------------------------------------------------------------------------
 
 \newcommand{\hmwkTitle}{Research of different technologies for building a Car2Car communication system} % Assignment title
-\newcommand{\hmwkDueDate}{Monday,\ January\ 1,\ 2012} % Due date
+\newcommand{\hmwkDueDate}{Wednesday,\ June 18,\ 2014} % Due date
 \newcommand{\hmwkClass}{Distributed and Parallel Systems} % Course/class
 \newcommand{\hmwkClassTime}{10:30am} % Class/lecture time
 \newcommand{\hmwkClassInstructor}{Günter Khyo} % Teacher/lecturer
@@ -187,28 +187,41 @@
 \newpage
 
 %----------------------------------------------------------------------------------------
-%	PROBLEM 1
+%	Introduction
 %----------------------------------------------------------------------------------------
 
 % To have just one problem per page, simply put a \clearpage after each problem
 
-\begin{homeworkProblem}
-Listing \ref{homework_example} shows a Perl script.
+\begin{homeworkProblem}[Introduction]
 
-\lipsum[1]
 \end{homeworkProblem}
 
 %----------------------------------------------------------------------------------------
-%	PROBLEM 2
+%	Car2Car
 %----------------------------------------------------------------------------------------
 
-\begin{homeworkProblem}
-\lipsum[2]
+\begin{homeworkProblem}[Car2Car]
 
-\problemAnswer{
 
-\lipsum[3-5]
-}
+\end{homeworkProblem}
+
+
+%----------------------------------------------------------------------------------------
+%	Prototypes
+%----------------------------------------------------------------------------------------
+
+\begin{homeworkProblem}[Prototypes]
+\section{\homeworkProblemName}{Windows Phone}
+
+\end{homeworkProblem}
+
+%----------------------------------------------------------------------------------------
+%	COnclusion
+%----------------------------------------------------------------------------------------
+
+\begin{homeworkProblem}[Conclusion and Outlook]
+
+
 \end{homeworkProblem}
 
 %----------------------------------------------------------------------------------------
