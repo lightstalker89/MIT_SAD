@@ -7,10 +7,8 @@
 
 1.Introduction
 	
-	The aim of this work is to provide a basic understanding of the principles of C2C communication and to implement three prototypes for Windows Phone and Android based mobile phones and a raspberry pi.
-	Since C2C communication is a trendsetting and complex topic you can't find much literature. Only a few internet sources currently offer relevant information. This paper should demonstrate a cheap way for 
-	upgrading an ordinary car with C2C communication systems. It should be possible to realize such system with costumer products, like smartphones. An the aim of this paper is also to illustrate the possibilities
-	which customer products can offer for realizing such a system.
+	Since C2C communication is a trendsetting and complex topic you can't find much literature. Only a few internet sources currently offer relevant information. A standard does not exists yet.
+	The aim of this work is to provide a basic understanding of the principles of C2C communication and to implement three prototypes for Windows Phone and Android based mobile phones and a raspberry pi. Furthermore this paper should demonstrate a cheap way for upgrading an ordinary car with a C2C communication system and illustrate the possibilities which customer products are offered for realizing such a system.
 	
 2. Car2Car
 	2.1 Communication Actors

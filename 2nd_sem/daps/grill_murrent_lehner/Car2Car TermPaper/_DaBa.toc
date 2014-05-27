@@ -8,6 +8,12 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.1}Actors}{2}{section.2.1}
 \defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.2}Car 2 Car Communication Safety Scenarios}{2}{section.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.3}Car 2 Car Communication Traffic Efficiency}{2}{section.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.4}Car 2 Car Communication Infotainment and Other Services}{2}{section.2.4}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}Wifi Direct}{3}{chapter.3}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3.1}Overview}{3}{section.3.1}
