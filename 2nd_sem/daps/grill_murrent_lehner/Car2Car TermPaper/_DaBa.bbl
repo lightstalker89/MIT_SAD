@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex version 2.3 $
+% $ biblatex version 2.1 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -15,6 +15,22 @@
       \aftergroup\endinput}
   {}
 \endgroup
+
+\entry{wifialliance}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Alliance}{A.}%
+     {Wi-Fi}{W.-F.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{AWF1}
+  \strng{fullhash}{AWF1}
+  \field{pages}{14}
+  \field{title}{Wi-Fi CERTIFIED Wi-Fi Direct}
+  \field{year}{2010}
+  \warn{\item Invalid format of field 'month'}
+\endentry
 
 \lossort
 \endlossort
