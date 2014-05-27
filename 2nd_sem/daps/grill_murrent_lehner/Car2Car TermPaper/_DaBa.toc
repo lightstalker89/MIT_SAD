@@ -1,6 +1,6 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \defcounter {refsection}{0}\relax 
-\select@language {ngerman}
+\select@language {english}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
 \defcounter {refsection}{0}\relax 
@@ -10,18 +10,22 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}Wifi Direct}{3}{chapter.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Prototypes}{4}{chapter.4}
+\contentsline {section}{\numberline {3.1}Overview}{3}{section.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Android}{4}{section.4.1}
+\contentsline {section}{\numberline {3.2}Technology Basics}{4}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Rasberry Pi}{4}{section.4.2}
+\contentsline {chapter}{\numberline {4}Prototypes}{5}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Windows Phone}{4}{section.4.3}
+\contentsline {section}{\numberline {4.1}Android}{5}{section.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Evaluation}{5}{chapter.5}
+\contentsline {section}{\numberline {4.2}Rasberry Pi}{6}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Conclusion and Outlook}{6}{chapter.6}
+\contentsline {section}{\numberline {4.3}Windows Phone}{6}{section.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Listings}{7}{chapter.6}
+\contentsline {chapter}{\numberline {5}Evaluation}{7}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Quellenverzeichnis}{9}{chapter*.5}
+\contentsline {chapter}{\numberline {6}Conclusion and Outlook}{8}{chapter.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Listings}{9}{chapter.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{References}{11}{chapter*.7}
