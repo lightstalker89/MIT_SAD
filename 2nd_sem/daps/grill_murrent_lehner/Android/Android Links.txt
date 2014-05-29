@@ -18,6 +18,8 @@ http://en.wikipedia.org/wiki/Wi-Fi_Alliance
 http://www.isb.co.jp/product/mobile_solution/e/wifi_direct_android.html
 http://www.isb.co.jp/product/mobile_solution/e/wifi_direct.html
 
+http://wifi-direct.net/wi-fi-direct-was-ist-das-eigentlich/ <-- Tabelle
+
 Subchapter
 
 http://developer.android.com/guide/topics/connectivity/wifip2p.html
