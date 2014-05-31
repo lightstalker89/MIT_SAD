@@ -32,6 +32,9 @@
 +) 
 +) 
 +) 
++)
++) Utility and Warranty
++) Eventarten des Eventmanagement
 
 ------------------------------------------------------
 *) Beschreiben Sie je Phase drei Prozesse - Beispielfrage
