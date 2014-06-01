@@ -1,4 +1,4 @@
-Roland:
+﻿Roland:
 
 S19 - S32: Mache Kapitel 8 Feedback
 
@@ -6,3 +6,7 @@ Mario:
 
 S6: Stakeholder angepasst
 S9: UML zu den Konventionen hinzugefügt, Beschreibung für UML Diagramm hinzugefügt, Klassendiagramm eingefügt
+
+Flo:
+
+Seite 9,11,12,13,14,15,20: Einheitlich Namensgebung anzustreben: Personalsystem=Personalverwaltung=Personaldatensystem=... angewandt auf Personalsystem
