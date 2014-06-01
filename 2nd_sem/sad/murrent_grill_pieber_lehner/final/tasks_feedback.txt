@@ -1,3 +1,8 @@
 Roland:
 
 S19 - S32: Mache Kapitel 8 Feedback
+
+Mario:
+
+S6: Stakeholder angepasst
+S9: UML zu den Konventionen hinzugefügt, Beschreibung für UML Diagramm hinzugefügt, Klassendiagramm eingefügt
