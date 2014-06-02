@@ -6,6 +6,7 @@ Mario:
 
 S6: Stakeholder angepasst
 S9: UML zu den Konventionen hinzugefügt, Beschreibung für UML Diagramm hinzugefügt, Klassendiagramm eingefügt, UML Diagramm erweitert
+S16: Bausteinsicht Bilder eingefügt
 
 Flo:
 
