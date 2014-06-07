@@ -29,12 +29,16 @@
 +) Aktivitätsbasiertes Demand Management
 +) Business Case
 +) Risiko
-+) 
-+) 
-+) 
-+)
++) Incident
++) Baseline
++) Deming Cycle
++) Wissensspirale
 +) Utility and Warranty
 +) Eventarten des Eventmanagement
++) CSI Modell
++) 3 Arten von Messgrößen
++) IT Governance
++) 7 Step Improvement Process
 
 ------------------------------------------------------
 *) Beschreiben Sie je Phase drei Prozesse - Beispielfrage
