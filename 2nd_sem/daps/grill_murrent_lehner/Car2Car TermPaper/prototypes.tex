@@ -1,3 +1,4 @@
+%!TEX root = _DaBa.tex
 \chapter{Prototypes}
 \label{cha:Prototypes}
 This chapter will describe the implementation of a C2C application on three different devices. These devices are an Android Device, a Windows Phone and a rasberry pi.
@@ -28,7 +29,7 @@ The simple prototype discover available peers, after a successful connection it 
 \end{figure}
 
 \subsection*{Limitations and Problems}
-\label{subsec:LimitationsProblems}
+\label{subsec:AndroidLimitationsProblems}
 One of the biggest problems with Androids WI-FI P2P APIs, from the perspective of the C2C project, is the fact that every time a device wants to connect to your smartphone, it requires a confirmation from the user. Of course this had some security backgrounds and it make sense in other scenarios, but it is a major problem for using Android devices and this type of communication in the C2C project.  For obtaining detail information, like the current location or other important details, it is necessary that all devices are connected automatically to each other when they are in the same area. The image below shows an invitation message which shows up on every device which receives a connection request.
  
 \begin{figure}[!hb]
@@ -54,8 +55,39 @@ One of the biggest problems with Androids WI-FI P2P APIs, from the perspective o
 	\label{fig1}
 \end{figure}
 
-\section{Rasberry Pi}
-\label{sec:RasberryPi}
+\section{Raspberry Pi}
+\label{sec:RaspberryPi}
+With the right wifi dongle and driver, it is possible to use wifi direct on the Raspberry Pi too. After doing some research on the topic wifi direct on the big mobile plattforms we weren't satisfied with the outcome. Problem was, that espacially iOS and Windows Phone had own proprietary implementations for wifi direct. Therefore the platforms weren't compatible with each other. To guarantee compatibility we had to find an alternative. The Raspberry Pi fits exactly our needs. It would be the wifi direct receiver and sender. Information will be transmitted from the Raspberry Pi to the smartphone, which presents the data to the user. We created a protoype which can connect to another wifi direct device. In further implementation it should connect to various devices and broadcast information. Forthermore the problem with accepting wifi direct connections, mentioned in \ref{subsec:AndroidLimitationsProblems}, would be eliminated. In the current prototype it is not implemented, however the automatically connection confirmation could be handled in the connection script.
+
+\subsection*{Prototype Implementation}
+\label{subsec:RaspberryPrototype}
+A simple prototype was created for the Raspberry Pi, showing the possibility for establishing Wifi direct connections with other Wifi direct enabled devices in case of Car2Car communication. After establishing the connection with the device a simple UDP-Server will be started on the Raspberry Pi and a message will be transmitted over Wifi direct. The Realtek driver includes a console application named P2P UI, which enables Wifi direct and can be used for establishing connections. 
+
+<insert screenshot P2P UI>
+
+After analysing the P2P UI Application, a shell script, which automates the pairing process was created. The user only needs to specify the name of his device and the mac adresse from the device he wants to start the pairing process with. 
+
+<insert name input screenshot>
+
+<insert mac input screenshot>
+
+The progress of the connection will be displayed in form of debug messages, which show the status codes from the wifi dongle driver. Status code "9" means, that the negociation process is running. The negociation process will be repeated after 20 circles, if no status code "10" message for successful negociation appears. 
+
+<insert screenshot status>
+
+If the devices were paired successfully, a python script with the server implementation will be started.
+The whole pairing process was tested with an Android device (Nexus 4) and the Rapsberry Pi. With an Android application called QPython, the client python script could have been started.
+
+If the pairing was successfull, the server should receive a message from the client.
+
+\subsection*{Limitations and Problems}
+\label{subsec:RaspberryLimitationsProblems}
+For using Wifi direct on a Rasberry Pi a special chipset should be used. This prototype uses a Realtek chipset and the Wifi dongle TP-Link TL-WN725N V2. The corresponding driver allows the user to enable Wifi direct compatibility on the chipset. However finding the right driver for the Wifi dongle was not easy. The Raspberry Pi uses an arm chipset, where most of the driver are not precompiled. Eighter you find a driver or you have to compile the driver for your needs. After some trail and error, the right driver was found to support the Raspberry Pi. Another problem was the TP-Link nano wifi dongle. There is  a tutorial for the Raspberry Pi to enable the wifi direct feature, however it was not possible to use the dongle, it was not recognized by the Raspberry Pi. After some more research we found out, that the wifi dongle we used was the second version. The name of the dongle was identically with the one in the tutorial, only on the barcode of the packaging was a reference of the model.
+
+<insert pic of barcode here!!>
+
+
+
 
 \section{Windows Phone}
 \label{sec:WindowsPhone}
