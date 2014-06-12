@@ -30,6 +30,10 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {5}Evaluation}{15}{chapter.5}
 \defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.1}Communication between mobile platforms}{15}{section.5.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.2}Wifi direct}{15}{section.5.2}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {6}Conclusion and future work}{16}{chapter.6}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{Listings}{17}{chapter.6}

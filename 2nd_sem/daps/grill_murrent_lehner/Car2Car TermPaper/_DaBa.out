@@ -12,6 +12,8 @@
 \BOOKMARK [1][-]{section.4.2}{Raspberry Pi}{chapter.4}% 12
 \BOOKMARK [1][-]{section.4.3}{Windows Phone}{chapter.4}% 13
 \BOOKMARK [0][-]{chapter.5}{Evaluation}{}% 14
-\BOOKMARK [0][-]{chapter.6}{Conclusion and future work}{}% 15
-\BOOKMARK [0][-]{chapter.6}{Listings}{}% 16
-\BOOKMARK [0][-]{chapter*.16}{References}{}% 17
+\BOOKMARK [1][-]{section.5.1}{Communication between mobile platforms}{chapter.5}% 15
+\BOOKMARK [1][-]{section.5.2}{Wifi direct}{chapter.5}% 16
+\BOOKMARK [0][-]{chapter.6}{Conclusion and future work}{}% 17
+\BOOKMARK [0][-]{chapter.6}{Listings}{}% 18
+\BOOKMARK [0][-]{chapter*.16}{References}{}% 19
