@@ -84,9 +84,14 @@ If the pairing was successfull, the server should receive a message from the cli
 \label{subsec:RaspberryLimitationsProblems}
 For using Wifi direct on a Rasberry Pi a special chipset in the Wifi dongle should be used. This prototype uses a Realtek chipset and the Wifi dongle TP-Link TL-WN725N V2. The corresponding driver allows the user to enable Wifi direct compatibility on the chipset. However finding the right driver for the Wifi dongle was not easy. The Raspberry Pi uses an arm chipset, where most of the driver are not precompiled. Either you find a driver or you have to compile the driver for your needs. After some trail and error, the right driver was found to support the Raspberry Pi. Another problem was the TP-Link nano wifi dongle. There is  a tutorial for the Raspberry Pi to enable the wifi direct feature, however it was not possible to use the dongle, it was not recognized by the Raspberry Pi. After some more research we found out, that the wifi dongle we used was the second version. The name of the dongle was identically with the one in the tutorial, only on the barcode of the packaging was a reference of the model.
 
-<insert pic of barcode here!!>
+\begin{figure}[hb]
+	\centering
+  \includegraphics[width=\linewidth]{images/wifiDongleBarcode.eps}
+	\caption{The figure shows the barcode of the wifi dongle packaging}
+	\label{fig1}
+\end{figure}
 
-The driver which was used in the tutorial was not compatible with the second version of this dongle. Furthermore the whole implementation is not reliable at the moment. Unfortunately it is not possible to garuantee a correct soft access point negociation on every connect. An investiagtion to fix the problem was initiated, however this goal could not be reached for this paper. Theoratically the Raspberry Pi or Android device, depending who will be the soft access point, should share the IP address from the other device, which is in the soft access point mode.
+\noindent The driver which was used in the tutorial was not compatible with the second version of this dongle. Furthermore the whole implementation is not reliable at the moment. Unfortunately it is not possible to garuantee a correct soft access point negociation on every connect. An investiagtion to fix the problem was initiated, however this goal could not be reached for this paper. Theoratically the Raspberry Pi or Android device, depending who will be the soft access point, should share the IP address from the other device, which is in the soft access point mode.
 
 
 \section{Windows Phone}
