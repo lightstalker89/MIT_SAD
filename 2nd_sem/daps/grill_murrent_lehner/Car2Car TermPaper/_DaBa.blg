@@ -1,6 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2013)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
-The top-level auxiliary file: _DaBa.aux
+This is BibTeX, Version 0.99dThe top-level auxiliary file: _DaBa.aux
 The style file: biblatex.bst
 A level-1 auxiliary file: abkuerzungen.aux
 A level-1 auxiliary file: introduction.aux
@@ -9,60 +7,6 @@ A level-1 auxiliary file: wifidirect.aux
 A level-1 auxiliary file: prototypes.aux
 A level-1 auxiliary file: evaluation.aux
 A level-1 auxiliary file: conclusion.aux
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: _DaBa-blx.bib
 Database file #2: literatur.bib
-Biblatex version: 2.8
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
-You've used 2 entries,
-            6047 wiz_defined-function locations,
-            1142 strings with 8247 characters,
-and the built_in function-call counts, 3680 in all, are:
-= -- 146
-> -- 132
-< -- 19
-+ -- 55
-- -- 45
-* -- 159
-:= -- 427
-add.period$ -- 0
-call.type$ -- 2
-change.case$ -- 0
-chr.to.int$ -- 35
-cite$ -- 2
-duplicate$ -- 299
-empty$ -- 378
-format.name$ -- 45
-if$ -- 837
-int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 0
-newline$ -- 38
-num.names$ -- 38
-pop$ -- 363
-preamble$ -- 1
-purify$ -- 9
-quote$ -- 0
-skip$ -- 227
-stack$ -- 0
-substring$ -- 136
-swap$ -- 85
-text.length$ -- 34
-text.prefix$ -- 0
-top$ -- 1
-type$ -- 64
-warning$ -- 0
-while$ -- 66
-width$ -- 0
-write$ -- 35
+Biblatex version: 2.5

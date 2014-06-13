@@ -63,7 +63,7 @@ With the right wifi dongle and driver, it is possible to use wifi direct on the 
 \label{subsec:RaspberryPrototype}
 A simple prototype was created for the Raspberry Pi, showing the possibility for establishing Wifi direct connections with other Wifi direct enabled devices in case of Car2Car communication. After establishing the connection with the device a simple UDP-Server will be started on the Raspberry Pi and a message will be transmitted over Wifi direct. The Realtek driver includes a console application named P2P UI, which enables Wifi direct and can be used for establishing connections. 
 
-\begin{figure}[hb]
+\begin{figure}[!hb]
 	\centering
   \includegraphics[width=\linewidth]{images/p2p_UI_screenshot.eps}
 	\caption{The figure shows the P2P UI application on the Raspberry Pi}
@@ -72,14 +72,14 @@ A simple prototype was created for the Raspberry Pi, showing the possibility for
 
 \noindent After analysing the P2P UI Application, a shell script, which automates the pairing process was created. The user only needs to specify the name of his device and the mac adresse from the device he wants to start the pairing process with. 
 
-\begin{figure}[hb]
+\begin{figure}[!hb]
 	\centering
   \includegraphics[width=\linewidth]{images/enterName_screenshot.eps}
 	\caption{The figure shows the name input in the connect script}
 	\label{fig1}
 \end{figure}
 
-\begin{figure}[hb]
+\begin{figure}[!hb]
 	\centering
   \includegraphics[width=\linewidth]{images/enterMac_screenshot.eps}
 	\caption{The figure shows the Mac Adresse input from the device you wish to connect to}
@@ -88,7 +88,7 @@ A simple prototype was created for the Raspberry Pi, showing the possibility for
 
 \noindent The progress of the connection will be displayed in form of debug messages, which show the status codes from the wifi dongle driver. Status code "9" means, that the negociation process is running. The negociation process will be repeated after 20 circles, if no status code "10" message for successful negociation appears. The negociation process has to be performed, otherwise the devices could not define which device should be the soft access point.
 
-\begin{figure}[hb]
+\begin{figure}[!hb]
 	\centering
   \includegraphics[width=\linewidth]{images/status_screenshot.eps}
 	\caption{The figure shows the status output while the negociation process is in progress}
@@ -104,7 +104,7 @@ If the pairing was successfull, the server should receive a message from the cli
 \label{subsec:RaspberryLimitationsProblems}
 For using Wifi direct on a Rasberry Pi a special chipset in the Wifi dongle should be used. This prototype uses a Realtek chipset and the Wifi dongle TP-Link TL-WN725N V2. The corresponding driver allows the user to enable Wifi direct compatibility on the chipset. However finding the right driver for the Wifi dongle was not easy. The Raspberry Pi uses an arm chipset, where most of the driver are not precompiled. Either you find a driver or you have to compile the driver for your needs. After some trail and error, the right driver was found to support the Raspberry Pi. Another problem was the TP-Link nano wifi dongle. There is  a tutorial for the Raspberry Pi to enable the wifi direct feature, however it was not possible to use the dongle, it was not recognized by the Raspberry Pi. After some more research we found out, that the wifi dongle we used was the second version. The name of the dongle was identically with the one in the tutorial, only on the barcode of the packaging was a reference of the model.
 
-\begin{figure}[hb]
+\begin{figure}[!hb]
 	\centering
   \includegraphics[width=\linewidth]{images/wifiDongleBarcode.eps}
 	\caption{The figure shows the barcode of the wifi dongle packaging}
