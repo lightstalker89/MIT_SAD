@@ -36,6 +36,10 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {6}Conclusion and future work}{16}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Listings}{17}{chapter.6}
+\contentsline {section}{\numberline {6.1}Conclusion}{16}{section.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{References}{19}{chapter*.16}
+\contentsline {section}{\numberline {6.2}Future work}{16}{section.6.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Listings}{18}{section.6.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{References}{20}{chapter*.16}
