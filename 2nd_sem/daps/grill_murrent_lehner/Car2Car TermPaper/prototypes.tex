@@ -63,19 +63,39 @@ With the right wifi dongle and driver, it is possible to use wifi direct on the 
 \label{subsec:RaspberryPrototype}
 A simple prototype was created for the Raspberry Pi, showing the possibility for establishing Wifi direct connections with other Wifi direct enabled devices in case of Car2Car communication. After establishing the connection with the device a simple UDP-Server will be started on the Raspberry Pi and a message will be transmitted over Wifi direct. The Realtek driver includes a console application named P2P UI, which enables Wifi direct and can be used for establishing connections. 
 
-<insert screenshot P2P UI>
+\begin{figure}[hb]
+	\centering
+  \includegraphics[width=\linewidth]{images/p2p_UI_screenshot.eps}
+	\caption{The figure shows the P2P UI application on the Raspberry Pi}
+	\label{fig1}
+\end{figure}
 
-After analysing the P2P UI Application, a shell script, which automates the pairing process was created. The user only needs to specify the name of his device and the mac adresse from the device he wants to start the pairing process with. 
+\noindent After analysing the P2P UI Application, a shell script, which automates the pairing process was created. The user only needs to specify the name of his device and the mac adresse from the device he wants to start the pairing process with. 
 
-<insert name input screenshot>
+\begin{figure}[hb]
+	\centering
+  \includegraphics[width=\linewidth]{images/enterName_screenshot.eps}
+	\caption{The figure shows the name input in the connect script}
+	\label{fig1}
+\end{figure}
 
-<insert mac input screenshot>
+\begin{figure}[hb]
+	\centering
+  \includegraphics[width=\linewidth]{images/enterMac_screenshot.eps}
+	\caption{The figure shows the Mac Adresse input from the device you wish to connect to}
+	\label{fig1}
+\end{figure}
 
-The progress of the connection will be displayed in form of debug messages, which show the status codes from the wifi dongle driver. Status code "9" means, that the negociation process is running. The negociation process will be repeated after 20 circles, if no status code "10" message for successful negociation appears. The negociation process has to be performed, otherwise the devices could not define which device should be the soft access point.
+\noindent The progress of the connection will be displayed in form of debug messages, which show the status codes from the wifi dongle driver. Status code "9" means, that the negociation process is running. The negociation process will be repeated after 20 circles, if no status code "10" message for successful negociation appears. The negociation process has to be performed, otherwise the devices could not define which device should be the soft access point.
 
-<insert screenshot status>
+\begin{figure}[hb]
+	\centering
+  \includegraphics[width=\linewidth]{images/status_screenshot.eps}
+	\caption{The figure shows the status output while the negociation process is in progress}
+	\label{fig1}
+\end{figure}
 
-If the devices were paired successfully, a python script with the server implementation will be started.
+\noindent If the devices were paired successfully, a python script with the server implementation will be started.
 The whole pairing process was tested with an Android device (Nexus 4) and the Rapsberry Pi. With an Android application called QPython, the client python script could have been started.
 
 If the pairing was successfull, the server should receive a message from the client.

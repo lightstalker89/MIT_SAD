@@ -26,20 +26,20 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.2}Raspberry Pi}{12}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Windows Phone}{14}{section.4.3}
+\contentsline {section}{\numberline {4.3}Windows Phone}{15}{section.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Evaluation}{15}{chapter.5}
+\contentsline {chapter}{\numberline {5}Evaluation}{19}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Communication between mobile platforms}{15}{section.5.1}
+\contentsline {section}{\numberline {5.1}Communication between mobile platforms}{19}{section.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Wifi direct}{15}{section.5.2}
+\contentsline {section}{\numberline {5.2}Wifi direct}{19}{section.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Conclusion and future work}{16}{chapter.6}
+\contentsline {chapter}{\numberline {6}Conclusion and future work}{20}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Conclusion}{16}{section.6.1}
+\contentsline {section}{\numberline {6.1}Conclusion}{20}{section.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Future work}{16}{section.6.2}
+\contentsline {section}{\numberline {6.2}Future work}{20}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{Listings}{18}{section.6.2}
+\contentsline {chapter}{Listings}{22}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{References}{20}{chapter*.17}
+\contentsline {chapter}{References}{24}{chapter*.21}
