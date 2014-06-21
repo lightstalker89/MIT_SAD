@@ -4,7 +4,7 @@
 This chapter will describe the implementation of a C2C application on three different devices. These devices are an Android Device, a Windows Phone and a rasberry pi.
 
 \section{Android}
-Since Android 4.0, devices with appropriate hardware are allowed to connect directly to each other over WI-FI P2P without an access point between them. According to the official Android Wi-Fi Peer-to-Peer documentation, Android's P2P framework complies with the WI-FI Alliances' WI-FI Direct certification program. With the usage of this API you are able to discover and connect to other devices when they support WI-FI P2P.  According to documentations the advantage of WI-FI P2P beside Bluetooth or similar connection types is a fast connection across distances much longer than others, see table \ref{table:Wi-Fi Direct}. This allows applications a fast exchange of data between multiple users, which could be useful for applications such as multiplayer games, photosharing applications and in general, all applications which are relying on a fast connection between a long distance.
+Since Android 4.0, devices with appropriate hardware are allowed to connect directly to each other over WI-FI P2P without an access point between them. According to the official Android Wi-Fi Peer-to-Peer documentation, Android's P2P framework complies with the WI-FI Alliances' WI-FI Direct certification program. With the usage of this API you are able to discover and connect to other devices when they support WI-FI P2P.  According to documentations the advantage of WI-FI P2P besides Bluetooth or similar connection types is a fast connection across distances much longer than others, see table \ref{table:Wi-Fi Direct}. This allows applications a fast exchange of data between multiple users, which could be useful for applications such as multiplayer games, photosharing applications and in general, all applications which are relying on a fast connection between a long distance.
 
 \subsection*{Prototype Implementation}
 \label{subsec:AndroidPrototype}
@@ -61,7 +61,7 @@ With the right wifi dongle and driver, it is possible to use wifi direct on the 
 
 \subsection*{Prototype Implementation}
 \label{subsec:RaspberryPrototype}
-A simple prototype was created for the Raspberry Pi, showing the possibility for establishing Wifi direct connections with other Wifi direct enabled devices in case of Car2Car communication. After establishing the connection with the device a simple UDP-Server will be started on the Raspberry Pi and a message will be transmitted over Wifi direct. The Realtek driver includes a console application named P2P UI, which enables Wifi direct and can be used for establishing connections. 
+A simple prototype was created for the Raspberry Pi, showing the possibility for establishing Wifi direct connections with other Wifi direct enabled devices in case of Car2Car communication. After establishing the connection with the device, a simple UDP-Server is started on the Raspberry Pi and a message will be transmitted over Wifi direct. The Realtek driver includes a console application named P2P UI, which enables Wifi direct and can be used for establishing connections. 
 
 \begin{figure}[!hb]
 	\centering
@@ -70,7 +70,7 @@ A simple prototype was created for the Raspberry Pi, showing the possibility for
 	\label{fig1}
 \end{figure}
 
-\noindent After analysing the P2P UI Application, a shell script, which automates the pairing process was created. The user only needs to specify the name of his device and the mac adresse from the device he wants to start the pairing process with. 
+\noindent After analysing the P2P UI Application, a shell script, which automates the pairing process was created. The user only needs to specify the name of his device and the MAC adress from the device he wants to start the pairing process with. 
 
 \begin{figure}[!hb]
 	\centering
@@ -82,21 +82,21 @@ A simple prototype was created for the Raspberry Pi, showing the possibility for
 \begin{figure}[!hb]
 	\centering
   \includegraphics[width=\linewidth]{images/enterMac_screenshot.eps}
-	\caption{The figure shows the Mac Adresse input from the device you wish to connect to}
+	\caption{The figure shows the MAC adress input from the device you wish to connect to}
 	\label{fig1}
 \end{figure}
 
-\noindent The progress of the connection will be displayed in form of debug messages, which show the status codes from the wifi dongle driver. Status code "9" means, that the negociation process is running. The negociation process will be repeated after 20 circles, if no status code "10" message for successful negociation appears. The negociation process has to be performed, otherwise the devices could not define which device should be the soft access point.
+\noindent The progress of the connection will be displayed as debug messages, which show the status codes from the wifi dongle driver. Status code "9" means, that the negotiation process is running. The negotiation process will be repeated after 20 circles, if no status code "10" message for successful negotiation appears. The negotiation process has to be performed, otherwise the devices could not define which device should be the soft access point.
 
 \begin{figure}[!hb]
 	\centering
   \includegraphics[width=\linewidth]{images/status_screenshot.eps}
-	\caption{The figure shows the status output while the negociation process is in progress}
+	\caption{The figure shows the status output while the negotiation process is in progress}
 	\label{fig1}
 \end{figure}
 
-\noindent If the devices were paired successfully, a python script with the server implementation will be started.
-The whole pairing process was tested with an Android device (Nexus 4) and the Rapsberry Pi. With an Android application called QPython, the client python script could have been started.
+\noindent If the devices were paired successfully, a Python script with the server implementation will be started.
+The whole pairing process was tested with an Android device (Nexus 4) and the Rapsberry Pi. With an Android application called QPython, the client Python script could have been started.
 
 If the pairing was successfull, the server should receive a message from the client.
 
@@ -111,7 +111,7 @@ For using Wifi direct on a Rasberry Pi a special chipset in the Wifi dongle shou
 	\label{fig1}
 \end{figure}
 
-\noindent The driver which was used in the tutorial was not compatible with the second version of this dongle. Furthermore the whole implementation is not reliable at the moment. Unfortunately it is not possible to garuantee a correct soft access point negociation on every connect. An investiagtion to fix the problem was initiated, however this goal could not be reached for this paper. Theoratically the Raspberry Pi or Android device, depending who will be the soft access point, should share the IP address from the other device, which is in the soft access point mode.
+\noindent The driver which was used in the tutorial was not compatible with the second version of this dongle. Furthermore the whole implementation is not reliable at the moment. Unfortunately it is not possible to garuantee a correct soft access point negotiation on every connect. An investiagtion to fix the problem was initiated, however this goal could not be reached for this paper. Theoratically the Raspberry Pi or Android device, depending which will be the soft access point, should share the IP address from the other device which is in the soft access point mode.
 
 
 \section{Windows Phone}
