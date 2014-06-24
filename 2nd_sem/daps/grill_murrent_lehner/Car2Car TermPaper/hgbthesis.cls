@@ -170,7 +170,7 @@
     \vskip 10mm%
     {\large\sc\@author}
     \vskip 40mm%
-    {\Large S\,E\,M\,I\,N\,A\,R\,A\,R\,B\,E\,I\,T}%
+    {\Large T\,E\,R\,M\;\;P\,A\,P\,E\,R}%
     \vskip 8mm%
     %{\large\sf Nr.~\@nummer}
     \vskip 8mm%
