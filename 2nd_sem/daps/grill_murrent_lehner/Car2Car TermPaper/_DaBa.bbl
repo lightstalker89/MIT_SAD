@@ -16,6 +16,22 @@
   {}
 \endgroup
 
+\entry{c2cmanifesto}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Consortium}{C.}%
+     {Car 2 Car~Communication}{C.~. C.~C.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{CCCC1}
+  \strng{fullhash}{CCCC1}
+  \field{pages}{94}
+  \field{title}{CAR 2 CAR Communication Consortium Manifesto}
+  \field{year}{2007}
+  \warn{\item Invalid format of field 'month'}
+\endentry
+
 \entry{wifialliance}{article}{}
   \name{author}{1}{}{%
     {{}%
