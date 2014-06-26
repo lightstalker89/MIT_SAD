@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generiert durch Microsoft Visio, SVG Export Architecture.svg Page-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="8.26772in" height="11.6929in"
+		viewBox="0 0 595.276 841.89" xml:space="preserve" color-interpolation-filters="sRGB" class="st7">
+	<v:documentProperties v:langID="3079" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#d8d8d8;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.st2 {fill:#000000;font-family:Calibri;font-size:1.16666em}
+		.st3 {fill:#dde2cd;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.st4 {fill:#b7dde8;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.st5 {fill:#000000}
+		.st6 {stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.239976}
+		.st7 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>Zeichenblatt-1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<g id="shape1-1" v:mID="1" v:groupContext="shape" transform="translate(35.4331,-545.669)">
+			<title>Feld</title>
+			<desc>Bootstrapper</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="115.299" cy="828.602" width="230.6" height="26.5748"/>
+			<rect x="0" y="815.315" width="230.598" height="26.5748" class="st1"/>
+			<text x="77.61" y="832.8" class="st2" v:langID="3079"><v:paragraph v:horizAlign="1"/><v:tabList/>Bootstrapper</text>		</g>
+		<g id="shape2-4" v:mID="2" v:groupContext="shape" transform="translate(35.4331,-497.835)">
+			<title>Feld.2</title>
+			<desc>Namespaces</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="115.299" cy="828.602" width="230.6" height="26.5748"/>
+			<rect x="0" y="815.315" width="230.598" height="26.5748" class="st1"/>
+			<text x="79.4" y="832.8" class="st2" v:langID="3079"><v:paragraph v:horizAlign="1"/><v:tabList/>Namespaces</text>		</g>
+		<g id="shape3-7" v:mID="3" v:groupContext="shape" transform="translate(35.4331,-773.56)">
+			<title>Feld.3</title>
+			<desc>Eventbus</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="230.315" cy="828.602" width="460.63" height="26.5748"/>
+			<rect x="0" y="815.315" width="460.63" height="26.5748" class="st3"/>
+			<text x="204.14" y="832.8" class="st2" v:langID="3079"><v:paragraph v:horizAlign="1"/><v:tabList/>Eventbus</text>		</g>
+		<g id="shape4-10" v:mID="4" v:groupContext="shape" transform="translate(283.465,-623.622)">
+			<title>Feld.4</title>
+			<desc>ViewModel</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="106.299" cy="781.654" width="212.6" height="120.472"/>
+			<rect x="0" y="721.417" width="212.598" height="120.472" class="st4"/>
+			<text x="73.79" y="785.85" class="st2" v:langID="3079"><v:paragraph v:horizAlign="1"/><v:tabList/>ViewModel</text>		</g>
+		<g id="shape5-13" v:mID="5" v:groupContext="shape" transform="translate(304.724,-476.22)">
+			<title>Feld.5</title>
+			<desc>View</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="95.6693" cy="781.654" width="191.34" height="120.472"/>
+			<rect x="0" y="721.417" width="191.339" height="120.472" class="st4"/>
+			<text x="81.6" y="785.85" class="st2" v:langID="3079"><v:paragraph v:horizAlign="1"/><v:tabList/>View</text>		</g>
+		<g id="shape6-16" v:mID="6" v:groupContext="shape" transform="translate(-452.126,246.614) rotate(-90)">
+			<title>Einfache Spitze</title>
+			<v:userDefs>
+				<v:ud v:nameU="ControlX" v:val="VT0(0.059055118110236):24"/>
+				<v:ud v:nameU="Scale" v:val="VT0(1):26"/>
+				<v:ud v:nameU="AntiScale" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M4.25 839.76 L4.25 844.02 L0 841.89 L4.25 839.76 ZM24.09 839.76 L24.09 844.02 L28.35 841.89 L24.09 839.76 Z"
+					class="st5"/>
+			<path d="M4.25 839.76 L4.25 844.02 L0 841.89 L4.25 839.76" class="st6"/>
+			<path d="M24.09 839.76 L24.09 844.02 L28.35 841.89 L24.09 839.76" class="st6"/>
+			<path d="M4.25 841.89 L24.09 841.89" class="st6"/>
+		</g>
+		<g id="shape7-21" v:mID="7" v:groupContext="shape" transform="translate(1231.65,69.8218) rotate(90)">
+			<title>Einfache Spitze.7</title>
+			<v:userDefs>
+				<v:ud v:nameU="ControlX" v:val="VT0(0.059055118110236):24"/>
+				<v:ud v:nameU="Scale" v:val="VT0(1):26"/>
+				<v:ud v:nameU="AntiScale" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M4.25 839.76 L4.25 844.02 L0 841.89 L4.25 839.76 ZM23.72 839.76 L23.72 844.02 L27.97 841.89 L23.72 839.76 Z"
+					class="st5"/>
+			<path d="M4.25 839.76 L4.25 844.02 L0 841.89 L4.25 839.76" class="st6"/>
+			<path d="M23.72 839.76 L23.72 844.02 L27.97 841.89 L23.72 839.76" class="st6"/>
+			<path d="M4.25 841.89 L23.72 841.89" class="st6"/>
+		</g>
+		<g id="shape8-26" v:mID="8" v:groupContext="shape" transform="translate(283.465,-425.197)">
+			<title>Feld.8</title>
+			<desc>DOM</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="106.299" cy="828.602" width="212.6" height="26.5748"/>
+			<rect x="0" y="815.315" width="212.598" height="26.5748" class="st1"/>
+			<text x="91.37" y="832.8" class="st2" v:langID="3079"><v:paragraph v:horizAlign="1"/><v:tabList/>DOM</text>		</g>
+		<g id="shape9-29" v:mID="9" v:groupContext="shape" transform="translate(-441.496,389.838) rotate(-90)">
+			<title>Einfache Spitze.9</title>
+			<v:userDefs>
+				<v:ud v:nameU="ControlX" v:val="VT0(0.059055118110236):24"/>
+				<v:ud v:nameU="Scale" v:val="VT0(1):26"/>
+				<v:ud v:nameU="AntiScale" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M4.25 839.76 L4.25 844.02 L0 841.89 L4.25 839.76 ZM19.92 839.76 L19.92 844.02 L24.17 841.89 L19.92 839.76 Z"
+					class="st5"/>
+			<path d="M4.25 839.76 L4.25 844.02 L0 841.89 L4.25 839.76" class="st6"/>
+			<path d="M19.92 839.76 L19.92 844.02 L24.17 841.89 L19.92 839.76" class="st6"/>
+			<path d="M4.25 841.89 L19.92 841.89" class="st6"/>
+		</g>
+		<g id="shape10-34" v:mID="10" v:groupContext="shape" transform="translate(35.4331,-623.622)">
+			<title>Feld.10</title>
+			<desc>Components</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="115.299" cy="781.654" width="230.6" height="120.472"/>
+			<rect x="0" y="721.417" width="230.598" height="120.472" class="st4"/>
+			<text x="78.99" y="785.85" class="st2" v:langID="3079"><v:paragraph v:horizAlign="1"/><v:tabList/>Components</text>		</g>
+		<g id="shape12-37" v:mID="12" v:groupContext="shape" transform="translate(-531.85,365.669) rotate(-90)">
+			<title>Feld.12</title>
+			<desc>UI Libraries</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="60.2362" cy="828.602" width="120.48" height="26.5748"/>
+			<rect x="0" y="815.315" width="120.472" height="26.5748" class="st3"/>
+			<text x="28.11" y="832.8" class="st2" v:langID="3079"><v:paragraph v:horizAlign="1"/><v:tabList/>UI Libraries</text>		</g>
+		<g id="shape13-40" v:mID="13" v:groupContext="shape" transform="translate(-691.157,97.7953) rotate(-90)">
+			<title>Einfache Spitze.13</title>
+			<v:userDefs>
+				<v:ud v:nameU="ControlX" v:val="VT0(0.059055118110236):24"/>
+				<v:ud v:nameU="Scale" v:val="VT0(1):26"/>
+				<v:ud v:nameU="AntiScale" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M4.25 839.76 L4.25 844.02 L0 841.89 L4.25 839.76 ZM25.96 839.76 L25.96 844.02 L30.21 841.89 L25.96 839.76 Z"
+					class="st5"/>
+			<path d="M4.25 839.76 L4.25 844.02 L0 841.89 L4.25 839.76" class="st6"/>
+			<path d="M25.96 839.76 L25.96 844.02 L30.21 841.89 L25.96 839.76" class="st6"/>
+			<path d="M4.25 841.89 L25.96 841.89" class="st6"/>
+		</g>
+	</g>
+</svg>
