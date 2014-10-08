@@ -1,0 +1,9 @@
+1.) Auftragsbearbeitung: umfasst die Überprüfung der Kundenaufträge hinsichtlich Preiskonditionen, Liefermodalitäten und Bonität des Kunden sowie die Einplanung in das Produktions- und Logistiksystem.
+
+2.) Fertigung und/oder Auftragszusammenstellung: Produktion, auftragsgemäße Zusammenstellung der Güter im Lager (Kommissionierung).
+
+3.) Verpackung und Versand: Verpackung, Erstellung der Versandpapiere und Versand der Güter.
+ 
+4.) Fakturierung: Rechnungstellung der erbrachten Leistungen. Die Fakturierung kann vor der Kommissionierung (Vorfakturierung) oder nach der Kommissionierung (Nachfakturierung) erfolgen.
+
+5.) Zahlungstransaktion: papierbasierte oder elektronische Übermittlung der Zahlung oder Barzahlung.

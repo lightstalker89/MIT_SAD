@@ -1,0 +1,29 @@
+Artikelverwaltung
+Lagerverwaltung (Personal)
+Kundenverwaltung
+Lieferantenverwaltung
+Auftragsverwaltung
+Finanzbuchung
+
+
+Kassensystem (Welche Lösungen können wir anbieten|| Müssen wir mit anbieten):
+Keine Förderbänder an der Kassa
+Hardware/software für Kassensysteme
+
+
+
+
+Artikelverwaltung:
+5% lokale Artikeln (Shop muss Meldung machen welche Artikeln lokal dazugenommen werden)
+restliche Artikeln werden von der Zentrale vorgegeben
+Anfrage an Zentrale schicken über gut laufende Artikeln zwecks Aufnahme in das Sortiment
+Überschreitung der 5% Artikeln sonst nicht möglich
+Selber Artikel mit unterschiedlicher Größe extra speichern als Artikel
+
+
+
+Zentrale (keine Buchhaltung: extern, Schnittstelle selber machen)
+
+
+
+Auftragsbearbeitung online
