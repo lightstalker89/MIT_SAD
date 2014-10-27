@@ -1,0 +1,16 @@
+viele Datenquellen (Integration)
+alles mit Info machen können (auch mobile)
+für Ärzte und Patienten
+für mobile -> gutes Netzwerk, passende Basistechnologie 
+security! offen (erweiterung/OS), flexible; kein großer IT-Aufwand in Klinik
+Aktuelle und künftige Standards nutzen
+
+Daten: patientenzentriert in EPR (elektronischer Patienten Record)
+ - Datenformat 1: medizinische Befunde (Textfiles, Datenquelle Radiologie)
+ - Datenformat 2: Bilder (DICOM, DQ: PACS-App)
+     - streaming!
+
+"Middleware" -> Data Warehouse?
+ - liefert aber auch Daten an Devices
+
+Darstellung auf allen Endgeräten
