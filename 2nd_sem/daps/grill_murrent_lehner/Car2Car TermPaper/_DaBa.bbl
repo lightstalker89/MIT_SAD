@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex version 2.1 $
+% $ biblatex version 2.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -45,6 +45,101 @@
   \field{pages}{14}
   \field{title}{Wi-Fi CERTIFIED Wi-Fi Direct}
   \field{year}{2010}
+  \warn{\item Invalid format of field 'month'}
+\endentry
+
+\entry{wifip2p4}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {CORPORATION}{C.}%
+     {ISB}{I.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{CI1}
+  \strng{fullhash}{CI1}
+  \field{howpublished}{\url{http://www.isb.co.jp/product/mobile_solution/e/wifi_direct.html}}
+  \field{title}{Wi-Fi Direct Solution Service}
+  \field{year}{2011}
+  \warn{\item Invalid format of field 'month'}
+\endentry
+
+\entry{wifip2p1}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Gerdesmeier}{G.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{G1}
+  \strng{fullhash}{G1}
+  \field{howpublished}{\url{http://wifi-direct.net/wi-fi-direct-was-ist-das-eigentlich/}}
+  \field{title}{Wi-Fi Direct -- was ist das eigentlich}
+  \field{year}{2011}
+  \warn{\item Invalid format of field 'month'}
+\endentry
+
+\entry{wifip2p2}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Google}{G.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{G2}
+  \strng{fullhash}{G2}
+  \field{howpublished}{\url{http://developer.android.com/guide/topics/connectivity/wifip2p.html}}
+  \field{title}{Wi-Fi Peer-to-Peer}
+  \field{year}{2014}
+  \warn{\item Invalid format of field 'month'}
+\endentry
+
+\entry{wifip2p3}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Google}{G.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{G2}
+  \strng{fullhash}{G2}
+  \field{howpublished}{\url{http://developer.android.com/training/connect-devices-wirelessly/wifi-direct.html}}
+  \field{title}{Creating P2P Connections with Wi-Fi}
+  \field{year}{2014}
+  \warn{\item Invalid format of field 'month'}
+\endentry
+
+\entry{realtekprogrammingguide}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Attack}{A.}%
+     {Mac}{M.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{AM1}
+  \strng{fullhash}{AM1}
+  \field{howpublished}{\url{http://dishingtech.blogspot.co.at/2012/01/realtek-wi-fi-direct-programming-guide.html}}
+  \field{title}{Realtek Wi-Fi Direct Programming Guide}
+  \field{year}{2012}
+\endentry
+
+\entry{wifidongleV2}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {mandrugok}{m.}%
+     {}{}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{m1}
+  \strng{fullhash}{m1}
+  \field{howpublished}{\url{http://www.mendrugox.net/2013/08/tp-link-tl-wn725n-v2-working-on-raspberry-raspbian/}}
+  \field{title}{TP-LINK TL-WN725N v2 working on Raspberry Pi (Raspbian)}
+  \field{year}{2013}
   \warn{\item Invalid format of field 'month'}
 \endentry
 
