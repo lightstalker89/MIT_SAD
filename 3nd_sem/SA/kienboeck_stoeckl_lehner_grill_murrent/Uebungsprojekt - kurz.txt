@@ -14,3 +14,5 @@ Daten: patientenzentriert in EPR (elektronischer Patienten Record)
  - liefert aber auch Daten an Devices
 
 Darstellung auf allen Endgeräten
+
+Link: yEd GraphEdit http://www.yworks.com/en/products/yfiles/yed/
