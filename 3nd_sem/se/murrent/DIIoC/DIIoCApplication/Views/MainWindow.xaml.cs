@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DIIoCApplication
+namespace DIIoCApplication.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
