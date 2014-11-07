@@ -37,7 +37,6 @@ namespace DIIoCApplication.ViewModels
         }
 
         private RelayCommand startLoggingCommand;
-
         public RelayCommand StartLoggingCommand
         {
             get { return startLoggingCommand ?? (new RelayCommand(StartPeriodicLogging)); }
@@ -55,19 +54,25 @@ namespace DIIoCApplication.ViewModels
             get { return injectConsoleLoggerCommand ?? (new RelayCommand(InjectFileLogger)); }
         }
 
+        private RelayCommand injectEventLoggerCommand;
+        public RelayCommand InjectEventLoggerCommand
+        {
+            get { return injectEventLoggerCommand ?? (new RelayCommand(InjectEventLogger)); }
+        }
+
         public void InjectConsoleLogger()
         {
-            SimpleIoc.Default.GetInstance<ILogger>("ConsoleLogger");
+            this.logger = SimpleIoc.Default.GetInstance<ILogger>("ConsoleLogger");
         }
 
         public void InjectFileLogger()
         {
-            SimpleIoc.Default.GetInstance<ILogger>("FileLogger");
+            this.logger = SimpleIoc.Default.GetInstance<ILogger>("FileLogger");
         }
 
         public void InjectEventLogger()
         {
-            SimpleIoc.Default.GetInstance<ILogger>("EventLogger");
+            this.logger = SimpleIoc.Default.GetInstance<ILogger>("EventLogger");
         }
     }
 }
