@@ -4,7 +4,7 @@
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
         Title="Dependency Injection and Inversion of Control" Height="350" Width="525">
     <Grid>
-        <Button Command="{Binding StartLoggingCommand }" Content="Start Logging" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="153"/>
+        <Button Command="{Binding StartLoggingCommand }" Content="{Binding StartLoggingButtonCaption}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="153"/>
         <Button Command="{Binding InjectConsoleLoggerCommand}" Content="Inject Console Logger" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="153"/>
         <Button Command="{Binding InjectFileLoggerCommand}" Content="Inject File Logger" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="153"/>
         <Button Command="{Binding InjectEventLoggerCommand}"  Content="Inject Event Logger" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Width="153"/>

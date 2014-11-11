@@ -1,5 +1,4 @@
 ﻿using System.Timers;
-using System.Windows.Media.Animation;
 using DIIoCApplication.Interfaces;
 using DIIoCApplication.Models;
 using GalaSoft.MvvmLight;
@@ -19,6 +18,7 @@ namespace DIIoCApplication.ViewModels
             this.logger.Log("Logging from constructor", Enums.LogType.DEBUG);
             this.timer = new Timer(1000);
             this.timer.Elapsed += timer_Elapsed;
+            this.StartLoggingButtonCaption = "Start Logging";
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -33,7 +33,28 @@ namespace DIIoCApplication.ViewModels
 
         public void StartPeriodicLogging()
         {
-            timer.Start();
+            if (timer.Enabled)
+            {
+                timer.Stop();
+                this.StartLoggingButtonCaption = "Start Logging";
+            }
+            else
+            {
+                timer.Start();
+                this.StartLoggingButtonCaption = "Stop Logging";
+            }
+        }
+
+        private string startLoggingButtonCaption;
+
+        public string StartLoggingButtonCaption
+        {
+            get { return startLoggingButtonCaption; }
+            set
+            {
+                startLoggingButtonCaption = value;
+                RaisePropertyChanged();
+            }
         }
 
         private RelayCommand startLoggingCommand;
