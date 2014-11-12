@@ -9,7 +9,9 @@
         <Button Command="{Binding InjectFileLoggerCommand}" Content="Inject File Logger" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="153"/>
         <Button Command="{Binding InjectEventLoggerCommand}"  Content="Inject Event Logger" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Width="153"/>
         <ListBox HorizontalAlignment="Left" Height="297" Margin="180,13,0,0" VerticalAlignment="Top" Width="327">
-            
+         <ListBox.ItemTemplate>
+             <DataTemplate></DataTemplate>
+         </ListBox.ItemTemplate>   
         </ListBox>
 
     </Grid>
