@@ -1,9 +1,0 @@
-﻿<Application x:Class="FHWNI.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:fhwni="clr-namespace:FHWNI"
-             StartupUri="Views/MainWindow.xaml">
-    <Application.Resources>
-        <fhwni:ViewModelLocator x:Key="Locator"/>
-    </Application.Resources>
-</Application>
