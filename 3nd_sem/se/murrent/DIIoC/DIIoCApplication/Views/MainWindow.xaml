@@ -4,10 +4,13 @@
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}"
         Title="Dependency Injection and Inversion of Control" Height="350" Width="525">
     <Grid>
-        <Button Command="{Binding StartLoggingCommand }" Content="{Binding StartLoggingButtonCaption}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="153"/>
-        <Button Command="{Binding InjectConsoleLoggerCommand}" Content="Inject Console Logger" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="153"/>
-        <Button Command="{Binding InjectFileLoggerCommand}" Content="Inject File Logger" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="153"/>
-        <Button Command="{Binding InjectEventLoggerCommand}"  Content="Inject Event Logger" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Width="153"/>
+        <Button Command="{Binding StartLoggingCommand }" Content="{Binding StartLoggingButtonCaption}" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Width="153"/>
+        <Button Command="{Binding InjectConsoleLoggerCommand}" Content="Inject Console Logger" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="153"/>
+        <Button Command="{Binding InjectFileLoggerCommand}" Content="Inject File Logger" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="153"/>
+        <Button Command="{Binding InjectEventLoggerCommand}"  Content="Inject Event Logger" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Width="153"/>
+        <ListBox HorizontalAlignment="Left" Height="297" Margin="180,13,0,0" VerticalAlignment="Top" Width="327">
+            
+        </ListBox>
 
     </Grid>
 </Window>

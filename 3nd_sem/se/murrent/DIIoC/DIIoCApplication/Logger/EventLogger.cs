@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net.Mime;
 using DIIoCApplication.ExtensionMethods;
 using DIIoCApplication.Interfaces;
+using DIIoCApplication.Models;
 
 namespace DIIoCApplication.Logger
 {
@@ -24,11 +26,22 @@ namespace DIIoCApplication.Logger
                 canWriteToEventLog = false;
             }
         }
+        
         public void Log(string message, Models.Enums.LogType logType)
         {
             if (canWriteToEventLog)
             {
-                objEventLog.WriteEntry(message.ToLogFileFormat(logType));
+                objEventLog.Source = Properties.Settings.Default["ApplicationName"].ToString();
+                EventLogEntryType entryType = EventLogEntryType.Information;
+                if (logType == Enums.LogType.WARN)
+                {
+                    entryType = EventLogEntryType.Warning;
+                }
+                else if (logType == Enums.LogType.ERROR)
+                {
+                    entryType = EventLogEntryType.Error;
+                }
+                objEventLog.WriteEntry(message, EventLogEntryType.Information);
             }
         }
     }
