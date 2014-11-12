@@ -1,4 +1,0 @@
-PM
-==
-
-Projektmanagement
