@@ -1,4 +1,11 @@
-﻿using System.Windows;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System.Windows;
 
 namespace DIIoCApplication.Views
 {

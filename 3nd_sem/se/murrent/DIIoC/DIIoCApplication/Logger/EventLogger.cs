@@ -1,9 +1,15 @@
-﻿using System;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
 using System.Diagnostics;
-using System.Net.Mime;
-using DIIoCApplication.ExtensionMethods;
 using DIIoCApplication.Interfaces;
 using DIIoCApplication.Models;
+using DIIoCApplication.Properties;
 
 namespace DIIoCApplication.Logger
 {
@@ -27,11 +33,11 @@ namespace DIIoCApplication.Logger
             }
         }
         
-        public void Log(string message, Models.Enums.LogType logType)
+        public void Log(string message, Enums.LogType logType)
         {
             if (canWriteToEventLog)
             {
-                objEventLog.Source = Properties.Settings.Default["ApplicationName"].ToString();
+                objEventLog.Source = Settings.Default["ApplicationName"].ToString();
                 EventLogEntryType entryType = EventLogEntryType.Information;
                 if (logType == Enums.LogType.WARN)
                 {

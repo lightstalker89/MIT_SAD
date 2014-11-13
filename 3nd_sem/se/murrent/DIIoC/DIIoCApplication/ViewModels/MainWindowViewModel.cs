@@ -1,4 +1,13 @@
-﻿using System.Timers;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
+using System.Collections.ObjectModel;
+using System.Timers;
 using DIIoCApplication.Interfaces;
 using DIIoCApplication.Models;
 using GalaSoft.MvvmLight;
@@ -11,17 +20,21 @@ namespace DIIoCApplication.ViewModels
     {
         private Timer timer;
         private ILogger logger;
+        private ILogger fileLoger;
+        private ILogger consoleLogger;
+        private ILogger eventLogger;
 
         public MainWindowViewModel(ILogger loggerToSet)
         {
             this.logger = loggerToSet;
             this.logger.Log("Logging from constructor", Enums.LogType.DEBUG);
-            this.timer = new Timer(1000);
-            this.timer.Elapsed += timer_Elapsed;
+            this.InitTimer();
             this.StartLoggingButtonCaption = "Start Logging";
+            this.InitLogger();
+            ;
         }
 
-        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        protected void TimerElapsed(object sender, ElapsedEventArgs e)
         {
             logger.Log("Periodic logging from timer", Enums.LogType.INFO);
         }
@@ -57,43 +70,71 @@ namespace DIIoCApplication.ViewModels
             }
         }
 
+        private ObservableCollection<string> loggerChanges = new ObservableCollection<string>();
+
+        public ObservableCollection<string> LoggerChanges
+        {
+            get { return this.loggerChanges; }
+            set
+            {
+                this.loggerChanges = value;
+                RaisePropertyChanged();
+            }
+        } 
+
         private RelayCommand startLoggingCommand;
         public RelayCommand StartLoggingCommand
         {
-            get { return startLoggingCommand ?? (new RelayCommand(StartPeriodicLogging)); }
+            get { return startLoggingCommand ?? (startLoggingCommand = new RelayCommand(StartPeriodicLogging)); }
         }
 
         private RelayCommand injectConsoleLoggerCommand;
         public RelayCommand InjectConsoleLoggerCommand
         {
-            get { return injectConsoleLoggerCommand ?? (new RelayCommand(InjectConsoleLogger)); }
+            get { return injectConsoleLoggerCommand ?? ( injectConsoleLoggerCommand = new RelayCommand(InjectConsoleLogger)); }
         }
 
         private RelayCommand injectFileLoggerCommand;
         public RelayCommand InjectFileLoggerCommand
         {
-            get { return injectConsoleLoggerCommand ?? (new RelayCommand(InjectFileLogger)); }
+            get { return injectFileLoggerCommand ?? (injectFileLoggerCommand = new RelayCommand(InjectFileLogger)); }
         }
 
         private RelayCommand injectEventLoggerCommand;
         public RelayCommand InjectEventLoggerCommand
         {
-            get { return injectEventLoggerCommand ?? (new RelayCommand(InjectEventLogger)); }
+            get { return injectEventLoggerCommand ?? (injectEventLoggerCommand = new RelayCommand(InjectEventLogger)); }
         }
 
-        public void InjectConsoleLogger()
+        private void InjectConsoleLogger()
         {
-            this.logger = SimpleIoc.Default.GetInstance<ILogger>("ConsoleLogger");
+            this.logger = consoleLogger;
+            this.LoggerChanges.Add(DateTime.Now + " - " + "Injected ConsoleLogger");
         }
 
-        public void InjectFileLogger()
+        private void InjectFileLogger()
         {
-            this.logger = SimpleIoc.Default.GetInstance<ILogger>("FileLogger");
+            this.logger = fileLoger;
+            this.LoggerChanges.Add(DateTime.Now + " - " + "Injected FileLogger");
         }
 
-        public void InjectEventLogger()
+        private void InjectEventLogger()
         {
-            this.logger = SimpleIoc.Default.GetInstance<ILogger>("EventLogger");
+            this.logger = eventLogger;
+            this.LoggerChanges.Add(DateTime.Now + " - " + "Injected EventLogger");
+        }
+
+        private void InitLogger()
+        {
+            this.consoleLogger = SimpleIoc.Default.GetInstance<ILogger>("ConsoleLogger");
+            this.fileLoger = SimpleIoc.Default.GetInstance<ILogger>("FileLogger");
+            this.eventLogger = SimpleIoc.Default.GetInstance<ILogger>("EventLogger");
+        }
+
+        private void InitTimer()
+        {
+            this.timer = new Timer(1000);
+            this.timer.Elapsed += TimerElapsed;
         }
     }
 }

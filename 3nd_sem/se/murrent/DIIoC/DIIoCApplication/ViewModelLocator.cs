@@ -1,4 +1,11 @@
-﻿using DIIoCApplication.Interfaces;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using DIIoCApplication.Interfaces;
 using DIIoCApplication.Logger;
 using DIIoCApplication.ViewModels;
 using GalaSoft.MvvmLight.Ioc;

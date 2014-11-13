@@ -1,4 +1,11 @@
-﻿using System;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using System;
 using DIIoCApplication.Models;
 
 namespace DIIoCApplication.ExtensionMethods

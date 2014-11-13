@@ -1,4 +1,11 @@
-﻿using DIIoCApplication.Models;
+﻿// /*
+// ******************************************************************
+// * Copyright (c) 2014, Mario Murrent
+// * All Rights Reserved.
+// ******************************************************************
+// */
+
+using DIIoCApplication.Models;
 
 namespace DIIoCApplication.Interfaces
 {
