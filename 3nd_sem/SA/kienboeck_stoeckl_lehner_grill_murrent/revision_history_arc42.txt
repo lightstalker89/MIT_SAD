@@ -5,3 +5,4 @@
 0.5 - Mario Murrent - 17.11.2014
 0.6 - Mario Murrent - 18.11.2014
 0.7 - Mario Murrent - 20.11.2014
+0.8 - Daniel Kienböck - 21.11.2014
