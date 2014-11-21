@@ -15,15 +15,20 @@ namespace DIIoCApplication.Logger
 {
     public class EventLogger : ILogger
     {
+        private string eventSource;
         private readonly EventLog objEventLog;
         private readonly bool canWriteToEventLog;
 
         public EventLogger()
         {
+            eventSource = Settings.Default["ApplicationName"].ToString();
             try
             {
                 objEventLog = new EventLog();
-                EventLog.CreateEventSource("DIIoC", "DIIoC");
+                if (!EventLog.SourceExists(eventSource))
+                {
+                    EventLog.CreateEventSource(eventSource, "DIIoC");
+                }
                 canWriteToEventLog = true;
             }
             catch (Exception ex)
@@ -32,12 +37,12 @@ namespace DIIoCApplication.Logger
                 canWriteToEventLog = false;
             }
         }
-        
+
         public void Log(string message, Enums.LogType logType)
         {
             if (canWriteToEventLog)
             {
-                objEventLog.Source = Settings.Default["ApplicationName"].ToString();
+                objEventLog.Source = eventSource;
                 EventLogEntryType entryType = EventLogEntryType.Information;
                 if (logType == Enums.LogType.WARN)
                 {
@@ -47,7 +52,7 @@ namespace DIIoCApplication.Logger
                 {
                     entryType = EventLogEntryType.Error;
                 }
-                objEventLog.WriteEntry(message, EventLogEntryType.Information);
+                objEventLog.WriteEntry(message, entryType);
             }
         }
     }

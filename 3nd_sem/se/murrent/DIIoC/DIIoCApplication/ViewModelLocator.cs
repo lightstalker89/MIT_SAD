@@ -18,10 +18,8 @@ namespace DIIoCApplication
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            SimpleIoc.Default.Register<ILogger>(()=> new ConsoleLogger(), "ConsoleLogger");
-            SimpleIoc.Default.Register<ILogger>(() => new EventLogger(), "EventLogger");
-            SimpleIoc.Default.Register<ILogger>(() => new FileLogger(), "FileLogger");
-            SimpleIoc.Default.Register(() =>new MainWindowViewModel(SimpleIoc.Default.GetInstance<ILogger>("ConsoleLogger")));
+            SimpleIoc.Default.Register<ILogger, ConsoleLogger>();
+            SimpleIoc.Default.Register<MainWindowViewModel>();
         }
 
         public MainWindowViewModel MainViewModel { get { return ServiceLocator.Current.GetInstance<MainWindowViewModel>(); } }
