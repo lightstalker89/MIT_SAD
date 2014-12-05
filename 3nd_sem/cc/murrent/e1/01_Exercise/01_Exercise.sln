@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceTester", "WebServiceTester\WebServiceTester.csproj", "{89386FFA-1F76-4828-A084-FCBF4E05139E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAPWebService", "SOAPWebService\SOAPWebService.csproj", "{FE6CFDAD-D2FB-4B08-87C5-027F02C4D72D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceModels", "ServiceModels\ServiceModels.csproj", "{A5E02760-3AEC-4525-9205-C717FC700A3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceWindowsService", "WebServiceWindowsService\WebServiceWindowsService.csproj", "{6E7F6FEF-B16D-4DDC-A153-71C81931E4E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTServiceConsoleApplication", "RESTServiceConsoleApplication\RESTServiceConsoleApplication.csproj", "{2BC45179-B6D9-46D4-9629-E222008794F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTWCFWebService", "RESTWCFWebService\RESTWCFWebService.csproj", "{981C3922-E06D-4BF4-A47F-79F1D2131F19}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89386FFA-1F76-4828-A084-FCBF4E05139E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89386FFA-1F76-4828-A084-FCBF4E05139E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89386FFA-1F76-4828-A084-FCBF4E05139E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89386FFA-1F76-4828-A084-FCBF4E05139E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE6CFDAD-D2FB-4B08-87C5-027F02C4D72D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE6CFDAD-D2FB-4B08-87C5-027F02C4D72D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE6CFDAD-D2FB-4B08-87C5-027F02C4D72D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE6CFDAD-D2FB-4B08-87C5-027F02C4D72D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5E02760-3AEC-4525-9205-C717FC700A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5E02760-3AEC-4525-9205-C717FC700A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5E02760-3AEC-4525-9205-C717FC700A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5E02760-3AEC-4525-9205-C717FC700A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E7F6FEF-B16D-4DDC-A153-71C81931E4E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E7F6FEF-B16D-4DDC-A153-71C81931E4E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E7F6FEF-B16D-4DDC-A153-71C81931E4E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E7F6FEF-B16D-4DDC-A153-71C81931E4E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BC45179-B6D9-46D4-9629-E222008794F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BC45179-B6D9-46D4-9629-E222008794F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BC45179-B6D9-46D4-9629-E222008794F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BC45179-B6D9-46D4-9629-E222008794F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{981C3922-E06D-4BF4-A47F-79F1D2131F19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{981C3922-E06D-4BF4-A47F-79F1D2131F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{981C3922-E06D-4BF4-A47F-79F1D2131F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{981C3922-E06D-4BF4-A47F-79F1D2131F19}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
