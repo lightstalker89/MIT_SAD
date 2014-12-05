@@ -1,37 +1,44 @@
 ﻿using System;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 using RESTWCFWebService;
 
 namespace RESTServiceConsoleApplication
 {
     class Program
     {
-        static Uri baseAddress = new Uri("http://localhost:8733/RESTWCFWebService/RestWcfService");
+        static ServiceHost host = null;
+
+        static void StartService()
+        {
+            host = new ServiceHost(typeof(RestWcfService));
+            /***********
+             * if you don't want to use App.Config for the web service host, 
+                 * just uncomment below:
+             ***********
+                 host.AddServiceEndpoint(new ServiceEndpoint(
+                 ContractDescription.GetContract(typeof(IStudentEnrollmentService)),
+                 new WSHttpBinding(), 
+                 new EndpointAddress("http://localhost:8733/RestWcfWebService"))); 
+             **********/
+            host.Open();
+        }
+
+        static void CloseService()
+        {
+            if (host.State != CommunicationState.Closed)
+            {
+                host.Close();
+            }
+        }
 
         static void Main(string[] args)
         {
-            using (ServiceHost host = new ServiceHost(typeof(RestWcfService), baseAddress))
-            {
-                // Enable metadata publishing.
-                ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-                smb.HttpGetEnabled = true;
-                smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
-                host.Description.Behaviors.Add(smb);
+            StartService();
 
-                // Open the ServiceHost to start listening for messages. Since
-                // no endpoints are explicitly configured, the runtime will create
-                // one endpoint per base address for each service contract implemented
-                // by the service.
-                host.Open();
+            Console.WriteLine("Student Enrollment Service is running....");
+            Console.ReadKey();
 
-                Console.WriteLine("The service is ready at {0}", baseAddress);
-                Console.WriteLine("Press <Enter> to stop the service.");
-                Console.ReadLine();
-
-                // Close the ServiceHost.
-                host.Close();
-            }
+            CloseService();
         }
     }
 }
