@@ -22,12 +22,14 @@ namespace SOAPWebService
         [WebMethod]
         public string GetCustomers()
         {
+            Console.WriteLine("Received GetCustomers request");
             return javaScriptSerializer.Serialize(customers);
         }
 
         [WebMethod]
         public string GetOrder(string customerName)
         {
+            Console.WriteLine("Received GetOrder request");
             Customer customer = customers.Find(p => p.Surname == customerName);
             return javaScriptSerializer.Serialize(customer.Orders);
         }

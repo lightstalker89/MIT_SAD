@@ -1,31 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
+using System.Web.Script.Serialization;
+using ServiceModels;
 
 namespace RESTWCFWebService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
     public class RestWcfService : IService
     {
-        public string GetData(int value)
+        private List<Customer> customers = new List<Customer>();
+        private List<Order> orders = new List<Order>();
+        private JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+
+        public string GetCustomers()
         {
-            return string.Format("You entered: {0}", value);
+            Console.WriteLine("Received GetCustomers request");
+            return javaScriptSerializer.Serialize(customers);
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
+        public string GetOrder(string customerName)
         {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
+            Console.WriteLine("Received GetOrder request");
+            Customer customer = customers.Find(p => p.Surname == customerName);
+            return javaScriptSerializer.Serialize(customer.Orders);
         }
     }
 }

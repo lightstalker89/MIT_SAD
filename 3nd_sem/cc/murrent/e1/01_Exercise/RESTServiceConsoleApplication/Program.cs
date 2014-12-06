@@ -18,7 +18,7 @@ namespace RESTServiceConsoleApplication
                  host.AddServiceEndpoint(new ServiceEndpoint(
                  ContractDescription.GetContract(typeof(IStudentEnrollmentService)),
                  new WSHttpBinding(), 
-                 new EndpointAddress("http://localhost:8733/RestWcfWebService"))); 
+                 new EndpointAddress("http://localhost:8080/RestWcfWebService"))); 
              **********/
             host.Open();
         }
@@ -35,8 +35,8 @@ namespace RESTServiceConsoleApplication
         {
             StartService();
 
-            Console.WriteLine("Student Enrollment Service is running....");
-            Console.ReadKey();
+            Console.WriteLine("WCF Customer WebService is running @http://localhost:8733/RESTWCFWebService/RestWcfService/");
+            ConsoleKeyInfo key = Console.ReadKey();
 
             CloseService();
         }
