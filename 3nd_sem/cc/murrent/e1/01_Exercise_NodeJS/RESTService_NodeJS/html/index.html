@@ -4,8 +4,38 @@
 <head>
     <meta charset="utf-8" />
     <title>REST Service Client</title>
+    <link rel="stylesheet" type="text/css" href="../style/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="../client/restClient.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            init();
+        });
+    </script>
 </head>
-<body>
-
-</body>
+    <body>
+        <div class="page-header">
+            <h1>REST Webservice Client</h1>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                Dropdown
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Get Customers</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Get Orders</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Add Customer</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Add Order</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete Customer</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Delete Order</a></li>
+            </ul>
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                <input id="name" type="text" class="form-control" placeholder="Name">
+            </div>
+        </div>
+    </body>
 </html>

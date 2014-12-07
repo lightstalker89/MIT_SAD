@@ -3,8 +3,6 @@ var html_dir = './html/';
 var express = require('express'); //Web framework
 var _ = require('underscore');
 
-var startPage = readIndexFile();
-
 var customers = [];
 var orders = [];
 var createCustomer = function (customerName) {

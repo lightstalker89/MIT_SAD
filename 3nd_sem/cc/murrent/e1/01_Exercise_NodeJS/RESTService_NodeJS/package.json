@@ -11,6 +11,7 @@
     "0": "0.0.0",
     "architect-express-bodyparser": "0.0.2",
     "fs.js": "0.0.1",
+    "tableify": "0.0.9",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
