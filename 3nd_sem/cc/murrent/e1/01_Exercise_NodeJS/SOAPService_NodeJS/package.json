@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "0": "0.0.0",
-    "soap-server": "^0.1.0"
+    "soap-server": "^0.1.0",
+    "underscore": "^1.7.0"
   }
 }
