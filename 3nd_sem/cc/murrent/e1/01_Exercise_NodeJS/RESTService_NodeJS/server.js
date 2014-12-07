@@ -1,8 +1,9 @@
 ﻿var application_root = __dirname;
+var html_dir = './html/';
 var express = require('express'); //Web framework
 var _ = require('underscore');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
+
+var startPage = readIndexFile();
 
 var customers = [];
 var orders = [];
@@ -26,12 +27,12 @@ var createOrder = function (orderName, customerName) {
     }
 };
 
-var getOrders = function(customerName) {
+var getOrders = function (customerName) {
     var currentOrder = _.findWhere(orders, { customerName: customerName });
     return currentOrder || [];
 };
 
-var deleteOrder = function(orderName) {
+var deleteOrder = function (orderName) {
     var currentOrder = _.findWhere(orders, { name: orderName });
     if (currentOrder) {
         var index = _.indexOf(order, currentOrder);
@@ -42,6 +43,7 @@ var deleteOrder = function(orderName) {
             return false;
         }
     }
+    return false;
 };
 
 var deleteCustomer = function (customerName) {
@@ -55,44 +57,16 @@ var deleteCustomer = function (customerName) {
             return false;
         }
     }
+    return false;
 };
 
 //Create server
 var app = express();
-
-// Configure server
-app.use(function () {
-    //parses request body and populates request.body
-    app.use(bodyParser());
-    
-    //checks request.body for HTTP method overrides
-    app.use(methodOverride());
-    
-    //Show all errors in development
-    app.use(logErrors);
-    app.use(clientErrorHandler);
-    app.use(errorHandler);
+var htmlDir = app.use(express.static('html'));
+app.get('/', function (req, res) {
+    res.sendfile(html_dir + 'index.html');
 });
 
-function logErrors(err, req, res, next) {
-    console.error(err.stack);
-    next(err);
-}
-
-function clientErrorHandler(err, req, res, next) {
-    if (req.xhr) {
-        res.status(500).send({ error: 'Something blew up!' });
-    } else {
-        next(err);
-    }
-}
-
-function errorHandler(err, req, res, next) {
-    res.status(500);
-    res.render('error', { error: err });
-}
-
-//Router
 //Get all customers
 app.get('/customers', function (request, response) {
     response.send(customers);
@@ -123,12 +97,11 @@ app.delete('/order/:name', function (request, response) {
 //Delete a customer by name
 app.delete('/customer/:name', function (request, response) {
     var success = deleteCustomer(request.params.name);
-    return success;
     response.send(success);
 });
 
 //Start server
-var port = 6666;
+var port = 1337;
 var server = app.listen(port, function () {
     var host = server.address().address;
     var port = server.address().port;

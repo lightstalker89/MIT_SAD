@@ -1,4 +1,5 @@
 ﻿var soap = require('soap-server');
+var fs = require('fs');
 
 function SOAPWebService() {
 }
