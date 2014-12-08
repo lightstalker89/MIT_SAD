@@ -1,7 +1,10 @@
 ﻿var application_root = __dirname;
 var html_dir = './html/';
 var express = require('express'); //Web framework
+var http = require('http');
 var _ = require('underscore');
+var serveStatic = require('serve-static');
+var connect = require('connect');
 
 var customers = [];
 var orders = [];
@@ -60,10 +63,7 @@ var deleteCustomer = function (customerName) {
 
 //Create server
 var app = express();
-var htmlDir = app.use(express.static('html'));
-app.get('/', function (req, res) {
-    res.sendfile(html_dir + 'index.html');
-});
+var htmlDir = app.use(express.static(__dirname + 'html'));
 
 //Get all customers
 app.get('/customers', function (request, response) {

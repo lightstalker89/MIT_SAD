@@ -31,16 +31,12 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="client\soapClient.js" />
     <Compile Include="server.js" />
-    <Content Include="html\index.html" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="style\main.css" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="html\" />
-    <Folder Include="client\" />
     <Folder Include="style\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
