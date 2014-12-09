@@ -1,0 +1,20 @@
+{
+  "name": "_01_Exercise_NodeJS",
+  "version": "0.0.0",
+  "description": "01_Exercise_NodeJS",
+  "main": "server.js",
+  "author": {
+    "name": "mmurrent",
+    "email": ""
+  },
+  "devDependencies": {
+    "soap": "^0.6.0"
+  },
+  "dependencies": {
+    "0": "0.0.0",
+    "fs.js": "0.0.1",
+    "soap-server": "^0.1.0",
+    "tableify": "0.0.9",
+    "underscore": "^1.7.0"
+  }
+}

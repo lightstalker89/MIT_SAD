@@ -1,2 +1,9 @@
-0.1 - Mario Murrent - 27.10.2014
-0.2 - Roland Lehner - 02.11.2014
+0.1 - Mario Murrent   - 27.10.2014
+0.2 - Roland Lehner   - 02.11.2014
+0.3 - Daniel Kienböck - 12.11.2014
+0.4 - Bernhard Stöckl - 16.11.2014
+0.5 - Mario Murrent   - 17.11.2014
+0.6 - Mario Murrent   - 18.11.2014
+0.7 - Mario Murrent   - 20.11.2014
+0.8 - Daniel Kienböck - 21.11.2014
+0.9 - Daniel Kienböck - 05.12.2014
