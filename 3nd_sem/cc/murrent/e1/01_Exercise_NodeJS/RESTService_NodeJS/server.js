@@ -9,53 +9,53 @@ var connect = require('connect');
 var customers = [];
 var orders = [];
 var createCustomer = function (customerName) {
-    var currentCustomer = _.findWhere(customers, { name: customerName });
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
-        return false;
+        return { Success: false };
     } else {
-        customers.push({ name: customerName });
-        return true;
+        customers.push({ Name: customerName });
+        return { Success: true };
     }
 };
 
 var createOrder = function (orderName, customerName) {
-    var currentOrder = _.findWhere(orders, { name: orderName });
+    var currentOrder = _.findWhere(orders, { Name: orderName });
     if (currentOrder) {
-        return false;
+        return { Success: false };
     } else {
-        customers.push({ name: orderName, customer: customerName });
-        return true;
+        customers.push({ Name: orderName, CustomerName: customerName });
+        return { Success: true };
     }
 };
 
 var getOrders = function (customerName) {
-    var currentOrder = _.findWhere(orders, { customerName: customerName });
+    var currentOrder = _.findWhere(orders, { CustomerName: customerName });
     return currentOrder || [];
 };
 
 var deleteOrder = function (orderName) {
-    var currentOrder = _.findWhere(orders, { name: orderName });
+    var currentOrder = _.findWhere(orders, { Name: orderName });
     if (currentOrder) {
         var index = _.indexOf(order, currentOrder);
         if (index !== -1) {
             orders.splice(index, 1);
-            return true;
+            return { Success: true };
         } else {
-            return false;
+            return { Success: false };
         }
     }
     return false;
 };
 
 var deleteCustomer = function (customerName) {
-    var currentCustomer = _.findWhere(customers, { name: customerName });
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
         var index = _.indexOf(customers, currentCustomer);
         if (index !== -1) {
             customers.splice(index, 1);
-            return true;
+            return { Success: true };
         } else {
-            return false;
+            return { Success: false };
         }
     }
     return false;
@@ -77,6 +77,7 @@ app.get('/order/:name', function (request, response) {
 //Update or add order
 app.put('/customer/add/:name', function (request, response) {
     var success = createCustomer(request.params.name);
+    console.log(request.params);
     response.send(success);
 });
 

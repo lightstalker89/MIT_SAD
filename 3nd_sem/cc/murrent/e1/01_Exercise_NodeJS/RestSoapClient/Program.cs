@@ -4,6 +4,7 @@ using System.Net.Mime;
 using System.Web.Script.Serialization;
 using RestSharp;
 using System.Web;
+using RestSoapClient.Models;
 
 namespace RestSoapClient
 {
@@ -78,53 +79,67 @@ namespace RestSoapClient
                 case ConsoleKey.D:
                     requestParameter = GetParameter("Customername: ");
                     restRequest = new RestRequest("customer/delete/{name}", Method.DELETE);
-                    restRequest.AddParameter("name", requestParameter);
-                    IRestResponse customerDeleteResponse = restClient.Execute(restRequest);
-                    dynamic customerDeleteContent = javaScriptSerializer.Deserialize<dynamic>(customerDeleteResponse.Content);
-                    Console.WriteLine("Success: " + customerDeleteContent);
+                    restRequest.AddUrlSegment("name", requestParameter);
+                    IRestResponse deleteCustomerResponse = restClient.Execute(restRequest);
+                    SuccessResponse deleteCustomerSuccessResponse = javaScriptSerializer.Deserialize<SuccessResponse>(deleteCustomerResponse.Content);
+                    Console.WriteLine("Success: " + deleteCustomerSuccessResponse.Success);
                     break;
 
                 case ConsoleKey.F:
                     requestParameter = GetParameter("Ordername: ");
                     restRequest = new RestRequest("order/delete/{name}", Method.DELETE);
-                    restRequest.AddParameter("name", requestParameter);
-                    IRestResponse orderDeleteResponse = restClient.Execute(restRequest);
-                    dynamic orderDeleteContent = javaScriptSerializer.Deserialize<dynamic>(orderDeleteResponse.Content);
-                    Console.WriteLine("Success: " + orderDeleteContent);
+                    restRequest.AddUrlSegment("name", requestParameter);
+                    IRestResponse deleteOrdeResponseResponse = restClient.Execute(restRequest);
+                    SuccessResponse deleteOrderSuccessResponse = javaScriptSerializer.Deserialize<SuccessResponse>(deleteOrdeResponseResponse.Content);
+                    Console.WriteLine("Success: " + deleteOrderSuccessResponse.Success);
                     break;
 
                 case ConsoleKey.G:
                     restRequest = new RestRequest("customers", Method.GET);
                     IRestResponse customersResponse = restClient.Execute(restRequest);
-                    dynamic customersContent = javaScriptSerializer.Deserialize<dynamic>(customersResponse.Content);
-                    Console.WriteLine(customersContent);
+                    List<Customer> customersContent = javaScriptSerializer.Deserialize<List<Customer>>(customersResponse.Content);
+                    Console.Clear();
+                    Console.WriteLine("-------------------------");
+                    Console.WriteLine("Customers");
+                    Console.WriteLine("-------------------------");
+                    foreach (Customer customer in customersContent)
+                    {
+                        Console.WriteLine(customer.Name);
+                    }
                     break;
 
                 case ConsoleKey.H:
                     requestParameter = GetParameter("Ordername: ");
                     restRequest = new RestRequest("order", Method.POST);
-                    restRequest.AddParameter("name", requestParameter);
+                    restRequest.AddUrlSegment("name", requestParameter);
                     IRestResponse ordersResponse = restClient.Execute(restRequest);
-                    dynamic ordersContent = javaScriptSerializer.Deserialize<dynamic>(ordersResponse.Content);
-                    Console.WriteLine(ordersContent);
+                    List<Order> ordersContent = javaScriptSerializer.Deserialize<List<Order>>(ordersResponse.Content);
+                    Console.Clear();
+                    Console.WriteLine("-------------------------");
+                    Console.WriteLine("Orders");
+                    Console.WriteLine("-------------------------");
+                    foreach (Order order in ordersContent)
+                    {
+                        Console.WriteLine(order.Name);
+                    }
                     break;
 
                 case ConsoleKey.J:
                     requestParameter = GetParameter("New customer name: ");
                     restRequest = new RestRequest("customer/add/{name}", Method.PUT);
-                    restRequest.AddParameter("name", requestParameter);
-                    IRestResponse response = restClient.Execute(restRequest);
-                    dynamic content = javaScriptSerializer.Deserialize<dynamic>(response.Content);
-                    Console.WriteLine("Success: " + content);
+                    restRequest.AddUrlSegment("name", requestParameter);
+                    IRestResponse newCustomerResponse = restClient.Execute(restRequest);
+                    SuccessResponse customerSuccessResponse = javaScriptSerializer.Deserialize<SuccessResponse>(newCustomerResponse.Content);
+                    Console.WriteLine("Success: " + customerSuccessResponse.Success);
                     break;
 
                 case ConsoleKey.K:
                     requestParameter = GetParameter("New order name: ");
                     restRequest = new RestRequest("order/add/{name}", Method.PUT);
-                    restRequest.AddParameter("name", requestParameter);
-                    IRestResponse orderAddResponse = restClient.Execute(restRequest);
-                    dynamic orderAddContent = javaScriptSerializer.Deserialize<dynamic>(orderAddResponse.Content);
-                    Console.WriteLine("Success: " + orderAddContent);
+                    restRequest.AddUrlSegment("name", requestParameter);
+                    IRestResponse newOrderResponse = restClient.Execute(restRequest);
+                    SuccessResponse orderSuccessResponse = javaScriptSerializer.Deserialize<SuccessResponse>(newOrderResponse.Content);
+                    Console.WriteLine("Success: " + orderSuccessResponse.Success);
                     break;
 
                 default:
@@ -148,11 +163,11 @@ namespace RestSoapClient
             ConsoleKeyInfo info = Console.ReadKey(true);
             if (info.Key == ConsoleKey.J)
             {
-                ChooseMethod();
+                ChooseRestRequest();
             }
             else
             {
-              Environment.Exit(0);
+                Environment.Exit(0);
             }
         }
     }
