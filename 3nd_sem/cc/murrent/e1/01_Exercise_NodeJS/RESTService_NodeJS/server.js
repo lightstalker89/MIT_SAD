@@ -75,25 +75,25 @@ app.get('/order/:name', function (request, response) {
 });
 
 //Update or add order
-app.put('/customer/:name', function (request, response) {
+app.put('/customer/add/:name', function (request, response) {
     var success = createCustomer(request.params.name);
     response.send(success);
 });
 
 //Update or add order
-app.put('/order/:name', function (request, response) {
+app.put('/order/add/:name', function (request, response) {
     var success = createOrder(request.params.name);
     response.send(success);
 });
 
 //Delete an order by anme
-app.delete('/order/:name', function (request, response) {
+app.delete('/order/delete/:name', function (request, response) {
     var success = deleteOrder(request.params.name);
     response.send(success);
 });
 
 //Delete a customer by name
-app.delete('/customer/:name', function (request, response) {
+app.delete('/customer/delete/:name', function (request, response) {
     var success = deleteCustomer(request.params.name);
     response.send(success);
 });
