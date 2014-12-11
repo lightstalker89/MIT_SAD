@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Mime;
 using System.Web.Script.Serialization;
-using System.Xml;
 using RestSharp;
-using System.Web;
 using RestSoapClient.Models;
 
 namespace RestSoapClient
@@ -80,7 +75,7 @@ namespace RestSoapClient
             switch (keyInfo.Key)
             {
                 case ConsoleKey.D:
-                    requestParameter = GetParameter("Customername: ");
+                    requestParameter = GetParameter("Delete customer: ");
                     restRequest = new RestRequest("customer/delete/{name}", Method.DELETE);
                     restRequest.AddUrlSegment("name", requestParameter);
                     IRestResponse deleteCustomerResponse = restClient.Execute(restRequest);
@@ -89,7 +84,7 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.F:
-                    requestParameter = GetParameter("Ordername: ");
+                    requestParameter = GetParameter("Delete order for customer: ");
                     restRequest = new RestRequest("order/delete/{name}", Method.DELETE);
                     restRequest.AddUrlSegment("name", requestParameter);
                     IRestResponse deleteOrdeResponseResponse = restClient.Execute(restRequest);
@@ -171,13 +166,13 @@ namespace RestSoapClient
 
         private static void StartFromBeginning()
         {
-            Console.WriteLine("Start over? j/n. n will close the application");
+            Console.WriteLine("Start over? y/n. n will close the application");
             ConsoleKeyInfo info = Console.ReadKey(true);
-            if (info.Key == ConsoleKey.J)
+            if (info.Key == ConsoleKey.Y)
             {
                 ChooseRestRequest();
             }
-            else
+            else if(info.Key == ConsoleKey.N)
             {
                 Environment.Exit(0);
             }

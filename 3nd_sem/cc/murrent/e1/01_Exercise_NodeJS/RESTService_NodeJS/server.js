@@ -39,18 +39,13 @@ var getOrders = function (customerName) {
     return [];
 };
 
-var deleteOrder = function (orderName) {
-    var currentOrder = _.findWhere(orders, { Name: orderName });
-    if (currentOrder) {
-        var index = _.indexOf(order, currentOrder);
-        if (index !== -1) {
-            orders.splice(index, 1);
-            return { Success: true };
-        } else {
-            return { Success: false };
-        }
+var deleteOrder = function (customerName) {
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
+    if (currentCustomer) {
+        currentCustomer.Orders = [];
+        return { Success: true };
     }
-    return false;
+    return { Success: false };
 };
 
 var deleteCustomer = function (customerName) {
@@ -64,7 +59,7 @@ var deleteCustomer = function (customerName) {
             return { Success: false };
         }
     }
-    return false;
+    return { Success: false };
 };
 
 //Create server
