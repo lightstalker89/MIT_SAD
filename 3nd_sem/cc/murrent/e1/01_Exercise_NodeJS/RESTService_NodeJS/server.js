@@ -1,10 +1,8 @@
 ﻿var application_root = __dirname;
 var html_dir = './html/';
 var express = require('express'); //Web framework
-var http = require('http');
 var _ = require('underscore');
-var serveStatic = require('serve-static');
-var connect = require('connect');
+var uuid = require('node-uuid');
 
 var customers = [];
 var orders = [];
@@ -13,24 +11,32 @@ var createCustomer = function (customerName) {
     if (currentCustomer) {
         return { Success: false };
     } else {
-        customers.push({ Name: customerName });
+        customers.push({ Name: customerName, Orders: [] });
         return { Success: true };
     }
 };
 
-var createOrder = function (orderName, customerName) {
-    var currentOrder = _.findWhere(orders, { Name: orderName });
-    if (currentOrder) {
-        return { Success: false };
+var createOrder = function (customerName) {
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
+    if (currentCustomer) {
+        var orderId = uuid.v1();
+        if (currentCustomer.Orders) {
+            currentCustomer.Orders.push(orderId);
+            return { Success: true };
+        } else {
+            return { Success: false };
+        }
     } else {
-        customers.push({ Name: orderName, CustomerName: customerName });
-        return { Success: true };
+        return { Success: false };
     }
 };
 
 var getOrders = function (customerName) {
-    var currentOrder = _.findWhere(orders, { CustomerName: customerName });
-    return currentOrder || [];
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
+    if (currentCustomer) {
+        return currentCustomer.Orders;
+    }
+    return [];
 };
 
 var deleteOrder = function (orderName) {

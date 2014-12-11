@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Mime;
 using System.Web.Script.Serialization;
+using System.Xml;
 using RestSharp;
 using System.Web;
 using RestSoapClient.Models;
@@ -105,22 +108,27 @@ namespace RestSoapClient
                     foreach (Customer customer in customersContent)
                     {
                         Console.WriteLine(customer.Name);
+                        foreach (string order in customer.Orders)
+                        {
+                            Console.WriteLine("\t|--" + order);
+                        }
                     }
                     break;
 
                 case ConsoleKey.H:
-                    requestParameter = GetParameter("Ordername: ");
-                    restRequest = new RestRequest("order", Method.POST);
+                    requestParameter = GetParameter("Order for customer: ");
+                    restRequest = new RestRequest("order/{name}", Method.GET);
                     restRequest.AddUrlSegment("name", requestParameter);
                     IRestResponse ordersResponse = restClient.Execute(restRequest);
-                    List<Order> ordersContent = javaScriptSerializer.Deserialize<List<Order>>(ordersResponse.Content);
+                    List<string> ordersContent = javaScriptSerializer.Deserialize<List<string>>(ordersResponse.Content);
                     Console.Clear();
                     Console.WriteLine("-------------------------");
                     Console.WriteLine("Orders");
                     Console.WriteLine("-------------------------");
-                    foreach (Order order in ordersContent)
+                    Console.WriteLine(requestParameter);
+                    foreach (string order in ordersContent)
                     {
-                        Console.WriteLine(order.Name);
+                        Console.WriteLine("\t|-" + order);
                     }
                     break;
 
@@ -134,7 +142,7 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.K:
-                    requestParameter = GetParameter("New order name: ");
+                    requestParameter = GetParameter("New order for customer: ");
                     restRequest = new RestRequest("order/add/{name}", Method.PUT);
                     restRequest.AddUrlSegment("name", requestParameter);
                     IRestResponse newOrderResponse = restClient.Execute(restRequest);
@@ -154,7 +162,11 @@ namespace RestSoapClient
         {
             Console.Write(text);
             string parameter = Console.ReadLine();
-            return parameter;
+            if (parameter != String.Empty)
+            {
+                return parameter;
+            }
+            return "Emtpy";
         }
 
         private static void StartFromBeginning()

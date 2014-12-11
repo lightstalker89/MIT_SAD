@@ -1,8 +1,9 @@
-﻿namespace RestSoapClient.Models
+﻿using System.Collections.Generic;
+
+namespace RestSoapClient.Models
 {
    public class Order
     {
-       public string Name { get; set; }
-       public string CustomerName { get; set; }
+       public List<string> Orders { get; set; }
     }
 }
