@@ -12,11 +12,8 @@
     "soap": "^0.6.0"
   },
   "dependencies": {
-    "0": "0.0.0",
-    "fs.js": "0.0.1",
     "node": "0.0.0",
     "soap-server": "^0.1.0",
-    "tableify": "0.0.9",
     "underscore": "^1.7.0"
   }
 }
