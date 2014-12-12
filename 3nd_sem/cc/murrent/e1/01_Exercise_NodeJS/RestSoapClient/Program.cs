@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Web.Script.Serialization;
 using System.Xml;
-using Microsoft.Web.Services3.Messaging;
 using RestSharp;
 using RestSoapClient.Models;
+using Soap;
 
 namespace RestSoapClient
 {
-    class Program
+    public class Program
     {
+        private static bool rest = true;
         private static readonly JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
-        private const string RestEndPoint = "http://localhost:1337";
+        private const string EndPoint = "http://localhost:1337";
         private static RestClient restClient;
         private static readonly Dictionary<ConsoleKey, string> RequestOptions = new Dictionary<ConsoleKey, string>
         {
@@ -29,7 +31,8 @@ namespace RestSoapClient
             {ConsoleKey.D, "D) Delete Customer"},
             {ConsoleKey.E, "F) Delete Order"}
         };
-        static void Main(string[] args)
+
+        public static void Main(string[] args)
         {
             ChooseMethod();
         }
@@ -44,19 +47,61 @@ namespace RestSoapClient
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             if (keyInfo.Key == ConsoleKey.S)
             {
-
+                rest = false;
+                ChooseSoapRequest();
             }
             else if (keyInfo.Key == ConsoleKey.R)
             {
-                restClient = new RestClient(RestEndPoint);
+                restClient = new RestClient(EndPoint);
                 ChooseRestRequest();
             }
             else
             {
-
-                ChooseMethod();
+                rest = true;
+               ChooseMethod();
             }
 
+        }
+
+        private static void ChooseSoapRequest()
+        {
+            Console.Clear();
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Please choose request method");
+            Console.WriteLine("---------------------------------");
+            WriteDictionaryOptionsToConsole(Requests);
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            switch (keyInfo.Key)
+            {
+                case ConsoleKey.D:
+                    break;
+
+                case ConsoleKey.F:
+                  
+                    break;
+
+                case ConsoleKey.G:
+                    CallWebService("getCustomers");           
+                    break;
+
+                case ConsoleKey.H:
+               
+                    break;
+
+                case ConsoleKey.J:
+                    
+                    break;
+
+                case ConsoleKey.K:
+
+                    break;
+
+                default:
+                    ChooseRestRequest();
+                    break;
+            }
+            StartFromBeginning();
+            ChooseRestRequest();
         }
 
         private static void WriteDictionaryOptionsToConsole(Dictionary<ConsoleKey, string> dictionary)
@@ -175,7 +220,14 @@ namespace RestSoapClient
             ConsoleKeyInfo info = Console.ReadKey(true);
             if (info.Key == ConsoleKey.Y)
             {
-                ChooseRestRequest();
+                if (rest)
+                {
+                    ChooseRestRequest();
+                }
+                else
+                {
+                    ChooseSoapRequest();
+                }
             }
             else if (info.Key == ConsoleKey.N)
             {
@@ -183,45 +235,55 @@ namespace RestSoapClient
             }
         }
 
-
-        public static void Execute()
+        public static void CallWebService(string action)
         {
-            HttpWebRequest request = CreateWebRequest();
-            XmlDocument soapEnvelopeXml = new XmlDocument();
-            soapEnvelopeXml.LoadXml(@"<?xml version=""1.0"" encoding=""utf-8""?>
-            <soap:Envelope xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-            <soap:Body>
-                <HelloWorld3 xmlns=""http://tempuri.org/"">
-                    <parameter1>test</parameter1>
-                    <parameter2>23</parameter2>
-                    <parameter3>test</parameter3>
-                </HelloWorld3>
-            </soap:Body>
-            </soap:Envelope>");
+            XmlDocument soapEnvelopeXml = CreateSoapEnvelope(action);
+            HttpWebRequest webRequest = CreateWebRequest("http://localhost:1337/SOAPWebService", action);
+            InsertSoapEnvelopeIntoWebRequest(soapEnvelopeXml, webRequest);
 
-            using (Stream stream = request.GetRequestStream())
-            {
-                soapEnvelopeXml.Save(stream);
-            }
-
-            using (WebResponse response = request.GetResponse())
-            {
-                using (StreamReader rd = new StreamReader(response.GetResponseStream()))
-                {
-                    string soapResult = rd.ReadToEnd();
-                    Console.WriteLine(soapResult);
-                }
-            }
+            webRequest.BeginGetResponse(new AsyncCallback(GetResponseCallback), webRequest);
         }
 
-        public static HttpWebRequest CreateWebRequest()
+        private static void GetResponseCallback(IAsyncResult asynchronousResult)
         {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(@"http://dev.nl/Rvl.Demo.TestWcfServiceApplication/SoapWebService.asmx");
-            webRequest.Headers.Add(@"SOAP:Action");
+            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
+
+            HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
+            Stream streamResponse = response.GetResponseStream();
+            StreamReader streamRead = new StreamReader(streamResponse);
+            string responseString = streamRead.ReadToEnd();
+            Console.WriteLine(responseString);
+            streamResponse.Close();
+            streamRead.Close();
+
+            response.Close();
+        }
+
+        private static HttpWebRequest CreateWebRequest(string url, string action)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            webRequest.Headers.Add("SOAPAction", action);
             webRequest.ContentType = "text/xml;charset=\"utf-8\"";
             webRequest.Accept = "text/xml";
             webRequest.Method = "POST";
+            webRequest.KeepAlive = false;
+            webRequest.Timeout = 300000;
             return webRequest;
+        }
+
+        private static XmlDocument CreateSoapEnvelope(string action)
+        {
+            XmlDocument soapEnvelop = new XmlDocument();
+            soapEnvelop.LoadXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/""><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><" + action + "/></SOAP-ENV:Body></SOAP-ENV:Envelope>");
+            return soapEnvelop;
+        }
+
+        private static void InsertSoapEnvelopeIntoWebRequest(XmlDocument soapEnvelopeXml, HttpWebRequest webRequest)
+        {
+            using (Stream stream = webRequest.GetRequestStream())
+            {
+                soapEnvelopeXml.Save(stream);
+            }
         }
     }
 }

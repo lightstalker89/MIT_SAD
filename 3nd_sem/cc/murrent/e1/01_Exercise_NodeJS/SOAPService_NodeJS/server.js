@@ -65,7 +65,7 @@ var deleteCustomer = function (customerName) {
 function SOAPWebService() {
 }
 SOAPWebService.prototype.getCustomers = function (all) {
-    return "";
+    return customers;
 };
 SOAPWebService.prototype.getOrders = function (customerName) {
     return "";
