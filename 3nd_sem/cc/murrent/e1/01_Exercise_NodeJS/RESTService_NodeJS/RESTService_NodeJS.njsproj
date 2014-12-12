@@ -33,10 +33,6 @@
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="style\main.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="style\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
   <ProjectExtensions>
