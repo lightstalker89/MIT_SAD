@@ -68,19 +68,23 @@ SOAPWebService.prototype.getCustomers = function (all) {
     return customers;
 };
 SOAPWebService.prototype.getOrders = function (customerName) {
-    return "";
+    return getOrders(customerName);
 };
 SOAPWebService.prototype.addOrder = function (orderName) {
-    return "";
+    var success = createOrder(orderName);
+    return success;
 };
 SOAPWebService.prototype.addCustomer = function (customerName) {
-    return "";
+    var success = createCustomer(customerName);
+    return success;
 };
-SOAPWebService.prototype.deleteOrder = function (orderName) {
-    return "";
+SOAPWebService.prototype.deleteOrder = function (customerName) {
+    var success = deleteOrder(customerName);
+    return success;
 };
-SOAPWebService.prototype.delteCustomer = function (customerName) {
-    return "";
+SOAPWebService.prototype.deleteCustomer = function(customerName) {
+    var success = deleteCustomer(customerName);
+    return success;
 };
 
 var soapServer = new soap.SoapServer();

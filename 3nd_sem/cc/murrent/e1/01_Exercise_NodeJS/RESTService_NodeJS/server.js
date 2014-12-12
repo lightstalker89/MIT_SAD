@@ -78,7 +78,6 @@ app.get('/order/:name', function (request, response) {
 //Update or add order
 app.put('/customer/add/:name', function (request, response) {
     var success = createCustomer(request.params.name);
-    console.log(request.params);
     response.send(success);
 });
 

@@ -22,15 +22,5 @@ namespace RestSoapClient_v_II.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:1337/SOAPWebService")]
-        public string RestSoapClient_v_II_SoapWebService_SOAPWebServiceService {
-            get {
-                return ((string)(this["RestSoapClient_v_II_SoapWebService_SOAPWebServiceService"]));
-            }
-        }
     }
 }

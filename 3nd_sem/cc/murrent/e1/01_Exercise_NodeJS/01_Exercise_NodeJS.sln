@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestSoapClient", "RestSoapC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestSoapClient_v_II", "RestSoapClient_v_II\RestSoapClient_v_II.csproj", "{A0C29822-D6DD-4057-B48F-1EBBED7DBFEE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A9CBC610-F437-4534-BF40-BBCE8AE5FE74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

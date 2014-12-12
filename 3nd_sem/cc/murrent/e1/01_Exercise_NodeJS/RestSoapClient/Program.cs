@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Web.Script.Serialization;
 using System.Xml;
 using RestSharp;
 using RestSoapClient.Models;
-using Soap;
 
 namespace RestSoapClient
 {
@@ -65,6 +63,8 @@ namespace RestSoapClient
 
         private static void ChooseSoapRequest()
         {
+            string requestParameter = "";
+            string response = "";
             Console.Clear();
             Console.WriteLine("---------------------------------");
             Console.WriteLine("Please choose request method");
@@ -74,26 +74,32 @@ namespace RestSoapClient
             switch (keyInfo.Key)
             {
                 case ConsoleKey.D:
+                      requestParameter = GetParameter("Delete customer: ");
+                    response = CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>"); 
                     break;
 
                 case ConsoleKey.F:
-                  
+                    requestParameter = GetParameter("Delete order for customer: ");
+                    response = CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName>"); 
                     break;
 
                 case ConsoleKey.G:
-                    CallWebService("getCustomers");           
+                    response = CallWebService("getCustomers", "<all></all>");           
                     break;
 
                 case ConsoleKey.H:
-               
+                    requestParameter = GetParameter("Get orders for customer: ");
+                    response = CallWebService("getOrders", "<customerName>" + requestParameter + "</customerName>");
                     break;
 
                 case ConsoleKey.J:
-                    
+                    requestParameter = GetParameter("New customer name: ");
+                    response = CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");  
                     break;
 
                 case ConsoleKey.K:
-
+                      requestParameter = GetParameter("Add order for customer: ");
+                      response = CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName>"); 
                     break;
 
                 default:
@@ -235,28 +241,28 @@ namespace RestSoapClient
             }
         }
 
-        public static void CallWebService(string action)
+        public static string CallWebService(string action, string parameter)
         {
-            XmlDocument soapEnvelopeXml = CreateSoapEnvelope(action);
+            string responseString = "";
+            XmlDocument soapEnvelopeXml = CreateSoapEnvelope(action, parameter);
             HttpWebRequest webRequest = CreateWebRequest("http://localhost:1337/SOAPWebService", action);
             InsertSoapEnvelopeIntoWebRequest(soapEnvelopeXml, webRequest);
 
-            webRequest.BeginGetResponse(new AsyncCallback(GetResponseCallback), webRequest);
-        }
+            webRequest.BeginGetResponse(delegate(IAsyncResult asynchronousResult)
+            {
+                HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
 
-        private static void GetResponseCallback(IAsyncResult asynchronousResult)
-        {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
+                HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
+                Stream streamResponse = response.GetResponseStream();
+                StreamReader streamRead = new StreamReader(streamResponse);
+                responseString = streamRead.ReadToEnd();
+                Console.WriteLine(responseString);
+                streamResponse.Close();
+                streamRead.Close();
+                response.Close();
+            }, webRequest);
 
-            HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
-            Stream streamResponse = response.GetResponseStream();
-            StreamReader streamRead = new StreamReader(streamResponse);
-            string responseString = streamRead.ReadToEnd();
-            Console.WriteLine(responseString);
-            streamResponse.Close();
-            streamRead.Close();
-
-            response.Close();
+            return responseString;
         }
 
         private static HttpWebRequest CreateWebRequest(string url, string action)
@@ -271,10 +277,10 @@ namespace RestSoapClient
             return webRequest;
         }
 
-        private static XmlDocument CreateSoapEnvelope(string action)
+        private static XmlDocument CreateSoapEnvelope(string action, string parameter)
         {
             XmlDocument soapEnvelop = new XmlDocument();
-            soapEnvelop.LoadXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/""><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><" + action + "/></SOAP-ENV:Body></SOAP-ENV:Envelope>");
+            soapEnvelop.LoadXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/""><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><" + action + ">" + parameter + "</" + action + "></SOAP-ENV:Body></SOAP-ENV:Envelope>");
             return soapEnvelop;
         }
 
