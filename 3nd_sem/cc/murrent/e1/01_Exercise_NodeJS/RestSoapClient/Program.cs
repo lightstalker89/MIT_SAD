@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Web.Script.Serialization;
+using System.Xml;
+using Microsoft.Web.Services3.Messaging;
 using RestSharp;
 using RestSoapClient.Models;
 
@@ -177,6 +181,47 @@ namespace RestSoapClient
             {
                 Environment.Exit(0);
             }
+        }
+
+
+        public static void Execute()
+        {
+            HttpWebRequest request = CreateWebRequest();
+            XmlDocument soapEnvelopeXml = new XmlDocument();
+            soapEnvelopeXml.LoadXml(@"<?xml version=""1.0"" encoding=""utf-8""?>
+            <soap:Envelope xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+            <soap:Body>
+                <HelloWorld3 xmlns=""http://tempuri.org/"">
+                    <parameter1>test</parameter1>
+                    <parameter2>23</parameter2>
+                    <parameter3>test</parameter3>
+                </HelloWorld3>
+            </soap:Body>
+            </soap:Envelope>");
+
+            using (Stream stream = request.GetRequestStream())
+            {
+                soapEnvelopeXml.Save(stream);
+            }
+
+            using (WebResponse response = request.GetResponse())
+            {
+                using (StreamReader rd = new StreamReader(response.GetResponseStream()))
+                {
+                    string soapResult = rd.ReadToEnd();
+                    Console.WriteLine(soapResult);
+                }
+            }
+        }
+
+        public static HttpWebRequest CreateWebRequest()
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(@"http://dev.nl/Rvl.Demo.TestWcfServiceApplication/SoapWebService.asmx");
+            webRequest.Headers.Add(@"SOAP:Action");
+            webRequest.ContentType = "text/xml;charset=\"utf-8\"";
+            webRequest.Accept = "text/xml";
+            webRequest.Method = "POST";
+            return webRequest;
         }
     }
 }

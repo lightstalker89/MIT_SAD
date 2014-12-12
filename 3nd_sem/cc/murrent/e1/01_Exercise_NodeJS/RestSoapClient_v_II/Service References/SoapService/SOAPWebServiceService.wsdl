@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://server.soap.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="SOAPWebServiceService" targetNamespace="http://server.soap.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="http://server.soap.com/" version="1.0" />
+  </types>
+  <message name="getCustomers">
+    <part name="all" element="xsd:string" />
+  </message>
+  <message name="getCustomersResponse">
+    <part name="return" element="xsd:string" />
+  </message>
+  <message name="getOrders">
+    <part name="customerName" element="xsd:string" />
+  </message>
+  <message name="getOrdersResponse">
+    <part name="return" element="xsd:string" />
+  </message>
+  <message name="addOrder">
+    <part name="orderName" element="xsd:string" />
+  </message>
+  <message name="addOrderResponse">
+    <part name="return" element="xsd:string" />
+  </message>
+  <message name="addCustomer">
+    <part name="customerName" element="xsd:string" />
+  </message>
+  <message name="addCustomerResponse">
+    <part name="return" element="xsd:string" />
+  </message>
+  <message name="deleteOrder">
+    <part name="orderName" element="xsd:string" />
+  </message>
+  <message name="deleteOrderResponse">
+    <part name="return" element="xsd:string" />
+  </message>
+  <message name="delteCustomer">
+    <part name="customerName" element="xsd:string" />
+  </message>
+  <message name="delteCustomerResponse">
+    <part name="return" element="xsd:string" />
+  </message>
+  <portType name="SOAPWebService">
+    <operation name="getCustomers">
+      <input wsam:Action="getCustomers" message="tns:getCustomers" />
+      <output wsam:Action="http://server.soap.com/SOAPWebService/getCustomersResponse" message="tns:getCustomersResponse" />
+    </operation>
+    <operation name="getOrders">
+      <input wsam:Action="getOrders" message="tns:getOrders" />
+      <output wsam:Action="http://server.soap.com/SOAPWebService/getOrdersResponse" message="tns:getOrdersResponse" />
+    </operation>
+    <operation name="addOrder">
+      <input wsam:Action="addOrder" message="tns:addOrder" />
+      <output wsam:Action="http://server.soap.com/SOAPWebService/addOrderResponse" message="tns:addOrderResponse" />
+    </operation>
+    <operation name="addCustomer">
+      <input wsam:Action="addCustomer" message="tns:addCustomer" />
+      <output wsam:Action="http://server.soap.com/SOAPWebService/addCustomerResponse" message="tns:addCustomerResponse" />
+    </operation>
+    <operation name="deleteOrder">
+      <input wsam:Action="deleteOrder" message="tns:deleteOrder" />
+      <output wsam:Action="http://server.soap.com/SOAPWebService/deleteOrderResponse" message="tns:deleteOrderResponse" />
+    </operation>
+    <operation name="delteCustomer">
+      <input wsam:Action="delteCustomer" message="tns:delteCustomer" />
+      <output wsam:Action="http://server.soap.com/SOAPWebService/delteCustomerResponse" message="tns:delteCustomerResponse" />
+    </operation>
+  </portType>
+  <binding name="SOAPWebServicePortBinding" type="tns:SOAPWebService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <operation name="getCustomers">
+      <soap:operation soapAction="getCustomers" />
+      <input name="getCustomers">
+        <soap:body use="literal" />
+      </input>
+      <output name="getCustomersResponse">
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="getOrders">
+      <soap:operation soapAction="getOrders" />
+      <input name="getOrders">
+        <soap:body use="literal" />
+      </input>
+      <output name="getOrdersResponse">
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="addOrder">
+      <soap:operation soapAction="addOrder" />
+      <input name="addOrder">
+        <soap:body use="literal" />
+      </input>
+      <output name="addOrderResponse">
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="addCustomer">
+      <soap:operation soapAction="addCustomer" />
+      <input name="addCustomer">
+        <soap:body use="literal" />
+      </input>
+      <output name="addCustomerResponse">
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="deleteOrder">
+      <soap:operation soapAction="deleteOrder" />
+      <input name="deleteOrder">
+        <soap:body use="literal" />
+      </input>
+      <output name="deleteOrderResponse">
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="delteCustomer">
+      <soap:operation soapAction="delteCustomer" />
+      <input name="delteCustomer">
+        <soap:body use="literal" />
+      </input>
+      <output name="delteCustomerResponse">
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="SOAPWebServiceService">
+    <port name="SOAPWebServicePort" binding="tns:SOAPWebServicePortBinding">
+      <soap:address location="http://localhost:1337/SOAPWebService" />
+    </port>
+  </service>
+</definitions>
