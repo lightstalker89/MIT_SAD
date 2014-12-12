@@ -3,20 +3,20 @@ var fs = require('fs');
 var _ = require('underscore');
 var uuid = require('node-uuid');
 
-var customers = [];
-var orders = [];
+var customers = { data: [] };
+var orders = { data: [] };
 var createCustomer = function (customerName) {
-    var currentCustomer = _.findWhere(customers, { Name: customerName });
+    var currentCustomer = _.findWhere(customers.data, { Name: customerName });
     if (currentCustomer) {
         return { Success: false };
     } else {
-        customers.push({ Name: customerName, Orders: [] });
+        customers.data.push({ Name: customerName, Orders: [] });
         return { Success: true };
     }
 };
 
 var createOrder = function (customerName) {
-    var currentCustomer = _.findWhere(customers, { Name: customerName });
+    var currentCustomer = _.findWhere(customers.data, { Name: customerName });
     if (currentCustomer) {
         var orderId = uuid.v1();
         currentCustomer.Order.push(orderId);
@@ -27,7 +27,7 @@ var createOrder = function (customerName) {
 };
 
 var getOrders = function (customerName) {
-    var currentCustomer = _.findWhere(customers, { CustomerName: customerName });
+    var currentCustomer = _.findWhere(customers.data, { CustomerName: customerName });
     if (currentCustomer) {
         return currentCustomer.Orders;
     }
@@ -35,7 +35,7 @@ var getOrders = function (customerName) {
 };
 
 var deleteOrder = function (orderName) {
-    var currentOrder = _.findWhere(orders, { Name: orderName });
+    var currentOrder = _.findWhere(orders.data, { Name: orderName });
     if (currentOrder) {
         var index = _.indexOf(order, currentOrder);
         if (index !== -1) {
@@ -49,11 +49,11 @@ var deleteOrder = function (orderName) {
 };
 
 var deleteCustomer = function (customerName) {
-    var currentCustomer = _.findWhere(customers, { Name: customerName });
+    var currentCustomer = _.findWhere(customers.data, { Name: customerName });
     if (currentCustomer) {
-        var index = _.indexOf(customers, currentCustomer);
+        var index = _.indexOf(customers.data, currentCustomer);
         if (index !== -1) {
-            customers.splice(index, 1);
+            customers.data.splice(index, 1);
             return { Success: true };
         } else {
             return { Success: false };
@@ -82,7 +82,7 @@ SOAPWebService.prototype.deleteOrder = function (customerName) {
     var success = deleteOrder(customerName);
     return success;
 };
-SOAPWebService.prototype.deleteCustomer = function(customerName) {
+SOAPWebService.prototype.deleteCustomer = function (customerName) {
     var success = deleteCustomer(customerName);
     return success;
 };

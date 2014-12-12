@@ -56,7 +56,7 @@ namespace RestSoapClient
             else
             {
                 rest = true;
-               ChooseMethod();
+                ChooseMethod();
             }
 
         }
@@ -74,32 +74,44 @@ namespace RestSoapClient
             switch (keyInfo.Key)
             {
                 case ConsoleKey.D:
-                      requestParameter = GetParameter("Delete customer: ");
-                    response = CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>"); 
+                    requestParameter = GetParameter("Delete customer: ");
+                    response = CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>");
+                    XmlDocument deleteCustomerDocument = new XmlDocument();
+                    deleteCustomerDocument.LoadXml(response);
                     break;
 
                 case ConsoleKey.F:
                     requestParameter = GetParameter("Delete order for customer: ");
-                    response = CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName>"); 
+                    response = CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName>");
+                    XmlDocument deleteOrderDocument = new XmlDocument();
+                    deleteOrderDocument.LoadXml(response);
                     break;
 
                 case ConsoleKey.G:
-                    response = CallWebService("getCustomers", "<all></all>");           
+                    response = CallWebService("getCustomers", "<all></all>");
+                    XmlDocument getCustomerDocument = new XmlDocument();
+                    getCustomerDocument.LoadXml(response);
                     break;
 
                 case ConsoleKey.H:
                     requestParameter = GetParameter("Get orders for customer: ");
                     response = CallWebService("getOrders", "<customerName>" + requestParameter + "</customerName>");
+                    XmlDocument getOrdersDocument = new XmlDocument();
+                    getOrdersDocument.LoadXml(response);
                     break;
 
                 case ConsoleKey.J:
                     requestParameter = GetParameter("New customer name: ");
-                    response = CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");  
+                    response = CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");
+                    XmlDocument addCustomerDocument = new XmlDocument();
+                    addCustomerDocument.LoadXml(response);
                     break;
 
                 case ConsoleKey.K:
-                      requestParameter = GetParameter("Add order for customer: ");
-                      response = CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName>"); 
+                    requestParameter = GetParameter("Add order for customer: ");
+                    response = CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName>");
+                    XmlDocument addOrDocument = new XmlDocument();
+                    addOrDocument.LoadXml(response);
                     break;
 
                 default:
@@ -137,6 +149,10 @@ namespace RestSoapClient
                     IRestResponse deleteCustomerResponse = restClient.Execute(restRequest);
                     SuccessResponse deleteCustomerSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(deleteCustomerResponse.Content);
                     Console.WriteLine("Success: " + deleteCustomerSuccessResponse.Success);
+                    if (!deleteCustomerSuccessResponse.Success)
+                    {
+                        Console.WriteLine("Error: " + deleteCustomerSuccessResponse.ErrorMessage);
+                    }
                     break;
 
                 case ConsoleKey.F:
@@ -146,6 +162,10 @@ namespace RestSoapClient
                     IRestResponse deleteOrdeResponseResponse = restClient.Execute(restRequest);
                     SuccessResponse deleteOrderSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(deleteOrdeResponseResponse.Content);
                     Console.WriteLine("Success: " + deleteOrderSuccessResponse.Success);
+                    if (!deleteOrderSuccessResponse.Success)
+                    {
+                        Console.WriteLine("Error: " + deleteOrderSuccessResponse.ErrorMessage);
+                    }
                     break;
 
                 case ConsoleKey.G:
@@ -161,7 +181,7 @@ namespace RestSoapClient
                         Console.WriteLine(customer.Name);
                         foreach (string order in customer.Orders)
                         {
-                            Console.WriteLine("\t|--" + order);
+                            Console.WriteLine("  |--" + order);
                         }
                     }
                     break;
@@ -179,7 +199,7 @@ namespace RestSoapClient
                     Console.WriteLine(requestParameter);
                     foreach (string order in ordersContent)
                     {
-                        Console.WriteLine("\t|-" + order);
+                        Console.WriteLine("  |-" + order);
                     }
                     break;
 
@@ -190,6 +210,10 @@ namespace RestSoapClient
                     IRestResponse newCustomerResponse = restClient.Execute(restRequest);
                     SuccessResponse customerSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(newCustomerResponse.Content);
                     Console.WriteLine("Success: " + customerSuccessResponse.Success);
+                    if (!customerSuccessResponse.Success)
+                    {
+                        Console.WriteLine("Error: " + customerSuccessResponse.ErrorMessage);
+                    }
                     break;
 
                 case ConsoleKey.K:
@@ -199,6 +223,10 @@ namespace RestSoapClient
                     IRestResponse newOrderResponse = restClient.Execute(restRequest);
                     SuccessResponse orderSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(newOrderResponse.Content);
                     Console.WriteLine("Success: " + orderSuccessResponse.Success);
+                    if (!orderSuccessResponse.Success)
+                    {
+                        Console.WriteLine("Error: " + orderSuccessResponse.ErrorMessage);
+                    }
                     break;
 
                 default:

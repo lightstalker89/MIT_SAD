@@ -8,7 +8,7 @@ var orders = [];
 var createCustomer = function (customerName) {
     var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
-        return { Success: false };
+        return { Success: false, ErrorMessage: "Customer already exists" };
     } else {
         customers.push({ Name: customerName, Orders: [] });
         return { Success: true };
@@ -23,10 +23,10 @@ var createOrder = function (customerName) {
             currentCustomer.Orders.push(orderId);
             return { Success: true };
         } else {
-            return { Success: false };
+            return { Success: false, ErrorMessage: "Adding orders not available for this customer" };
         }
     } else {
-        return { Success: false };
+        return { Success: false, ErrorMessage: "Could not add order, because customer could not be found" };
     }
 };
 
@@ -44,7 +44,7 @@ var deleteOrder = function (customerName) {
         currentCustomer.Orders = [];
         return { Success: true };
     }
-    return { Success: false };
+    return { Success: false, ErrorMessage: "Could not delete order, because customer could not be found" };
 };
 
 var deleteCustomer = function (customerName) {
@@ -55,7 +55,7 @@ var deleteCustomer = function (customerName) {
             customers.splice(index, 1);
             return { Success: true };
         } else {
-            return { Success: false };
+            return { Success: false, ErrorMessage: "Could not delete customer, because customer could not be found" };
         }
     }
     return { Success: false };
