@@ -61,6 +61,12 @@ namespace RestSoapClient
 
         }
 
+        private static void GoBack()
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("X) Change request method");
+        }
+
         private static void ChooseSoapRequest()
         {
             string requestParameter = "";
@@ -70,6 +76,7 @@ namespace RestSoapClient
             Console.WriteLine("Please choose request method");
             Console.WriteLine("---------------------------------");
             WriteDictionaryOptionsToConsole(Requests);
+            GoBack();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
             {
@@ -114,6 +121,10 @@ namespace RestSoapClient
                     addOrDocument.LoadXml(response);
                     break;
 
+                case ConsoleKey.X:
+                    ChooseMethod();
+                    break;
+
                 default:
                     ChooseRestRequest();
                     break;
@@ -140,6 +151,7 @@ namespace RestSoapClient
             Console.WriteLine("---------------------------------");
             WriteDictionaryOptionsToConsole(Requests);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            GoBack();
             switch (keyInfo.Key)
             {
                 case ConsoleKey.D:
@@ -227,6 +239,10 @@ namespace RestSoapClient
                     {
                         Console.WriteLine("Error: " + orderSuccessResponse.ErrorMessage);
                     }
+                    break;
+
+                case ConsoleKey.X:
+                    ChooseMethod();
                     break;
 
                 default:
