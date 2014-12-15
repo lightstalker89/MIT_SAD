@@ -27,11 +27,16 @@ var createOrder = function (customerName) {
 };
 
 var getOrders = function (customerName) {
-    var currentCustomer = _.findWhere(customers, { CustomerName: customerName });
+    var tmpObject = {};
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
-        return currentCustomer.Orders;
+        var i = 0;
+        _.each(currentCustomer.Orders, function (order) {
+            tmpObject["order" + i] = order;
+            i++;
+        });
     }
-    return [];
+    return tmpObject;
 };
 
 var deleteOrder = function (orderName) {
@@ -66,8 +71,10 @@ var getFormattedCustomers = function () {
     var tmpObject = {};
     _.each(customers, function (customer) {
         tmpObject[customer.Name] = [];
+        var i = 0;
         _.each(customer.Orders, function (order) {
-            tmpObject[customer.Name].push(order);
+            tmpObject[customer.Name]["order" + i] = order;
+            i++;
         });
     });
     return tmpObject;

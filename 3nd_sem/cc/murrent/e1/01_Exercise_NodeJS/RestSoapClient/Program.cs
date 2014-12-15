@@ -13,7 +13,7 @@ namespace RestSoapClient
     {
         private static bool rest = true;
         private static readonly JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
-        private const string EndPoint = "http://localhost:1337";
+        private const string EndPoint = "http://localhost:1338";
         private static RestClient restClient;
         private static readonly Dictionary<ConsoleKey, string> RequestOptions = new Dictionary<ConsoleKey, string>
         {
@@ -58,7 +58,13 @@ namespace RestSoapClient
                 rest = true;
                 ChooseMethod();
             }
+        }
 
+        private static void ChangeRequest()
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("X) Change request method");
+            Console.WriteLine();
         }
 
         private static void ChooseSoapRequest()
@@ -70,6 +76,7 @@ namespace RestSoapClient
             Console.WriteLine("Please choose request method");
             Console.WriteLine("---------------------------------");
             WriteDictionaryOptionsToConsole(Requests);
+            ChangeRequest();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
             {
@@ -114,6 +121,10 @@ namespace RestSoapClient
                     addOrDocument.LoadXml(response);
                     break;
 
+                case ConsoleKey.X:
+                    ChooseMethod();
+                    break;
+
                 default:
                     ChooseRestRequest();
                     break;
@@ -139,6 +150,7 @@ namespace RestSoapClient
             Console.WriteLine("Please Choose Request");
             Console.WriteLine("---------------------------------");
             WriteDictionaryOptionsToConsole(Requests);
+            ChangeRequest();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
             {
@@ -227,6 +239,10 @@ namespace RestSoapClient
                     {
                         Console.WriteLine("Error: " + orderSuccessResponse.ErrorMessage);
                     }
+                    break;
+
+                case ConsoleKey.X:
+                    ChooseMethod();
                     break;
 
                 default:
