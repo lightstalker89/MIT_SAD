@@ -3,23 +3,23 @@ var fs = require('fs');
 var _ = require('underscore');
 var uuid = require('node-uuid');
 
-var customers = { data: [] };
-var orders = { data: [] };
+var customers = [];
+var orders = [];
 var createCustomer = function (customerName) {
-    var currentCustomer = _.findWhere(customers.data, { Name: customerName });
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
         return { Success: false };
     } else {
-        customers.data.push({ Name: customerName, Orders: [] });
+        customers.push({ Name: customerName, Orders: [] });
         return { Success: true };
     }
 };
 
 var createOrder = function (customerName) {
-    var currentCustomer = _.findWhere(customers.data, { Name: customerName });
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
         var orderId = uuid.v1();
-        currentCustomer.Order.push(orderId);
+        currentCustomer.Orders.push(orderId);
         return { Success: true };
     } else {
         return { Success: false };
@@ -27,7 +27,7 @@ var createOrder = function (customerName) {
 };
 
 var getOrders = function (customerName) {
-    var currentCustomer = _.findWhere(customers.data, { CustomerName: customerName });
+    var currentCustomer = _.findWhere(customers, { CustomerName: customerName });
     if (currentCustomer) {
         return currentCustomer.Orders;
     }
@@ -35,7 +35,7 @@ var getOrders = function (customerName) {
 };
 
 var deleteOrder = function (orderName) {
-    var currentOrder = _.findWhere(orders.data, { Name: orderName });
+    var currentOrder = _.findWhere(orders, { Name: orderName });
     if (currentOrder) {
         var index = _.indexOf(order, currentOrder);
         if (index !== -1) {
@@ -49,11 +49,11 @@ var deleteOrder = function (orderName) {
 };
 
 var deleteCustomer = function (customerName) {
-    var currentCustomer = _.findWhere(customers.data, { Name: customerName });
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
-        var index = _.indexOf(customers.data, currentCustomer);
+        var index = _.indexOf(customers, currentCustomer);
         if (index !== -1) {
-            customers.data.splice(index, 1);
+            customers.splice(index, 1);
             return { Success: true };
         } else {
             return { Success: false };
@@ -62,16 +62,27 @@ var deleteCustomer = function (customerName) {
     return false;
 };
 
+var getFormattedCustomers = function () {
+    var tmpObject = {};
+    _.each(customers, function (customer) {
+        tmpObject[customer.Name] = [];
+        _.each(customer.Orders, function (order) {
+            tmpObject[customer.Name].push(order);
+        });
+    });
+    return tmpObject;
+};
+
 function SOAPWebService() {
 }
 SOAPWebService.prototype.getCustomers = function (all) {
-    return customers;
+    return getFormattedCustomers();
 };
 SOAPWebService.prototype.getOrders = function (customerName) {
     return getOrders(customerName);
 };
-SOAPWebService.prototype.addOrder = function (orderName) {
-    var success = createOrder(orderName);
+SOAPWebService.prototype.addOrder = function (customerName) {
+    var success = createOrder(customerName);
     return success;
 };
 SOAPWebService.prototype.addCustomer = function (customerName) {
