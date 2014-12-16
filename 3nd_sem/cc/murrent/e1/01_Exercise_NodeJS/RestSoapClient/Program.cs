@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Web.Script.Serialization;
 using System.Xml;
+using System.Xml.Linq;
 using RestSharp;
 using RestSoapClient.Models;
 
@@ -13,7 +16,7 @@ namespace RestSoapClient
     {
         private static bool rest = true;
         private static readonly JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
-        private const string EndPoint = "http://localhost:1337";
+        private const string EndPoint = "http://localhost:1338";
         private static RestClient restClient;
         private static readonly Dictionary<ConsoleKey, string> RequestOptions = new Dictionary<ConsoleKey, string>
         {
@@ -82,43 +85,42 @@ namespace RestSoapClient
             {
                 case ConsoleKey.D:
                     requestParameter = GetParameter("Delete customer: ");
-                    response = CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>");
-                    XmlDocument deleteCustomerDocument = new XmlDocument();
-                    deleteCustomerDocument.LoadXml(response);
+                    response += CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>");
+                    XDocument deleteCustomerDocument = XDocument.Load(response);
+                    GetSccessFromResponse(deleteCustomerDocument);
                     break;
 
                 case ConsoleKey.F:
                     requestParameter = GetParameter("Delete order for customer: ");
-                    response = CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName>");
-                    XmlDocument deleteOrderDocument = new XmlDocument();
-                    deleteOrderDocument.LoadXml(response);
+                    response += CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName>");
+                    XDocument deleteOrderDocument = XDocument.Load(response);
+                    GetSccessFromResponse(deleteOrderDocument);
                     break;
 
                 case ConsoleKey.G:
-                    response = CallWebService("getCustomers", "<all></all>");
-                    XmlDocument getCustomerDocument = new XmlDocument();
-                    getCustomerDocument.LoadXml(response);
+                    response += CallWebService("getCustomers", "<all></all>");
+                    XDocument getCustomerDocument = XDocument.Load(response);
                     break;
 
                 case ConsoleKey.H:
                     requestParameter = GetParameter("Get orders for customer: ");
-                    response = CallWebService("getOrders", "<customerName>" + requestParameter + "</customerName>");
-                    XmlDocument getOrdersDocument = new XmlDocument();
-                    getOrdersDocument.LoadXml(response);
+                    response += CallWebService("getOrders", "<customerName>" + requestParameter + "</customerName>");
+                    XDocument getOrdersDocument = XDocument.Load(response);
                     break;
 
                 case ConsoleKey.J:
                     requestParameter = GetParameter("New customer name: ");
-                    response = CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");
-                    XmlDocument addCustomerDocument = new XmlDocument();
-                    addCustomerDocument.LoadXml(response);
+                    response += CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");
+                    XDocument addCustomerDocument = XDocument.Load(response);
+                    GetSccessFromResponse(addCustomerDocument);
+                   
                     break;
 
                 case ConsoleKey.K:
                     requestParameter = GetParameter("Add order for customer: ");
-                    response = CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName>");
-                    XmlDocument addOrDocument = new XmlDocument();
-                    addOrDocument.LoadXml(response);
+                    response += CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName>");
+                    XDocument addOrDocument = XDocument.Load(response);
+                    GetSccessFromResponse(addOrDocument);
                     break;
 
                 case ConsoleKey.X:
@@ -131,6 +133,40 @@ namespace RestSoapClient
             }
             StartFromBeginning();
             ChooseRestRequest();
+        }
+
+        private static void GetSccessFromResponse(XDocument document)
+        {
+            XElement node = document.Descendants().SingleOrDefault(e => e.Name.LocalName.Equals("Success"));
+            if (node != null)
+            {
+                Console.WriteLine("Success: " + node.Value);
+                if (node.Value.ToLower() == "false")
+                {
+                    string error = GetErrorFromResponse(document);
+                    Console.WriteLine("Error: " + error);
+                }
+            }
+        }
+
+        private static string GetItemsFromResponse(XDocument document)
+        {
+            IEnumerable<XElement> nodes = document.Descendants().Where(e => e.Name.LocalName.Equals("Items"));
+            foreach (XElement element in nodes)
+            {
+                Console.WriteLine(element.Value);
+            }
+            return "";
+        }
+
+        private static string GetErrorFromResponse(XDocument document)
+        {
+            XElement node = document.Descendants().SingleOrDefault(e => e.Name.LocalName.Equals("Error"));
+            if (node != null)
+            {
+                return node.Value;
+            }
+            return "";
         }
 
         private static void WriteDictionaryOptionsToConsole(Dictionary<ConsoleKey, string> dictionary)

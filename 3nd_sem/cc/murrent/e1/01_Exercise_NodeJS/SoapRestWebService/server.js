@@ -64,13 +64,28 @@ var deleteCustomer = function (customerName) {
 };
 
 var getFormattedCustomers = function () {
-    var tmpObject = {};
+    var tmpObject = { Items: {} };
     _.each(customers, function (customer) {
         tmpObject[customer.Name] = [];
+        var i = 0;
         _.each(customer.Orders, function (order) {
-            tmpObject[customer.Name].push(order);
+            tmpObject.Items[customer.Name]["order" + i] = order;
+            i++;
         });
     });
+    return tmpObject;
+};
+
+var getFormattedOrders = function (customerName) {
+    var tmpObject = { Items: {} };
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
+    if (currentCustomer) {
+        var i = 0;
+        _.each(currentCustomer.Orders, function (order) {
+            tmpObject.Items["order" + i] = order;
+            i++;
+        });
+    }
     return tmpObject;
 };
 
@@ -80,7 +95,7 @@ SOAPWebService.prototype.getCustomers = function (all) {
     return getFormattedCustomers();
 };
 SOAPWebService.prototype.getOrders = function (customerName) {
-    return getFormattedCustomers(customerName);
+    return getFormattedOrders(customerName);
 };
 SOAPWebService.prototype.addOrder = function (customerName) {
     var success = createOrder(customerName);
@@ -142,9 +157,7 @@ app.delete('/customer/delete/:name', function (request, response) {
 });
 
 //Start server
-var port = 1337;
+var port = 1338;
 var server = app.listen(port, function () {
-    var host = server.address().address;
-    var port = server.address().port;
     console.log("REST service listening on port 1338");
 });
