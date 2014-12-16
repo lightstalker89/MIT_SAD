@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Xml;
-using System.Xml.Linq;
 using RestSharp;
 using RestSoapClient.Models;
 
@@ -164,12 +162,19 @@ namespace RestSoapClient
         private static void GetItemsFromResponse(XmlDocument document)
         {
             XmlNodeList elemList = document.GetElementsByTagName("return");
-            foreach (XmlNode node in elemList)
+            if (elemList.Count == 1)
             {
-                Console.WriteLine(node.FirstChild.Value);
-                if (node.FirstChild.HasChildNodes)
+                XmlNode node = elemList[0];
+                foreach (XmlNode childNode in node.ChildNodes)
                 {
-
+                    Console.WriteLine(childNode.Name);
+                    if (childNode.HasChildNodes)
+                    {
+                        foreach (XmlNode childChildNoe in childNode.ChildNodes)
+                        {
+                            Console.WriteLine("  |--" + childChildNoe.Value);
+                        }
+                    }
                 }
             }
         }
