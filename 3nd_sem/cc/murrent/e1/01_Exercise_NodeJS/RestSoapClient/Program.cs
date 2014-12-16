@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
 using System.Web.Script.Serialization;
 using System.Xml;
 using System.Xml.Linq;
@@ -86,41 +85,53 @@ namespace RestSoapClient
                 case ConsoleKey.D:
                     requestParameter = GetParameter("Delete customer: ");
                     response += CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>");
-                    XDocument deleteCustomerDocument = XDocument.Load(response);
+                    XmlDocument deleteCustomerDocument = new XmlDocument();
+                    deleteCustomerDocument.LoadXml(response);
                     GetSccessFromResponse(deleteCustomerDocument);
                     break;
 
                 case ConsoleKey.F:
                     requestParameter = GetParameter("Delete order for customer: ");
                     response += CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName>");
-                    XDocument deleteOrderDocument = XDocument.Load(response);
+                    XmlDocument deleteOrderDocument = new XmlDocument();
+                    deleteOrderDocument.LoadXml(response);
                     GetSccessFromResponse(deleteOrderDocument);
                     break;
 
                 case ConsoleKey.G:
                     response += CallWebService("getCustomers", "<all></all>");
-                    XDocument getCustomerDocument = XDocument.Load(response);
+                    XmlDocument getCustomerDocument = new XmlDocument();
+                    getCustomerDocument.LoadXml(response);
+                    Console.WriteLine("-------------------------");
+                    Console.WriteLine("Customers");
+                    Console.WriteLine("-------------------------");
+                    GetItemsFromResponse(getCustomerDocument);
                     break;
 
                 case ConsoleKey.H:
                     requestParameter = GetParameter("Get orders for customer: ");
                     response += CallWebService("getOrders", "<customerName>" + requestParameter + "</customerName>");
-                    XDocument getOrdersDocument = XDocument.Load(response);
+                    XmlDocument getOrdersDocument = new XmlDocument();
+                    getOrdersDocument.LoadXml(response);
+                    Console.WriteLine("-------------------------");
+                    Console.WriteLine("Orders");
+                    Console.WriteLine("-------------------------");
+                    GetItemsFromResponse(getOrdersDocument);
                     break;
 
                 case ConsoleKey.J:
                     requestParameter = GetParameter("New customer name: ");
                     response += CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");
-                    XDocument addCustomerDocument = XDocument.Load(response);
+                    XmlDocument addCustomerDocument = new XmlDocument();
+                    addCustomerDocument.LoadXml(response);
                     GetSccessFromResponse(addCustomerDocument);
-                   
                     break;
 
                 case ConsoleKey.K:
                     requestParameter = GetParameter("Add order for customer: ");
                     response += CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName>");
-                    XDocument addOrDocument = XDocument.Load(response);
-                    GetSccessFromResponse(addOrDocument);
+                    XmlDocument addOrDocument = new XmlDocument();
+                    addOrDocument.LoadXml(response);
                     break;
 
                 case ConsoleKey.X:
@@ -128,20 +139,21 @@ namespace RestSoapClient
                     break;
 
                 default:
-                    ChooseRestRequest();
+                    ChooseSoapRequest();
                     break;
             }
             StartFromBeginning();
             ChooseRestRequest();
         }
 
-        private static void GetSccessFromResponse(XDocument document)
+        private static void GetSccessFromResponse(XmlDocument document)
         {
-            XElement node = document.Descendants().SingleOrDefault(e => e.Name.LocalName.Equals("Success"));
-            if (node != null)
+            XmlNodeList elemList = document.GetElementsByTagName("Success");
+            if (elemList.Count == 1)
             {
-                Console.WriteLine("Success: " + node.Value);
-                if (node.Value.ToLower() == "false")
+                XmlNode node = elemList[0];
+                Console.WriteLine("Success: " + node.FirstChild.Value);
+                if (node.FirstChild.Value.ToLower() == "false")
                 {
                     string error = GetErrorFromResponse(document);
                     Console.WriteLine("Error: " + error);
@@ -149,22 +161,26 @@ namespace RestSoapClient
             }
         }
 
-        private static string GetItemsFromResponse(XDocument document)
+        private static void GetItemsFromResponse(XmlDocument document)
         {
-            IEnumerable<XElement> nodes = document.Descendants().Where(e => e.Name.LocalName.Equals("Items"));
-            foreach (XElement element in nodes)
+            XmlNodeList elemList = document.GetElementsByTagName("return");
+            foreach (XmlNode node in elemList)
             {
-                Console.WriteLine(element.Value);
+                Console.WriteLine(node.FirstChild.Value);
+                if (node.FirstChild.HasChildNodes)
+                {
+
+                }
             }
-            return "";
         }
 
-        private static string GetErrorFromResponse(XDocument document)
+        private static string GetErrorFromResponse(XmlDocument document)
         {
-            XElement node = document.Descendants().SingleOrDefault(e => e.Name.LocalName.Equals("Error"));
-            if (node != null)
+            XmlNodeList elemList = document.GetElementsByTagName("Error");
+            if (elemList.Count == 1)
             {
-                return node.Value;
+                XmlNode node = elemList[0];
+                return node.FirstChild.Value;
             }
             return "";
         }
@@ -186,8 +202,8 @@ namespace RestSoapClient
             Console.WriteLine("Please Choose Request");
             Console.WriteLine("---------------------------------");
             WriteDictionaryOptionsToConsole(Requests);
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             GoBack();
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
             {
                 case ConsoleKey.D:
@@ -336,7 +352,6 @@ namespace RestSoapClient
                 Stream streamResponse = response.GetResponseStream();
                 StreamReader streamRead = new StreamReader(streamResponse);
                 responseString = streamRead.ReadToEnd();
-                Console.WriteLine(responseString);
                 streamResponse.Close();
                 streamRead.Close();
                 response.Close();

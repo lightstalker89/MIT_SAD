@@ -64,12 +64,12 @@ var deleteCustomer = function (customerName) {
 };
 
 var getFormattedCustomers = function () {
-    var tmpObject = { Items: {} };
+    var tmpObject = { };
     _.each(customers, function (customer) {
         tmpObject[customer.Name] = [];
         var i = 0;
         _.each(customer.Orders, function (order) {
-            tmpObject.Items[customer.Name]["order" + i] = order;
+            tmpObject[customer.Name]["order" + i] = order;
             i++;
         });
     });
@@ -82,7 +82,7 @@ var getFormattedOrders = function (customerName) {
     if (currentCustomer) {
         var i = 0;
         _.each(currentCustomer.Orders, function (order) {
-            tmpObject.Items["order" + i] = order;
+            tmpObject[currentCustomer.Name]["order" + i] = order;
             i++;
         });
     }
