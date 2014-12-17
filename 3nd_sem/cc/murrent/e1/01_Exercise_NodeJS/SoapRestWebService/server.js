@@ -7,6 +7,7 @@ var express = require('express');
 var customers = [];
 var orders = [];
 var createCustomer = function (customerName) {
+    console.log("Received request for creating a customer");
     var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
         return { Success: false, Error: "Error while adding a new customer. A customer with this name already exists." };
@@ -17,6 +18,7 @@ var createCustomer = function (customerName) {
 };
 
 var createOrder = function (customerName) {
+    console.log("Received request for creating an order");
     var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
         var orderId = uuid.v1();
@@ -28,6 +30,7 @@ var createOrder = function (customerName) {
 };
 
 var getOrders = function (customerName) {
+    console.log("Received request for getting orders for customer");
     var currentCustomer = _.findWhere(customers, { CustomerName: customerName });
     if (currentCustomer) {
         return currentCustomer.Orders;
@@ -36,6 +39,7 @@ var getOrders = function (customerName) {
 };
 
 var deleteOrder = function (orderName) {
+    console.log("Received request for deleting an order");
     var currentCustomer = _.findWhere(customers, { Name: orderName });
     if (currentCustomer) {
         _.each(currentCustomer.Orders, function(order) {
@@ -51,6 +55,7 @@ var deleteOrder = function (orderName) {
 };
 
 var deleteCustomer = function (customerName) {
+    console.log("Received request for deleting a customer");
     var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
         var index = _.indexOf(customers, currentCustomer);
