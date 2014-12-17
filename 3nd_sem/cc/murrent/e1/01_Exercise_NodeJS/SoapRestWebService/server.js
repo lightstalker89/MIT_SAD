@@ -9,7 +9,7 @@ var orders = [];
 var createCustomer = function (customerName) {
     var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
-        return { Success: false };
+        return { Success: false, Error: "Error while adding a new customer. A customer with this name already exists." };
     } else {
         customers.push({ Name: customerName, Orders: [] });
         return { Success: true };
@@ -23,7 +23,7 @@ var createOrder = function (customerName) {
         currentCustomer.Orders.push(orderId);
         return { Success: true };
     } else {
-        return { Success: false };
+        return { Success: false, Error: "Error while creating an order. The customer could not be found." };
     }
 };
 
@@ -36,17 +36,18 @@ var getOrders = function (customerName) {
 };
 
 var deleteOrder = function (orderName) {
-    var currentOrder = _.findWhere(orders, { Name: orderName });
-    if (currentOrder) {
-        var index = _.indexOf(order, currentOrder);
-        if (index !== -1) {
-            orders.splice(index, 1);
-            return { Success: true };
-        } else {
-            return { Success: false };
-        }
+    var currentCustomer = _.findWhere(customers, { Name: orderName });
+    if (currentCustomer) {
+        _.each(currentCustomer.Orders, function(order) {
+            var itemIndex = _.indexOf(orders, order);
+            if (itemIndex !== -1) {
+                orders.splice(itemIndex, 1);
+            }
+        });
+        currentCustomer.Orders = [];
+        return { Success: true };
     }
-    return false;
+    return { Success: false, Error: "Error while deleting orders for the customer" };
 };
 
 var deleteCustomer = function (customerName) {
@@ -57,7 +58,7 @@ var deleteCustomer = function (customerName) {
             customers.splice(index, 1);
             return { Success: true };
         } else {
-            return { Success: false };
+            return { Success: false, Error: "Error while deleting the customer" };
         }
     }
     return false;
@@ -77,9 +78,10 @@ var getFormattedCustomers = function () {
 };
 
 var getFormattedOrders = function (customerName) {
-    var tmpObject = { Items: {} };
+    var tmpObject = { };
     var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
+        tmpObject[currentCustomer.Name] = [];
         var i = 0;
         _.each(currentCustomer.Orders, function (order) {
             tmpObject[currentCustomer.Name]["order" + i] = order;

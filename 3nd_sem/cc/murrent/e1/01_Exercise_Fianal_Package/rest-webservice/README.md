@@ -1,3 +1,0 @@
-﻿# RESTService_NodeJS
-
-

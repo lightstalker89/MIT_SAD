@@ -1,0 +1,19 @@
+{
+  "name": "_01_Exercise_NodeJS",
+  "version": "0.0.0",
+  "description": "01_Exercise_NodeJS",
+  "main": "server.js",
+  "author": {
+    "name": "mmurrent",
+    "email": ""
+  },
+  "devDependencies": {
+    "node-uuid": "^1.4.2",
+    "soap": "^0.6.0"
+  },
+  "dependencies": {
+    "node": "0.0.0",
+    "soap-server": "0.1.0",
+    "underscore": "1.7.0"
+  }
+}
