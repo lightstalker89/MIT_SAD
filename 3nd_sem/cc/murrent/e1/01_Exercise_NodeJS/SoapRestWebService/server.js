@@ -1,11 +1,9 @@
 ﻿var soap = require('soap-server');
 var fs = require('fs');
 var _ = require('underscore');
-var uuid = require('node-uuid');
 var express = require('express');
 
 var customers = [];
-var orders = [];
 var createCustomer = function (customerName) {
     console.log("Received request for creating a customer");
     var currentCustomer = _.findWhere(customers, { Name: customerName });
@@ -17,16 +15,15 @@ var createCustomer = function (customerName) {
     }
 };
 
-var createOrder = function (customerName) {
+var createOrder = function (customerName, orderName) {
     console.log("Received request for creating an order");
     var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
-        var orderId = uuid.v1();
+        var orderId = orderName;
         currentCustomer.Orders.push(orderId);
         return { Success: true };
-    } else {
-        return { Success: false, Error: "Error while creating an order. The customer could not be found." };
     }
+    return { Success: false, Error: "Error while creating an order. The customer could not be found." };
 };
 
 var getOrders = function (customerName) {
@@ -38,18 +35,15 @@ var getOrders = function (customerName) {
     return [];
 };
 
-var deleteOrder = function (orderName) {
+var deleteOrder = function (orderName, customerName) {
     console.log("Received request for deleting an order");
-    var currentCustomer = _.findWhere(customers, { Name: orderName });
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
-        _.each(currentCustomer.Orders, function(order) {
-            var itemIndex = _.indexOf(orders, order);
-            if (itemIndex !== -1) {
-                orders.splice(itemIndex, 1);
-            }
-        });
-        currentCustomer.Orders = [];
-        return { Success: true };
+        var customerOrderIndex = _.indexOf(currentCustomer.Orders, orderName);
+        if (customerOrderIndex !== -1) {
+            currentCustomer.Orders.splice(customerOrderIndex, 1);
+            return { Success: true };
+        }
     }
     return { Success: false, Error: "Error while deleting orders for the customer" };
 };
@@ -62,15 +56,13 @@ var deleteCustomer = function (customerName) {
         if (index !== -1) {
             customers.splice(index, 1);
             return { Success: true };
-        } else {
-            return { Success: false, Error: "Error while deleting the customer" };
         }
     }
-    return false;
+    return { Success: false, Error: "Error while deleting the customer" };
 };
 
 var getFormattedCustomers = function () {
-    var tmpObject = { };
+    var tmpObject = {};
     _.each(customers, function (customer) {
         tmpObject[customer.Name] = [];
         var i = 0;
@@ -83,7 +75,7 @@ var getFormattedCustomers = function () {
 };
 
 var getFormattedOrders = function (customerName) {
-    var tmpObject = { };
+    var tmpObject = {};
     var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
         tmpObject[currentCustomer.Name] = [];
@@ -104,16 +96,16 @@ SOAPWebService.prototype.getCustomers = function (all) {
 SOAPWebService.prototype.getOrders = function (customerName) {
     return getFormattedOrders(customerName);
 };
-SOAPWebService.prototype.addOrder = function (customerName) {
-    var success = createOrder(customerName);
+SOAPWebService.prototype.addOrder = function (customerName, orderName) {
+    var success = createOrder(customerName, orderName);
     return success;
 };
 SOAPWebService.prototype.addCustomer = function (customerName) {
     var success = createCustomer(customerName);
     return success;
 };
-SOAPWebService.prototype.deleteOrder = function (customerName) {
-    var success = deleteOrder(customerName);
+SOAPWebService.prototype.deleteOrder = function (customerName, orderName) {
+    var success = deleteOrder(orderName, customerName);
     return success;
 };
 SOAPWebService.prototype.deleteCustomer = function (customerName) {
@@ -135,31 +127,31 @@ app.get('/customers', function (request, response) {
     response.send(customers);
 });
 //Get an order by customer name
-app.get('/order/:name', function (request, response) {
-    response.send(getOrders(request.params.name));
+app.get('/order/:customername', function (request, response) {
+    response.send(getOrders(request.params.customername));
 });
 
 //Update or add order
-app.put('/customer/add/:name', function (request, response) {
-    var success = createCustomer(request.params.name);
+app.put('/customer/add/:customername', function (request, response) {
+    var success = createCustomer(request.params.customername);
     response.send(success);
 });
 
 //Update or add order
-app.put('/order/add/:name', function (request, response) {
-    var success = createOrder(request.params.name);
+app.put('/order/add/:customername/:ordername', function (request, response) {
+    var success = createOrder(request.params.customername, request.params.ordername);
     response.send(success);
 });
 
-//Delete an order by anme
-app.delete('/order/delete/:name', function (request, response) {
-    var success = deleteOrder(request.params.name);
+//Delete an order by name
+app.delete('/order/delete/:customername/:ordername', function (request, response) {
+    var success = deleteOrder(request.params.ordername, request.params.customername);
     response.send(success);
 });
 
 //Delete a customer by name
-app.delete('/customer/delete/:name', function (request, response) {
-    var success = deleteCustomer(request.params.name);
+app.delete('/customer/delete/:customername', function (request, response) {
+    var success = deleteCustomer(request.params.customername);
     response.send(success);
 });
 

@@ -15,20 +15,6 @@ namespace RestSoapClient
         private static readonly JavaScriptSerializer JavaScriptSerializer = new JavaScriptSerializer();
         private const string EndPoint = "http://localhost:1338";
         private static RestClient restClient;
-        private static readonly Dictionary<ConsoleKey, string> RequestOptions = new Dictionary<ConsoleKey, string>
-        {
-            {ConsoleKey.S, "S) SOAP"},
-            {ConsoleKey.R, "R) REST"}
-        };
-        private static readonly Dictionary<ConsoleKey, string> Requests = new Dictionary<ConsoleKey, string>
-        {
-            {ConsoleKey.G, "G) Get Customers"},
-            {ConsoleKey.H, "H) Get Orders"},
-            {ConsoleKey.J, "J) Add Customer"},
-            {ConsoleKey.K, "K) Add Order"},
-            {ConsoleKey.D, "D) Delete Customer"},
-            {ConsoleKey.E, "F) Delete Order"}
-        };
 
         public static void Main(string[] args)
         {
@@ -38,10 +24,8 @@ namespace RestSoapClient
         private static void ChooseMethod()
         {
             Console.Clear();
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Please choose request method");
-            Console.WriteLine("---------------------------------");
-            WriteDictionaryOptionsToConsole(RequestOptions);
+            ConsoleOutput.ChooseRequestMethod();
+            ConsoleOutput.WriteDictionaryOptionsToConsole(ConsoleOutput.RequestOptions);
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             if (keyInfo.Key == ConsoleKey.S)
             {
@@ -69,19 +53,20 @@ namespace RestSoapClient
 
         private static void ChooseSoapRequest()
         {
-            string requestParameter = "";
+            string requestParameter = String.Empty;
+            string orderName = String.Empty;
             string response = "";
             Console.Clear();
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Please choose request method");
-            Console.WriteLine("---------------------------------");
-            WriteDictionaryOptionsToConsole(Requests);
+            ConsoleOutput.ChooseRequest();
+            ConsoleOutput.WriteDictionaryOptionsToConsole(ConsoleOutput.Requests);
             GoBack();
+            Console.WriteLine();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
             {
                 case ConsoleKey.D:
-                    requestParameter = GetParameter("Delete customer: ");
+                    ConsoleOutput.DeleteCustomer();
+                    requestParameter = GetParameter("Specify customer name: ");
                     response += CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>");
                     XmlDocument deleteCustomerDocument = new XmlDocument();
                     deleteCustomerDocument.LoadXml(response);
@@ -89,36 +74,37 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.F:
-                    requestParameter = GetParameter("Delete order for customer: ");
-                    response += CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName>");
+                    ConsoleOutput.DeleteOrder();
+                    requestParameter = GetParameter("Specify customer name: ");
+                    orderName = GetParameter("Specify order name: ");
+                    response += CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName><orderName>" + orderName + "</orderName>");
                     XmlDocument deleteOrderDocument = new XmlDocument();
                     deleteOrderDocument.LoadXml(response);
                     GetSccessFromResponse(deleteOrderDocument);
                     break;
 
                 case ConsoleKey.G:
+                    ConsoleOutput.GetCustomers();
                     response += CallWebService("getCustomers", "<all></all>");
                     XmlDocument getCustomerDocument = new XmlDocument();
                     getCustomerDocument.LoadXml(response);
-                    Console.WriteLine("-------------------------");
-                    Console.WriteLine("Customers");
-                    Console.WriteLine("-------------------------");
+                    ConsoleOutput.Customers();
                     GetItemsFromResponse(getCustomerDocument);
                     break;
 
                 case ConsoleKey.H:
-                    requestParameter = GetParameter("Get orders for customer: ");
+                    ConsoleOutput.GetOrders();
+                    requestParameter = GetParameter("Specify customer name: ");
                     response += CallWebService("getOrders", "<customerName>" + requestParameter + "</customerName>");
                     XmlDocument getOrdersDocument = new XmlDocument();
                     getOrdersDocument.LoadXml(response);
-                    Console.WriteLine("-------------------------");
-                    Console.WriteLine("Orders");
-                    Console.WriteLine("-------------------------");
+                    ConsoleOutput.Orders();
                     GetItemsFromResponse(getOrdersDocument);
                     break;
 
                 case ConsoleKey.J:
-                    requestParameter = GetParameter("New customer name: ");
+                    ConsoleOutput.AddCustomer();
+                    requestParameter = GetParameter("Specify customer name: ");
                     response += CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");
                     XmlDocument addCustomerDocument = new XmlDocument();
                     addCustomerDocument.LoadXml(response);
@@ -126,8 +112,10 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.K:
-                    requestParameter = GetParameter("Add order for customer: ");
-                    response += CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName>");
+                    ConsoleOutput.AddOrder();
+                    requestParameter = GetParameter("Specify customer name: ");
+                    orderName = GetParameter("Specify order name: ");
+                    response += CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName><orderName>" + orderName + "</orderName>");
                     XmlDocument addOrDocument = new XmlDocument();
                     addOrDocument.LoadXml(response);
                     break;
@@ -190,31 +178,24 @@ namespace RestSoapClient
             return "";
         }
 
-        private static void WriteDictionaryOptionsToConsole(Dictionary<ConsoleKey, string> dictionary)
-        {
-            foreach (var entry in dictionary)
-            {
-                Console.WriteLine(entry.Value);
-            }
-        }
-
         private static void ChooseRestRequest()
         {
             RestRequest restRequest = null;
-            string requestParameter = String.Empty;
+            string requestParameter;
+            string orderName;
             Console.Clear();
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Please Choose Request");
-            Console.WriteLine("---------------------------------");
-            WriteDictionaryOptionsToConsole(Requests);
+            ConsoleOutput.ChooseRequest();
+            ConsoleOutput.WriteDictionaryOptionsToConsole(ConsoleOutput.Requests);
             GoBack();
+            Console.WriteLine();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
             {
                 case ConsoleKey.D:
-                    requestParameter = GetParameter("Delete customer: ");
-                    restRequest = new RestRequest("customer/delete/{name}", Method.DELETE);
-                    restRequest.AddUrlSegment("name", requestParameter);
+                    ConsoleOutput.DeleteCustomer();
+                    requestParameter = GetParameter("Specify customer name: ");
+                    restRequest = new RestRequest("customer/delete/{customername}", Method.DELETE);
+                    restRequest.AddUrlSegment("customername", requestParameter);
                     IRestResponse deleteCustomerResponse = restClient.Execute(restRequest);
                     SuccessResponse deleteCustomerSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(deleteCustomerResponse.Content);
                     Console.WriteLine("Success: " + deleteCustomerSuccessResponse.Success);
@@ -225,9 +206,12 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.F:
-                    requestParameter = GetParameter("Delete order for customer: ");
-                    restRequest = new RestRequest("order/delete/{name}", Method.DELETE);
-                    restRequest.AddUrlSegment("name", requestParameter);
+                    ConsoleOutput.DeleteOrder();
+                    requestParameter = GetParameter("Specify customer name: ");
+                    orderName = GetParameter("Specify order name: ");
+                    restRequest = new RestRequest("order/delete/{customername}/{ordername}", Method.DELETE);
+                    restRequest.AddUrlSegment("ordername", orderName);
+                    restRequest.AddUrlSegment("customername", requestParameter);
                     IRestResponse deleteOrdeResponseResponse = restClient.Execute(restRequest);
                     SuccessResponse deleteOrderSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(deleteOrdeResponseResponse.Content);
                     Console.WriteLine("Success: " + deleteOrderSuccessResponse.Success);
@@ -238,13 +222,12 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.G:
+                    ConsoleOutput.GetCustomers();
                     restRequest = new RestRequest("customers", Method.GET);
                     IRestResponse customersResponse = restClient.Execute(restRequest);
                     List<Customer> customersContent = JavaScriptSerializer.Deserialize<List<Customer>>(customersResponse.Content);
                     Console.Clear();
-                    Console.WriteLine("-------------------------");
-                    Console.WriteLine("Customers");
-                    Console.WriteLine("-------------------------");
+                    ConsoleOutput.Customers();
                     foreach (Customer customer in customersContent)
                     {
                         Console.WriteLine(customer.Name);
@@ -256,15 +239,14 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.H:
-                    requestParameter = GetParameter("Order for customer: ");
-                    restRequest = new RestRequest("order/{name}", Method.GET);
-                    restRequest.AddUrlSegment("name", requestParameter);
+                    ConsoleOutput.GetOrders();
+                    requestParameter = GetParameter("Specify customer name: ");
+                    restRequest = new RestRequest("order/{customername}", Method.GET);
+                    restRequest.AddUrlSegment("customername", requestParameter);
                     IRestResponse ordersResponse = restClient.Execute(restRequest);
                     List<string> ordersContent = JavaScriptSerializer.Deserialize<List<string>>(ordersResponse.Content);
                     Console.Clear();
-                    Console.WriteLine("-------------------------");
-                    Console.WriteLine("Orders");
-                    Console.WriteLine("-------------------------");
+                    ConsoleOutput.Orders();
                     Console.WriteLine(requestParameter);
                     foreach (string order in ordersContent)
                     {
@@ -273,9 +255,10 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.J:
-                    requestParameter = GetParameter("New customer name: ");
-                    restRequest = new RestRequest("customer/add/{name}", Method.PUT);
-                    restRequest.AddUrlSegment("name", requestParameter);
+                    ConsoleOutput.AddCustomer();
+                    requestParameter = GetParameter("Specify customer name: ");
+                    restRequest = new RestRequest("customer/add/{customername}", Method.PUT);
+                    restRequest.AddUrlSegment("customername", requestParameter);
                     IRestResponse newCustomerResponse = restClient.Execute(restRequest);
                     SuccessResponse customerSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(newCustomerResponse.Content);
                     Console.WriteLine("Success: " + customerSuccessResponse.Success);
@@ -286,9 +269,12 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.K:
-                    requestParameter = GetParameter("New order for customer: ");
-                    restRequest = new RestRequest("order/add/{name}", Method.PUT);
-                    restRequest.AddUrlSegment("name", requestParameter);
+                    ConsoleOutput.AddOrder();
+                    requestParameter = GetParameter("Specify customer name: ");
+                    orderName = GetParameter("Specify order name: ");
+                    restRequest = new RestRequest("order/add/{customername}/{ordername}", Method.PUT);
+                    restRequest.AddUrlSegment("customername", requestParameter);
+                    restRequest.AddUrlSegment("ordername", orderName);
                     IRestResponse newOrderResponse = restClient.Execute(restRequest);
                     SuccessResponse orderSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(newOrderResponse.Content);
                     Console.WriteLine("Success: " + orderSuccessResponse.Success);
