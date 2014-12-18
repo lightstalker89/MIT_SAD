@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Web.Script.Serialization;
 using System.Xml;
 using RestSharp;
 using RestSoapClient.Models;
+using RestSoapClient.Services;
 
 namespace RestSoapClient
 {
@@ -45,12 +44,6 @@ namespace RestSoapClient
 
         }
 
-        private static void GoBack()
-        {
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("X) Change request method");
-        }
-
         private static void ChooseSoapRequest()
         {
             string requestParameter = String.Empty;
@@ -59,7 +52,7 @@ namespace RestSoapClient
             Console.Clear();
             ConsoleOutput.ChooseRequest();
             ConsoleOutput.WriteDictionaryOptionsToConsole(ConsoleOutput.Requests);
-            GoBack();
+            ConsoleOutput.GoBack();
             Console.WriteLine();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
@@ -67,7 +60,7 @@ namespace RestSoapClient
                 case ConsoleKey.D:
                     ConsoleOutput.DeleteCustomer();
                     requestParameter = GetParameter("Specify customer name: ");
-                    response += CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>");
+                    response += SoapRequestService.CallWebService("deleteCustomer", "<customerName>" + requestParameter + "</customerName>");
                     XmlDocument deleteCustomerDocument = new XmlDocument();
                     deleteCustomerDocument.LoadXml(response);
                     GetSccessFromResponse(deleteCustomerDocument);
@@ -77,15 +70,14 @@ namespace RestSoapClient
                     ConsoleOutput.DeleteOrder();
                     requestParameter = GetParameter("Specify customer name: ");
                     orderName = GetParameter("Specify order name: ");
-                    response += CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName><orderName>" + orderName + "</orderName>");
+                    response += SoapRequestService.CallWebService("deleteOrder", "<customerName>" + requestParameter + "</customerName><orderName>" + orderName + "</orderName>");
                     XmlDocument deleteOrderDocument = new XmlDocument();
                     deleteOrderDocument.LoadXml(response);
                     GetSccessFromResponse(deleteOrderDocument);
                     break;
 
                 case ConsoleKey.G:
-                    ConsoleOutput.GetCustomers();
-                    response += CallWebService("getCustomers", "<all></all>");
+                    response += SoapRequestService.CallWebService("getCustomers", "<all></all>");
                     XmlDocument getCustomerDocument = new XmlDocument();
                     getCustomerDocument.LoadXml(response);
                     ConsoleOutput.Customers();
@@ -95,7 +87,7 @@ namespace RestSoapClient
                 case ConsoleKey.H:
                     ConsoleOutput.GetOrders();
                     requestParameter = GetParameter("Specify customer name: ");
-                    response += CallWebService("getOrders", "<customerName>" + requestParameter + "</customerName>");
+                    response += SoapRequestService.CallWebService("getOrders", "<customerName>" + requestParameter + "</customerName>");
                     XmlDocument getOrdersDocument = new XmlDocument();
                     getOrdersDocument.LoadXml(response);
                     ConsoleOutput.Orders();
@@ -105,7 +97,7 @@ namespace RestSoapClient
                 case ConsoleKey.J:
                     ConsoleOutput.AddCustomer();
                     requestParameter = GetParameter("Specify customer name: ");
-                    response += CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");
+                    response += SoapRequestService.CallWebService("addCustomer", "<customerName>" + requestParameter + "</customerName>");
                     XmlDocument addCustomerDocument = new XmlDocument();
                     addCustomerDocument.LoadXml(response);
                     GetSccessFromResponse(addCustomerDocument);
@@ -115,7 +107,7 @@ namespace RestSoapClient
                     ConsoleOutput.AddOrder();
                     requestParameter = GetParameter("Specify customer name: ");
                     orderName = GetParameter("Specify order name: ");
-                    response += CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName><orderName>" + orderName + "</orderName>");
+                    response += SoapRequestService.CallWebService("addOrder", "<customerName>" + requestParameter + "</customerName><orderName>" + orderName + "</orderName>");
                     XmlDocument addOrDocument = new XmlDocument();
                     addOrDocument.LoadXml(response);
                     break;
@@ -186,7 +178,7 @@ namespace RestSoapClient
             Console.Clear();
             ConsoleOutput.ChooseRequest();
             ConsoleOutput.WriteDictionaryOptionsToConsole(ConsoleOutput.Requests);
-            GoBack();
+            ConsoleOutput.GoBack();
             Console.WriteLine();
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
@@ -222,7 +214,6 @@ namespace RestSoapClient
                     break;
 
                 case ConsoleKey.G:
-                    ConsoleOutput.GetCustomers();
                     restRequest = new RestRequest("customers", Method.GET);
                     IRestResponse customersResponse = restClient.Execute(restRequest);
                     List<Customer> customersContent = JavaScriptSerializer.Deserialize<List<Customer>>(customersResponse.Content);
@@ -326,56 +317,6 @@ namespace RestSoapClient
             else if (info.Key == ConsoleKey.N)
             {
                 Environment.Exit(0);
-            }
-        }
-
-        public static string CallWebService(string action, string parameter)
-        {
-            string responseString = "";
-            XmlDocument soapEnvelopeXml = CreateSoapEnvelope(action, parameter);
-            HttpWebRequest webRequest = CreateWebRequest("http://localhost:1337/SOAPWebService", action);
-            InsertSoapEnvelopeIntoWebRequest(soapEnvelopeXml, webRequest);
-
-            webRequest.BeginGetResponse(delegate(IAsyncResult asynchronousResult)
-            {
-                HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-
-                HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
-                Stream streamResponse = response.GetResponseStream();
-                StreamReader streamRead = new StreamReader(streamResponse);
-                responseString = streamRead.ReadToEnd();
-                streamResponse.Close();
-                streamRead.Close();
-                response.Close();
-            }, webRequest);
-
-            return responseString;
-        }
-
-        private static HttpWebRequest CreateWebRequest(string url, string action)
-        {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
-            webRequest.Headers.Add("SOAPAction", action);
-            webRequest.ContentType = "text/xml;charset=\"utf-8\"";
-            webRequest.Accept = "text/xml";
-            webRequest.Method = "POST";
-            webRequest.KeepAlive = false;
-            webRequest.Timeout = 300000;
-            return webRequest;
-        }
-
-        private static XmlDocument CreateSoapEnvelope(string action, string parameter)
-        {
-            XmlDocument soapEnvelop = new XmlDocument();
-            soapEnvelop.LoadXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/""><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><" + action + ">" + parameter + "</" + action + "></SOAP-ENV:Body></SOAP-ENV:Envelope>");
-            return soapEnvelop;
-        }
-
-        private static void InsertSoapEnvelopeIntoWebRequest(XmlDocument soapEnvelopeXml, HttpWebRequest webRequest)
-        {
-            using (Stream stream = webRequest.GetRequestStream())
-            {
-                soapEnvelopeXml.Save(stream);
             }
         }
     }

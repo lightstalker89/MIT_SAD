@@ -1,5 +1,4 @@
 ﻿var soap = require('soap-server');
-var fs = require('fs');
 var _ = require('underscore');
 var express = require('express');
 
@@ -28,7 +27,7 @@ var createOrder = function (customerName, orderName) {
 
 var getOrders = function (customerName) {
     console.log("Received request for getting orders for customer");
-    var currentCustomer = _.findWhere(customers, { CustomerName: customerName });
+    var currentCustomer = _.findWhere(customers, { Name: customerName });
     if (currentCustomer) {
         return currentCustomer.Orders;
     }
@@ -62,6 +61,7 @@ var deleteCustomer = function (customerName) {
 };
 
 var getFormattedCustomers = function () {
+    console.log("Received request for getting all customers");
     var tmpObject = {};
     _.each(customers, function (customer) {
         tmpObject[customer.Name] = [];
@@ -91,24 +91,30 @@ var getFormattedOrders = function (customerName) {
 function SOAPWebService() {
 }
 SOAPWebService.prototype.getCustomers = function (all) {
+    console.log("Received request for getting all customers");
     return getFormattedCustomers();
 };
 SOAPWebService.prototype.getOrders = function (customerName) {
+    console.log("Received request for getting orders for customer");
     return getFormattedOrders(customerName);
 };
 SOAPWebService.prototype.addOrder = function (customerName, orderName) {
+    console.log("Received request for creating an order");
     var success = createOrder(customerName, orderName);
     return success;
 };
 SOAPWebService.prototype.addCustomer = function (customerName) {
+    console.log("Received request for creating a customer");
     var success = createCustomer(customerName);
     return success;
 };
 SOAPWebService.prototype.deleteOrder = function (customerName, orderName) {
+    console.log("Received request for deleting an order");
     var success = deleteOrder(orderName, customerName);
     return success;
 };
 SOAPWebService.prototype.deleteCustomer = function (customerName) {
+    console.log("Received request for deleting a customer");
     var success = deleteCustomer(customerName);
     return success;
 };

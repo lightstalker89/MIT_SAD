@@ -98,5 +98,11 @@ namespace RestSoapClient
             Console.WriteLine("Orders");
             Console.WriteLine("-------------------------");
         }
+
+        public static void GoBack()
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("X) Change request method");
+        }
     }
 }
