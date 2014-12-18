@@ -300,6 +300,7 @@ namespace RestSoapClient
 
         private static void StartFromBeginning()
         {
+            Console.WriteLine();
             Console.WriteLine("************************");
             Console.WriteLine("Start over? y/n. n will close the application");
             ConsoleKeyInfo info = Console.ReadKey(true);
