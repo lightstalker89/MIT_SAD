@@ -9,6 +9,12 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "SOAPService_NodeJS", "SOAPS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestSoapClient", "RestSoapClient\RestSoapClient.csproj", "{0413B94F-6EBB-4CAF-81EC-6C77484A61C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestSoapClient_v_II", "RestSoapClient_v_II\RestSoapClient_v_II.csproj", "{A0C29822-D6DD-4057-B48F-1EBBED7DBFEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{A9CBC610-F437-4534-BF40-BBCE8AE5FE74}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "SoapRestWebService", "SoapRestWebService\SoapRestWebService.njsproj", "{BCE90B5D-2372-423B-A267-A1FCF0B2390A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +33,14 @@ Global
 		{0413B94F-6EBB-4CAF-81EC-6C77484A61C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0413B94F-6EBB-4CAF-81EC-6C77484A61C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0413B94F-6EBB-4CAF-81EC-6C77484A61C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C29822-D6DD-4057-B48F-1EBBED7DBFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C29822-D6DD-4057-B48F-1EBBED7DBFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C29822-D6DD-4057-B48F-1EBBED7DBFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C29822-D6DD-4057-B48F-1EBBED7DBFEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCE90B5D-2372-423B-A267-A1FCF0B2390A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCE90B5D-2372-423B-A267-A1FCF0B2390A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCE90B5D-2372-423B-A267-A1FCF0B2390A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCE90B5D-2372-423B-A267-A1FCF0B2390A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

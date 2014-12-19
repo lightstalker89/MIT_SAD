@@ -1,0 +1,11 @@
+Roli        1)            1.2 Qualitätsziele mit 8 syncen
+Mario    2)            2 Randbedingungen bissl mehr machen (aber nicht viel)
+Daniel   3)            3.1 domain model zeichnen
+Flo          4)            3.2 systemsicht zeichnen
+Flo          5)            3.3 externe schnittstellen grafisch für genau 2 Schnittstellen
+Berni     6)            5 Bausteinsicht mit 6 abstimmen und referenzen in 5 zu 6 und 6 zu 5
+Berni     7)            5 Bausteinsicht mit Bausteinen statt mit patterns
+Berni     8)            5 command pattern wurde angezweifelt (denke er ist aber ok => besser erklären, referenzieren)
+Mario    9)            6 laufzeitsicht sequenzdiagramm
+Roli        10)         8 Konzepte -> 10 Konzepte in 8 ausarbeiten
+Daniel   11)         9 Entwurfsentscheidung und Muster beschreiben
