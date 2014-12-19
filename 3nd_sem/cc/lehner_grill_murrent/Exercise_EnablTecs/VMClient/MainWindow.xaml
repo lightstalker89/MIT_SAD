@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="VM Client" Height="350" Width="525">
     <Grid>
-        <Menu Height="20" VerticalAlignment="Top" Background="#FFA0ADFF">
+        <Menu Height="20" VerticalAlignment="Top" Background="#FFA0A3B4">
             <MenuItem Header="File"></MenuItem>
             <MenuItem Header="Help"></MenuItem>
         </Menu>

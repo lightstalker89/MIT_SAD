@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStorageExample", "SimpleStorageExample\SimpleStorageExample.csproj", "{A8BB096A-9E6F-4D84-B091-F1FCF4DDCBDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomServiceClientExample", "CustomServiceClientExample\CustomServiceClientExample.csproj", "{83B16A76-A3DF-42E5-95A6-5BBE41FC7854}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A9CBB6B1-F445-4EAC-800C-B18363D27BFC}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(CodealikeProperties) = postSolution
+		SolutionGuid = 208d0815-5c0a-497a-acd1-7e90ff88341f
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8BB096A-9E6F-4D84-B091-F1FCF4DDCBDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BB096A-9E6F-4D84-B091-F1FCF4DDCBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BB096A-9E6F-4D84-B091-F1FCF4DDCBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BB096A-9E6F-4D84-B091-F1FCF4DDCBDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B16A76-A3DF-42E5-95A6-5BBE41FC7854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B16A76-A3DF-42E5-95A6-5BBE41FC7854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B16A76-A3DF-42E5-95A6-5BBE41FC7854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B16A76-A3DF-42E5-95A6-5BBE41FC7854}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
