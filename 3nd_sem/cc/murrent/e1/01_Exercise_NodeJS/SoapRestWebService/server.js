@@ -138,25 +138,25 @@ app.get('/order/:customername', function (request, response) {
 });
 
 //Update or add order
-app.put('/customer/add/:customername', function (request, response) {
+app.put('/customer/:customername', function (request, response) {
     var success = createCustomer(request.params.customername);
     response.send(success);
 });
 
 //Update or add order
-app.put('/order/add/:customername/:ordername', function (request, response) {
+app.put('/order/:customername/:ordername', function (request, response) {
     var success = createOrder(request.params.customername, request.params.ordername);
     response.send(success);
 });
 
 //Delete an order by name
-app.delete('/order/delete/:customername/:ordername', function (request, response) {
+app.delete('/order/:customername/:ordername', function (request, response) {
     var success = deleteOrder(request.params.ordername, request.params.customername);
     response.send(success);
 });
 
 //Delete a customer by name
-app.delete('/customer/delete/:customername', function (request, response) {
+app.delete('/customer/:customername', function (request, response) {
     var success = deleteCustomer(request.params.customername);
     response.send(success);
 });
