@@ -1,0 +1,10 @@
+{
+  "name": "RestService",
+  "version": "0.0.0",
+  "description": "RestService",
+  "main": "server.js",
+  "author": {
+    "name": "Mario",
+    "email": ""
+  }
+}
