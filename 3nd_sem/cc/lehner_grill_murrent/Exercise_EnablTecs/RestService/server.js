@@ -1,5 +1,4 @@
 ﻿var express = require('express');
-var _ = require('underscore');
 var vmManager = require('manager/vmManager');
 
 var app = express();

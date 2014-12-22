@@ -7,7 +7,7 @@
             <MenuItem Header="File"></MenuItem>
             <MenuItem Header="Help"></MenuItem>
         </Menu>
-        <ListBox Margin="10,89,10,10">
+        <ListBox Margin="10,58,10,10">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid></Grid>
