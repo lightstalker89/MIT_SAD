@@ -1,0 +1,19 @@
+{
+	"Name" :  "Windows XP",
+	"Description" :  "Windows XP Service Pack 3",
+	"Type":  "Appliance",
+    "ApplicationType":  "",
+    "OperatingSystem":  "Windows XP",
+    "OperatingSystemType":  "Windows",
+    "OperatingSysteVersion":  "6.1",
+    "Size": "400000",
+    "RecommendedCPU":  "",
+    "RecommendedRAM":  "",
+    "SupportedVirtualizationPlatform":  "",
+    "Software": [
+
+    ],
+    "SupportedProgramingLanguages": [
+
+    ]
+}

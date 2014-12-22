@@ -10,6 +10,7 @@
   "dependencies": {
     "express": "^4.10.6",
     "underscore": "^1.7.0",
-    "node-persist": "0.0.2"
+    "node-persist": "0.0.2",
+    "fs": "0.0.2"
   }
 }
