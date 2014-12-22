@@ -1,6 +1,7 @@
 ﻿var express = require('express');
 var _ = require('underscore');
-var storage = require('node-persist');
+var vmManager = require('manager/vmManager');
+
 var app = express();
 storage.initSync();
 

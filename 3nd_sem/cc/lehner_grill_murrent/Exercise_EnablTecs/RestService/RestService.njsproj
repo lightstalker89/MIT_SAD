@@ -30,6 +30,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="manager\storageManager.js" />
     <Compile Include="manager\vmManager.js" />
     <Compile Include="server.js" />
     <Content Include="package.json" />
