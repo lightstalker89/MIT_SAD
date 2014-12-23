@@ -11,6 +11,8 @@
     "express": "^4.10.6",
     "underscore": "^1.7.0",
     "node-persist": "0.0.2",
-    "fs": "0.0.2"
+    "fs": "0.0.2",
+    "pkgcloud": "^1.1.0",
+    "openclient": "^1.7.8"
   }
 }

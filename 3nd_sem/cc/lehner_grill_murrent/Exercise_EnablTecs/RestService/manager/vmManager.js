@@ -13,11 +13,23 @@ var VmManager = function () {
         
     };
 
+    me.getMachines = function(operationSystem, software) {
+
+    };
+
     me.updateDescription = function(name, description) {
 
     };
 
     me.updateRating = function(rating, comment) {
+
+    };
+
+    me.start = function(name) {
+
+    };
+
+    me.stop = function(name) {
 
     };
 };

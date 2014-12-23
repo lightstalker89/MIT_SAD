@@ -1,1 +1,32 @@
-﻿ 
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="9ba91396-3f6e-415b-89a2-61fb79cc8fec" name="EnableTecs" linkedPackageId="84927949-5959-4812-a9b7-bb79c2bb4c3a" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="c4a4dc86-3528-4844-a258-67314492bd4f">
+      <profileInstance Id="2c53f8dc-7940-445e-a991-3e5fbfe6ad2c" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="a0a870aa-b28d-401b-be3b-139c0c2f9eea">
+      <profileInstance Id="703ee13d-dc0b-4b73-93db-3e419b29ee3f" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="0a4891fc-20ca-41e8-bc2c-b5f4e0ad033b" name="Webservice" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="8972fa82-930a-4bbb-97df-cca6f88f28a4" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e5fde3a6-9eac-4bdf-8428-2aec28670743" name="Client" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="ca2462d7-c33c-4de7-9021-fa2235568bab" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="84927949-5959-4812-a9b7-bb79c2bb4c3a" name="Models">
+    <elementDefinition Id="662e5b1a-17bf-4314-8ba3-0bcb0d38947a" />
+  </package>
+</logicalClassDesignerModel>

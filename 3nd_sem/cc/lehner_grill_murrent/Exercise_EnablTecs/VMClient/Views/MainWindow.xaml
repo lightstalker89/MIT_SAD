@@ -4,7 +4,12 @@
         Title="VM Client" Height="350" Width="525">
     <Grid>
         <Menu Height="20" VerticalAlignment="Top" Background="#FFA0A3B4">
-            <MenuItem Header="File"></MenuItem>
+            <MenuItem Header="File">
+                <MenuItem Header="Upload New Virtual Machine"></MenuItem>
+                <MenuItem Header="Upload New Appliance"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Exit"></MenuItem>
+            </MenuItem>
             <MenuItem Header="Help"></MenuItem>
         </Menu>
         <ListBox Margin="10,58,10,10">
