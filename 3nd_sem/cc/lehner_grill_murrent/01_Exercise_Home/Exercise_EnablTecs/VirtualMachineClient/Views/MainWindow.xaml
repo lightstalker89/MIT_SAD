@@ -1,7 +1,7 @@
-﻿<Window x:Class="VMClient.MainWindow"
+﻿<Window x:Class="VirtualMachineClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="VM Client" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Menu Height="20" VerticalAlignment="Top" Background="#FFA0A3B4">
             <MenuItem Header="File">

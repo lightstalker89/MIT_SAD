@@ -1,4 +1,4 @@
-﻿namespace VMClient.ViewModels
+﻿namespace VirtualMachineClient.ViewModels
 {
     class MainWindowViewModel
     {
