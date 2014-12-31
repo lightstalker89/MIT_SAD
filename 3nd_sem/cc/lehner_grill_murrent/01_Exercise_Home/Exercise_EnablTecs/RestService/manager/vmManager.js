@@ -9,8 +9,8 @@ var VmManager = function () {
 
     };
 
-    me.getAll = function (){
-        
+    me.getAll = function () {
+        return virtualMachines();
     };
 
     me.getMachines = function(operationSystem, software) {

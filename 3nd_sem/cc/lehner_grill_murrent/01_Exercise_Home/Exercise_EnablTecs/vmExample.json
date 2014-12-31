@@ -7,8 +7,8 @@
     "OperatingSystemType":  "Windows",
     "OperatingSysteVersion":  "6.1",
     "Size": "400000",
-    "RecommendedCPU":  "",
-    "RecommendedRAM":  "",
+    "RecommendedCPU":  "1000",
+    "RecommendedRAM":  "1024",
     "SupportedVirtualizationPlatform":  "",
     "Software": [
 
