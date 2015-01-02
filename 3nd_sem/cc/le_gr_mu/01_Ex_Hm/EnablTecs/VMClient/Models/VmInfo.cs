@@ -1,4 +1,6 @@
-﻿namespace VirtualMachineClient.Models
+﻿using System;
+
+namespace VirtualMachineClient.Models
 {
     using System.Collections.Generic;
 
@@ -33,5 +35,10 @@
         public List<string> Software { get; set; }
 
         public List<string> SupportedProgramingLanguages { get; set; }
+
+        public override string ToString()
+        {
+            return string.Concat("VM:\t", this.Name);
+        }
     }
 }

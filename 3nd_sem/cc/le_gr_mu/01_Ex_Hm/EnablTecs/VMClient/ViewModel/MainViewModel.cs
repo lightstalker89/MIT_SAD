@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using VirtualMachineClient.Models;
-
 namespace VirtualMachineClient.ViewModel
 {
-    using System.Windows.Input;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Web.Script.Serialization;
+    using System.Windows.Input;
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
     using RestSharp;
+    using Models;
 
 
     public class MainViewModel : ViewModelBase
@@ -37,23 +37,37 @@ namespace VirtualMachineClient.ViewModel
 
         private void InitMethods()
         {
-            this.UploadNewVm = new RelayCommand(this.uploadNewVmExecute, () => true);
+            this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
+        }
+
+        private ObservableCollection<VmInfo> installedVirtualMachines;
+
+        public ObservableCollection<VmInfo> InstalledVirtualMachines
+        {
+            get
+            {
+                return this.installedVirtualMachines;
+            }
+            set
+            {
+                this.installedVirtualMachines = value;
+                this.RaisePropertyChanged("InstalledVirtualMachines");
+            }
         }
 
         private void GetVirtualMachines()
         {
             RestRequest restRequest = new RestRequest("/machines", Method.GET);
             IRestResponse customersResponse = this.restClient.Execute(restRequest);
-            List<VmInfo> customersContent = this.javaScriptSerializer.Deserialize<List<VmInfo>>(customersResponse.Content);
-            Console.WriteLine("Receive objects");
+            this.InstalledVirtualMachines = this.javaScriptSerializer.Deserialize<ObservableCollection<VmInfo>>(customersResponse.Content);
         }
 
         #region mvvm relay commands
         public ICommand UploadNewVm { get; private set; }
 
-        private void uploadNewVmExecute()
+        private void UploadNewVmExecute()
         {
-            RestRequest restRequest = new RestRequest("/machine", Method.POST);
+            RestRequest restRequest = new RestRequest("/machine", Method.PUT);
             restRequest.AddFile("vmExample.json", "../../vmExample.json");
             IRestResponse addVmResponse = this.restClient.Execute(restRequest);
            

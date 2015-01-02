@@ -15,12 +15,8 @@
         </Menu>
         <TextBox Margin="10,57,0,0" Height="30" Width="385" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
         <Button  Margin="10,57,10,0" Height="30" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Search"></Button>
-        <ListBox Margin="10,90,10,10">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid></Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+        <ListBox Margin="10,90,10,10" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            
         </ListBox>
         <Label Content="Virtual Machines" Margin="10,25,10,0" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Center"/>
     </Grid>
