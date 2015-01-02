@@ -38,6 +38,7 @@ namespace VirtualMachineClient.ViewModel
         private void InitMethods()
         {
             this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
+<<<<<<< HEAD
         }
 
         private ObservableCollection<VmInfo> installedVirtualMachines;
@@ -53,6 +54,8 @@ namespace VirtualMachineClient.ViewModel
                 this.installedVirtualMachines = value;
                 this.RaisePropertyChanged("InstalledVirtualMachines");
             }
+=======
+>>>>>>> 2851b067af84246313f4a9ae52827d05692b1dd4
         }
 
         private void GetVirtualMachines()
@@ -68,7 +71,11 @@ namespace VirtualMachineClient.ViewModel
         private void UploadNewVmExecute()
         {
             RestRequest restRequest = new RestRequest("/machine", Method.PUT);
+<<<<<<< HEAD
+            restRequest.AddFile("vmExample.json", "../../vmExample.json");
+=======
             restRequest.AddFile("vmExample.json", "vmExample.json");
+>>>>>>> 2851b067af84246313f4a9ae52827d05692b1dd4
             IRestResponse addVmResponse = this.restClient.Execute(restRequest);
            
         }
