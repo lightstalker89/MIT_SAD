@@ -11,7 +11,7 @@ var StorageManager = function () {
         "ApplicationType": "",
         "OperatingSystem": "Windows XP",
         "OperatingSystemType": "Windows",
-        "OperatingSysteVersion": "6.1",
+        "OperatingSystemVersion": "6.1",
         "Size": "400000",
         "RecommendedCPU": "1000",
         "RecommendedRAM": "1024",
