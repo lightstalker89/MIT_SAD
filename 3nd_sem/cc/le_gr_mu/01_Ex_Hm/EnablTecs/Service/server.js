@@ -2,9 +2,11 @@
 var fs = require('fs');
 var log4js = require('log4js');
 var logger = log4js.getLogger();
+var client = null;
 
 var virtualMachines = [{
     "Id": "",
+    "ReferencedVirtualMachineId": "",
     "Name": "Windows XP",
     "Description": "Windows XP Service Pack 3",
     "Type": "Appliance",
@@ -25,7 +27,6 @@ var virtualMachines = [{
         "C++"
     ]
 }];
-var client = null;
 
 var connect = function () {
     client = require('pkgcloud').storage.createClient({
@@ -60,7 +61,7 @@ var add = function(description) {
     if (machine) {
         logger.error("Cannot create virtual machine. A machine with the given id already exists.");
     } else {
-
+        logger.inf("Adding new virtual machine");
     }
 };
 
@@ -85,36 +86,42 @@ var app = express();
 
 /** List all virtual machines **/
 app.get('/machines', function (request, response) {
+    logger.info("Received 'List all Virtual Machines' request");
     response.send(virtualMachines);
 });
 
-/** Search for specific virtual machines by operatin system and software **/
+/** Search for specific virtual machines by operating system and software **/
 app.get('/machine/:operatingsystem/:softwarename', function (request, response) {
-
+    logger.info("Received 'List Virtual Machines by operating syste and software' request");
 });
 
 /** Add a new virtual machine **/
 app.put('/machine', function (request, response) {
+    logger.info("Received 'Add new Virtual Machine' request");
     console.log(JSON.stringify(request.files));
 });
 
 /** Add a new appliance **/
 app.put('/appliance', function (request, response) {
+    logger.inf("Received 'Add new Virtual Appliance' request");
     console.log(JSON.stringify(request.files));
 });
 
 /** Start or stop a virtual machine **/
 app.post('/machine/:id/:operation', function (request, response) {
+    logger.inf("Received 'Operation for Virtual Machine' request");
     start(request.params.Id);
 });
 
 /** Change the description of a virtual machine **/
 app.post('/machine/:id/:description', function (request, response) {
+    logger.info("Received 'Update Description for Virtual Machiner' request");
     updateDescription(request.params.Id, request.params.Description);
 });
 
 /** Add a rating with a comment to the virtual machine **/
 app.post('/machine/:id/:rating/:comment', function (request, response) {
+    logger.inf("Received 'Update Rating for Virtual Machine' request");
     updateRating(request.params.Id, request.params.Rating, request.params.Comment);
 });
 
