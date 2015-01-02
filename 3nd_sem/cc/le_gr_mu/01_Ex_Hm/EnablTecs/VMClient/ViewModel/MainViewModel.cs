@@ -37,7 +37,7 @@ namespace VirtualMachineClient.ViewModel
 
         private void InitMethods()
         {
-            this.UploadNewVm = new RelayCommand(this.uploadNewVmExecute, () => true);
+            this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
         }
 
         private void GetVirtualMachines()
@@ -51,10 +51,10 @@ namespace VirtualMachineClient.ViewModel
         #region mvvm relay commands
         public ICommand UploadNewVm { get; private set; }
 
-        private void uploadNewVmExecute()
+        private void UploadNewVmExecute()
         {
-            RestRequest restRequest = new RestRequest("/machine", Method.POST);
-            restRequest.AddFile("vmExample.json", "../../vmExample.json");
+            RestRequest restRequest = new RestRequest("/machine", Method.PUT);
+            restRequest.AddFile("vmExample.json", "vmExample.json");
             IRestResponse addVmResponse = this.restClient.Execute(restRequest);
            
         }

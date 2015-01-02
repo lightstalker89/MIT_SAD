@@ -1,11 +1,13 @@
 ﻿var express = require('express');
 var fs = require('fs');
 var log4js = require('log4js');
+var _ = require('underscore');
 var logger = log4js.getLogger();
 var client = null;
+var file = "appliance.json";
 
 var virtualMachines = [{
-    "Id": "",
+    "Id": "1",
     "ReferencedVirtualMachineId": "",
     "Name": "Windows XP",
     "Description": "Windows XP Service Pack 3",
@@ -25,6 +27,30 @@ var virtualMachines = [{
     "SupportedProgramingLanguages": [
         "C#",
         "C++"
+    ]
+}, {
+    "Id": "2",
+    "ReferencedVirtualMachineId": "",
+    "Name": "Windows Vista",
+    "Description": "Windows Vista",
+    "Type": "Appliance",
+    "ApplicationType": "",
+    "OperatingSystem": "Windows Vista",
+    "OperatingSystemType": "Windows",
+    "OperatingSystemVersion": "5.1",
+    "Size": "400000",
+    "RecommendedCPU": "2000",
+    "RecommendedRAM": "2048",
+    "SupportedVirtualizationPlatform": "",
+    "Software": [
+        "Virtual Box",
+        "Microsoft Office",
+        "Microsoft Visual Studio 2013"
+    ],
+    "SupportedProgramingLanguages": [
+        "C#",
+        "C++",
+        "HTML"
     ]
 }];
 
@@ -60,8 +86,10 @@ var add = function(description) {
     var machine = getMachine(description.Id);
     if (machine) {
         logger.error("Cannot create virtual machine. A machine with the given id already exists.");
+        return { Success: false, ErrorMessage: "Cannot create virtual machine. A machine with the given id already exists." };
     } else {
-        logger.inf("Adding new virtual machine");
+        logger.info("Adding new virtual machine");
+        return { Success: true, ErrorMessage: "" };
     }
 };
 
@@ -69,12 +97,24 @@ var getMachines = function(operatingSystem, software) {
 
 };
 
-    var updateDescription = function (id, description) {
-
-    };
+var updateDescription = function (id, description) {
+    var machine = getMachine(description.Id);
+    if (machine) {
+       
+    } else {
+        logger.error("Could not find virutal machine for the given id");
+        return { Success: false, ErrorMessage: "Could not find virutal machine for the given id" };
+    }
+};
 
 var updateRating = function(id, rating, comment) {
+    var machine = getMachine(description.Id);
+    if (machine) {
 
+    } else {
+        logger.error("Could not find virutal machine for the given id");
+        return { Success: false, ErrorMessage: "Could not find virutal machine for the given id" };
+    }
 };
 
 var getMachine = function(id) {
@@ -85,9 +125,24 @@ var getMachine = function(id) {
 var app = express();
 
 /** Download a virtual machine **/
-app.get('/download/:id', function(request, response) {
-    var file = "appliance.json";
-    response.download(file);
+app.get('/download/:id', function (request, response) {
+    if (request.params.id) {
+        var machine = getMachine(request.params.id);
+        if (machine) {
+            var stream = fs.createWriteStream(file);
+            stream.once('open', function (fd) {
+                stream.write(JSON.stringify(machine));
+                stream.end();
+            });
+            response.download(file);
+        } else {
+            logger.error("Could not find virtual machine or appliance for id");
+            response.send({ Success: false, ErrorMessage: "Could not find virtual machine or appliance for id" });
+        }
+    } else {
+        logger.error("No id supplied. Error");
+        response.send({ Success: false, ErrorMessage: "No id supplied. Error" });
+    }
 });
 
 /** List all virtual machines **/
@@ -104,12 +159,6 @@ app.get('/machine/:operatingsystem/:softwarename', function (request, response) 
 /** Add a new virtual machine **/
 app.put('/machine', function (request, response) {
     logger.info("Received 'Add new Virtual Machine' request");
-    console.log(JSON.stringify(request.files));
-});
-
-/** Add a new appliance **/
-app.put('/appliance', function (request, response) {
-    logger.inf("Received 'Add new Virtual Appliance' request");
     console.log(JSON.stringify(request.files));
 });
 
