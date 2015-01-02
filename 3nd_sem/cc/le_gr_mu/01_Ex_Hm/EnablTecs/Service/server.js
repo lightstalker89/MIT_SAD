@@ -2,6 +2,7 @@
 var fs = require('fs');
 var log4js = require('log4js');
 var _ = require('underscore');
+var qs = require('querystring');
 var logger = log4js.getLogger();
 var client = null;
 var file = "appliance.json";
@@ -157,10 +158,20 @@ app.get('/machine/:operatingsystem/:softwarename', function (request, response) 
 });
 
 /** Add a new virtual machine **/
-app.put('/machine', function (request, response) {
+app.post('/machine', function (request, response) {
     logger.info("Received 'Add new Virtual Machine' request");
-    console.log(JSON.strigify(request));
-    console.log(JSON.stringify(request.files));
+    if (request.method == 'POST') {
+        var body = '';
+        request.on('data', function (data) {
+            body += data;
+
+            if (body.length > 1e6)
+                request.connection.destroy();
+        });
+        request.on('end', function () {
+            var jsonObject = JSON.parse(body);
+        });
+    }
 });
 
 /** Start or stop a virtual machine **/
