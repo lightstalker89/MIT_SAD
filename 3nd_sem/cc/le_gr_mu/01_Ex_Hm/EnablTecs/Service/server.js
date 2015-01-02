@@ -17,10 +17,12 @@ var virtualMachines = [{
     "RecommendedRAM": "1024",
     "SupportedVirtualizationPlatform": "",
     "Software": [
-
+        "Virtual Box",
+        "Microsoft Office"
     ],
     "SupportedProgramingLanguages": [
-
+        "C#",
+        "C++"
     ]
 }];
 var client = null;
