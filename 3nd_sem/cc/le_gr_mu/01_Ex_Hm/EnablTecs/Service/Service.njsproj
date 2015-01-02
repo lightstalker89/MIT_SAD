@@ -31,6 +31,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="appliance.json" />
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />

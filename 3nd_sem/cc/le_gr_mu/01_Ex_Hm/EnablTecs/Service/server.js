@@ -84,6 +84,12 @@ var getMachine = function(id) {
 
 var app = express();
 
+/** Download a virtual machine **/
+app.get('/download/:id', function(request, response) {
+    var file = "appliance.json";
+    response.download(file);
+});
+
 /** List all virtual machines **/
 app.get('/machines', function (request, response) {
     logger.info("Received 'List all Virtual Machines' request");
@@ -110,19 +116,19 @@ app.put('/appliance', function (request, response) {
 /** Start or stop a virtual machine **/
 app.post('/machine/:id/:operation', function (request, response) {
     logger.inf("Received 'Operation for Virtual Machine' request");
-    start(request.params.Id);
+    start(request.params.id);
 });
 
 /** Change the description of a virtual machine **/
 app.post('/machine/:id/:description', function (request, response) {
     logger.info("Received 'Update Description for Virtual Machiner' request");
-    updateDescription(request.params.Id, request.params.Description);
+    updateDescription(request.params.id, request.params.description);
 });
 
 /** Add a rating with a comment to the virtual machine **/
 app.post('/machine/:id/:rating/:comment', function (request, response) {
     logger.inf("Received 'Update Rating for Virtual Machine' request");
-    updateRating(request.params.Id, request.params.Rating, request.params.Comment);
+    updateRating(request.params.id, request.params.rating, request.params.comment);
 });
 
 var port = 1337;
