@@ -1,5 +1,6 @@
 ﻿var express = require('express');
 var vmManager = require('manager/vmManager');
+var fs = require('fs');
 
 var app = express();
 storage.initSync();
