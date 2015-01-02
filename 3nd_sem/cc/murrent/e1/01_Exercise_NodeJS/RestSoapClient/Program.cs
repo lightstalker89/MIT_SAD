@@ -186,7 +186,7 @@ namespace RestSoapClient
                 case ConsoleKey.D:
                     ConsoleOutput.DeleteCustomer();
                     requestParameter = GetParameter("Specify customer name: ");
-                    restRequest = new RestRequest("customer/delete/{customername}", Method.DELETE);
+                    restRequest = new RestRequest("customer/{customername}", Method.DELETE);
                     restRequest.AddUrlSegment("customername", requestParameter);
                     IRestResponse deleteCustomerResponse = restClient.Execute(restRequest);
                     SuccessResponse deleteCustomerSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(deleteCustomerResponse.Content);
@@ -201,7 +201,7 @@ namespace RestSoapClient
                     ConsoleOutput.DeleteOrder();
                     requestParameter = GetParameter("Specify customer name: ");
                     orderName = GetParameter("Specify order name: ");
-                    restRequest = new RestRequest("order/delete/{customername}/{ordername}", Method.DELETE);
+                    restRequest = new RestRequest("order/{customername}/{ordername}", Method.DELETE);
                     restRequest.AddUrlSegment("ordername", orderName);
                     restRequest.AddUrlSegment("customername", requestParameter);
                     IRestResponse deleteOrdeResponseResponse = restClient.Execute(restRequest);
@@ -248,7 +248,7 @@ namespace RestSoapClient
                 case ConsoleKey.J:
                     ConsoleOutput.AddCustomer();
                     requestParameter = GetParameter("Specify customer name: ");
-                    restRequest = new RestRequest("customer/add/{customername}", Method.PUT);
+                    restRequest = new RestRequest("customer/{customername}", Method.PUT);
                     restRequest.AddUrlSegment("customername", requestParameter);
                     IRestResponse newCustomerResponse = restClient.Execute(restRequest);
                     SuccessResponse customerSuccessResponse = JavaScriptSerializer.Deserialize<SuccessResponse>(newCustomerResponse.Content);
@@ -263,7 +263,7 @@ namespace RestSoapClient
                     ConsoleOutput.AddOrder();
                     requestParameter = GetParameter("Specify customer name: ");
                     orderName = GetParameter("Specify order name: ");
-                    restRequest = new RestRequest("order/add/{customername}/{ordername}", Method.PUT);
+                    restRequest = new RestRequest("order/{customername}/{ordername}", Method.PUT);
                     restRequest.AddUrlSegment("customername", requestParameter);
                     restRequest.AddUrlSegment("ordername", orderName);
                     IRestResponse newOrderResponse = restClient.Execute(restRequest);

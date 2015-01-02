@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F017471E-23CB-4450-AFEA-677CA5C32067}"
+	ProjectSection(SolutionItems) = preProject
+		vmExample.json = vmExample.json
+	EndProjectSection
+EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Models", "Models\Models.modelproj", "{63C70595-3FAE-4783-88C2-91F0ADF92C1F}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Service", "Service\Service.njsproj", "{272A41EE-FF38-4266-B890-2AB65085A377}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMClient", "VMClient\VMClient.csproj", "{9A5AD3C4-9B0F-4881-80BC-2A79BB57D071}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63C70595-3FAE-4783-88C2-91F0ADF92C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63C70595-3FAE-4783-88C2-91F0ADF92C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63C70595-3FAE-4783-88C2-91F0ADF92C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63C70595-3FAE-4783-88C2-91F0ADF92C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272A41EE-FF38-4266-B890-2AB65085A377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272A41EE-FF38-4266-B890-2AB65085A377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272A41EE-FF38-4266-B890-2AB65085A377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272A41EE-FF38-4266-B890-2AB65085A377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A5AD3C4-9B0F-4881-80BC-2A79BB57D071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A5AD3C4-9B0F-4881-80BC-2A79BB57D071}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A5AD3C4-9B0F-4881-80BC-2A79BB57D071}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A5AD3C4-9B0F-4881-80BC-2A79BB57D071}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(CodealikeProperties) = postSolution
+		SolutionGuid = 0b9c614a-26fc-4bd2-b4c0-98b31c5cad19
+	EndGlobalSection
+EndGlobal
