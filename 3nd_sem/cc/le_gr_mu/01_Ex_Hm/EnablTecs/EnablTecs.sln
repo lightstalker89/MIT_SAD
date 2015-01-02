@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "RestService", "RestService\RestService.njsproj", "{272A41EE-FF38-4266-B890-2AB65085A377}"
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Service", "RestService\Service.njsproj", "{272A41EE-FF38-4266-B890-2AB65085A377}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F017471E-23CB-4450-AFEA-677CA5C32067}"
 	ProjectSection(SolutionItems) = preProject
