@@ -1,6 +1,7 @@
 ﻿var storageManager = require('manager/storageManager');
 
 var VmManager = function () {
+    var me = this;
     var client = null;
 
     var connect = function() {
@@ -14,7 +15,7 @@ var VmManager = function () {
         });
         client.on('log::*', function (message, object) {
             if (object) {
-                console.log(this.event.split('::')[1] + ' ' + message)
+                console.log(this.event.split('::')[1] + ' ' + message);
                 console.dir(object);
             }
             else {

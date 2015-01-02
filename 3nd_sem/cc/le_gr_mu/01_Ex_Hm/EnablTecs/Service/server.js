@@ -6,7 +6,7 @@ var app = express();
 
 /** List all virtual machines **/
 app.get('/machines', function (request, response) {
-    response.write(vmManager.getAll());
+    response.write(storageManager.getAll());
 });
 
 /** Search for specific virtual machines by operatin system and software **/
