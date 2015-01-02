@@ -1,3 +1,6 @@
+using System.IO;
+using Microsoft.Win32;
+
 namespace VirtualMachineClient.ViewModel
 {
     using System;
@@ -67,10 +70,15 @@ namespace VirtualMachineClient.ViewModel
 
         private void UploadNewVmExecute()
         {
-            RestRequest restRequest = new RestRequest("/machine", Method.PUT);
-            restRequest.AddFile("vmExample.json", "vmExample.json");
-            IRestResponse addVmResponse = this.restClient.Execute(restRequest);
-           
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "json files (*.json)|*.json";
+            bool? result = dlg.ShowDialog();
+            if (result == true)
+            {
+                RestRequest restRequest = new RestRequest("/machine", Method.PUT);
+                restRequest.AddFile(Path.GetFileName(dlg.FileName), File.ReadAllBytes(dlg.FileName), Path.GetFileName(dlg.FileName), "application/json");
+                IRestResponse addVmResponse = this.restClient.Execute(restRequest);
+            } 
         }
         #endregion
     }

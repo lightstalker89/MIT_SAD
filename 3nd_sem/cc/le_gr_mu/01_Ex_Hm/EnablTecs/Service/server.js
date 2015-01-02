@@ -1,4 +1,5 @@
 ﻿var express = require('express');
+var bodyParser = require('body-parser');
 var fs = require('fs');
 var log4js = require('log4js');
 var _ = require('underscore');
@@ -123,6 +124,7 @@ var getMachine = function(id) {
 };
 
 var app = express();
+app.use(bodyParser.json()); // register body parser
 
 /** Download a virtual machine **/
 app.get('/download/:id', function (request, response) {
@@ -159,8 +161,21 @@ app.get('/machine/:operatingsystem/:softwarename', function (request, response) 
 /** Add a new virtual machine **/
 app.put('/machine', function (request, response) {
     logger.info("Received 'Add new Virtual Machine' request");
-    console.log(JSON.strigify(request));
-    console.log(JSON.stringify(request.files));
+    // body always empty ??
+
+    /* Without body-parser
+    var body = '';
+    request.on('data', function (data) {
+        body += data;
+        // Too much data, kill the connection!
+        if (body.length > 1e6)
+            request.connection.destroy();
+    });
+    request.on('end', function () {
+        var parsedBody = JSON.stringify(body); // Unnötig
+        console.log(parsedBody);
+        response.send({ Success: true, ErrorMessage: "Add new virtual machine" });
+    });*/
 });
 
 /** Start or stop a virtual machine **/
