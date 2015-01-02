@@ -1,5 +1,6 @@
 ﻿var storageManager = require('manager/storageManager');
 var _ = require('underscore');
+var uuid = require('node-uuid');
 
 var VmManager = function () {
     var virtualMachines = [];
