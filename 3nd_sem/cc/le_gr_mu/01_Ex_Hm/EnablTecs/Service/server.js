@@ -159,6 +159,7 @@ app.get('/machine/:operatingsystem/:softwarename', function (request, response) 
 /** Add a new virtual machine **/
 app.put('/machine', function (request, response) {
     logger.info("Received 'Add new Virtual Machine' request");
+    console.log(JSON.strigify(request));
     console.log(JSON.stringify(request.files));
 });
 
