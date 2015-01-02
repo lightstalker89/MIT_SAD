@@ -13,23 +13,23 @@ var VmManager = function () {
         return virtualMachines();
     };
 
-    me.getMachines = function(operationSystem, software) {
+    me.getMachines = function(operatingSystem, software) {
 
     };
 
-    me.updateDescription = function(name, description) {
+    me.updateDescription = function(id, description) {
 
     };
 
-    me.updateRating = function(rating, comment) {
+    me.updateRating = function(id, rating, comment) {
 
     };
 
-    me.start = function(name) {
+    me.start = function(id) {
 
     };
 
-    me.stop = function(name) {
+    me.stop = function(id) {
 
     };
 };
