@@ -1,3 +1,6 @@
+using System.Windows;
+using Microsoft.Win32;
+
 namespace VirtualMachineClient.ViewModel
 {
     using System;
@@ -71,15 +74,30 @@ namespace VirtualMachineClient.ViewModel
 
         private void UploadNewVmExecute()
         {
-            string fileContent = "";
-            using (StreamReader str = new StreamReader("vmExample.json"))
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "json files (*.json)|*.json";
+            bool? result = dlg.ShowDialog();
+            if (result == true)
             {
-                fileContent = str.ReadToEnd();
-            }
-            RestRequest restRequest = new RestRequest("/machine", Method.POST);
-            restRequest.AddJsonBody(fileContent);
-            IRestResponse addVmResponse = this.restClient.Execute(restRequest);
-           
+                string fileContent;
+                using (StreamReader str = new StreamReader(dlg.FileName))
+                {
+                    fileContent = str.ReadToEnd();
+                }
+
+                RestRequest restRequest = new RestRequest("/machine", Method.POST);
+                restRequest.AddJsonBody(fileContent);
+                IRestResponse addVmResponse = this.restClient.Execute(restRequest);
+                SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(addVmResponse.Content);
+                if (addVmSuccessResponse.Success)
+                {
+                    MessageBox.Show("VM added successfully", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Failed to add VM", "Info", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            } 
         }
 
         public ICommand ExitCommand { get; private set; }
