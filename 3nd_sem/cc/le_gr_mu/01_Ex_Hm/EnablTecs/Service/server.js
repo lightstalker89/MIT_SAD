@@ -172,10 +172,10 @@ app.post('/machine', function (request, response) {
             try {
                 var jsonObject = JSON.parse(body);
                 virtualMachines.push(jsonObject);
+                response.send(virtualMachines);
             } catch (e) {
-                response.send(Success: false, ErrorMessage: "Could not add virutal machine. Please try it again." });
-            }
-           
+                response.send({Success: false, ErrorMessage: "Could not add virutal machine. Please try it again." });
+            }    
         });
     }
     response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again."});
