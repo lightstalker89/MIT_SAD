@@ -178,7 +178,6 @@ app.post('/machine', function (request, response) {
             }    
         });
     }
-    response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again."});
 });
 
 /** Start or stop a virtual machine **/
