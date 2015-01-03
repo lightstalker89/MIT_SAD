@@ -209,13 +209,15 @@ app.post('/machine/:id/:operation', function (request, response) {
 /** Change the description of a virtual machine **/
 app.post('/machine/:id/:description', function (request, response) {
     logger.info("Received 'Update Description for Virtual Machiner' request");
-    updateDescription(request.params.id, request.params.description);
+    var desResponse = updateDescription(request.params.id, request.params.description);
+    response.send(desResponse);
 });
 
 /** Add a rating with a comment to the virtual machine **/
 app.post('/machine/:id/:rating/:comment', function (request, response) {
     logger.inf("Received 'Update Rating for Virtual Machine' request");
-    updateRating(request.params.id, request.params.rating, request.params.comment);
+    var ratResponse = updateRating(request.params.id, request.params.rating, request.params.comment);
+    response.send(ratResponse);
 });
 
 var port = 1337;

@@ -13,10 +13,41 @@
             </MenuItem>
             <MenuItem Header="Help"></MenuItem>
         </Menu>
-        <TextBox Margin="10,57,0,0" Height="30" Width="385" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
-        <Button  Margin="10,57,10,0" Height="30" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Search"></Button>
+        <TextBox x:Name="OperatingSystemSearch" Margin="10,57,0,0" Height="30" Width="209" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
+        <TextBlock IsHitTestVisible="False" Text="Operating System" Height="30" TextAlignment="Left" Padding="5, 5, 5, 5"  Foreground="LightGray"  Margin="10,58,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="209">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=OperatingSystemSearch}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=OperatingSystemSearch, Path=IsFocused}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBox x:Name="TypeSearch" Margin="230,57,0,0" Height="30" Width="209" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
+        <TextBlock IsHitTestVisible="False" Text="Type" Height="30" TextAlignment="Left" Padding="5, 5, 5, 5"  Foreground="LightGray"  Margin="230,58,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="209">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=TypeSearch}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=TypeSearch, Path=IsFocused}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <Button  Margin="0,57,10.399,0" Height="30" Width="65" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Search"></Button>
         <ListBox Margin="10,90,10,10" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-            
+
         </ListBox>
         <Label Content="Virtual Machines" Margin="10,25,10,0" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Center"/>
     </Grid>
