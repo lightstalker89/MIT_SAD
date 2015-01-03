@@ -153,7 +153,7 @@ app.get('/download/:id', function (request, response) {
 /** List all virtual machines **/
 app.get('/machines', function (request, response) {
     logger.info("Received 'List all Virtual Machines' request");
-    response.send({ Success: true, ErrorMessage: "", Data: virtualMachines };);
+    response.send({ Success: true, ErrorMessage: "", Data: virtualMachines });
 });
 
 /** Search for specific virtual machines by operating system and software **/
