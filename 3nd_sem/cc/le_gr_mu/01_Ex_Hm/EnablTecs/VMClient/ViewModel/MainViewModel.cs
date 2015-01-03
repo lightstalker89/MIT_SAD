@@ -62,8 +62,16 @@ namespace VirtualMachineClient.ViewModel
         private void GetVirtualMachines()
         {
             RestRequest restRequest = new RestRequest("/machines", Method.GET);
-            IRestResponse customersResponse = this.restClient.Execute(restRequest);
-            this.InstalledVirtualMachines = this.javaScriptSerializer.Deserialize<ObservableCollection<VmInfo>>(customersResponse.Content);
+            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+            if (addVmSuccessResponse.Success)
+            {
+                this.InstalledVirtualMachines = this.javaScriptSerializer.Deserialize<ObservableCollection<VmInfo>>(addVmSuccessResponse.DataMessage);
+            }
+            else
+            {
+                MessageBox.Show(addVmSuccessResponse.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         #region mvvm relay commands
@@ -88,11 +96,11 @@ namespace VirtualMachineClient.ViewModel
                 SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(addVmResponse.Content);
                 if (addVmSuccessResponse.Success)
                 {
-                    MessageBox.Show("VM added successfully", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.InstalledVirtualMachines = this.javaScriptSerializer.Deserialize<ObservableCollection<VmInfo>>(addVmSuccessResponse.DataMessage);
                 }
                 else
                 {
-                    MessageBox.Show("Failed to add VM", "Info", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(addVmSuccessResponse.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             } 
         }
