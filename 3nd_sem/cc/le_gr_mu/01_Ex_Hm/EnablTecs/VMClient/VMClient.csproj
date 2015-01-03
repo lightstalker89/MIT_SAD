@@ -81,6 +81,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\SuccessResponse.cs" />
     <Compile Include="Models\VmInfo.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
