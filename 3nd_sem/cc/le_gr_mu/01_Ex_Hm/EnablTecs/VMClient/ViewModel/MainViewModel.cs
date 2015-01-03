@@ -7,7 +7,9 @@ namespace VirtualMachineClient.ViewModel
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Net.Mime;
     using System.Web.Script.Serialization;
+    using System.Windows;
     using System.Windows.Input;
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
@@ -42,6 +44,7 @@ namespace VirtualMachineClient.ViewModel
         private void InitMethods()
         {
             this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
+            this.ExitCommand = new RelayCommand(this.ExitApplication, () => true);
         }
 
         private ObservableCollection<VmInfo> installedVirtualMachines;
@@ -103,6 +106,13 @@ namespace VirtualMachineClient.ViewModel
                     MessageBox.Show(addVmSuccessResponse.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             } 
+        }
+
+        public ICommand ExitCommand { get; private set; }
+
+        private void ExitApplication()
+        {
+            Application.Current.Shutdown();
         }
         #endregion
     }
