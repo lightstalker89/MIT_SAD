@@ -87,35 +87,39 @@ var add = function(description) {
     var machine = getMachine(description.Id);
     if (machine) {
         logger.error("Cannot create virtual machine. A machine with the given id already exists.");
-        return { Success: false, ErrorMessage: "Cannot create virtual machine. A machine with the given id already exists." };
-    } else {
+        return { Success: false, ErrorMessage: "Cannot create virtual machine. A machine with the given id already exists.", Data: null};
+    } 
         logger.info("Adding new virtual machine");
-        return { Success: true, ErrorMessage: "" };
-    }
+        return { Success: true, ErrorMessage: "", Data: virtualMachines };
 };
 
 var getMachines = function(operatingSystem, software) {
-
+    var machines = [];
+    _.each(virtualMachines, function(machine) {
+        var match = false;
+    });
+    return machines;
 };
 
 var updateDescription = function (id, description) {
     var machine = getMachine(description.Id);
     if (machine) {
-       
-    } else {
+        machine.Description = description;
+        return { Success: true, ErrorMessage: "" };
+    } 
         logger.error("Could not find virutal machine for the given id");
-        return { Success: false, ErrorMessage: "Could not find virutal machine for the given id" };
-    }
+        return { Success: false, ErrorMessage: "Could not find virutal machine for the given id", Data: null };
 };
 
 var updateRating = function(id, rating, comment) {
     var machine = getMachine(description.Id);
     if (machine) {
-
-    } else {
+        machine.Ratings = [];
+        machine.Ratings.push({ Rating: rating, Comment: comment });
+        return { Success: true, ErrorMessage: "", Data: null };
+    } 
         logger.error("Could not find virutal machine for the given id");
-        return { Success: false, ErrorMessage: "Could not find virutal machine for the given id" };
-    }
+        return { Success: false, ErrorMessage: "Could not find virutal machine for the given id", Data: null };
 };
 
 var getMachine = function(id) {
@@ -138,18 +142,18 @@ app.get('/download/:id', function (request, response) {
             response.download(file);
         } else {
             logger.error("Could not find virtual machine or appliance for id");
-            response.send({ Success: false, ErrorMessage: "Could not find virtual machine or appliance for id" });
+            response.send({ Success: false, ErrorMessage: "Could not find virtual machine or appliance for id", Data: null});
         }
     } else {
         logger.error("No id supplied. Error");
-        response.send({ Success: false, ErrorMessage: "No id supplied. Error" });
+        response.send({ Success: false, ErrorMessage: "No id supplied. Error", Data: null });
     }
 });
 
 /** List all virtual machines **/
 app.get('/machines', function (request, response) {
     logger.info("Received 'List all Virtual Machines' request");
-    response.send(virtualMachines);
+    response.send({ Success: true, ErrorMessage: "", Data: virtualMachines };);
 });
 
 /** Search for specific virtual machines by operating system and software **/
@@ -171,10 +175,11 @@ app.post('/machine', function (request, response) {
         request.on('end', function () {
             try {
                 var jsonObject = JSON.parse(body);
-                virtualMachines.push(jsonObject);
-                response.send(virtualMachines);
+                //virtualMachines.push(jsonObject);
+                var vmResponse = add(jsonObject);
+                response.send(response);
             } catch (e) {
-                response.send({Success: false, ErrorMessage: "Could not add virutal machine. Please try it again." });
+                response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again.", Data: null });
             }    
         });
     }
