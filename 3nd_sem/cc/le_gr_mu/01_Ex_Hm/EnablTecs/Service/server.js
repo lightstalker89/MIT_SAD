@@ -93,10 +93,23 @@ var add = function(description) {
         return { Success: true, ErrorMessage: "", Data: virtualMachines };
 };
 
-var getMachines = function(operatingSystem, software) {
+var getMachines = function(operatingSystem, type) {
     var machines = [];
     _.each(virtualMachines, function(machine) {
         var match = false;
+        if (operatingSystem && operatingSystem.length > 0) {
+            if (machine.OperatingSystem === operatingSystem) {
+                match = true;
+            }
+        }
+        if (type && type.length > 0) {
+            if (machine.Type === type) {
+                match = true;
+            }
+        }
+        if (match === true) {
+            machines.push(machine);
+        }
     });
     return machines;
 };
@@ -157,8 +170,10 @@ app.get('/machines', function (request, response) {
 });
 
 /** Search for specific virtual machines by operating system and software **/
-app.get('/machine/:operatingsystem/:softwarename', function (request, response) {
+app.get('/machine/:operatingsystem/:type', function (request, response) {
     logger.info("Received 'List Virtual Machines by operating syste and software' request");
+    var machines = getMachines(request.params.OperatingSystem, request.params.Type);
+    response.send({ Success: true, ErrorMessage: "", Data: machines });
 });
 
 /** Add a new virtual machine **/
@@ -175,15 +190,14 @@ app.post('/machine', function (request, response) {
         request.on('end', function () {
             try {
                 var jsonObject = JSON.parse(body);
-                //virtualMachines.push(jsonObject);
                 var vmResponse = add(jsonObject);
-                response.send(response);
+                response.send(vmResponse);
             } catch (e) {
                 response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again.", Data: null });
             }    
         });
     }
-    response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again."});
+    response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again.", Data: null});
 });
 
 /** Start or stop a virtual machine **/

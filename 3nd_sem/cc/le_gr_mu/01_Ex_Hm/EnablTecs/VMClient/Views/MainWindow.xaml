@@ -9,7 +9,7 @@
                 <MenuItem Header="Upload New Virtual Machine" Command="{Binding UploadNewVm}"></MenuItem>
                 <MenuItem Header="Upload New Appliance"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Exit"></MenuItem>
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Help"></MenuItem>
         </Menu>
