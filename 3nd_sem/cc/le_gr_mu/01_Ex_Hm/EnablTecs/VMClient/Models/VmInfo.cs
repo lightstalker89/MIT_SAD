@@ -3,9 +3,12 @@
 namespace VirtualMachineClient.Models
 {
     using System.Collections.Generic;
-    using System.Windows.Controls;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
 
-    public class VmInfo
+    using GalaSoft.MvvmLight;
+
+    public class VmInfo : ViewModelBase
     {
         public string Id { get; set; }
 
@@ -53,21 +56,33 @@ namespace VirtualMachineClient.Models
 
         public VmRating[] Ratings { get; set; }
 
-        public string VmImagePath { get; set; }
+        private string vmImagePath;
+        public string VmImagePath
+        {
+            get
+            {
+                return vmImagePath;
+            }
+            set
+            {
+                vmImagePath = value;
+                RaisePropertyChanged("VmImagePath");
+            }
+        }
 
         public void UpdateVmImage()
         {
             if (operatingSystemType.Contains("Linux"))
             {
-
+                VmImagePath = "Assets/linux.png";
             }
             else if (operatingSystemType.Contains("Windows"))
             {
-                VmImagePath = String.Format("Resources/windows.png");
+                VmImagePath = "Assets/windows.png";
             }
             else if (operatingSystemType.Contains("Mac"))
             {
-                
+                VmImagePath = "Assets/apple.png";
             }
         }
     }

@@ -50,7 +50,42 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Height="20" Width="20" Source="Assets/windows.png"></Image>
+                        <Image Height="20" Width="20" Source="/VirtualMachineClient;component/Assets/windows.png">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=OperatingSystemType}" Value="Windows">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Image Height="20" Width="20" Source="/VirtualMachineClient;component/Assets/aplle.png">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=OperatingSystemType}" Value="Mac">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Image Height="20" Width="20" Source="/VirtualMachineClient;component/Assets/linux.png">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=OperatingSystemType}" Value="Linux">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
                     <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12"></TextBlock>
                         <TextBlock Text="{Binding Type}" FontSize="10"></TextBlock>
