@@ -69,7 +69,7 @@ namespace VirtualMachineClient.ViewModel
             SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
             if (addVmSuccessResponse.Success)
             {
-                this.InstalledVirtualMachines = this.javaScriptSerializer.Deserialize<ObservableCollection<VmInfo>>(addVmSuccessResponse.DataMessage);
+                this.InstalledVirtualMachines = addVmSuccessResponse.Data;
             }
             else
             {
@@ -99,7 +99,7 @@ namespace VirtualMachineClient.ViewModel
                 SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(addVmResponse.Content);
                 if (addVmSuccessResponse.Success)
                 {
-                    this.InstalledVirtualMachines = this.javaScriptSerializer.Deserialize<ObservableCollection<VmInfo>>(addVmSuccessResponse.DataMessage);
+                    this.InstalledVirtualMachines = addVmSuccessResponse.Data;
                 }
                 else
                 {
