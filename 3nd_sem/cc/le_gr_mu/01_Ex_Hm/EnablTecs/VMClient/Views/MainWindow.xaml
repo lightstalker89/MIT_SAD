@@ -10,8 +10,7 @@
     <Grid>
         <Menu Height="20" VerticalAlignment="Top" Background="#FFA0A3B4">
             <MenuItem Header="File">
-                <MenuItem Header="Upload New Virtual Machine" Command="{Binding UploadNewVm}"></MenuItem>
-                <MenuItem Header="Upload New Appliance" Command="{Binding UploadNewVm}"></MenuItem>
+                <MenuItem Header="Upload New Virtual Machine/Appliance" Command="{Binding UploadNewVm}"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Exit" Command="{Binding ExitCommand}"></MenuItem>
             </MenuItem>
