@@ -36,9 +36,8 @@ namespace VirtualMachineClient.Models
 
         public List<string> SupportedProgramingLanguages { get; set; }
 
-        public override string ToString()
-        {
-            return string.Concat("VM:\t", this.Name);
-        }
+        public string Status { get; set; }
+
+        public VmRating[] Ratings { get; set; }
     }
 }

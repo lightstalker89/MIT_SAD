@@ -6,6 +6,6 @@
 
         public string ErrorMessage { get; set; }
 
-        public string DataMessage { get; set; }
+        public VmInfo[] Data { get; set; }
     }
 }

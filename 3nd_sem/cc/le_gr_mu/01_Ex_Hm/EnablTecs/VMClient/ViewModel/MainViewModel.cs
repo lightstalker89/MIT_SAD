@@ -1,13 +1,9 @@
-using System.Windows;
 using Microsoft.Win32;
 
 namespace VirtualMachineClient.ViewModel
 {
-    using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
-    using System.Net.Mime;
     using System.Web.Script.Serialization;
     using System.Windows;
     using System.Windows.Input;
@@ -45,6 +41,7 @@ namespace VirtualMachineClient.ViewModel
         {
             this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
             this.ExitCommand = new RelayCommand(this.ExitApplication, () => true);
+            this.SearchCommand = new RelayCommand(this.Search, ()=> true);
         }
 
         private ObservableCollection<VmInfo> installedVirtualMachines;
@@ -69,7 +66,7 @@ namespace VirtualMachineClient.ViewModel
             SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
             if (addVmSuccessResponse.Success)
             {
-                this.InstalledVirtualMachines = this.javaScriptSerializer.Deserialize<ObservableCollection<VmInfo>>(addVmSuccessResponse.DataMessage);
+               this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
             }
             else
             {
@@ -99,7 +96,7 @@ namespace VirtualMachineClient.ViewModel
                 SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(addVmResponse.Content);
                 if (addVmSuccessResponse.Success)
                 {
-                    this.InstalledVirtualMachines = this.javaScriptSerializer.Deserialize<ObservableCollection<VmInfo>>(addVmSuccessResponse.DataMessage);
+                    this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
                 }
                 else
                 {
@@ -113,6 +110,13 @@ namespace VirtualMachineClient.ViewModel
         private void ExitApplication()
         {
             Application.Current.Shutdown();
+        }
+
+        public ICommand SearchCommand { get; set; }
+
+        private void Search()
+        {
+            
         }
         #endregion
     }

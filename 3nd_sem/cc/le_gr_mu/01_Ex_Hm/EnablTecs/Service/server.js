@@ -28,7 +28,8 @@ var virtualMachines = [{
     "SupportedProgramingLanguages": [
         "C#",
         "C++"
-    ]
+    ],
+    "Ratings": []
 }, {
     "Id": "2",
     "ReferencedVirtualMachineId": "",
@@ -52,7 +53,8 @@ var virtualMachines = [{
         "C#",
         "C++",
         "HTML"
-    ]
+    ],
+    "Ratings": []
 }];
 
 var connect = function () {
@@ -76,11 +78,17 @@ var connect = function () {
 };
 
 var start = function (id) {
-
+    var machine = getMachine(Id);
+    if (machine) {
+        machine.set("Status", "Started");
+    }
 };
 
 var stop = function (id) {
-
+    var machine = getMachine(Id);
+    if (machine) {
+        machine.set("Status", "Started");
+    }
 };
 
 var add = function(description) {
@@ -89,7 +97,9 @@ var add = function(description) {
         logger.error("Cannot create virtual machine. A machine with the given id already exists.");
         return { Success: false, ErrorMessage: "Cannot create virtual machine. A machine with the given id already exists.", Data: null};
     } 
-        logger.info("Adding new virtual machine");
+    logger.info("Adding new virtual machine");
+    description.Ratings = [];
+    virtualMachines.push(description);
         return { Success: true, ErrorMessage: "", Data: virtualMachines };
 };
 
@@ -115,7 +125,7 @@ var getMachines = function(operatingSystem, type) {
 };
 
 var updateDescription = function (id, description) {
-    var machine = getMachine(description.Id);
+    var machine = getMachine(Id);
     if (machine) {
         machine.Description = description;
         return { Success: true, ErrorMessage: "" };
@@ -125,9 +135,8 @@ var updateDescription = function (id, description) {
 };
 
 var updateRating = function(id, rating, comment) {
-    var machine = getMachine(description.Id);
+    var machine = getMachine(id);
     if (machine) {
-        machine.Ratings = [];
         machine.Ratings.push({ Rating: rating, Comment: comment });
         return { Success: true, ErrorMessage: "", Data: null };
     } 
@@ -179,6 +188,7 @@ app.get('/machine/:operatingsystem/:type', function (request, response) {
 /** Add a new virtual machine **/
 app.post('/machine', function (request, response) {
     logger.info("Received 'Add new Virtual Machine' request");
+    console.log(request.body);
     if (request.method == 'POST') {
         var body = '';
         request.on('data', function (data) {
@@ -190,14 +200,16 @@ app.post('/machine', function (request, response) {
         request.on('end', function () {
             try {
                 var jsonObject = JSON.parse(body);
-                var vmResponse = add(jsonObject);
+                var parsedObject = JSON.parse(jsonObject);
+                var vmResponse = add(parsedObject);
                 response.send(vmResponse);
             } catch (e) {
                 response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again.", Data: null });
             }    
         });
+    }else{
+        response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again.", Data: null});
     }
-    response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again.", Data: null});
 });
 
 /** Start or stop a virtual machine **/

@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="Models\SuccessResponse.cs" />
     <Compile Include="Models\VmInfo.cs" />
+    <Compile Include="Models\VmRating.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -116,6 +117,12 @@
     </None>
     <AppDesigner Include="Properties\" />
     <Content Include="vmExample.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vms\vmExampleII.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vms\vmExample.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

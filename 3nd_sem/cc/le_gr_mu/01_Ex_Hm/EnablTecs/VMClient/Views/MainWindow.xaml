@@ -45,10 +45,18 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <Button  Margin="0,57,10.399,0" Height="30" Width="65" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Search"></Button>
-        <ListBox Margin="10,90,10,10" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-
+        <Button  Margin="0,57,10.399,0" Height="30" Width="65" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Search" Command="{Binding SearchCommand}"></Button>
+        <ListBox Margin="10,90,355.399,9.85" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12"></TextBlock>
+                        <TextBlock Text="{Binding Type}" FontSize="10"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
         <Label Content="Virtual Machines" Margin="10,25,10,0" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Center"/>
+        <GroupBox Header="Details" Margin="169,92,10.399,9.85"/>
     </Grid>
 </Window>
