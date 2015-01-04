@@ -1,8 +1,8 @@
 {
-    "Id":  "1",
+    "Id":  "3",
 	"Name" :  "Windows XP",
 	"Description" :  "Windows XP Service Pack 3",
-	"Type":  "Appliance",
+	"Type":  "Virtual Machine",
     "ApplicationType":  "",
     "OperatingSystem":  "Windows XP",
     "OperatingSystemType":  "Windows",

@@ -2,7 +2,6 @@
 var fs = require('fs');
 var log4js = require('log4js');
 var _ = require('underscore');
-var qs = require('querystring');
 var logger = log4js.getLogger();
 var client = null;
 var file = "appliance.json";
@@ -201,7 +200,7 @@ app.get('/machine/:operatingsystem/:type', function (request, response) {
 app.post('/machine', function (request, response) {
     logger.info("Received 'Add new Virtual Machine' request");
     console.log(request.body);
-    if (request.method == 'POST') {
+    if (request.method === 'POST') {
         var body = '';
         request.on('data', function (data) {
             body += data;
@@ -213,8 +212,12 @@ app.post('/machine', function (request, response) {
             try {
                 var jsonObject = JSON.parse(body);
                 var parsedObject = JSON.parse(jsonObject);
-                var vmResponse = add(parsedObject);
-                response.send(vmResponse);
+                if (parsedObject.Type === "Virtual Machine" || parsedObject.Type === "Appliance") {
+                    var vmResponse = add(parsedObject);
+                    response.send(vmResponse);
+                } else {
+                    response.send({ Success: false, ErrorMessage: "Could not create virtual machine. Wrong type.", Data: null });
+                }
             } catch (e) {
                 response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again.", Data: null });
             }    

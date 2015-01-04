@@ -1,8 +1,5 @@
-using Microsoft.Win32;
-
 namespace VirtualMachineClient.ViewModel
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Web.Script.Serialization;
@@ -10,9 +7,9 @@ namespace VirtualMachineClient.ViewModel
     using System.Windows.Input;
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
-    using RestSharp;
+    using Microsoft.Win32;
     using Models;
-
+    using RestSharp;
 
     public class MainViewModel : ViewModelBase
     {
@@ -45,49 +42,50 @@ namespace VirtualMachineClient.ViewModel
             this.SaveRatingCommand = new RelayCommand(this.SaveRating, () => true);
         }
 
-        private string errorText = String.Empty;
+        private string errorText = string.Empty;
+
         public string ErrorText
         {
             get
             {
-                return errorText;
+                return this.errorText;
             }
             set
             {
-                errorText = value;
-                RaisePropertyChanged("ErrorText");
+                this.errorText = value;
+                this.RaisePropertyChanged("ErrorText");
             }
         }
 
-        private string operatingSystemSearchText = String.Empty;
+        private string operatingSystemSearchText = string.Empty;
 
         public string OperatingSystemSearchText
         {
             get
             {
-                return operatingSystemSearchText;
+                return this.operatingSystemSearchText;
             }
             set
             {
-                operatingSystemSearchText = value;
-                RaisePropertyChanged("OperatingSystemSearchText");
-                Search();
+                this.operatingSystemSearchText = value;
+                this.RaisePropertyChanged("OperatingSystemSearchText");
+                this.Search();
             }
         }
 
-        private string typeSearchText = String.Empty;
+        private string typeSearchText = string.Empty;
 
         public string TypeSearchText
         {
             get
             {
-                return typeSearchText;
+                return this.typeSearchText;
             }
             set
             {
-                typeSearchText = value;
-                RaisePropertyChanged("TypeSearchText");
-                Search();
+                this.typeSearchText = value;
+                this.RaisePropertyChanged("TypeSearchText");
+                this.Search();
             }
         }
 
@@ -97,12 +95,12 @@ namespace VirtualMachineClient.ViewModel
         {
             get
             {
-                return selectedVmInfo;
+                return this.selectedVmInfo;
             }
             set
             {
-                selectedVmInfo = value;
-                RaisePropertyChanged("SelectedVmInfo");
+                this.selectedVmInfo = value;
+                this.RaisePropertyChanged("SelectedVmInfo");
             }
         }
 
@@ -131,10 +129,11 @@ namespace VirtualMachineClient.ViewModel
             if (addVmSuccessResponse.Success)
             {
                 this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                this.ErrorText = string.Empty;
             }
             else
             {
-                ErrorText = addVmSuccessResponse.ErrorMessage;
+                this.ErrorText = addVmSuccessResponse.ErrorMessage;
             }
         }
 
@@ -160,10 +159,11 @@ namespace VirtualMachineClient.ViewModel
                 if (addVmSuccessResponse.Success)
                 {
                     this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                    this.ErrorText = string.Empty;
                 }
                 else
                 {
-                    ErrorText = addVmSuccessResponse.ErrorMessage;
+                    this.ErrorText = addVmSuccessResponse.ErrorMessage;
                 }
             }
         }
@@ -198,8 +198,8 @@ namespace VirtualMachineClient.ViewModel
         private void Search()
         {
             RestRequest restRequest = new RestRequest("machine/{operatingsystem}/{type}", Method.GET);
-            string operatingSystem = (OperatingSystemSearchText == String.Empty) ? "all" : OperatingSystemSearchText;
-            string type = (TypeSearchText == String.Empty) ? "all" : TypeSearchText;
+            string operatingSystem = (this.OperatingSystemSearchText == string.Empty) ? "all" : this.OperatingSystemSearchText;
+            string type = (this.TypeSearchText == string.Empty) ? "all" : this.TypeSearchText;
             restRequest.AddUrlSegment("operatingsystem", operatingSystem);
             restRequest.AddUrlSegment("type", type);
             IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
@@ -207,10 +207,11 @@ namespace VirtualMachineClient.ViewModel
             if (addVmSuccessResponse.Success)
             {
                 this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                this.ErrorText = string.Empty;
             }
             else
             {
-                ErrorText = addVmSuccessResponse.ErrorMessage;
+                this.ErrorText = addVmSuccessResponse.ErrorMessage;
             }
         }
 
