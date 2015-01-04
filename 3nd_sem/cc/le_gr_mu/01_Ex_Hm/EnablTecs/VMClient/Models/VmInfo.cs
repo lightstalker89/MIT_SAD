@@ -3,8 +3,12 @@
 namespace VirtualMachineClient.Models
 {
     using System.Collections.Generic;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
 
-    public class VmInfo
+    using GalaSoft.MvvmLight;
+
+    public class VmInfo : ViewModelBase
     {
         public string Id { get; set; }
 
@@ -20,7 +24,12 @@ namespace VirtualMachineClient.Models
 
         public string OperatingSystem { get; set; }
 
-        public string OperatingSystemType { get; set; }
+        public string OperatingSystemType
+        {
+            get;
+
+            set;
+        }
 
         public string OperatingSystemVersion { get; set; }
 
@@ -36,9 +45,8 @@ namespace VirtualMachineClient.Models
 
         public List<string> SupportedProgramingLanguages { get; set; }
 
-        public override string ToString()
-        {
-            return string.Concat("VM:\t", this.Name);
-        }
+        public string Status { get; set; }
+
+        public VmRating[] Ratings { get; set; }
     }
 }

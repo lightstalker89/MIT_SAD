@@ -1,13 +1,10 @@
-using System.Windows;
 using Microsoft.Win32;
 
 namespace VirtualMachineClient.ViewModel
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
-    using System.Net.Mime;
     using System.Web.Script.Serialization;
     using System.Windows;
     using System.Windows.Input;
@@ -47,6 +44,52 @@ namespace VirtualMachineClient.ViewModel
             this.ExitCommand = new RelayCommand(this.ExitApplication, () => true);
         }
 
+        private string errorText = String.Empty;
+        public string ErrorText
+        {
+            get
+            {
+                return errorText;
+            }
+            set
+            {
+                errorText = value;
+                RaisePropertyChanged("ErrorText");
+            }
+        }
+
+        private string operatingSystemSearchText = String.Empty;
+
+        public string OperatingSystemSearchText
+        {
+            get
+            {
+                return operatingSystemSearchText;
+            }
+            set
+            {
+                operatingSystemSearchText = value;
+                RaisePropertyChanged("OperatingSystemSearchText");
+                Search();
+            }
+        }
+
+        private string typeSearchText = String.Empty;
+
+        public string TypeSearchText
+        {
+            get
+            {
+                return typeSearchText;
+            }
+            set
+            {
+                typeSearchText = value;
+                RaisePropertyChanged("TypeSearchText");
+                Search();
+            }
+        }
+
         private ObservableCollection<VmInfo> installedVirtualMachines;
 
         public ObservableCollection<VmInfo> InstalledVirtualMachines
@@ -64,16 +107,16 @@ namespace VirtualMachineClient.ViewModel
 
         private void GetVirtualMachines()
         {
-            RestRequest restRequest = new RestRequest("/machines", Method.GET);
+            RestRequest restRequest = new RestRequest("machines", Method.GET);
             IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
             SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
             if (addVmSuccessResponse.Success)
             {
-                this.InstalledVirtualMachines = addVmSuccessResponse.Data;
+                this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
             }
             else
             {
-                MessageBox.Show(addVmSuccessResponse.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ErrorText = addVmSuccessResponse.ErrorMessage;
             }
         }
 
@@ -82,8 +125,7 @@ namespace VirtualMachineClient.ViewModel
 
         private void UploadNewVmExecute()
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "json files (*.json)|*.json";
+            OpenFileDialog dlg = new OpenFileDialog { Filter = "json files (*.json)|*.json" };
             bool? result = dlg.ShowDialog();
             if (result == true)
             {
@@ -93,19 +135,19 @@ namespace VirtualMachineClient.ViewModel
                     fileContent = str.ReadToEnd();
                 }
 
-                RestRequest restRequest = new RestRequest("/machine", Method.POST);
+                RestRequest restRequest = new RestRequest("machine", Method.POST);
                 restRequest.AddJsonBody(fileContent);
                 IRestResponse addVmResponse = this.restClient.Execute(restRequest);
                 SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(addVmResponse.Content);
                 if (addVmSuccessResponse.Success)
                 {
-                    this.InstalledVirtualMachines = addVmSuccessResponse.Data;
+                    this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
                 }
                 else
                 {
-                    MessageBox.Show(addVmSuccessResponse.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ErrorText = addVmSuccessResponse.ErrorMessage;
                 }
-            } 
+            }
         }
 
         public ICommand ExitCommand { get; private set; }
@@ -113,6 +155,25 @@ namespace VirtualMachineClient.ViewModel
         private void ExitApplication()
         {
             Application.Current.Shutdown();
+        }
+
+        private void Search()
+        {
+            RestRequest restRequest = new RestRequest("machine/{operatingsystem}/{type}", Method.GET);
+            string operatingSystem = (OperatingSystemSearchText == String.Empty) ? "all" : OperatingSystemSearchText;
+            string type = (TypeSearchText == String.Empty) ? "all" : TypeSearchText;
+            restRequest.AddUrlSegment("operatingsystem", operatingSystem);
+            restRequest.AddUrlSegment("type", type);
+            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+            if (addVmSuccessResponse.Success)
+            {
+                this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+            }
+            else
+            {
+                ErrorText = addVmSuccessResponse.ErrorMessage;
+            }
         }
         #endregion
     }
