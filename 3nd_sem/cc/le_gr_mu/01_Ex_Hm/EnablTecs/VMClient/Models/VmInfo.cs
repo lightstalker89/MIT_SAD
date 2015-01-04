@@ -24,18 +24,11 @@ namespace VirtualMachineClient.Models
 
         public string OperatingSystem { get; set; }
 
-        private string operatingSystemType;
         public string OperatingSystemType
         {
-            get
-            {
-                return operatingSystemType;
-            }
-            set
-            {
-                operatingSystemType = value;
-                UpdateVmImage();
-            }
+            get;
+
+            set;
         }
 
         public string OperatingSystemVersion { get; set; }
@@ -55,35 +48,5 @@ namespace VirtualMachineClient.Models
         public string Status { get; set; }
 
         public VmRating[] Ratings { get; set; }
-
-        private string vmImagePath;
-        public string VmImagePath
-        {
-            get
-            {
-                return vmImagePath;
-            }
-            set
-            {
-                vmImagePath = value;
-                RaisePropertyChanged("VmImagePath");
-            }
-        }
-
-        public void UpdateVmImage()
-        {
-            if (operatingSystemType.Contains("Linux"))
-            {
-                VmImagePath = "Assets/linux.png";
-            }
-            else if (operatingSystemType.Contains("Windows"))
-            {
-                VmImagePath = "Assets/windows.png";
-            }
-            else if (operatingSystemType.Contains("Mac"))
-            {
-                VmImagePath = "Assets/apple.png";
-            }
-        }
     }
 }

@@ -29,7 +29,8 @@ var virtualMachines = [{
         "C#",
         "C++"
     ],
-    "Ratings": []
+    "Ratings": [],
+    "Status": "Stopped"
 }, {
     "Id": "2",
     "ReferencedVirtualMachineId": "",
@@ -54,7 +55,8 @@ var virtualMachines = [{
         "C++",
         "HTML"
     ],
-    "Ratings": []
+    "Ratings": [],
+    "Status": "Stopped"
 }];
 
 var connect = function () {
@@ -99,23 +101,29 @@ var add = function(description) {
     } 
     logger.info("Adding new virtual machine");
     description.Ratings = [];
+    description.Status = "Stopped";
     virtualMachines.push(description);
         return { Success: true, ErrorMessage: "", Data: virtualMachines };
 };
 
-var getMachines = function(operatingSystem, type) {
+var getMachines = function(operatingsystem, type) {
     var machines = [];
     _.each(virtualMachines, function(machine) {
         var match = false;
-        if (operatingSystem && operatingSystem.length > 0) {
-            if (machine.OperatingSystem === operatingSystem) {
+        if ((operatingsystem  && operatingsystem !== "all") && (type && type !== "all")) {
+            if (machine.OperatingSystemType.indexOf(operatingsystem) > -1 && machine.Type.indexOf(type) > -1) {
                 match = true;
             }
-        }
-        if (type && type.length > 0) {
-            if (machine.Type === type) {
+        } else if ((type && type.length > 0 && type !== "all") && (operatingsystem && operatingsystem === "all")) {
+                if (machine.Type.indexOf(type) > -1) {
+                    match = true;
+                }
+        } else if ((operatingsystem && operatingsystem !== "all") && (type && type === "all")) {
+            if (machine.OperatingSystemType.indexOf(operatingsystem) > -1) {
                 match = true;
             }
+        } else if (type === "all" && operatingsystem === "all") {
+            match = true;
         }
         if (match === true) {
             machines.push(machine);
@@ -181,7 +189,7 @@ app.get('/machines', function (request, response) {
 /** Search for specific virtual machines by operating system and software **/
 app.get('/machine/:operatingsystem/:type', function (request, response) {
     logger.info("Received 'List Virtual Machines by operating syste and software' request");
-    var machines = getMachines(request.params.OperatingSystem, request.params.Type);
+    var machines = getMachines(request.params.operatingsystem, request.params.type);
     response.send({ Success: true, ErrorMessage: "", Data: machines });
 });
 

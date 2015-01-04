@@ -42,7 +42,6 @@ namespace VirtualMachineClient.ViewModel
         {
             this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
             this.ExitCommand = new RelayCommand(this.ExitApplication, () => true);
-            this.SearchCommand = new RelayCommand(this.Search, () => true);
         }
 
         private string errorText = String.Empty;
@@ -56,6 +55,38 @@ namespace VirtualMachineClient.ViewModel
             {
                 errorText = value;
                 RaisePropertyChanged("ErrorText");
+            }
+        }
+
+        private string operatingSystemSearchText = String.Empty;
+
+        public string OperatingSystemSearchText
+        {
+            get
+            {
+                return operatingSystemSearchText;
+            }
+            set
+            {
+                operatingSystemSearchText = value;
+                RaisePropertyChanged("OperatingSystemSearchText");
+                Search();
+            }
+        }
+
+        private string typeSearchText = String.Empty;
+
+        public string TypeSearchText
+        {
+            get
+            {
+                return typeSearchText;
+            }
+            set
+            {
+                typeSearchText = value;
+                RaisePropertyChanged("TypeSearchText");
+                Search();
             }
         }
 
@@ -76,7 +107,7 @@ namespace VirtualMachineClient.ViewModel
 
         private void GetVirtualMachines()
         {
-            RestRequest restRequest = new RestRequest("/machines", Method.GET);
+            RestRequest restRequest = new RestRequest("machines", Method.GET);
             IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
             SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
             if (addVmSuccessResponse.Success)
@@ -85,7 +116,7 @@ namespace VirtualMachineClient.ViewModel
             }
             else
             {
-               ErrorText = addVmSuccessResponse.ErrorMessage;
+                ErrorText = addVmSuccessResponse.ErrorMessage;
             }
         }
 
@@ -104,7 +135,7 @@ namespace VirtualMachineClient.ViewModel
                     fileContent = str.ReadToEnd();
                 }
 
-                RestRequest restRequest = new RestRequest("/machine", Method.POST);
+                RestRequest restRequest = new RestRequest("machine", Method.POST);
                 restRequest.AddJsonBody(fileContent);
                 IRestResponse addVmResponse = this.restClient.Execute(restRequest);
                 SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(addVmResponse.Content);
@@ -126,11 +157,23 @@ namespace VirtualMachineClient.ViewModel
             Application.Current.Shutdown();
         }
 
-        public ICommand SearchCommand { get; set; }
-
         private void Search()
         {
-
+            RestRequest restRequest = new RestRequest("machine/{operatingsystem}/{type}", Method.GET);
+            string operatingSystem = (OperatingSystemSearchText == String.Empty) ? "all" : OperatingSystemSearchText;
+            string type = (TypeSearchText == String.Empty) ? "all" : TypeSearchText;
+            restRequest.AddUrlSegment("operatingsystem", operatingSystem);
+            restRequest.AddUrlSegment("type", type);
+            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+            if (addVmSuccessResponse.Success)
+            {
+                this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+            }
+            else
+            {
+                ErrorText = addVmSuccessResponse.ErrorMessage;
+            }
         }
         #endregion
     }
