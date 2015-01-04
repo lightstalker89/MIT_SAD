@@ -120,7 +120,7 @@ var getMachines = function(operatingsystem, type) {
                 }
         } else if ((operatingsystem && operatingsystem !== "all") && (type && type === "all")) {
             if (machine.OperatingSystemType.indexOf(operatingsystem) > -1) {
-                match = true;
+                match> = true;
             }
         } else if (type === "all" && operatingsystem === "all") {
             match = true;

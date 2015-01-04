@@ -95,7 +95,18 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Label Content="Virtual Machines" Margin="10,25,9.861,0" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Center" Height="27"/>
-        <GroupBox Header="Details" Margin="0,92,10.861,24.925" HorizontalAlignment="Right" Width="516"/>
+        <GroupBox Header="Details" Margin="0,92,10.861,24.925" HorizontalAlignment="Right" Width="516">
+            <Grid>
+                <Label Content="Ratings" Margin="0,0,-2.694,0" VerticalAlignment="Top" BorderBrush="#FFABADB3" BorderThickness="1" HorizontalContentAlignment="Center" Height="27" HorizontalAlignment="Right" Width="200"/>
+                <ListBox Margin="306,32,0.306,-0.191">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical"></StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </GroupBox>
         <StatusBar Margin="0,0,0.861,-0.243" Height="20" VerticalAlignment="Bottom">
             <Grid Width="685">
                 <TextBlock Text="{Binding ErrorText}" HorizontalAlignment="Stretch"/>
