@@ -117,6 +117,14 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Assets\1_star.png" />
+    <Resource Include="Assets\2_stars.png" />
+    <Resource Include="Assets\3_stars.png" />
+    <Resource Include="Assets\4_stars.png" />
+    <Resource Include="Assets\5_stars.png" />
+    <Resource Include="Assets\play.png" />
+    <Resource Include="Assets\stop.png" />
+    <Resource Include="Assets\0_stars.png" />
     <Content Include="Vms\vmExampleII.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

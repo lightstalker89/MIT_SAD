@@ -42,6 +42,7 @@ namespace VirtualMachineClient.ViewModel
         {
             this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
             this.ExitCommand = new RelayCommand(this.ExitApplication, () => true);
+            this.SaveRatingCommand = new RelayCommand(this.SaveRating, () => true);
         }
 
         private string errorText = String.Empty;
@@ -104,6 +105,8 @@ namespace VirtualMachineClient.ViewModel
                 RaisePropertyChanged("SelectedVmInfo");
             }
         }
+
+
 
         private ObservableCollection<VmInfo> installedVirtualMachines;
 
@@ -172,6 +175,26 @@ namespace VirtualMachineClient.ViewModel
             Application.Current.Shutdown();
         }
 
+        public ICommand SaveRatingCommand { get; private set; }
+
+        private void SaveRating()
+        {
+            RestRequest restRequest = new RestRequest("machine/{id}/{rating}/{comment}", Method.POST);
+            restRequest.AddUrlSegment("id", SelectedVmInfo.Id);
+            restRequest.AddUrlSegment("rating", SelectedVmInfo.Rating);
+            restRequest.AddUrlSegment("comment", SelectedVmInfo.RatingDescription);
+            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+            if (addVmSuccessResponse.Success)
+            {
+                this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+            }
+            else
+            {
+                ErrorText = addVmSuccessResponse.ErrorMessage;
+            }
+        }
+
         private void Search()
         {
             RestRequest restRequest = new RestRequest("machine/{operatingsystem}/{type}", Method.GET);
@@ -190,6 +213,7 @@ namespace VirtualMachineClient.ViewModel
                 ErrorText = addVmSuccessResponse.ErrorMessage;
             }
         }
+
         #endregion
     }
 }

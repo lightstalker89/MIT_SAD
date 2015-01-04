@@ -139,7 +139,7 @@ var updateDescription = function (id, description) {
     var machine = getMachine(Id);
     if (machine) {
         machine.Description = description;
-        return { Success: true, ErrorMessage: "" };
+        return { Success: true, ErrorMessage: "", Data: virtualMachines };
     } 
         logger.error("Could not find virutal machine for the given id");
         return { Success: false, ErrorMessage: "Could not find virutal machine for the given id", Data: null };
@@ -150,7 +150,7 @@ var updateRating = function(id, rating, comment) {
     if (machine) {
         machine.Rating = rating;
         machine.RatingDescription = comment;
-        return { Success: true, ErrorMessage: "", Data: null };
+        return { Success: true, ErrorMessage: "", Data: virtualMachines };
     } 
         logger.error("Could not find virutal machine for the given id");
         return { Success: false, ErrorMessage: "Could not find virutal machine for the given id", Data: null };
@@ -239,7 +239,7 @@ app.post('/machine/:id/:description', function (request, response) {
 
 /** Add a rating with a comment to the virtual machine **/
 app.post('/machine/:id/:rating/:comment', function (request, response) {
-    logger.inf("Received 'Update Rating for Virtual Machine' request");
+    logger.info("Received 'Update Rating for Virtual Machine' request");
     var ratResponse = updateRating(request.params.id, request.params.rating, request.params.comment);
     response.send(ratResponse);
 });

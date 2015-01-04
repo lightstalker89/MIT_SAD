@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converter="clr-namespace:VirtualMachineClient.Converter"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="MainWindow" Height="600.183" Width="935.635">
+        Title="Virtual Machine Manager" Height="600.183" Width="935.635" Icon="../Assets/VirtualBox.png">
     <Window.Resources>
         <converter:ListToStringConverter x:Key="ListToStringConverter"/>
     </Window.Resources>
@@ -127,6 +127,37 @@
                         <Label Content="{Binding SelectedVmInfo.SupportedProgramingLanguages, Converter={StaticResource ListToStringConverter}}"></Label>
                         <Label Content="{Binding SelectedVmInfo.Software, Converter={StaticResource ListToStringConverter}}"></Label>
                     </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 290, 0, 0">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Rating: "></Label>
+                    </StackPanel>
+                    <Grid Margin="0,0,0,0.058" Width="682">
+                        <StackPanel Orientation="Horizontal" Height="25" VerticalAlignment="Top">
+                            <ComboBox SelectedIndex="{Binding SelectedVmInfo.RatingIndex, UpdateSourceTrigger=PropertyChanged}" Height="23" VerticalAlignment="Top" Width="150">
+                                <ComboBoxItem>
+                                    <Image Height="20" Source="/VirtualMachineClient;component/Assets/0_stars.png"></Image>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Image Height="20" Source="/VirtualMachineClient;component/Assets/1_star.png"></Image>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Image Height="20" Source="/VirtualMachineClient;component/Assets/2_stars.png"></Image>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Image Height="20" Source="/VirtualMachineClient;component/Assets/3_stars.png"></Image>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Image Height="20" Source="/VirtualMachineClient;component/Assets/4_stars.png"></Image>
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <Image Height="20" Source="/VirtualMachineClient;component/Assets/5_stars.png"></Image>
+                                </ComboBoxItem>
+                            </ComboBox>
+                            <Button Content="Save" Height="20" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" Command="{Binding SaveRatingCommand}"></Button>
+                        </StackPanel>
+                        <TextBox Text="{Binding SelectedVmInfo.RatingDescription, UpdateSourceTrigger=PropertyChanged}" Margin="0,38,10,10"/>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </GroupBox>

@@ -1,6 +1,8 @@
 ﻿namespace VirtualMachineClient.Models
 {
+    using System;
     using System.Collections.Generic;
+    using System.Windows;
 
     using GalaSoft.MvvmLight;
 
@@ -43,8 +45,44 @@
 
         public string Status { get; set; }
 
-        public string Rating { get; set; }
+        private string rating;
+        public string Rating
+        {
+            get
+            {
+                return rating;
+
+            }
+            set
+            {
+                rating = value;
+                RaisePropertyChanged("Rating");
+            }
+        }
 
         public string RatingDescription { get; set; }
+
+        private int ratingIndex;
+        public int RatingIndex
+        {
+            get
+            {
+                if (Rating == String.Empty)
+                {
+                    Rating = "0";
+                }
+                return int.Parse(Rating);
+            }
+            set
+            {
+                ratingIndex = value;
+                UpdateRating();
+            }
+        }
+
+        private void UpdateRating()
+        {
+            Rating = (ratingIndex + 1).ToString();
+        }
     }
 }
