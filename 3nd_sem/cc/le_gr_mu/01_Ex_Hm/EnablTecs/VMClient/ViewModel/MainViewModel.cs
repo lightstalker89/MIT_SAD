@@ -90,6 +90,21 @@ namespace VirtualMachineClient.ViewModel
             }
         }
 
+        private VmInfo selectedVmInfo;
+
+        public VmInfo SelectedVmInfo
+        {
+            get
+            {
+                return selectedVmInfo;
+            }
+            set
+            {
+                selectedVmInfo = value;
+                RaisePropertyChanged("SelectedVmInfo");
+            }
+        }
+
         private ObservableCollection<VmInfo> installedVirtualMachines;
 
         public ObservableCollection<VmInfo> InstalledVirtualMachines

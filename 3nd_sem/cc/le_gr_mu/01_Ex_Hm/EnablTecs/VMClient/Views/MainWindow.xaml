@@ -1,13 +1,16 @@
 ﻿<Window x:Class="VirtualMachineClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converter="clr-namespace:VirtualMachineClient.Converter"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="MainWindow" Height="429.907" Width="701.462">
+        Title="MainWindow" Height="600.183" Width="935.635">
+    <Window.Resources>
+        <converter:ListToStringConverter x:Key="ListToStringConverter"/>
+    </Window.Resources>
     <Grid>
         <Menu Height="20" VerticalAlignment="Top" Background="#FFA0A3B4">
             <MenuItem Header="File">
-                <MenuItem Header="Upload New Virtual Machine" Command="{Binding UploadNewVm}"></MenuItem>
-                <MenuItem Header="Upload New Appliance"></MenuItem>
+                <MenuItem Header="Upload New Virtual Machine/Appliance" Command="{Binding UploadNewVm}"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="Exit" Command="{Binding ExitCommand}"></MenuItem>
             </MenuItem>
@@ -45,7 +48,7 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <ListBox Margin="10,90,531.861,24.925" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+        <ListBox Margin="10,90,0,24.757" SelectionMode="Single" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVmInfo, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="154">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -95,16 +98,36 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Label Content="Virtual Machines" Margin="10,25,9.861,0" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Center" Height="27"/>
-        <GroupBox Header="Details" Margin="0,92,10.861,24.925" HorizontalAlignment="Right" Width="516">
+        <GroupBox Header="Details" Margin="169,92,10.861,24.757">
             <Grid>
-                <Label Content="Ratings" Margin="0,0,-2.694,0" VerticalAlignment="Top" BorderBrush="#FFABADB3" BorderThickness="1" HorizontalContentAlignment="Center" Height="27" HorizontalAlignment="Right" Width="200"/>
-                <ListBox Margin="306,32,0.306,-0.191">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical"></StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <StackPanel Orientation="Horizontal" Margin="0,0,-0.139,136.277">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,9.688">
+                        <Label Content="Description:" FontWeight="Bold"></Label>
+                        <Label Content="Operating System:" FontWeight="Bold"></Label>
+                        <Label Content="Operating System Type:" FontWeight="Bold"></Label>
+                        <Label Content="Operating System Version:" FontWeight="Bold"></Label>
+                        <Label Content="Size:" FontWeight="Bold"></Label>
+                        <Label Content="Recommended CPU:" FontWeight="Bold"></Label>
+                        <Label Content="Recommended RAM:" FontWeight="Bold"></Label>
+                        <Label Content="ApplicationType:" FontWeight="Bold"></Label>
+                        <Label Content="Supported Visualization Platform:" FontWeight="Bold"></Label>
+                        <Label Content="Supported Programming Languages" FontWeight="Bold"></Label>
+                        <Label Content="Software:" FontWeight="Bold"></Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,9.769" Width="518">
+                        <Label Content="{Binding SelectedVmInfo.Description}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.OperatingSystem}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.OperatingSystemType}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.OperatingSystemVersion}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.Size}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.RecommendedCPU}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.RecommendedRAM}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.ApplicationType}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.SupportedVirtualizationPlatform}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.SupportedProgramingLanguages, Converter={StaticResource ListToStringConverter}}"></Label>
+                        <Label Content="{Binding SelectedVmInfo.Software, Converter={StaticResource ListToStringConverter}}"></Label>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
         </GroupBox>
         <StatusBar Margin="0,0,0.861,-0.243" Height="20" VerticalAlignment="Bottom">

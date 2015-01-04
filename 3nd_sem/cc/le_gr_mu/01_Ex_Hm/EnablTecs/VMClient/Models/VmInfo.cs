@@ -1,10 +1,6 @@
-﻿using System;
-
-namespace VirtualMachineClient.Models
+﻿namespace VirtualMachineClient.Models
 {
     using System.Collections.Generic;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
 
     using GalaSoft.MvvmLight;
 
@@ -47,6 +43,8 @@ namespace VirtualMachineClient.Models
 
         public string Status { get; set; }
 
-        public VmRating[] Ratings { get; set; }
+        public string Rating { get; set; }
+
+        public string RatingDescription { get; set; }
     }
 }
