@@ -102,7 +102,7 @@
         <GroupBox Header="Details" Margin="169,92,10.861,24.757">
             <Grid>
                 <StackPanel Orientation="Horizontal" Margin="0,0,-0.139,136.277">
-                    <StackPanel Orientation="Vertical" Margin="0,0,0,9.688">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,0">
                         <Label Content="Description:" FontWeight="Bold"></Label>
                         <Label Content="Operating System:" FontWeight="Bold"></Label>
                         <Label Content="Operating System Type:" FontWeight="Bold"></Label>
@@ -115,7 +115,7 @@
                         <Label Content="Supported Programming Languages" FontWeight="Bold"></Label>
                         <Label Content="Software:" FontWeight="Bold"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Margin="0,0,0,9.769" Width="518">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,0" Width="518">
                         <Label Content="{Binding SelectedVmInfo.Description}"></Label>
                         <Label Content="{Binding SelectedVmInfo.OperatingSystem}"></Label>
                         <Label Content="{Binding SelectedVmInfo.OperatingSystemType}"></Label>

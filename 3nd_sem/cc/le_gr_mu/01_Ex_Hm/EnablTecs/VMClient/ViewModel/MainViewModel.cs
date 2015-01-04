@@ -1,8 +1,5 @@
-using Microsoft.Win32;
-
 namespace VirtualMachineClient.ViewModel
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Web.Script.Serialization;
@@ -10,9 +7,9 @@ namespace VirtualMachineClient.ViewModel
     using System.Windows.Input;
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.Command;
-    using RestSharp;
+    using Microsoft.Win32;
     using Models;
-
+    using RestSharp;
 
     public class MainViewModel : ViewModelBase
     {
@@ -45,6 +42,7 @@ namespace VirtualMachineClient.ViewModel
         }
 
         private string errorText = string.Empty;
+
         public string ErrorText
         {
             get
@@ -96,27 +94,12 @@ namespace VirtualMachineClient.ViewModel
         {
             get
             {
-                return selectedVmInfo;
+                return this.selectedVmInfo;
             }
             set
             {
-                selectedVmInfo = value;
-                RaisePropertyChanged("SelectedVmInfo");
-            }
-        }
-
-        private VmInfo selectedVmInfo;
-
-        public VmInfo SelectedVmInfo
-        {
-            get
-            {
-                return selectedVmInfo;
-            }
-            set
-            {
-                selectedVmInfo = value;
-                RaisePropertyChanged("SelectedVmInfo");
+                this.selectedVmInfo = value;
+                this.RaisePropertyChanged("SelectedVmInfo");
             }
         }
 

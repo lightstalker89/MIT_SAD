@@ -2,7 +2,6 @@
 var fs = require('fs');
 var log4js = require('log4js');
 var _ = require('underscore');
-var qs = require('querystring');
 var logger = log4js.getLogger();
 var client = null;
 var file = "appliance.json";
