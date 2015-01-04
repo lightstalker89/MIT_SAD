@@ -2,6 +2,7 @@ using Microsoft.Win32;
 
 namespace VirtualMachineClient.ViewModel
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Web.Script.Serialization;
@@ -41,7 +42,21 @@ namespace VirtualMachineClient.ViewModel
         {
             this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
             this.ExitCommand = new RelayCommand(this.ExitApplication, () => true);
-            this.SearchCommand = new RelayCommand(this.Search, ()=> true);
+            this.SearchCommand = new RelayCommand(this.Search, () => true);
+        }
+
+        private string errorText = String.Empty;
+        public string ErrorText
+        {
+            get
+            {
+                return errorText;
+            }
+            set
+            {
+                errorText = value;
+                RaisePropertyChanged("ErrorText");
+            }
         }
 
         private ObservableCollection<VmInfo> installedVirtualMachines;
@@ -66,11 +81,11 @@ namespace VirtualMachineClient.ViewModel
             SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
             if (addVmSuccessResponse.Success)
             {
-               this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
             }
             else
             {
-                MessageBox.Show(addVmSuccessResponse.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+               ErrorText = addVmSuccessResponse.ErrorMessage;
             }
         }
 
@@ -79,8 +94,7 @@ namespace VirtualMachineClient.ViewModel
 
         private void UploadNewVmExecute()
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "json files (*.json)|*.json";
+            OpenFileDialog dlg = new OpenFileDialog { Filter = "json files (*.json)|*.json" };
             bool? result = dlg.ShowDialog();
             if (result == true)
             {
@@ -100,9 +114,9 @@ namespace VirtualMachineClient.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show(addVmSuccessResponse.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ErrorText = addVmSuccessResponse.ErrorMessage;
                 }
-            } 
+            }
         }
 
         public ICommand ExitCommand { get; private set; }
@@ -116,7 +130,7 @@ namespace VirtualMachineClient.ViewModel
 
         private void Search()
         {
-            
+
         }
         #endregion
     }

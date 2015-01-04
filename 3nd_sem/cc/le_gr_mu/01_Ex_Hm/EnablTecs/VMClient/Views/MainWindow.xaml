@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="381.075" Width="525">
     <Grid>
         <Menu Height="20" VerticalAlignment="Top" Background="#FFA0A3B4">
             <MenuItem Header="File">
@@ -46,17 +46,25 @@
             </TextBlock.Style>
         </TextBlock>
         <Button  Margin="0,57,10.399,0" Height="30" Width="65" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Search" Command="{Binding SearchCommand}"></Button>
-        <ListBox Margin="10,90,355.399,9.85" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+        <ListBox Margin="10,90,355.399,24.925" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Height="20" Width="20" Source="Assets/windows.png"></Image>
+                    <StackPanel Orientation="Vertical" Margin="10">
                         <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="12"></TextBlock>
                         <TextBlock Text="{Binding Type}" FontSize="10"></TextBlock>
+                    </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
         <Label Content="Virtual Machines" Margin="10,25,10,0" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Center"/>
-        <GroupBox Header="Details" Margin="169,92,10.399,9.85"/>
+        <GroupBox Header="Details" Margin="169,92,10.399,24.925"/>
+        <StatusBar Margin="0,333,0.399,-0.075">
+            <Grid>
+                <TextBlock Text="{Binding ErrorText}" HorizontalAlignment="Stretch" Width="509"></TextBlock>
+            </Grid>
+        </StatusBar>
     </Grid>
 </Window>

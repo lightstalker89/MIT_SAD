@@ -3,6 +3,7 @@
 namespace VirtualMachineClient.Models
 {
     using System.Collections.Generic;
+    using System.Windows.Controls;
 
     public class VmInfo
     {
@@ -20,7 +21,19 @@ namespace VirtualMachineClient.Models
 
         public string OperatingSystem { get; set; }
 
-        public string OperatingSystemType { get; set; }
+        private string operatingSystemType;
+        public string OperatingSystemType
+        {
+            get
+            {
+                return operatingSystemType;
+            }
+            set
+            {
+                operatingSystemType = value;
+                UpdateVmImage();
+            }
+        }
 
         public string OperatingSystemVersion { get; set; }
 
@@ -39,5 +52,23 @@ namespace VirtualMachineClient.Models
         public string Status { get; set; }
 
         public VmRating[] Ratings { get; set; }
+
+        public string VmImagePath { get; set; }
+
+        public void UpdateVmImage()
+        {
+            if (operatingSystemType.Contains("Linux"))
+            {
+
+            }
+            else if (operatingSystemType.Contains("Windows"))
+            {
+                VmImagePath = String.Format("Resources/windows.png");
+            }
+            else if (operatingSystemType.Contains("Mac"))
+            {
+                
+            }
+        }
     }
 }
