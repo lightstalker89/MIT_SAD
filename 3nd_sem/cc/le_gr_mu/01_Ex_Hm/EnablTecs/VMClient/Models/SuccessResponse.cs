@@ -8,6 +8,6 @@
 
         public string ErrorMessage { get; set; }
 
-        public ObservableCollection<VmInfo> Data { get; set; }
+        public VmInfo[] Data { get; set; }
     }
 }

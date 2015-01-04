@@ -29,7 +29,8 @@ var virtualMachines = [{
         "C#",
         "C++"
     ],
-    "Ratings": [],
+    "Rating": "5",
+    "RatingDescription": "Usable for something",
     "Status": "Stopped"
 }, {
     "Id": "2",
@@ -55,7 +56,8 @@ var virtualMachines = [{
         "C++",
         "HTML"
     ],
-    "Ratings": [],
+    "Rating": "3",
+    "RatingDescription": "Useable for anything",
     "Status": "Stopped"
 }];
 
@@ -100,7 +102,8 @@ var add = function(description) {
         return { Success: false, ErrorMessage: "Cannot create virtual machine. A machine with the given id already exists.", Data: null};
     } 
     logger.info("Adding new virtual machine");
-    description.Ratings = [];
+    description.Rating = "";
+    description.RatingDescription = "";
     description.Status = "Stopped";
     virtualMachines.push(description);
         return { Success: true, ErrorMessage: "", Data: virtualMachines };
@@ -120,7 +123,7 @@ var getMachines = function(operatingsystem, type) {
                 }
         } else if ((operatingsystem && operatingsystem !== "all") && (type && type === "all")) {
             if (machine.OperatingSystemType.indexOf(operatingsystem) > -1) {
-                match> = true;
+                match = true;
             }
         } else if (type === "all" && operatingsystem === "all") {
             match = true;
@@ -145,7 +148,8 @@ var updateDescription = function (id, description) {
 var updateRating = function(id, rating, comment) {
     var machine = getMachine(id);
     if (machine) {
-        machine.Ratings.push({ Rating: rating, Comment: comment });
+        machine.Rating = rating;
+        machine.RatingDescription = comment;
         return { Success: true, ErrorMessage: "", Data: null };
     } 
         logger.error("Could not find virutal machine for the given id");
@@ -197,7 +201,7 @@ app.get('/machine/:operatingsystem/:type', function (request, response) {
 app.post('/machine', function (request, response) {
     logger.info("Received 'Add new Virtual Machine' request");
     console.log(request.body);
-    if (request.method == 'POST') {
+    if (request.method === 'POST') {
         var body = '';
         request.on('data', function (data) {
             body += data;
@@ -209,8 +213,12 @@ app.post('/machine', function (request, response) {
             try {
                 var jsonObject = JSON.parse(body);
                 var parsedObject = JSON.parse(jsonObject);
-                var vmResponse = add(parsedObject);
-                response.send(vmResponse);
+                if (parsedObject.Type === "Virtual Machine" || parsedObject.Type === "Appliance") {
+                    var vmResponse = add(parsedObject);
+                    response.send(vmResponse);
+                } else {
+                    response.send({ Success: false, ErrorMessage: "Could not create virtual machine. Wrong type.", Data: null });
+                }
             } catch (e) {
                 response.send({ Success: false, ErrorMessage: "Could not add virutal machine. Please try it again.", Data: null });
             }    

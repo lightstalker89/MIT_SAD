@@ -44,49 +44,64 @@ namespace VirtualMachineClient.ViewModel
             this.ExitCommand = new RelayCommand(this.ExitApplication, () => true);
         }
 
-        private string errorText = String.Empty;
+        private string errorText = string.Empty;
         public string ErrorText
         {
             get
             {
-                return errorText;
+                return this.errorText;
             }
             set
             {
-                errorText = value;
-                RaisePropertyChanged("ErrorText");
+                this.errorText = value;
+                this.RaisePropertyChanged("ErrorText");
             }
         }
 
-        private string operatingSystemSearchText = String.Empty;
+        private string operatingSystemSearchText = string.Empty;
 
         public string OperatingSystemSearchText
         {
             get
             {
-                return operatingSystemSearchText;
+                return this.operatingSystemSearchText;
             }
             set
             {
-                operatingSystemSearchText = value;
-                RaisePropertyChanged("OperatingSystemSearchText");
-                Search();
+                this.operatingSystemSearchText = value;
+                this.RaisePropertyChanged("OperatingSystemSearchText");
+                this.Search();
             }
         }
 
-        private string typeSearchText = String.Empty;
+        private string typeSearchText = string.Empty;
 
         public string TypeSearchText
         {
             get
             {
-                return typeSearchText;
+                return this.typeSearchText;
             }
             set
             {
-                typeSearchText = value;
-                RaisePropertyChanged("TypeSearchText");
-                Search();
+                this.typeSearchText = value;
+                this.RaisePropertyChanged("TypeSearchText");
+                this.Search();
+            }
+        }
+
+        private VmInfo selectedVmInfo;
+
+        public VmInfo SelectedVmInfo
+        {
+            get
+            {
+                return selectedVmInfo;
+            }
+            set
+            {
+                selectedVmInfo = value;
+                RaisePropertyChanged("SelectedVmInfo");
             }
         }
 
@@ -113,10 +128,11 @@ namespace VirtualMachineClient.ViewModel
             if (addVmSuccessResponse.Success)
             {
                 this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                this.ErrorText = string.Empty;
             }
             else
             {
-                ErrorText = addVmSuccessResponse.ErrorMessage;
+                this.ErrorText = addVmSuccessResponse.ErrorMessage;
             }
         }
 
@@ -142,10 +158,11 @@ namespace VirtualMachineClient.ViewModel
                 if (addVmSuccessResponse.Success)
                 {
                     this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                    this.ErrorText = string.Empty;
                 }
                 else
                 {
-                    ErrorText = addVmSuccessResponse.ErrorMessage;
+                    this.ErrorText = addVmSuccessResponse.ErrorMessage;
                 }
             }
         }
@@ -160,8 +177,8 @@ namespace VirtualMachineClient.ViewModel
         private void Search()
         {
             RestRequest restRequest = new RestRequest("machine/{operatingsystem}/{type}", Method.GET);
-            string operatingSystem = (OperatingSystemSearchText == String.Empty) ? "all" : OperatingSystemSearchText;
-            string type = (TypeSearchText == String.Empty) ? "all" : TypeSearchText;
+            string operatingSystem = (this.OperatingSystemSearchText == string.Empty) ? "all" : this.OperatingSystemSearchText;
+            string type = (this.TypeSearchText == string.Empty) ? "all" : this.TypeSearchText;
             restRequest.AddUrlSegment("operatingsystem", operatingSystem);
             restRequest.AddUrlSegment("type", type);
             IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
@@ -169,10 +186,11 @@ namespace VirtualMachineClient.ViewModel
             if (addVmSuccessResponse.Success)
             {
                 this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                this.ErrorText = string.Empty;
             }
             else
             {
-                ErrorText = addVmSuccessResponse.ErrorMessage;
+                this.ErrorText = addVmSuccessResponse.ErrorMessage;
             }
         }
         #endregion
