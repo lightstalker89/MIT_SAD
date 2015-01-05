@@ -3,6 +3,8 @@ var fs = require('fs');
 var log4js = require('log4js');
 var _ = require('underscore');
 var qs = require('querystring');
+var sys = require('sys')
+var exec = require('child_process').exec;
 var logger = log4js.getLogger();
 var client = null;
 var file = "appliance.json";
@@ -82,16 +84,16 @@ var connect = function () {
 };
 
 var start = function (id) {
-    var machine = getMachine(Id);
+    var machine = getMachine(id);
     if (machine) {
-        machine.set("Status", "Started");
+        machine.Status = "Started";
     }
 };
 
 var stop = function (id) {
-    var machine = getMachine(Id);
+    var machine = getMachine(id);
     if (machine) {
-        machine.set("Status", "Started");
+        machine.Status = "Stopped";
     }
 };
 
@@ -136,7 +138,7 @@ var getMachines = function(operatingsystem, type) {
 };
 
 var updateDescription = function (id, description) {
-    var machine = getMachine(Id);
+    var machine = getMachine(id);
     if (machine) {
         machine.Description = description;
         return { Success: true, ErrorMessage: "", Data: virtualMachines };
@@ -225,9 +227,9 @@ app.post('/machine', function (request, response) {
 });
 
 /** Start or stop a virtual machine **/
-app.post('/machine/:id/:operation', function (request, response) {
-    logger.inf("Received 'Operation for Virtual Machine' request");
-    start(request.params.id);
+app.post('/machine/state/:id/:operation', function (request, response) {
+    logger.info("Received 'Operation for Virtual Machine' request");
+    //start(request.params.id);
 });
 
 /** Change the description of a virtual machine **/

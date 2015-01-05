@@ -16,8 +16,8 @@
             </MenuItem>
             <MenuItem Header="Help"></MenuItem>
         </Menu>
-        <TextBox x:Name="OperatingSystemSearch" Text="{Binding OperatingSystemSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="10,57,0,0" Height="30" Width="340" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
-        <TextBlock IsHitTestVisible="False" Text="Operating System" Height="30" TextAlignment="Left" Padding="5, 5, 5, 5"  Foreground="LightGray"  Margin="10,58,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="340">
+        <TextBox x:Name="OperatingSystemSearch" Text="{Binding OperatingSystemSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="10,57,0,0" Height="30" Width="440" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
+        <TextBlock IsHitTestVisible="False" Text="Operating System" Height="30" TextAlignment="Left" Padding="5, 5, 5, 5"  Foreground="LightGray"  Margin="10,58,480.035,0" VerticalAlignment="Top">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -32,8 +32,8 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <TextBox x:Name="TypeSearch" Text="{Binding TypeSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="360,57,0,0" Height="30" Width="320" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
-        <TextBlock IsHitTestVisible="False" Text="Type" Height="30" TextAlignment="Left" Padding="5, 5, 5, 5"  Foreground="LightGray"  Margin="360,58,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320">
+        <TextBox x:Name="TypeSearch" Text="{Binding TypeSearchText, UpdateSourceTrigger=PropertyChanged}" Margin="460,57,10.035,0" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+        <TextBlock IsHitTestVisible="False" Text="Type" Height="30" TextAlignment="Left" Padding="5, 5, 5, 5"  Foreground="LightGray"  Margin="460,58,10.035,0" VerticalAlignment="Top">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -48,10 +48,38 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <ListBox Margin="10,90,0,24.757" SelectionMode="Single" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVmInfo, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="154">
+        <ListBox Margin="10,90,0,25.116" SelectionMode="Single" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVmInfo, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="180">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
+                        <Button Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" Command="{Binding Source={StaticResource Locator}, Path=Main.PlayPressedCommand}">
+                        <Image Width="20" Height="20" Margin="0, 0,10 0"  Source="/VirtualMachineClient;component/Assets/play.png">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Status}" Value="Stopped">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        </Button>
+                        <Button Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" Command="{Binding Source={StaticResource Locator}, Path=Main.StopPressedCommand}">
+                            <Image Width="20" Height="20" Margin="0, 0,10 0"  Source="/VirtualMachineClient;component/Assets/stop.png">
+                                <Image.Style>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Status}" Value="Started">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Button>
                         <Image Height="20" Width="20" Source="/VirtualMachineClient;component/Assets/windows.png">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">
@@ -98,7 +126,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Label Content="Virtual Machines" Margin="10,25,9.861,0" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Center" Height="27"/>
-        <GroupBox Header="Details" Margin="169,92,10.861,24.757">
+        <GroupBox Header="Details" Margin="195,92,11.035,25.116">
             <Grid>
                 <StackPanel Orientation="Horizontal" Margin="0,0,-0.139,136.277">
                     <StackPanel Orientation="Vertical" Margin="0,0,0,0">
@@ -115,7 +143,10 @@
                         <Label Content="Software:" FontWeight="Bold"></Label>
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="0,0,0,0" Width="518">
-                        <Label Content="{Binding SelectedVmInfo.Description}"></Label>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Text="{Binding SelectedVmInfo.Description, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            <Button Content="Save" Height="20" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" Command="{Binding SaveDescriptionCommand}"></Button>
+                        </StackPanel>
                         <Label Content="{Binding SelectedVmInfo.OperatingSystem}"></Label>
                         <Label Content="{Binding SelectedVmInfo.OperatingSystemType}"></Label>
                         <Label Content="{Binding SelectedVmInfo.OperatingSystemVersion}"></Label>
@@ -132,8 +163,8 @@
                     <StackPanel Orientation="Vertical">
                         <Label Content="Rating: "></Label>
                     </StackPanel>
-                    <Grid Margin="0,0,0,0.058" Width="682">
-                        <StackPanel Orientation="Horizontal" Height="25" VerticalAlignment="Top">
+                    <Grid Margin="0,0,0,-0.052" Width="659">
+                        <StackPanel Orientation="Horizontal" Height="25" VerticalAlignment="Top" Margin="0,0,29,0">
                             <ComboBox SelectedIndex="{Binding SelectedVmInfo.RatingIndex, UpdateSourceTrigger=PropertyChanged}" Height="23" VerticalAlignment="Top" Width="150">
                                 <ComboBoxItem>
                                     <Image Height="20" Source="/VirtualMachineClient;component/Assets/0_stars.png"></Image>

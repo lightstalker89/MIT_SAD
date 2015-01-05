@@ -40,6 +40,9 @@ namespace VirtualMachineClient.ViewModel
             this.UploadNewVm = new RelayCommand(this.UploadNewVmExecute, () => true);
             this.ExitCommand = new RelayCommand(this.ExitApplication, () => true);
             this.SaveRatingCommand = new RelayCommand(this.SaveRating, () => true);
+            this.SaveDescriptionCommand = new RelayCommand(this.SaveDescription, () => true);
+            this.PlayPressedCommand = new RelayCommand(this.PlayPressed, () => true);
+            this.StopPressedCommand = new RelayCommand(this.StopPressed, () => true);
         }
 
         private string errorText = string.Empty;
@@ -188,11 +191,46 @@ namespace VirtualMachineClient.ViewModel
             if (addVmSuccessResponse.Success)
             {
                 this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                this.ErrorText = string.Empty;
             }
             else
             {
                 ErrorText = addVmSuccessResponse.ErrorMessage;
             }
+        }
+
+        public ICommand SaveDescriptionCommand { get; set; }
+
+        private void SaveDescription()
+        {
+            RestRequest restRequest = new RestRequest("machine/{id}/{description}", Method.POST);
+            restRequest.AddUrlSegment("id", SelectedVmInfo.Id);
+            restRequest.AddUrlSegment("description", SelectedVmInfo.Description);
+            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+            if (addVmSuccessResponse.Success)
+            {
+                this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                this.ErrorText = string.Empty;
+            }
+            else
+            {
+                ErrorText = addVmSuccessResponse.ErrorMessage;
+            }
+        }
+
+        public ICommand StopPressedCommand { get; set; }
+
+        private void StopPressed()
+        {
+            
+        }
+
+        public ICommand PlayPressedCommand { get; set; }
+
+        private void PlayPressed()
+        {
+            
         }
 
         private void Search()
