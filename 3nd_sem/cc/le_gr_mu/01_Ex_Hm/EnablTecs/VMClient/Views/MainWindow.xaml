@@ -1,4 +1,4 @@
-﻿<Window x:Class="VirtualMachineClient.MainWindow"
+﻿<Window x:Class="VirtualMachineClient.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converter="clr-namespace:VirtualMachineClient.Converter"
@@ -142,7 +142,7 @@
                         <Label Content="Supported Programming Languages" FontWeight="Bold"></Label>
                         <Label Content="Software:" FontWeight="Bold"></Label>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Margin="0,0,0,0" Width="518">
+                    <StackPanel Orientation="Vertical" Margin="0,0,0,0" Width="488">
                         <StackPanel Orientation="Horizontal">
                             <TextBox Text="{Binding SelectedVmInfo.Description, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             <Button Content="Save" Height="20" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" Command="{Binding SaveDescriptionCommand}"></Button>
