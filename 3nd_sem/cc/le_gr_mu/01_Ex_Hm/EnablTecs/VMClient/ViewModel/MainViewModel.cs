@@ -1,3 +1,5 @@
+using System;
+
 namespace VirtualMachineClient.ViewModel
 {
     using System.Collections.ObjectModel;

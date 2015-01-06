@@ -6,6 +6,7 @@
         Title="Virtual Machine Manager" Height="600.183" Width="935.635" Icon="../Assets/VirtualBox.png">
     <Window.Resources>
         <converter:ListToStringConverter x:Key="ListToStringConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <Menu Height="20" VerticalAlignment="Top" Background="#FFA0A3B4">
@@ -145,7 +146,7 @@
                     <StackPanel Orientation="Vertical" Margin="0,0,0,0" Width="488">
                         <StackPanel Orientation="Horizontal">
                             <TextBox Text="{Binding SelectedVmInfo.Description, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            <Button Content="Save" Height="20" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" Command="{Binding SaveDescriptionCommand}"></Button>
+                            <Button Content="Save" Height="20" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" Command="{Binding SaveDescriptionCommand}" Visibility="{Binding SelectedVmInfo.DescriptionChanged, Converter={StaticResource BooleanToVisibilityConverter}}"></Button>
                         </StackPanel>
                         <Label Content="{Binding SelectedVmInfo.OperatingSystem}"></Label>
                         <Label Content="{Binding SelectedVmInfo.OperatingSystemType}"></Label>
@@ -185,7 +186,7 @@
                                     <Image Height="20" Source="/VirtualMachineClient;component/Assets/5_stars.png"></Image>
                                 </ComboBoxItem>
                             </ComboBox>
-                            <Button Content="Save" Height="20" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" Command="{Binding SaveRatingCommand}"></Button>
+                            <Button Content="Save" Height="20" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" Command="{Binding SaveRatingCommand}" Visibility="{Binding SelectedVmInfo.RatingAndDescriptionChanged, Converter={StaticResource BooleanToVisibilityConverter}}"></Button>
                         </StackPanel>
                         <TextBox Text="{Binding SelectedVmInfo.RatingDescription, UpdateSourceTrigger=PropertyChanged}" Margin="0,38,10,10"/>
                     </Grid>
