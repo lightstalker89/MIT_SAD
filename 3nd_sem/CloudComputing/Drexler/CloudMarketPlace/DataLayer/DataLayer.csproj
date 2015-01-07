@@ -53,14 +53,14 @@
     <Compile Include="OpenStack\Models\TokenObject.cs" />
     <Compile Include="OpenStack\Models\UserObject.cs" />
     <Compile Include="OpenStack\RequestHandling\AuthenticationToken.cs" />
+    <Compile Include="OpenStack\RequestHandling\ListServersObject.cs" />
+    <Compile Include="OpenStack\ResponseHandling\ListServersResponseObject.cs" />
     <Compile Include="VirtualAppliance.cs" />
     <Compile Include="VirtualMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualMachineInstance.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="OpenStack\ResponseHandling\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -58,7 +58,12 @@ namespace CloudMarketPlaceService
             return string.Format("You entered: {0}", value);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vMachine"></param>
+        /// <param name="byteContent"></param>
+        /// <returns></returns>
         public MarketPlaceServiceResponse UploadVirtualMachine(VirtualMachine vMachine, byte[] byteContent)
         {
             var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
@@ -93,88 +98,467 @@ namespace CloudMarketPlaceService
             return marketPlaceServiceResponse;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vAppliance"></param>
+        /// <param name="byteContent"></param>
+        /// <returns></returns>
         public MarketPlaceServiceResponse UploadVirtualAppliance(VirtualAppliance vAppliance, byte[] byteContent)
         {
-            return null;
+            var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
+
+            try
+            {
+                const string TmpFilePath = @"C:\MarketPlaceVirtualAppliances\";
+
+                if (!Directory.Exists(TmpFilePath))
+                {
+                    Directory.CreateDirectory(TmpFilePath);
+                }
+
+                int fileCount = Directory.GetFiles(TmpFilePath, "*.*", SearchOption.AllDirectories).Length + 1;
+
+                using (var fs = new FileStream(TmpFilePath + fileCount.ToString(CultureInfo.InvariantCulture), FileMode.CreateNew, FileAccess.Write))
+                {
+                    fs.Write(byteContent, 0, byteContent.Length);
+                }
+
+                vAppliance.ImageID = fileCount.ToString(CultureInfo.InvariantCulture);
+                this.virtualApplianceList.Add(vAppliance);
+
+                marketPlaceServiceResponse.Error = false;
+            }
+            catch (Exception ex)
+            {
+                marketPlaceServiceResponse.Error = true;
+                marketPlaceServiceResponse.ErrorMessage = ex.Message;
+            }
+
+            return marketPlaceServiceResponse;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vMachine"></param>
+        /// <returns></returns>
         public MarketPlaceServiceResponse ChangeDescriptionOfVirtualMachine(VirtualMachine vMachine)
         {
-            return null;
+            var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
+
+            if (this.virtualMachineList.Any())
+            {
+                foreach (VirtualMachine tmpVirtualMachine in this.virtualMachineList.Where(tmpVirtualMachine => tmpVirtualMachine.ImageID == vMachine.ImageID))
+                {
+                    tmpVirtualMachine.Comment = vMachine.Comment;
+                    tmpVirtualMachine.OperatingSystemName = vMachine.OperatingSystemName;
+                    tmpVirtualMachine.OperatingSystemType = vMachine.OperatingSystemType;
+                    tmpVirtualMachine.OperatingSystemVersion = vMachine.OperatingSystemVersion;
+                    tmpVirtualMachine.Rate = vMachine.Rate;
+                    tmpVirtualMachine.RecommendedCPUCount = vMachine.RecommendedCPUCount;
+                    tmpVirtualMachine.RecommendedMemory = vMachine.RecommendedMemory;
+                    tmpVirtualMachine.Size = vMachine.Size;
+                    tmpVirtualMachine.SupportedVirtualizationPlatforms = vMachine.SupportedVirtualizationPlatforms;
+
+                    marketPlaceServiceResponse.Error = false;
+                }
+            }
+            else
+            {
+                marketPlaceServiceResponse.Error = true;
+                marketPlaceServiceResponse.ErrorMessage = "No Virtual machines stored in our marketplace.";
+            }
+
+            if (marketPlaceServiceResponse.Error)
+            {
+                marketPlaceServiceResponse.ErrorMessage =
+                    string.Format("Virtualmachine with imageID {0} is not stored on our MarketPlace!", vMachine.ImageID);
+            }
+
+            return marketPlaceServiceResponse;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vAppliance"></param>
+        /// <returns></returns>
         public MarketPlaceServiceResponse ChangeDescriptionOfVirtualAppliance(VirtualAppliance vAppliance)
         {
-            return null;
+            var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
+
+            if (this.virtualApplianceList.Any())
+            {
+                foreach (VirtualAppliance tmpVirtualAppliance in this.virtualApplianceList.Where(tmpVirtualAppliance => tmpVirtualAppliance.ImageID == vAppliance.ImageID))
+                {
+                    tmpVirtualAppliance.Comment = vAppliance.Comment;
+                    tmpVirtualAppliance.OperatingSystemName = vAppliance.OperatingSystemName;
+                    tmpVirtualAppliance.OperatingSystemType = vAppliance.OperatingSystemType;
+                    tmpVirtualAppliance.OperatingSystemVersion = vAppliance.OperatingSystemVersion;
+                    tmpVirtualAppliance.Rate = vAppliance.Rate;
+                    tmpVirtualAppliance.RecommendedCPUCount = vAppliance.RecommendedCPUCount;
+                    tmpVirtualAppliance.RecommendedMemory = vAppliance.RecommendedMemory;
+                    tmpVirtualAppliance.Size = vAppliance.Size;
+                    tmpVirtualAppliance.SupportedVirtualizationPlatforms = vAppliance.SupportedVirtualizationPlatforms;
+
+                    marketPlaceServiceResponse.Error = false;
+                }
+            }
+            else
+            {
+                marketPlaceServiceResponse.Error = true;
+                marketPlaceServiceResponse.ErrorMessage = "No Virtual appliances stored in our marketplace.";
+            }
+
+            if (marketPlaceServiceResponse.Error)
+            {
+                marketPlaceServiceResponse.ErrorMessage =
+                    string.Format(
+                        "Virtual appliance with imageID {0} is not stored on our MarketPlace!", vAppliance.ImageID);
+            }
+
+            return marketPlaceServiceResponse;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vMachine"></param>
+        /// <returns></returns>
         public DownloadVirtualMachineResponse DownloadVirtualMachine(VirtualMachine vMachine)
         {
-            return null;
+            var downloadVirtualMachineResponse = new DownloadVirtualMachineResponse() { Error = true };
+
+            try
+            {
+                string tmpFilePath = @"C:\MarketPlaceVirtualMachines\";
+
+                int fileCount = Directory.GetFiles(tmpFilePath, "*.*", SearchOption.AllDirectories).Length;
+
+                int tmpImageId;
+                if (int.TryParse(vMachine.ImageID, out tmpImageId))
+                {
+                    if (fileCount >= tmpImageId)
+                    {
+                        if (!Directory.Exists(tmpFilePath))
+                        {
+                            Directory.CreateDirectory(tmpFilePath);
+                        }
+
+                        tmpFilePath += vMachine.ImageID;
+
+                        byte[] tmparray;
+                        using (var fs = new FileStream(tmpFilePath, FileMode.Open))
+                        {
+                            var buffer = new byte[fs.Length];
+                            fs.Read(buffer, 0, (int)fs.Length);
+                            tmparray = buffer;
+                        }
+
+                        downloadVirtualMachineResponse.Error = false;
+                        downloadVirtualMachineResponse.ByteArray = tmparray;
+                    }
+                    else
+                    {
+                        downloadVirtualMachineResponse.Error = true;
+                        downloadVirtualMachineResponse.ErrorMessage = string.Format(
+                            "The virtual machine image with ImageID '{0}' is not stored in our market place.", vMachine.ImageID);
+                    }
+                }
+                else
+                {
+                    downloadVirtualMachineResponse.Error = true;
+                    downloadVirtualMachineResponse.ErrorMessage = string.Format(
+                        "Couldn't convert imageID '{0}' to int.", vMachine.ImageID);
+                }
+            }
+            catch (Exception ex)
+            {
+                downloadVirtualMachineResponse.Error = true;
+                downloadVirtualMachineResponse.ErrorMessage = ex.Message;
+            }
+
+            return downloadVirtualMachineResponse;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vAppliance"></param>
+        /// <returns></returns>
         public DownloadVirtualApplianceResponse DownloadVirtualAppliance(VirtualAppliance vAppliance)
         {
-            return null;
+            var downloadVirtualApplianceResponse = new DownloadVirtualApplianceResponse() { Error = true };
+
+            try
+            {
+                string tmpFilePath = @"C:\MarketPlaceVirtualAppliances\";
+
+                int fileCount = Directory.GetFiles(tmpFilePath, "*.*", SearchOption.AllDirectories).Length;
+
+                int tmpImageId;
+                if (int.TryParse(vAppliance.ImageID, out tmpImageId))
+                {
+                    if (fileCount >= tmpImageId)
+                    {
+                        if (!Directory.Exists(tmpFilePath))
+                        {
+                            Directory.CreateDirectory(tmpFilePath);
+                        }
+
+                        tmpFilePath += vAppliance.ImageID;
+
+                        byte[] tmparray;
+                        using (var fs = new FileStream(tmpFilePath, FileMode.Open))
+                        {
+                            var buffer = new byte[fs.Length];
+                            fs.Read(buffer, 0, (int)fs.Length);
+                            tmparray = buffer;
+                        }
+
+                        downloadVirtualApplianceResponse.Error = false;
+                        downloadVirtualApplianceResponse.ByteArray = tmparray;
+                    }
+                    else
+                    {
+                        downloadVirtualApplianceResponse.Error = true;
+                        downloadVirtualApplianceResponse.ErrorMessage = string.Format(
+                            "The virtual appliance image with ImageID '{0}' is not stored in our market place.", vAppliance.ImageID);
+                    }
+                }
+                else
+                {
+                    downloadVirtualApplianceResponse.Error = true;
+                    downloadVirtualApplianceResponse.ErrorMessage = string.Format(
+                        "Couldn't convert imageID '{0}' to int.", vAppliance.ImageID);
+                }
+            }
+            catch (Exception ex)
+            {
+                downloadVirtualApplianceResponse.Error = true;
+                downloadVirtualApplianceResponse.ErrorMessage = ex.Message;
+            }
+
+            return downloadVirtualApplianceResponse;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vMachineRate"></param>
+        /// <param name="rate"></param>
+        /// <returns></returns>
         public MarketPlaceServiceResponse RateVirtualMachine(VirtualMachine vMachineRate, byte rate)
         {
-            return null;
+            var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
+
+            foreach (VirtualMachine tmpVirtualMachine in this.virtualMachineList)
+            {
+                if (tmpVirtualMachine.ImageID == vMachineRate.ImageID)
+                {
+                    tmpVirtualMachine.Rate = rate;
+                    marketPlaceServiceResponse.Error = false;
+                }
+            }
+
+            if (marketPlaceServiceResponse.Error)
+            {
+                marketPlaceServiceResponse.ErrorMessage = string.Format("Cant't find Virtual machine with ImageID '{0}'", vMachineRate.ImageID);
+            }
+
+            return marketPlaceServiceResponse;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="virtualMachineComment"></param>
+        /// <param name="comment"></param>
+        /// <returns></returns>
         public MarketPlaceServiceResponse CommentVirtualMachine(VirtualMachine virtualMachineComment, string comment)
         {
-            return null;
+            var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
+
+            foreach (VirtualMachine tmpVirtualMachine in this.virtualMachineList)
+            {
+                if (tmpVirtualMachine.ImageID == virtualMachineComment.ImageID)
+                {
+                    tmpVirtualMachine.Comment = comment;
+                    marketPlaceServiceResponse.Error = false;
+                }
+            }
+
+            if (marketPlaceServiceResponse.Error)
+            {
+                marketPlaceServiceResponse.ErrorMessage = string.Format(
+                    "Cant't find Virtual machine with ImageID '{0}'", virtualMachineComment.ImageID);
+            }
+
+            return marketPlaceServiceResponse;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="specificVMachine"></param>
+        /// <returns></returns>
         public List<VirtualMachine> SearchForSpecificVirtualMachine(VirtualMachine specificVMachine)
         {
-            return null;
+            var virtualMachines = this.virtualMachineList;
+
+            if (!string.IsNullOrEmpty(specificVMachine.OperatingSystemType))
+            {
+                virtualMachines = virtualMachines.Where(x => x.OperatingSystemType.Contains(specificVMachine.OperatingSystemType)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(specificVMachine.OperatingSystemName))
+            {
+                virtualMachines = virtualMachines.Where(x => x.OperatingSystemName.Contains(specificVMachine.OperatingSystemName)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(specificVMachine.OperatingSystemVersion))
+            {
+                virtualMachines = virtualMachines.Where(x => x.OperatingSystemVersion.Contains(specificVMachine.OperatingSystemVersion)).ToList();
+            }
+
+            return virtualMachines;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="specificVAppliance"></param>
+        /// <returns></returns>
         public List<VirtualAppliance> SearchForSpecificVirtualAppliance(VirtualAppliance specificVAppliance)
         {
-            return null;
+            var virtualAppliances = this.virtualApplianceList;
+
+            if (!string.IsNullOrEmpty(specificVAppliance.OperatingSystemType))
+            {
+                virtualAppliances = virtualAppliances.Where(x => x.OperatingSystemType.Contains(specificVAppliance.OperatingSystemType)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(specificVAppliance.OperatingSystemName))
+            {
+                virtualAppliances = virtualAppliances.Where(x => x.OperatingSystemName.Contains(specificVAppliance.OperatingSystemName)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(specificVAppliance.OperatingSystemVersion))
+            {
+                virtualAppliances = virtualAppliances.Where(x => x.OperatingSystemVersion.Contains(specificVAppliance.OperatingSystemVersion)).ToList();
+            }
+
+            return virtualAppliances;
         }
 
+        /// <summary>
+        /// Starts a stopped server and changes its status to ACTIVE.
+        /// </summary>
+        /// <param name="vMachineInstanceToStart"></param>
+        /// <returns></returns>
         public MarketPlaceServiceResponse StartInstance(VirtualMachineInstance vMachineInstanceToStart)
         {
-            // Gets an authenticated user
-            IdentityObject identity = this.AuthenticateOnOpenStackCloud();
-            IComputeService computeService = new ComputeService(this.computeServiceURL);
-            string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStart.InstanceID, identity);
+            MarketPlaceServiceResponse startInstanceResponse = new MarketPlaceServiceResponse();
 
-            // TODO create response
-            
-            return null;
+            try
+            {
+                // Gets an authenticated user
+                IdentityObject identity = this.AuthenticateOnOpenStackCloud();
+                IComputeService computeService = new ComputeService(this.computeServiceURL);
+                string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStart.InstanceID, identity);
+
+                startInstanceResponse.Error = false;
+            }
+            catch(Exception ex)
+            {
+                startInstanceResponse.Error = true;
+                startInstanceResponse.ErrorMessage = ex.Message;
+            }
+
+            return startInstanceResponse;
         }
 
+        /// <summary>
+        /// Stops a running server and changes its status to STOPPED
+        /// </summary>
+        /// <param name="vMachineInstanceToStop"></param>
+        /// <returns></returns>
         public MarketPlaceServiceResponse StopInstance(VirtualMachineInstance vMachineInstanceToStop)
         {
-            // Gets an authenticated user
-            IdentityObject identity = this.AuthenticateOnOpenStackCloud();
-            IComputeService computeService = new ComputeService(this.computeServiceURL);
-            string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStop.InstanceID, identity);
+            MarketPlaceServiceResponse stopInstanceResponse = new MarketPlaceServiceResponse();
 
-            // TODO create response
+            try
+            {
+                // Gets an authenticated user
+                IdentityObject identity = this.AuthenticateOnOpenStackCloud();
+                IComputeService computeService = new ComputeService(this.computeServiceURL);
+                string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStop.InstanceID, identity);
 
-            return null;
+                stopInstanceResponse.Error = false;
+            }
+            catch(Exception ex)
+            {
+                stopInstanceResponse.Error = true;
+                stopInstanceResponse.ErrorMessage = ex.Message;
+            }
+
+            return stopInstanceResponse;
         }
 
+        /// <summary>
+        /// Returns a list of dummy virtual machines 
+        /// </summary>
+        /// <returns></returns>
         public List<VirtualMachine> GetDummyVirtualMachines()
         {
+            if(this.virtualMachineList == null)
+            {
+                return null;
+            }
+
             return this.virtualMachineList;
         }
 
+        /// <summary>
+        /// Returns a list of dummy virtual appliances
+        /// </summary>
+        /// <returns></returns>
         public List<VirtualAppliance> GetVirtualAppliances()
         {
+            if(this.virtualApplianceList == null)
+            {
+                return null;
+            }
+
             return this.virtualApplianceList;
         }
 
+        /// <summary>
+        /// List all servers
+        /// </summary>
+        /// <returns></returns>
         public List<VirtualMachineInstance> GetVirtualMachineInstances()
         {
-            return null;
+            IdentityObject identity = this.AuthenticateOnOpenStackCloud();
+            IComputeService computeService = new ComputeService(this.computeServiceURL);
+
+            ListServersObject requestParametres = new ListServersObject();
+            requestParametres.Tenant_Id = identity.Access.Token.Tenant.Id;
+            requestParametres.Limit = 10;
+
+            List<VirtualMachineInstance> vmInstances = new List<VirtualMachineInstance>();
+
+            var response = computeService.ListServers(requestParametres, identity);
+
+            foreach (var server in response.Servers)
+            {
+                VirtualMachineInstance a = new VirtualMachineInstance();
+                a.InstanceID = server.Id;
+                vmInstances.Add(a);
+            }
+
+            return vmInstances;
         }
 
         /// <summary>

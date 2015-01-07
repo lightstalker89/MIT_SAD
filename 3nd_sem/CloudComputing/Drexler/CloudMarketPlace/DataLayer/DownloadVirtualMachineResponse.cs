@@ -16,7 +16,7 @@ namespace DataLayer
     /// <summary>
     /// 
     /// </summary>
-    public class DownloadVirtualMachineResponse
+    public class DownloadVirtualMachineResponse : MarketPlaceServiceResponse
     {
         /// <summary>
         /// Gets or sets the byte array.
