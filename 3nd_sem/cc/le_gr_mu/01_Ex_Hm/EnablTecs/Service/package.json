@@ -25,6 +25,7 @@
     "log4js": "^0.6.21",
     "node-uuid": "^1.4.2",
     "querystring": "^0.2.0",
-    "sys": "0.0.1"
+    "sys": "0.0.1",
+    "node-rest-client": "^1.4.3"
   }
 }

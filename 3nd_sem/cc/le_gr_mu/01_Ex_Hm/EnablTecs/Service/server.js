@@ -5,10 +5,12 @@ var _ = require('underscore');
 var qs = require('querystring');
 var sys = require('sys');
 var exec = require('child_process').exec;
+var Client = require('node-rest-client').Client;
 var jstack = require('jstack-client');
 var logger = log4js.getLogger();
-var client = null;
+var restClient = new Client();;
 var file = "appliance.json";
+var requestToken = null;
 
 var virtualMachines = [{
     "Id": "1",
@@ -63,26 +65,6 @@ var virtualMachines = [{
     "RatingDescription": "Useable for anything",
     "Status": "Stopped"
 }];
-
-var connect = function () {
-    client = require('pkgcloud').storage.createClient({
-        provider: 'openstack',
-        username: 'your-user-name',
-        password: 'your-password',
-        tenantId: 'exampleProject',
-        region: 'exampleRegion',
-        authUrl: 'https://identity.example.com/v2.0/'
-    });
-    client.on('log::*', function (message, object) {
-        if (object) {
-            console.log(this.event.split('::')[1] + ' ' + message);
-            console.dir(object);
-        }
-        else {
-            console.log(this.event.split('::')[1] + ' ' + message);
-        }
-    });
-};
 
 var start = function (id) {
     var machine = getMachine(id);
@@ -172,6 +154,27 @@ var updateOperation = function(id, operation) {
     }
 };
 
+var getToken = function() {
+    var args = {
+        "auth": {
+            "tenantName": "admin",
+            "passwordCredentials": {
+                "username": "admin",
+                "password": "supersecret"
+            }
+        }
+    };
+
+    client.post("http://172.20.10.6/v2.0/tokens", args, function (data, response) {
+        // parsed response body as js object
+        console.log(data);
+        console.log(data.token);
+        console.log(data.access.token);
+        // raw response
+        console.log(response);
+    });
+};
+
 var app = express();
 
 /** Download a virtual machine **/
@@ -238,6 +241,7 @@ app.post('/machine', function (request, response) {
 /** Start or stop a virtual machine **/
 app.post('/machine/state/:id/:operation', function (request, response) {
     logger.info("Received 'Operation for Virtual Machine' request");
+    getToken();
     updateOperation(request.params.id, request.params.operation);
 });
 
