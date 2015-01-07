@@ -49,7 +49,7 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <ListBox Margin="10,90,0,25.116" SelectionMode="Single" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVmInfo, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="180">
+        <ListBox Margin="10,90,0,25.116" SelectionMode="Single" SelectedIndex="{Binding SelectedVmInfoIndex, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding InstalledVirtualMachines, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVmInfo, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="180">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

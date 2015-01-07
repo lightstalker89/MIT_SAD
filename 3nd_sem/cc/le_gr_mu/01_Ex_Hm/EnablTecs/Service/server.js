@@ -164,6 +164,14 @@ var getMachine = function(id) {
     return machine;
 };
 
+var updateOperation = function(id, operation) {
+    if (operation === "Start") {
+        
+    } else if (operation === "Stop") {
+        
+    }
+};
+
 var app = express();
 
 /** Download a virtual machine **/
@@ -230,7 +238,7 @@ app.post('/machine', function (request, response) {
 /** Start or stop a virtual machine **/
 app.post('/machine/state/:id/:operation', function (request, response) {
     logger.info("Received 'Operation for Virtual Machine' request");
-    //start(request.params.id);
+    updateOperation(request.params.id, request.params.operation);
 });
 
 /** Change the description of a virtual machine **/
