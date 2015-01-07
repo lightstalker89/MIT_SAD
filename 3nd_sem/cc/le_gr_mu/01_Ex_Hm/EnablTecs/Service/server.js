@@ -152,7 +152,7 @@ var updateOperation = function (id, operation) {
         console.log("Trying to start vm");
         var args = {
             data: {"os-start": null},
-            headers: { "X-Auth-Toke": requestToken }
+            headers: { "X-Auth-Token": requestToken }
         };
 
         restClient.post("http://172.20.10.6:5000//v2.0​/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", args, function (data, response) {
@@ -178,7 +178,6 @@ var getToken = function() {
     };
 
     restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
-        console.log(response.token);
         requestToken = response.token;
     });
 };
