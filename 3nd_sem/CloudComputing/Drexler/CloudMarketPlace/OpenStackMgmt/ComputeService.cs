@@ -7,15 +7,17 @@
 namespace OpenStackMgmt
 {
     using DataLayer.OpenStack.Models;
-    using OpenStackMgmt;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-    using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Json;
-    using System.Text;
+using DataLayer.OpenStack.RequestHandling;
+using DataLayer.OpenStack.ResponseHandling;
+using OpenStackMgmt;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
     /// <summary>
     /// 
@@ -77,7 +79,7 @@ namespace OpenStackMgmt
                 }
 
                 string message = string.Empty;
-                string relativeStartServerURL = string.Format("/{0}/servers/{1}/start/", tenantId, serverId);
+                string relativeStartServerURL = string.Format("/{0}/servers/{1}/action/", tenantId, serverId);
                 this.computeServiceURL = Path.Combine(this.computeServiceURL, relativeStartServerURL);
 
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
@@ -85,7 +87,7 @@ namespace OpenStackMgmt
                 this.request.ContentType = @"application/json; charset=utf-8";
                 this.request.Headers.Add(string.Format("x-auth-token:{0}",identity.Access.Token.Id));
 
-                KeyValuePair<string, string> requestBody = new KeyValuePair<string,string>("os-stop",null);
+                KeyValuePair<string, string> requestBody = new KeyValuePair<string,string>("os-start",null);
 
                 this.serializer = new DataContractJsonSerializer(typeof(KeyValuePair<string,string>));
                 using (var mStream = new MemoryStream())
@@ -159,6 +161,57 @@ namespace OpenStackMgmt
                 return message;
             }
             catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Lists IDs, names, and links for all servers.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public ListServersResponseObject ListServers(ListServersObject parameters, IdentityObject identity)
+        {
+            if(identity == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                string relativeListServerPath = string.Format("/{0}/servers", identity.Access.Token.Tenant.Id);
+                this.computeServiceURL = Path.Combine(this.computeServiceURL, relativeListServerPath);
+                string message = string.Empty;
+
+                this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
+                this.request.Method = "POST";
+                this.request.ContentType = @"application/json; charset=utf-8";
+                this.request.Headers.Add(string.Format("x-auth-token:{0}", identity.Access.Token.Id));
+
+                this.serializer = new DataContractJsonSerializer(typeof(ListServersObject));
+                using (var mStream = new MemoryStream())
+                using (this.sReader = new StreamReader(mStream))
+                {
+                    this.serializer.WriteObject(mStream, parameters);
+                    mStream.Position = 0;
+                    message = this.sReader.ReadToEnd();
+                }
+
+                using (var streamwriter = new StreamWriter(this.request.GetRequestStream()))
+                {
+                    streamwriter.Write(message);
+                }
+
+                this.response = this.request.GetResponse();
+                this.stream = this.response.GetResponseStream();
+
+                this.serializer = new DataContractJsonSerializer(typeof(ListServersResponseObject));
+                var servers = (ListServersResponseObject)this.serializer.ReadObject(stream);
+
+                return servers;
+            }
+            catch(Exception ex)
             {
                 throw;
             }
