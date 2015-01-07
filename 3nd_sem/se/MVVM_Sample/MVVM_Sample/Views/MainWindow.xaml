@@ -26,8 +26,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ComboBox HorizontalAlignment="Left" Margin="10,267,0,0" Grid.Row="1" VerticalAlignment="Top" Width="422" Height="41"/>
-
-
     </Grid>
 </Window>

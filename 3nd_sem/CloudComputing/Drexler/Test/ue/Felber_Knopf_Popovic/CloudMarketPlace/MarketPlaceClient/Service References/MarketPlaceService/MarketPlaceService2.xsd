@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8224/MarketPlaceService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/CommonModel" />
+  <xs:element name="UploadVirtualMachine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="virtualMachine" nillable="true" type="q1:VirtualMachine" />
+        <xs:element minOccurs="0" name="byteArray" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadVirtualMachineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="UploadVirtualMachineResult" nillable="true" type="q2:MarketPlaceServiceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadVirtualAppliance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="appliance" nillable="true" type="q3:VirtualAppliance" />
+        <xs:element minOccurs="0" name="byteArray" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadVirtualApplianceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="UploadVirtualApplianceResult" nillable="true" type="q4:MarketPlaceServiceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeDescriptionOfVirtualMachine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="updateVirtualMachine" nillable="true" type="q5:VirtualMachine" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeDescriptionOfVirtualMachineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="ChangeDescriptionOfVirtualMachineResult" nillable="true" type="q6:MarketPlaceServiceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeDescriptionOfVirtualAppliance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="updateVirtualAppliance" nillable="true" type="q7:VirtualAppliance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeDescriptionOfVirtualApplianceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="ChangeDescriptionOfVirtualApplianceResult" nillable="true" type="q8:MarketPlaceServiceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DownloadVirtualMachine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="virtualMachine" nillable="true" type="q9:VirtualMachine" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DownloadVirtualMachineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="DownloadVirtualMachineResult" nillable="true" type="q10:DownloadVirtualMachineResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DownloadVirtualAppliance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="virtualAppliance" nillable="true" type="q11:VirtualAppliance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DownloadVirtualApplianceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="DownloadVirtualApplianceResult" nillable="true" type="q12:DownloadVirtualApplianceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RateVirtualMachine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="virtualMachineToRate" nillable="true" type="q13:VirtualMachine" />
+        <xs:element minOccurs="0" name="rate" type="xs:unsignedByte" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RateVirtualMachineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="RateVirtualMachineResult" nillable="true" type="q14:MarketPlaceServiceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CommentVirtualMachine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="virtualMachineToComment" nillable="true" type="q15:VirtualMachine" />
+        <xs:element minOccurs="0" name="comment" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CommentVirtualMachineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="CommentVirtualMachineResult" nillable="true" type="q16:MarketPlaceServiceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchForSpecificVirtualMachine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="specificVirtualMachine" nillable="true" type="q17:VirtualMachine" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchForSpecificVirtualMachineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="SearchForSpecificVirtualMachineResult" nillable="true" type="q18:ArrayOfVirtualMachine" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchForSpecificVirtualAppliance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="specificVirtualAppliance" nillable="true" type="q19:VirtualAppliance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchForSpecificVirtualApplianceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="SearchForSpecificVirtualApplianceResult" nillable="true" type="q20:ArrayOfVirtualAppliance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="virtualMachineInstanceToStart" nillable="true" type="q21:VirtualMachineInstance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartInstanceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="StartInstanceResult" nillable="true" type="q22:MarketPlaceServiceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StopInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="virtualMachineInstanceToStop" nillable="true" type="q23:VirtualMachineInstance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StopInstanceResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="StopInstanceResult" nillable="true" type="q24:MarketPlaceServiceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetVirtualMachineInstances">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetVirtualMachineInstancesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="GetVirtualMachineInstancesResult" nillable="true" type="q25:ArrayOfVirtualMachineInstance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDummyVirtualMachines">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDummyVirtualMachinesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="GetDummyVirtualMachinesResult" nillable="true" type="q26:ArrayOfVirtualMachine" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetVirtualAppliances">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetVirtualAppliancesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/CommonModel" minOccurs="0" name="GetVirtualAppliancesResult" nillable="true" type="q27:ArrayOfVirtualAppliance" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
