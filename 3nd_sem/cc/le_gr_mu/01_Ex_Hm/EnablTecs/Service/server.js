@@ -146,8 +146,10 @@ var getMachine = function(id) {
     return machine;
 };
 
-var updateOperation = function(id, operation) {
+var updateOperation = function (id, operation) {
+    console.log(operation);
     if (operation === "Start") {
+        console.log("Trying to start vm");
         var args = {
             data: {"os-start": null},
             headers: { "X-Auth-Toke": requestToken }
