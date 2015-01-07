@@ -239,10 +239,11 @@ app.post('/machine', function (request, response) {
 });
 
 /** Start or stop a virtual machine **/
-app.post('/machine/state/:id/:operation', function (request, response) {
+app.post('/machine/state/:id/:operation', function(request, response) {
     logger.info("Received 'Operation for Virtual Machine' request");
     getToken();
     updateOperation(request.params.id, request.params.operation);
+    response.send({ Success: false, ErrorMessage: "", Data: null });
 });
 
 /** Change the description of a virtual machine **/
