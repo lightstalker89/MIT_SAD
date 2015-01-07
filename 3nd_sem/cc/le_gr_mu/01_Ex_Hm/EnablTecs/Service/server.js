@@ -165,7 +165,7 @@ var getToken = function() {
         }
     };
 
-    client.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
+    restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
         // parsed response body as js object
         console.log(data);
         console.log(data.token);
