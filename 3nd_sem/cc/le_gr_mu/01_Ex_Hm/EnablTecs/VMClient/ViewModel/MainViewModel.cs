@@ -45,6 +45,7 @@ namespace VirtualMachineClient.ViewModel
             this.SaveDescriptionCommand = new RelayCommand(this.SaveDescription, () => true);
             this.PlayPressedCommand = new RelayCommand(this.PlayPressed, () => true);
             this.StopPressedCommand = new RelayCommand(this.StopPressed, () => true);
+            this.DownloadCommand = new RelayCommand(this.DownloadPressed, () => true);
         }
 
         private string errorText = string.Empty;
@@ -289,6 +290,46 @@ namespace VirtualMachineClient.ViewModel
             else
             {
                 this.ErrorText = addVmSuccessResponse.ErrorMessage;
+            }
+        }
+
+        public ICommand DownloadCommand { get; private set; }
+
+        private void DownloadPressed()
+        {
+            RestRequest restRequest = new RestRequest("download/{id}", Method.GET);
+            string id = this.selectedVmInfo.Id;
+            if (id != string.Empty)
+            {
+                
+                restRequest.AddUrlSegment("id", id);
+                this.restClient.ExecuteAsync(
+                restRequest,
+                Response =>
+                {
+                    if (Response != null)
+                    {
+                        byte[] imageBytes = Response.RawBytes;
+                        if (imageBytes.Length > 0)
+                        {
+                            SaveFileDialog file = new SaveFileDialog { Filter = "json files (*.json)|*.json" };
+                            file.ShowDialog();
+
+                            if (file.FileName != string.Empty)
+                            {
+                                File.WriteAllBytes(file.FileName, imageBytes);
+                            }
+                        }
+                        else
+                        {
+                            this.ErrorText = "Could not download vm/appliance image";
+                        }
+                    }
+                });
+            }
+            else
+            {
+                this.ErrorText = "No vm selected";
             }
         }
 
