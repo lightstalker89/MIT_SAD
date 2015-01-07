@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Michael Drexler</author>
 //-----------------------------------------------------------------------
-namespace OpenStackManagement
+namespace OpenStackMgmt
 {
     using System;
     using System.Collections.Generic;

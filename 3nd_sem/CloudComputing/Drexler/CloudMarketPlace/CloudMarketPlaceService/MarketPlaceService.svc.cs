@@ -21,7 +21,6 @@ namespace CloudMarketPlaceService
     using DataLayer.OpenStack.Models;
     using DataLayer.OpenStack.RequestHandling;
     using OpenStackMgmt;
-    using OpenStackManagement;
 
     /// <summary>
     /// The implementation of the IMarketPlaceService

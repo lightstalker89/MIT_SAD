@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Michael Drexler</author>
 //-----------------------------------------------------------------------
-namespace OpenStackManagement
+namespace OpenStackMgmt
 {
     using DataLayer.OpenStack.Models;
     using OpenStackMgmt;
