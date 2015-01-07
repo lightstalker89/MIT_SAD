@@ -12,6 +12,7 @@ namespace DataAccessLayer.Models
     using System.Text;
     using System.Threading.Tasks;
     using System.Runtime.Serialization;
+    using System.Threading;
 
     /// <summary>
     /// Provides all information about an order
@@ -23,7 +24,7 @@ namespace DataAccessLayer.Models
         /// Gets or sets a value for the OrderID
         /// </summary>
         [DataMember]
-        public int OrderId { get; set; }
+        public long OrderId { get; set; }
 
         /// <summary>
         /// Gets or sets a value for the order name
@@ -34,6 +35,7 @@ namespace DataAccessLayer.Models
         /// <summary>
         /// Gets or sets a value for the customer (Navigation Propertie - n:1)
         /// </summary>
+        [IgnoreDataMember]
         public virtual Customer Customer { get; set; }
     }
 }

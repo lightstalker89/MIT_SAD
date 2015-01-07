@@ -23,11 +23,5 @@ namespace DataAccessLayer
         /// </summary>
         /// <returns>A list of customers</returns>
         List<Customer> GetCustomers();
-
-        /// <summary>
-        /// Get all orders from a given customer name
-        /// </summary>
-        /// <returns>A list of orders</returns>
-        List<Order> GetOrders();
     }
 }

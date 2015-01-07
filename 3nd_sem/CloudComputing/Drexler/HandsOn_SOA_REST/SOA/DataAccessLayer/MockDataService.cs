@@ -19,37 +19,30 @@ namespace DataAccessLayer
     public class MockDataService : IDataAccessService
     {
         /// <summary>
+        /// Containing a list of customers
+        /// </summary>
+        private List<Customer> customers;
+
+        /// <summary>
         /// Get all customers
         /// </summary>
         /// <returns>A list of customers</returns>
         public List<Customer> GetCustomers()
         {
-            return new List<Customer>()
+            if (this.customers == null)
             {
-                new Customer(){ Forename = "Manfred", Lastname = "Muster"},
-                new Customer(){ Forename = "Markus", Lastname = "Lechner"},
-                new Customer(){ Forename = "Matthias", Lastname = "Raab"},
-                new Customer(){ Forename = "Alexander", Lastname = "Pilhar"},
-                new Customer(){ Forename = "Hannes", Lastname = "Knopf"},
-                new Customer(){ Forename = "Carina", Lastname = "Hafner"},
-            };
-        }
+                this.customers = new List<Customer>()
+                {
+                    new Customer(){ Id = 1, Forename = "Manfred", Lastname = "Muster"},
+                    new Customer(){ Id = 2, Forename = "Markus", Lastname = "Lechner"},
+                    new Customer(){ Id = 3, Forename = "Matthias", Lastname = "Raab"},
+                    new Customer(){ Id = 4, Forename = "Alexander", Lastname = "Pilhar"},
+                    new Customer(){ Id = 5, Forename = "Hannes", Lastname = "Knopf"},
+                    new Customer(){ Id = 6, Forename = "Carina", Lastname = "Hafner"},
+                };
+            }           
 
-        /// <summary>
-        /// Gett all orders
-        /// </summary>
-        /// <returns>A list of orders</returns>
-        public List<Order> GetOrders()
-        {
-            return new List<Order>()
-            {
-                new Order(){ OrderId = 1, OrderName = "Headphones"},
-                new Order(){ OrderId = 2, OrderName = "Laptop"},
-                new Order(){ OrderId = 3, OrderName = "Book"},
-                new Order(){ OrderId = 4, OrderName = "Tablet"},
-                new Order(){ OrderId = 5, OrderName = "Notebook"},
-                new Order(){ OrderId = 6, OrderName = "USB cable"}
-            };
+            return this.customers;
         }
     }
 }

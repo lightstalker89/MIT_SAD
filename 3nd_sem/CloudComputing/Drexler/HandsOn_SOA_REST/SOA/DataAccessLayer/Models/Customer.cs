@@ -12,14 +12,20 @@ namespace DataAccessLayer.Models
     using System.Text;
     using System.Threading.Tasks;
     using System.Runtime.Serialization;
+    using System.Threading;
 
     /// <summary>
     /// Provides information about a customer
     /// </summary>
-    /// 
     [DataContract]
     public class Customer
     {
+        /// <summary>
+        /// Gets or sets an unique customer id
+        /// </summary>
+        [DataMember]
+        public long Id { get; set; }
+
         /// <summary>
         /// Gets or sets a value for the fore name of a customer
         /// </summary>
@@ -33,20 +39,9 @@ namespace DataAccessLayer.Models
         public string Lastname { get; set; }
 
         /// <summary>
-        /// Gets or sets a value for the full name of the customer
-        /// </summary>
-        [DataMember]
-        public string Fullname
-        {
-            get
-            {
-                return string.Format("{0} {1}", this.Forename, this.Lastname);
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the orders for the customer (Navigation property - 1:n)
         /// </summary>
+        [DataMember]
         public virtual List<Order> CustomerOrders { get; set; }
     }
 }
