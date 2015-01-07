@@ -1,0 +1,13 @@
+﻿<Window x:Class="MarketPlaceClient.RateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RateWindow" Height="74" Width="197">
+    <Grid>
+        <Button x:Name="btn1" Content="1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="30" Height="25" Click="btn1_Click"/>
+        <Button x:Name="btn2" Content="2" HorizontalAlignment="Left" Margin="45,10,0,0" VerticalAlignment="Top" Width="30" Height="25" Click="btn2_Click"/>
+        <Button x:Name="btn3" Content="3" HorizontalAlignment="Left" Margin="80,10,0,0" VerticalAlignment="Top" Width="30" Height="25" Click="btn3_Click"/>
+        <Button x:Name="btn4" Content="4" HorizontalAlignment="Left" Margin="115,10,0,0" VerticalAlignment="Top" Width="30" Height="25" Click="btn4_Click"/>
+        <Button x:Name="btn5" Content="5" HorizontalAlignment="Left" Margin="150,10,0,0" VerticalAlignment="Top" Width="30" Height="25" Click="btn5_Click"/>
+
+    </Grid>
+</Window>

@@ -109,7 +109,20 @@ namespace VirtualMachineClient.ViewModel
             }
         }
 
+        private int selectedVmInfoIndex = 0;
 
+        public int SelectedVmInfoIndex
+        {
+            get
+            {
+                return selectedVmInfoIndex;
+            }
+            set
+            {
+                this.selectedVmInfoIndex = value != -1 ? value : 0;
+                RaisePropertyChanged("SelectedVmInfoIndex");
+            }
+        }
 
         private ObservableCollection<VmInfo> installedVirtualMachines;
 
@@ -225,14 +238,38 @@ namespace VirtualMachineClient.ViewModel
 
         private void StopPressed()
         {
-            
+            RestRequest restRequest = new RestRequest("machine/state/{id}/{operation}", Method.POST);
+            restRequest.AddUrlSegment("id", SelectedVmInfo.Id);
+            restRequest.AddUrlSegment("operation", "Stop");
+            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+            if (addVmSuccessResponse.Success)
+            {
+                this.ErrorText = string.Empty;
+            }
+            else
+            {
+                this.ErrorText = addVmSuccessResponse.ErrorMessage;
+            }
         }
 
         public ICommand PlayPressedCommand { get; set; }
 
         private void PlayPressed()
         {
-            
+            RestRequest restRequest = new RestRequest("machine/state/{id}/{operation}", Method.POST);
+            restRequest.AddUrlSegment("id", SelectedVmInfo.Id);
+            restRequest.AddUrlSegment("operation", "Start");
+            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+            if (addVmSuccessResponse.Success)
+            {
+                this.ErrorText = string.Empty;
+            }
+            else
+            {
+                this.ErrorText = addVmSuccessResponse.ErrorMessage;
+            }
         }
 
         private void Search()

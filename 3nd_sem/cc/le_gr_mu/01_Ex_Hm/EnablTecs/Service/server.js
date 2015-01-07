@@ -5,10 +5,12 @@ var _ = require('underscore');
 var qs = require('querystring');
 var sys = require('sys');
 var exec = require('child_process').exec;
+var Client = require('node-rest-client').Client;
 var jstack = require('jstack-client');
 var logger = log4js.getLogger();
-var client = null;
+var restClient = new Client();;
 var file = "appliance.json";
+var requestToken = null;
 
 var virtualMachines = [{
     "Id": "1",
@@ -63,26 +65,6 @@ var virtualMachines = [{
     "RatingDescription": "Useable for anything",
     "Status": "Stopped"
 }];
-
-var connect = function () {
-    client = require('pkgcloud').storage.createClient({
-        provider: 'openstack',
-        username: 'your-user-name',
-        password: 'your-password',
-        tenantId: 'exampleProject',
-        region: 'exampleRegion',
-        authUrl: 'https://identity.example.com/v2.0/'
-    });
-    client.on('log::*', function (message, object) {
-        if (object) {
-            console.log(this.event.split('::')[1] + ' ' + message);
-            console.dir(object);
-        }
-        else {
-            console.log(this.event.split('::')[1] + ' ' + message);
-        }
-    });
-};
 
 var start = function (id) {
     var machine = getMachine(id);
@@ -164,6 +146,79 @@ var getMachine = function(id) {
     return machine;
 };
 
+var updateOperation = function (id, operation) {
+    var requestData = {
+        "auth": {
+            "tenantName": "admin",
+            "passwordCredentials": {
+                "username": "admin",
+                "password": "supersecret"
+            }
+        }
+    };
+    var args = {
+        data: requestData,
+        headers: {
+            "Content-Length": JSON.stringify(requestData).length
+        }
+    };
+
+    restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
+        requestToken = data.access.token;
+        if (operation === "Start") {
+            console.log("Trying to start vm");
+            var reqArgs = {
+                data: { "os-start": null },
+                parameter: { "os-start": null},
+                headers: { "X-Auth-Token": requestToken.id }
+            };
+
+            restClient.post("http://172.20.10.6:5000/v2​/ef2d253fa9bd4ac9a31c9acdef055471/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", reqArgs, function (dataI, responseI) {
+                
+            });
+        } else if (operation === "Stop") {
+
+        }
+    });
+
+    //if (operation === "Start") {
+    //    console.log("Trying to start vm");
+    //    var args = {
+    //        data: {"os-start": null},
+    //        headers: { "X-Auth-Token": requestToken.id }
+    //    };
+
+    //    restClient.post("http://172.20.10.6:5000/v2.0​/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", args, function (data, response) {
+    //        console.log(response);
+    //    });
+    //} else if (operation === "Stop") {
+       
+    //}
+};
+
+var getToken = function() {
+    var requestData = {
+        "auth": {
+            "tenantName": "admin",
+            "passwordCredentials": {
+                "username": "admin",
+                "password": "supersecret"
+            }
+        }
+    };
+    var args = {
+        data: requestData,
+        headers: {
+            "Content-Length": JSON.stringify(requestData).length
+        }
+    };
+
+    restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
+        console.log(data.access.token);
+        requestToken = data.access.token;
+    });
+};
+
 var app = express();
 
 /** Download a virtual machine **/
@@ -228,9 +283,10 @@ app.post('/machine', function (request, response) {
 });
 
 /** Start or stop a virtual machine **/
-app.post('/machine/state/:id/:operation', function (request, response) {
+app.post('/machine/state/:id/:operation', function(request, response) {
     logger.info("Received 'Operation for Virtual Machine' request");
-    //start(request.params.id);
+    updateOperation(request.params.id, request.params.operation);
+    response.send({ Success: false, ErrorMessage: "", Data: null });
 });
 
 /** Change the description of a virtual machine **/

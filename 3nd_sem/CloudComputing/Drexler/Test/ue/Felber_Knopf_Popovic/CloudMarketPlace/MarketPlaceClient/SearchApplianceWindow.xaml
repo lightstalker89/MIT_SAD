@@ -1,0 +1,29 @@
+﻿<Window x:Class="MarketPlaceClient.SearchApplianceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SearchApplianceWindow" Height="391.045" Width="502.985">
+    <Grid>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="405,327,0,0" VerticalAlignment="Top" Width="75" x:Name="buttonAdd" Click="buttonAdd_Click"/>
+        <Label Content="Operating System Type:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Operating System Name:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Label Content="Operating System Version:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+        <Label Content="Size:" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
+        <Label Content="Supported Virtualization Platforms:" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
+        <Label Content="Recommended #CPU:" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtOSType"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtOSName"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtOSVersion"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtSize"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtSupportVirt"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtRecommendedCpu"/>
+        <Label Content="Recommended Memory:" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtRecommendedMemory"/>
+        <Label Content="Application Type:" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top"/>
+        <Label Content="List of Installed Software:" HorizontalAlignment="Left" Margin="10,255,0,0" VerticalAlignment="Top"/>
+        <Label Content="Supported Prog Languages:" HorizontalAlignment="Left" Margin="10,286,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,224,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtAppType"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,255,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtInstalledSW"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,286,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" x:Name="txtProgLang"/>
+
+    </Grid>
+</Window>

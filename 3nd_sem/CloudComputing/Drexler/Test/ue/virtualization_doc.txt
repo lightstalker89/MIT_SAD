@@ -1,0 +1,19 @@
+1.	/var/lib/libvirt/images
+2.	/etc/libvirt/qemu
+
+3.	virsh
+		list
+		start name
+		shutdown name
+		destroy name
+		suspend name
+		resume name
+
+4.
+By default, KVM gives you NAT-like bridged networking – your virtual machine won’t appear on the network as its own device, but it will have network access through the host operating system. If you’re running server software in your virtual machine and want it accessible from other devices on the network, you’ll have to tweak the networking settings.
+	
+5.	
+Does KVM support a live migration feature to move virtual machines from one host to another without downtime?
+http://www.linux-kvm.org/page/Migration
+http://wiki.libvirt.org/page/FAQ#Migration
+ virsh migrate $VMNAME $REMOTE_HOST_URI --migrateuri tcp://$REMOTE_HOST:$PORT
