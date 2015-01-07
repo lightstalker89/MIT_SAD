@@ -15,7 +15,7 @@ namespace VirtualMachineClient.ViewModel
 
     public class MainViewModel : ViewModelBase
     {
-        private const string EndPoint = "http://172.20.10.6:1337";
+        private const string EndPoint = "http://localhost:1337";
 
         private JavaScriptSerializer javaScriptSerializer;
 
