@@ -147,27 +147,7 @@ var getMachine = function(id) {
 };
 
 var updateOperation = function (id, operation) {
-    console.log(operation);
-    if (operation === "Start") {
-        console.log("Trying to start vm");
-        var args = {
-            data: {"os-start": null},
-            headers: { "X-Auth-Token": requestToken }
-        };
-
-        restClient.post("http://172.20.10.6:5000//v2.0​/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", args, function (data, response) {
-            console.log(response);
-        });
-    } else if (operation === "Stop") {
-        restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
-            console.log(response.token);
-            requestToken = response.token;
-        });
-    }
-};
-
-var getToken = function() {
-    var args = {
+    var requestData = {
         "auth": {
             "tenantName": "admin",
             "passwordCredentials": {
@@ -176,9 +156,66 @@ var getToken = function() {
             }
         }
     };
+    var args = {
+        data: requestData,
+        headers: {
+            "Content-Length": JSON.stringify(requestData).length
+        }
+    };
 
     restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
-        requestToken = response.token;
+        requestToken = data.access.token;
+        if (operation === "Start") {
+            console.log("Trying to start vm");
+            var reqArgs = {
+                data: { "os-start": null },
+                parameter: { "os-start": null},
+                headers: { "X-Auth-Token": requestToken.id }
+            };
+
+            restClient.post("http://172.20.10.6:5000/v2​/ef2d253fa9bd4ac9a31c9acdef055471/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", reqArgs, function (dataI, responseI) {
+                
+            });
+        } else if (operation === "Stop") {
+
+        }
+    });
+
+    //if (operation === "Start") {
+    //    console.log("Trying to start vm");
+    //    var args = {
+    //        data: {"os-start": null},
+    //        headers: { "X-Auth-Token": requestToken.id }
+    //    };
+
+    //    restClient.post("http://172.20.10.6:5000/v2.0​/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", args, function (data, response) {
+    //        console.log(response);
+    //    });
+    //} else if (operation === "Stop") {
+       
+    //}
+};
+
+var getToken = function() {
+    var requestData = {
+        "auth": {
+            "tenantName": "admin",
+            "passwordCredentials": {
+                "username": "admin",
+                "password": "supersecret"
+            }
+        }
+    };
+    var args = {
+        data: requestData,
+        headers: {
+            "Content-Length": JSON.stringify(requestData).length
+        }
+    };
+
+    restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
+        console.log(data.access.token);
+        requestToken = data.access.token;
     });
 };
 
@@ -248,7 +285,6 @@ app.post('/machine', function (request, response) {
 /** Start or stop a virtual machine **/
 app.post('/machine/state/:id/:operation', function(request, response) {
     logger.info("Received 'Operation for Virtual Machine' request");
-    getToken();
     updateOperation(request.params.id, request.params.operation);
     response.send({ Success: false, ErrorMessage: "", Data: null });
 });
