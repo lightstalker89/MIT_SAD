@@ -148,9 +148,19 @@ var getMachine = function(id) {
 
 var updateOperation = function(id, operation) {
     if (operation === "Start") {
-        
+        var args = {
+            data: {"os-start": null},
+            headers: { "X-Auth-Toke": requestToken }
+        };
+
+        restClient.post("http://172.20.10.6:5000//v2.0​/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", args, function (data, response) {
+            console.log(response);
+        });
     } else if (operation === "Stop") {
-        
+        restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
+            console.log(response.token);
+            requestToken = response.token;
+        });
     }
 };
 
@@ -166,12 +176,8 @@ var getToken = function() {
     };
 
     restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
-        // parsed response body as js object
-        console.log(response);
         console.log(response.token);
-        console.log(response.access.token);
-        // raw response
-        console.log(response);
+        requestToken = response.token;
     });
 };
 
