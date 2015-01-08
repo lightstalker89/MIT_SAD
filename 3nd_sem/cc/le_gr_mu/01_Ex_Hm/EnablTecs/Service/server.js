@@ -1,14 +1,15 @@
 ﻿var express = require('express');
 var fs = require('fs');
+var http = require('http');
+var request = require('request');
 var log4js = require('log4js');
 var _ = require('underscore');
 var qs = require('querystring');
 var sys = require('sys');
 var exec = require('child_process').exec;
 var Client = require('node-rest-client').Client;
-var jstack = require('jstack-client');
 var logger = log4js.getLogger();
-var restClient = new Client();;
+var restClient = new Client();
 var file = "appliance.json";
 var requestToken = null;
 
@@ -146,54 +147,53 @@ var getMachine = function(id) {
     return machine;
 };
 
-var updateOperation = function (id, operation) {
-    var requestData = {
+var updateOperation = function (id, operation, res) {
+    var machine = _.findWhere(virtualMachines, { Id: id });
+    var requestData = JSON.stringify({
         "auth": {
             "tenantName": "admin",
             "passwordCredentials": {
                 "username": "admin",
-                "password": "supersecret"
+                "password": "Openstack#2014"
             }
         }
-    };
-    var args = {
-        data: requestData,
-        headers: {
-            "Content-Length": JSON.stringify(requestData).length
-        }
-    };
-
-    restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
-        requestToken = data.access.token;
-        if (operation === "Start") {
-            console.log("Trying to start vm");
-            var reqArgs = {
-                data: { "os-start": null },
-                parameter: { "os-start": null},
-                headers: { "X-Auth-Token": requestToken.id }
-            };
-
-            restClient.post("http://172.20.10.6:5000/v2​/ef2d253fa9bd4ac9a31c9acdef055471/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", reqArgs, function (dataI, responseI) {
-                
-            });
-        } else if (operation === "Stop") {
-
-        }
     });
+    var startData = null;
+    if (operation === "Start") {
+        startData = JSON.stringify({ "os-start": null });
+    } else {
+        startData = JSON.stringify({ "os-stop": null });
+    }
 
-    //if (operation === "Start") {
-    //    console.log("Trying to start vm");
-    //    var args = {
-    //        data: {"os-start": null},
-    //        headers: { "X-Auth-Token": requestToken.id }
-    //    };
-
-    //    restClient.post("http://172.20.10.6:5000/v2.0​/servers/​b5adde24-8d55-4959-b50d-540c294b2fa7​/action", args, function (data, response) {
-    //        console.log(response);
-    //    });
-    //} else if (operation === "Stop") {
-       
-    //}
+    request.post({
+        headers: { 'content-type': 'application/json' },
+        url: 'http://212.17.80.213:5000/v2.0/tokens',
+        body: requestData
+    }, function (error, response, body) {
+        var jsonObject = JSON.parse(body);
+        requestToken = jsonObject.access.token;
+        request.post({
+            headers: { 'content-type': 'application/json', "X-Auth-Token": requestToken.id, 'Content-Length': startData.length },
+            url: 'http://212.17.80.213:8774/v2/4f043ef5887f46959d30545cf8b77b11/servers/590583b4-6a0b-43a5-bb93-ac464d148b00/action',
+            body: startData
+        }, function (errorI, responseI, bodyI) {
+            var jsonObjectI = null;
+            if(bodyI &&  body.length > 0){
+                jsonObjectI = JSON.parse(bodyI);
+            }
+            if (jsonObjectI && jsonObjectI.conflictRequest) {
+                machine.operation = "Started";
+            }else{
+                if (operation === "Start") {
+                    machine.Status = "Started";
+                } else {
+                    machine.Status = "Stopped";
+                }
+            }
+            res.send( { Success: true, ErrorMessage: "", Data: virtualMachines });
+        });
+    });
+   
 };
 
 var getToken = function() {
@@ -285,8 +285,8 @@ app.post('/machine', function (request, response) {
 /** Start or stop a virtual machine **/
 app.post('/machine/state/:id/:operation', function(request, response) {
     logger.info("Received 'Operation for Virtual Machine' request");
-    updateOperation(request.params.id, request.params.operation);
-    response.send({ Success: false, ErrorMessage: "", Data: null });
+    var opResponse = updateOperation(request.params.id, request.params.operation, response);
+    //response.send(opResponse);
 });
 
 /** Change the description of a virtual machine **/

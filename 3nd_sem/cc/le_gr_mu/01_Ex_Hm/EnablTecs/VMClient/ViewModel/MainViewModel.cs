@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace VirtualMachineClient.ViewModel
 {
@@ -238,18 +238,22 @@ namespace VirtualMachineClient.ViewModel
 
         private void StopPressed()
         {
-            RestRequest restRequest = new RestRequest("machine/state/{id}/{operation}", Method.POST);
-            restRequest.AddUrlSegment("id", SelectedVmInfo.Id);
-            restRequest.AddUrlSegment("operation", "Stop");
-            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
-            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
-            if (addVmSuccessResponse.Success)
+            if (SelectedVmInfo != null)
             {
-                this.ErrorText = string.Empty;
-            }
-            else
-            {
-                this.ErrorText = addVmSuccessResponse.ErrorMessage;
+                RestRequest restRequest = new RestRequest("machine/state/{id}/{operation}", Method.POST);
+                restRequest.AddUrlSegment("id", SelectedVmInfo.Id);
+                restRequest.AddUrlSegment("operation", "Stop");
+                IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+                SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+                if (addVmSuccessResponse.Success)
+                {
+                    this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                    this.ErrorText = string.Empty;
+                }
+                else
+                {
+                    this.ErrorText = addVmSuccessResponse.ErrorMessage;
+                }
             }
         }
 
@@ -257,18 +261,22 @@ namespace VirtualMachineClient.ViewModel
 
         private void PlayPressed()
         {
-            RestRequest restRequest = new RestRequest("machine/state/{id}/{operation}", Method.POST);
-            restRequest.AddUrlSegment("id", SelectedVmInfo.Id);
-            restRequest.AddUrlSegment("operation", "Start");
-            IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
-            SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
-            if (addVmSuccessResponse.Success)
+            if (SelectedVmInfo != null)
             {
-                this.ErrorText = string.Empty;
-            }
-            else
-            {
-                this.ErrorText = addVmSuccessResponse.ErrorMessage;
+                RestRequest restRequest = new RestRequest("machine/state/{id}/{operation}", Method.POST);
+                restRequest.AddUrlSegment("id", SelectedVmInfo.Id);
+                restRequest.AddUrlSegment("operation", "Start");
+                IRestResponse getVirtualMachinesResponse = this.restClient.Execute(restRequest);
+                SuccessResponse addVmSuccessResponse = this.javaScriptSerializer.Deserialize<SuccessResponse>(getVirtualMachinesResponse.Content);
+                if (addVmSuccessResponse.Success)
+                {
+                    this.InstalledVirtualMachines = new ObservableCollection<VmInfo>(addVmSuccessResponse.Data);
+                    this.ErrorText = string.Empty;
+                }
+                else
+                {
+                    this.ErrorText = addVmSuccessResponse.ErrorMessage;
+                }
             }
         }
 
