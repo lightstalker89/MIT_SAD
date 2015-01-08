@@ -52,7 +52,7 @@ using System.Text;
         /// <summary>
         /// 
         /// </summary>
-        private string computeServiceURL;
+        private Uri computeServiceURL;
 
         /// <summary>
         /// 
@@ -60,7 +60,7 @@ using System.Text;
         /// <param name="computeServiceURL"></param>
         public ComputeService(string computeServiceURL)
         {
-            this.computeServiceURL = computeServiceURL;
+            this.computeServiceURL = new Uri(computeServiceURL);
         }
 
         /// <summary>
@@ -79,8 +79,9 @@ using System.Text;
                 }
 
                 string message = string.Empty;
-                string relativeStartServerURL = string.Format("/{0}/servers/{1}/action/", tenantId, serverId);
-                this.computeServiceURL = Path.Combine(this.computeServiceURL, relativeStartServerURL);
+                string relativeStartServerURL = string.Format("{0}/servers/{1}/action/", tenantId, serverId);
+                string charSign = this.computeServiceURL.PathAndQuery == "/" ? string.Empty : "/";
+                this.computeServiceURL = new Uri(this.computeServiceURL, this.computeServiceURL.PathAndQuery + charSign + relativeStartServerURL);
 
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
                 this.request.Method = "POST";
@@ -128,8 +129,9 @@ using System.Text;
             try
             {
                 string message = string.Empty;
-                string relativeStartServerURL = string.Format("/{0}/servers/{1}/stop/", tenantId, serverId);
-                this.computeServiceURL = Path.Combine(this.computeServiceURL, relativeStartServerURL);
+                string relativeStartServerURL = string.Format("{0}/servers/{1}/stop/", tenantId, serverId);
+                string charSign = this.computeServiceURL.PathAndQuery == "/" ? string.Empty : "/";
+                this.computeServiceURL = new Uri(this.computeServiceURL, this.computeServiceURL.PathAndQuery + charSign + relativeStartServerURL);
 
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
                 this.request.Method = "POST";
@@ -180,8 +182,9 @@ using System.Text;
 
             try
             {
-                string relativeListServerPath = string.Format("/{0}/servers", identity.Access.Token.Tenant.Id);
-                this.computeServiceURL = Path.Combine(this.computeServiceURL, relativeListServerPath);
+                string relativeListServerPath = string.Format("{0}/servers", identity.Access.Token.Tenant.Id);
+                string charSign = this.computeServiceURL.PathAndQuery == "/" ? string.Empty : "/";
+                this.computeServiceURL = new Uri(this.computeServiceURL, this.computeServiceURL.PathAndQuery + charSign + relativeListServerPath);
                 string message = string.Empty;
 
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);

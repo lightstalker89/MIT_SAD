@@ -50,7 +50,7 @@ namespace OpenStackMgmt
         /// <summary>
         /// 
         /// </summary>
-        private string identityServiceURL;
+        private Uri identityServiceURL;
 
         /// <summary>
         /// 
@@ -58,7 +58,7 @@ namespace OpenStackMgmt
         /// <param name="identityServiceURL"></param>
         public IdentityService(string identityServiceURL)
         {
-            this.identityServiceURL = identityServiceURL;
+            this.identityServiceURL = new Uri(identityServiceURL);
         }
 
 
@@ -71,7 +71,9 @@ namespace OpenStackMgmt
         public IdentityObject GetAuthentication(AuthenticationToken authInformations = null)
         {
             string message = string.Empty;
-            this.identityServiceURL = Path.Combine(this.identityServiceURL, "/tokens");
+            string charSign = this.identityServiceURL.PathAndQuery == "/" ? string.Empty : "/";
+            this.identityServiceURL = new Uri(this.identityServiceURL, this.identityServiceURL.PathAndQuery + charSign + "tokens");
+
             this.request = WebRequest.Create(identityServiceURL);
             this.request.Method = "POST";
             this.request.ContentType = "application/json; charset=utf-8";
