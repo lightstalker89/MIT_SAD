@@ -230,8 +230,8 @@ app.get('/download/:id', function (request, response) {
             stream.once('open', function (fd) {
                 stream.write(JSON.stringify(machine));
                 stream.end();
+                response.download(file);
             });
-            response.download(file);
         } else {
             logger.error("Could not find virtual machine or appliance for id");
             response.send({ Success: false, ErrorMessage: "Could not find virtual machine or appliance for id", Data: null});

@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Michael Drexler</author>
 //-----------------------------------------------------------------------
-namespace OpenStackManagement
+namespace OpenStackMgmt
 {
     using System;
     using System.Collections.Generic;
@@ -12,6 +12,8 @@ namespace OpenStackManagement
     using System.Runtime.Serialization;
     using System.Text;
     using DataLayer.OpenStack.Models;
+using DataLayer.OpenStack.ResponseHandling;
+using DataLayer.OpenStack.RequestHandling;
 
     /// <summary>
     /// 
@@ -33,5 +35,12 @@ namespace OpenStackManagement
         /// <param name="serverId"></param>
         /// <returns></returns>
         string StopServer(string tenantId, string serverId, IdentityObject identity);
+
+        /// <summary>
+        /// Lists IDs, names, and links for all servers.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        ListServersResponseObject ListServers(ListServersObject parameters, IdentityObject identity);
     }
 }

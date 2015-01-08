@@ -187,6 +187,7 @@
                                 </ComboBoxItem>
                             </ComboBox>
                             <Button Content="Save" Height="20" Width="100" HorizontalAlignment="Left" Margin="5,0,0,0" Command="{Binding SaveRatingCommand}" Visibility="{Binding SelectedVmInfo.RatingAndDescriptionChanged, Converter={StaticResource BooleanToVisibilityConverter}}"></Button>
+                            <Button Content="Download" Height="20" Width="100" HorizontalAlignment="Left" Margin="275,2.4,0,2.4" Command="{Binding DownloadCommand}"/>
                         </StackPanel>
                         <TextBox Text="{Binding SelectedVmInfo.RatingDescription, UpdateSourceTrigger=PropertyChanged}" Margin="0,38,10,10"/>
                     </Grid>
