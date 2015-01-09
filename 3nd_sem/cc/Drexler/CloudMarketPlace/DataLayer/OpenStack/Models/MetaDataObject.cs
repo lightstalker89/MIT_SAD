@@ -17,13 +17,13 @@ namespace DataLayer.OpenStack.Models
         /// <summary>
         /// Gets or sets the is_admin value
         /// </summary>
-        [DataMember]
+        [DataMember(Name="is_admin")]
         public int Is_Admin { get; set; }
 
         /// <summary>
         /// Gets or sets the roles
         /// </summary>
-        [DataMember]
+        [DataMember(Name="roles")]
         public string[] Roles { get; set; }
     }
 }

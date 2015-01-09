@@ -22,25 +22,25 @@ namespace DataLayer.OpenStack.Models
         /// <summary>
         /// Gets or sets the service catalog endpoints
         /// </summary>
-        [DataMember]
+        [DataMember(Name="endpoints")]
         public List<EndpointObject> Endpoints { get; set; }
 
         /// <summary>
         /// Gets or sets the endpoint links
         /// </summary>
-        [DataMember]
+        [DataMember(Name="endpoints_links")]
         public string[] Endpoints_links { get; set; }
 
         /// <summary>
         /// Gets or sets the endpoint type
         /// </summary>
-        [DataMember]
+        [DataMember(Name="type")]
         public string Type { get; set; }
 
         /// <summary>
         /// Gets or sets the endpoint name
         /// </summary>
-        [DataMember]
+        [DataMember(Name="name")]
         public string Name { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace DataLayer.OpenStack.Models
         /// <summary>
         /// Gets or sets a role name
         /// </summary>
-        [DataMember]
+        [DataMember(Name="name")]
         public string Name { get; set; }
     }
 }

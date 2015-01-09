@@ -22,25 +22,25 @@ namespace DataLayer.OpenStack.Models
         /// <summary>
         /// Gets or sets a timestamp that indicates when the token was issued. 
         /// </summary>
-        [DataMember]
+        [DataMember(Name="issued_at")]
         public string Issued_at { get; set; }
 
         /// <summary>
         /// Gets or sets a timestamp that indicates when the token expires.
         /// </summary>
-        [DataMember]
+        [DataMember(Name="expires")]
         public string Expires { get; set; }
 
         /// <summary>
         /// Gets or sets the authentication token.
         /// </summary>
-        [DataMember]
+        [DataMember(Name="id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the tenant 
         /// </summary>
-        [DataMember]
+        [DataMember(Name="tenant")]
         public TenantObject Tenant { get; set; }
     }
 }

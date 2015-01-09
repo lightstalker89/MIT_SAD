@@ -13,6 +13,7 @@ namespace OpenStackMgmt
     using System.Text;
     using DataLayer.OpenStack.Models;
     using DataLayer.OpenStack.RequestHandling;
+    using DataLayer.OpenStack.ResponseHandling;
    
     /// <summary>
     /// 
@@ -25,6 +26,6 @@ namespace OpenStackMgmt
         /// <param name="identityServiceURL"></param>
         /// <param name="authInformations"></param>
         /// <returns></returns>
-        IdentityObject GetAuthentication(AuthenticationToken authInformations = null);
+        AuthenticationResponse GetAuthentication(AuthenticationRequest authInformations = null);
     }
 }

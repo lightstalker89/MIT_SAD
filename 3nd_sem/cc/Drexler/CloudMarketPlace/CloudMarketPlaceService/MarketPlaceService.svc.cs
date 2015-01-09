@@ -21,6 +21,7 @@ namespace CloudMarketPlaceService
     using DataLayer.OpenStack.Models;
     using DataLayer.OpenStack.RequestHandling;
     using OpenStackMgmt;
+    using DataLayer.OpenStack.ResponseHandling;
 
     /// <summary>
     /// The implementation of the IMarketPlaceService
@@ -464,9 +465,9 @@ namespace CloudMarketPlaceService
             try
             {
                 // Gets an authenticated user
-                IdentityObject identity = this.AuthenticateOnOpenStackCloud();
+                AuthenticationResponse identity = this.AuthenticateOnOpenStackCloud();
                 IComputeService computeService = new ComputeService(this.computeServiceURL);
-                string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStart.InstanceID, identity);
+                string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStart.InstanceID, identity.Access);
 
                 startInstanceResponse.Error = false;
             }
@@ -491,9 +492,9 @@ namespace CloudMarketPlaceService
             try
             {
                 // Gets an authenticated user
-                IdentityObject identity = this.AuthenticateOnOpenStackCloud();
+                AuthenticationResponse identity = this.AuthenticateOnOpenStackCloud();
                 IComputeService computeService = new ComputeService(this.computeServiceURL);
-                string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStop.InstanceID, identity);
+                string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStop.InstanceID, identity.Access);
 
                 stopInstanceResponse.Error = false;
             }
@@ -540,7 +541,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public List<VirtualMachineInstance> GetVirtualMachineInstances()
         {
-            IdentityObject identity = this.AuthenticateOnOpenStackCloud();
+            AuthenticationResponse identity = this.AuthenticateOnOpenStackCloud();
             IComputeService computeService = new ComputeService(this.computeServiceURL);
 
             ListServersObject requestParametres = new ListServersObject();
@@ -549,7 +550,7 @@ namespace CloudMarketPlaceService
 
             List<VirtualMachineInstance> vmInstances = new List<VirtualMachineInstance>();
 
-            var response = computeService.ListServers(requestParametres, identity);
+            var response = computeService.ListServers(requestParametres, identity.Access);
 
             foreach (var server in response.Servers)
             {
@@ -689,16 +690,16 @@ namespace CloudMarketPlaceService
         /// </summary>
         /// <param name="authInformation"></param>
         /// <returns></returns>
-        private IdentityObject AuthenticateOnOpenStackCloud()
+        private AuthenticationResponse AuthenticateOnOpenStackCloud()
         {
-            AuthenticationToken authInformation = this.readAuthenticationInformation();
+            AuthenticationRequest authRequest = this.readAuthenticationInformation();
 
-            if(authInformation != null)
+            if(authRequest != null)
             {
                 try
                 {
                     IIdentityService identityService = new IdentityService(this.identityServiceURL);
-                    return identityService.GetAuthentication(authInformation);
+                    return identityService.GetAuthentication(authRequest);
                 }
                 catch(Exception ex)
                 {
@@ -713,21 +714,23 @@ namespace CloudMarketPlaceService
         /// Read authentication informations for the OpenStackIdentity service from the web.config
         /// </summary>
         /// <returns></returns>
-        private AuthenticationToken readAuthenticationInformation()
+        private AuthenticationRequest readAuthenticationInformation()
         {
             try
             {
-                AuthenticationToken auth = new AuthenticationToken();
-                auth.UserName = ConfigurationManager.AppSettings["Username"];
-                auth.Password = ConfigurationManager.AppSettings["Password"];
-                auth.TenantId = ConfigurationManager.AppSettings["TenantId"];
-                auth.Region = ConfigurationManager.AppSettings["Region"];
+                AuthenticationObject auth = new AuthenticationObject();
+                auth.PasswordCredentials = new PasswordCredentialObject();
+                auth.PasswordCredentials.Username = ConfigurationManager.AppSettings["Username"];
+                auth.PasswordCredentials.Password = ConfigurationManager.AppSettings["Password"];
+                auth.TenantName = ConfigurationManager.AppSettings["TenantName"];
 
                 this.identityServiceURL = ConfigurationManager.AppSettings["OpenStackIdentityServiceURL"];
                 this.computeServiceURL = ConfigurationManager.AppSettings["OpenStackComputeServiceURL"];
                 this.imageServiceURL = ConfigurationManager.AppSettings["OpenStackImageServiceURL"];
 
-                return auth;
+                AuthenticationRequest authRequest = new AuthenticationRequest(auth);
+
+                return authRequest;
             }
             catch(ConfigurationErrorsException cErrorExc)
             {
