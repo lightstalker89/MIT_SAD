@@ -69,7 +69,7 @@ using System.Text;
         /// <param name="tenantId"></param>
         /// <param name="serverId"></param>
         /// <returns></returns>
-        public string StartServer(string tenantId, string serverId, IdentityObject identity)
+        public string StartServer(string tenantId, string serverId, AccessObject identity)
         {
             try
             {
@@ -86,7 +86,7 @@ using System.Text;
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
                 this.request.Method = "POST";
                 this.request.ContentType = @"application/json; charset=utf-8";
-                this.request.Headers.Add(string.Format("x-auth-token:{0}",identity.Access.Token.Id));
+                this.request.Headers.Add(string.Format("x-auth-token:{0}",identity.Token.Id));
 
                 KeyValuePair<string, string> requestBody = new KeyValuePair<string,string>("os-start",null);
 
@@ -124,7 +124,7 @@ using System.Text;
         /// <param name="tenantId"></param>
         /// <param name="serverId"></param>
         /// <returns></returns>
-        public string StopServer(string tenantId, string serverId, IdentityObject identity)
+        public string StopServer(string tenantId, string serverId, AccessObject identity)
         {
             try
             {
@@ -136,7 +136,7 @@ using System.Text;
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
                 this.request.Method = "POST";
                 this.request.ContentType = @"application/json; charset=utf-8";
-                this.request.Headers.Add(string.Format("x-auth-token:{0}", identity.Access.Token.Id));
+                this.request.Headers.Add(string.Format("x-auth-token:{0}", identity.Token.Id));
 
                 KeyValuePair<string, string> requestBody = new KeyValuePair<string, string>("os-stop", null);
 
@@ -173,7 +173,7 @@ using System.Text;
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public ListServersResponseObject ListServers(ListServersObject parameters, IdentityObject identity)
+        public ListServersResponseObject ListServers(ListServersObject parameters, AccessObject identity)
         {
             if(identity == null)
             {
@@ -182,7 +182,7 @@ using System.Text;
 
             try
             {
-                string relativeListServerPath = string.Format("{0}/servers", identity.Access.Token.Tenant.Id);
+                string relativeListServerPath = string.Format("{0}/servers", identity.Token.Tenant.Id);
                 string charSign = this.computeServiceURL.PathAndQuery == "/" ? string.Empty : "/";
                 this.computeServiceURL = new Uri(this.computeServiceURL, this.computeServiceURL.PathAndQuery + charSign + relativeListServerPath);
                 string message = string.Empty;
@@ -190,7 +190,7 @@ using System.Text;
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
                 this.request.Method = "POST";
                 this.request.ContentType = @"application/json; charset=utf-8";
-                this.request.Headers.Add(string.Format("x-auth-token:{0}", identity.Access.Token.Id));
+                this.request.Headers.Add(string.Format("x-auth-token:{0}", identity.Token.Id));
 
                 this.serializer = new DataContractJsonSerializer(typeof(ListServersObject));
                 using (var mStream = new MemoryStream())

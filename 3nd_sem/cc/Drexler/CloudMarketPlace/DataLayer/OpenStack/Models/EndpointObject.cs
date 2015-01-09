@@ -22,31 +22,31 @@ namespace DataLayer.OpenStack.Models
         /// <summary>
         /// Gets or sets the admin URL
         /// </summary>
-        [DataMember]
+        [DataMember(Name="adminURL")]
         public string AdminURL { get; set; }
 
         /// <summary>
         /// Gets or sets the region
         /// </summary>
-        [DataMember]
+        [DataMember(Name="region")]
         public string Region { get; set; }
 
         /// <summary>
         /// Gets or sets the internal URL
         /// </summary>
-        [DataMember]
+        [DataMember(Name="internalURL")]
         public string InternalURL { get; set; }
 
         /// <summary>
         /// Gets or sets the endpoint Id
         /// </summary>
-        [DataMember]
+        [DataMember(Name="id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the public URL
         /// </summary>
-        [DataMember]
+        [DataMember(Name="publicURL")]
         public string PublicURL { get; set; }
     }
 }

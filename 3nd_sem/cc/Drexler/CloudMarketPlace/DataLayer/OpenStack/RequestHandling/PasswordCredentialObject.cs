@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AuthenticationToken.cs" company="MD Development">
+// <copyright file="PasswordCredentialObject.cs" company="MD Development">
 //     Copyright (c) MD Development. All rights reserved.
 // </copyright>
 // <author>Michael Drexler</author>
@@ -9,32 +9,26 @@ namespace DataLayer.OpenStack.RequestHandling
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
+    using System.Runtime.Serialization;
+    using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
-    /// This class <see cref="AuthenticationToken"/> provides information to authenticate against the
-    /// OpenStack Identity service
+    /// 
     /// </summary>
-    public class AuthenticationToken
+    [DataContract]
+    public class PasswordCredentialObject
     {
         /// <summary>
-        /// Gets or sets the username
+        /// Gets or sets the username 
         /// </summary>
-        public string UserName { get; set; }
+        [DataMember(Name="username")]
+        public string Username { get; set; }
 
         /// <summary>
         /// Gets or sets the password
         /// </summary>
+        [DataMember(Name="password")]
         public string Password { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tenantId
-        /// </summary>
-        public string TenantId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the region
-        /// </summary>
-        public string Region { get; set; }
     }
 }

@@ -22,25 +22,25 @@ namespace DataLayer.OpenStack.Models
         /// <summary>
         /// Gets or sets a description for a tenant
         /// </summary>
-        [DataMember]
+        [DataMember(Name="description")]
         public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets a tenant enabled or disabled
         /// </summary>
-        [DataMember]
+        [DataMember(Name="enabled")]
         public bool Enabled { get; set; }
 
         /// <summary>
         /// Gets or sets a tenant id
         /// </summary>
-        [DataMember]
+        [DataMember(Name="id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets a name for a tenant
         /// </summary>
-        [DataMember]
+        [DataMember(Name="name")]
         public string Name { get; set; }
     }
 }

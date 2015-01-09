@@ -16,6 +16,7 @@ namespace OpenStackMgmt
     using System.IO;
     using System.Net;
     using System.Runtime.Serialization.Json;
+    using DataLayer.OpenStack.ResponseHandling;
 
     /// <summary>
     /// 
@@ -63,12 +64,12 @@ namespace OpenStackMgmt
 
 
         /// <summary>
-        /// 
+        /// Authentication call to the OpenStack environment (POST)
         /// </summary>
         /// <param name="identityServiceURL"></param>
         /// <param name="authInformations"></param>
         /// <returns></returns>
-        public IdentityObject GetAuthentication(AuthenticationToken authInformations = null)
+        public AuthenticationResponse GetAuthentication(AuthenticationRequest authInformations = null)
         {
             string message = string.Empty;
             string charSign = this.identityServiceURL.PathAndQuery == "/" ? string.Empty : "/";
@@ -77,7 +78,7 @@ namespace OpenStackMgmt
             this.request = WebRequest.Create(identityServiceURL);
             this.request.Method = "POST";
             this.request.ContentType = "application/json; charset=utf-8";
-            this.serializer = new DataContractJsonSerializer(typeof(AuthenticationToken));
+            this.serializer = new DataContractJsonSerializer(typeof(AuthenticationObject));
 
             if (authInformations == null)
             {
@@ -104,8 +105,8 @@ namespace OpenStackMgmt
 
             // Reading the result from the request
             this.stream = this.response.GetResponseStream();
-            this.serializer = new DataContractJsonSerializer(typeof(IdentityObject));
-            var identity = (IdentityObject)serializer.ReadObject(this.stream);
+            this.serializer = new DataContractJsonSerializer(typeof(AuthenticationResponse));
+            var identity = (AuthenticationResponse)serializer.ReadObject(this.stream);
             
             return identity;
         }

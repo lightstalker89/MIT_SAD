@@ -12,8 +12,8 @@ namespace OpenStackMgmt
     using System.Runtime.Serialization;
     using System.Text;
     using DataLayer.OpenStack.Models;
-using DataLayer.OpenStack.ResponseHandling;
-using DataLayer.OpenStack.RequestHandling;
+    using DataLayer.OpenStack.ResponseHandling;
+    using DataLayer.OpenStack.RequestHandling;
 
     /// <summary>
     /// 
@@ -26,7 +26,7 @@ using DataLayer.OpenStack.RequestHandling;
         /// <param name="tenantId"></param>
         /// <param name="serverId"></param>
         /// <returns></returns>
-        string StartServer(string tenantId, string serverId, IdentityObject identity);
+        string StartServer(string tenantId, string serverId, AccessObject identity);
 
         /// <summary>
         /// Stops a running server and changes its status to STOPPED    
@@ -34,13 +34,13 @@ using DataLayer.OpenStack.RequestHandling;
         /// <param name="tenantId"></param>
         /// <param name="serverId"></param>
         /// <returns></returns>
-        string StopServer(string tenantId, string serverId, IdentityObject identity);
+        string StopServer(string tenantId, string serverId, AccessObject identity);
 
         /// <summary>
         /// Lists IDs, names, and links for all servers.
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        ListServersResponseObject ListServers(ListServersObject parameters, IdentityObject identity);
+        ListServersResponseObject ListServers(ListServersObject parameters, AccessObject identity);
     }
 }
