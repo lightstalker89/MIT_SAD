@@ -9,3 +9,5 @@
 0.9  - Daniel Kienböck - 05.12.2014
 0.10 - Mario Murrent   - 22.12.2014
 0.11 - Daniel Kienböck - 31.12.2014
+0.12 - Roland Lehner - 09.01.2015
+0.13 - Mario Murrent - 09.01.2015
