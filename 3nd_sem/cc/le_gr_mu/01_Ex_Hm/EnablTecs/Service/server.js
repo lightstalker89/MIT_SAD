@@ -13,9 +13,15 @@ var restClient = new Client();
 var file = "appliance.json";
 var requestToken = null;
 
+var rosisTenantId = "4f043ef5887f46959d30545cf8b77b11";
+var rosisServerAddress = "http://212.17.80.213";
+
+var ourTenantId = "adeb2b7d0e1d41c29d88666551c5d903";
+var ourServerAddress = "http://172.20.10.6";
+
 var virtualMachines = [{
     "Id": "1",
-    "ReferencedVirtualMachineId": "",
+    "ReferencedVirtualMachineId": "553c0069-14c2-45de-99d2-39b1610f3ea1",
     "Name": "Windows XP",
     "Description": "Windows XP Service Pack 3",
     "Type": "Appliance",
@@ -40,7 +46,7 @@ var virtualMachines = [{
     "Status": "Stopped"
 }, {
     "Id": "2",
-    "ReferencedVirtualMachineId": "",
+    "ReferencedVirtualMachineId": "62d52825-a2bf-4845-aeec-ad40e245f9fd",
     "Name": "Windows Vista",
     "Description": "Windows Vista",
     "Type": "Appliance",
@@ -149,12 +155,21 @@ var getMachine = function(id) {
 
 var updateOperation = function (id, operation, res) {
     var machine = _.findWhere(virtualMachines, { Id: id });
-    var requestData = JSON.stringify({
+    var rosisRequestData = JSON.stringify({
         "auth": {
             "tenantName": "admin",
             "passwordCredentials": {
                 "username": "admin",
                 "password": "Openstack#2014"
+            }
+        }
+    });
+    var ourRequestData = JSON.stringify({
+        "auth": {
+            "tenantName": "admin",
+            "passwordCredentials": {
+                "username": "admin",
+                "password": "supersecret"
             }
         }
     });
@@ -167,14 +182,18 @@ var updateOperation = function (id, operation, res) {
 
     request.post({
         headers: { 'content-type': 'application/json' },
-        url: 'http://212.17.80.213:5000/v2.0/tokens',
-        body: requestData
+        //url: 'http://212.17.80.213:5000/v2.0/tokens',
+        url: ourServerAddress + ":5000/v2.0/tokens",
+        //body: rosisRequestData
+        body: ourRequestData
     }, function (error, response, body) {
         var jsonObject = JSON.parse(body);
         requestToken = jsonObject.access.token;
         request.post({
             headers: { 'content-type': 'application/json', "X-Auth-Token": requestToken.id, 'Content-Length': startData.length },
-            url: 'http://212.17.80.213:8774/v2/4f043ef5887f46959d30545cf8b77b11/servers/590583b4-6a0b-43a5-bb93-ac464d148b00/action',
+            //url: 'http://212.17.80.213:8774/v2/4f043ef5887f46959d30545cf8b77b11/servers/590583b4-6a0b-43a5-bb93-ac464d148b00/action',
+            url: ourServerAddress +':8774/v2/' + ourTenantId + "/servers/" + machine.ReferencedVirtualMachineId + "/action",
+            //url: 'http://172.20.10.6:8774/v2/adeb2b7d0e1d41c29d88666551c5d903/servers/553c0069-14c2-45de-99d2-39b1610f3ea1/action',
             body: startData
         }, function (errorI, responseI, bodyI) {
             var jsonObjectI = null;
@@ -194,29 +213,6 @@ var updateOperation = function (id, operation, res) {
         });
     });
    
-};
-
-var getToken = function() {
-    var requestData = {
-        "auth": {
-            "tenantName": "admin",
-            "passwordCredentials": {
-                "username": "admin",
-                "password": "supersecret"
-            }
-        }
-    };
-    var args = {
-        data: requestData,
-        headers: {
-            "Content-Length": JSON.stringify(requestData).length
-        }
-    };
-
-    restClient.post("http://172.20.10.6:5000/v2.0/tokens", args, function (data, response) {
-        console.log(data.access.token);
-        requestToken = data.access.token;
-    });
 };
 
 var app = express();
