@@ -19,14 +19,14 @@ namespace DataLayer.OpenStack.RequestHandling
     [DataContract]
     public class AuthenticationRequest
     {
-        public AuthenticationRequest()
-        { 
-        }
+        //public AuthenticationRequest()
+        //{ 
+        //}
 
-        public AuthenticationRequest(AuthenticationObject authObject) : this()
-        {
-            this.Auth = authObject;
-        }
+        //public AuthenticationRequest(AuthenticationObject authObject) : this()
+        //{
+        //    this.Auth = authObject;
+        //}
 
         /// <summary>
         /// Gets or sets the authentication request object

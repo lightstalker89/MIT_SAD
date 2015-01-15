@@ -55,6 +55,8 @@
     <Compile Include="OpenStack\RequestHandling\AuthenticationObject.cs" />
     <Compile Include="OpenStack\RequestHandling\ListServersObject.cs" />
     <Compile Include="OpenStack\RequestHandling\PasswordCredentialObject.cs" />
+    <Compile Include="OpenStack\RequestHandling\StartServerRequest.cs" />
+    <Compile Include="OpenStack\RequestHandling\StopServerRequest.cs" />
     <Compile Include="OpenStack\ResponseHandling\AuthenticationResponse.cs" />
     <Compile Include="OpenStack\ResponseHandling\ListServersResponseObject.cs" />
     <Compile Include="VirtualAppliance.cs" />

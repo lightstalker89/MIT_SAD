@@ -18,25 +18,25 @@ namespace DataLayer.OpenStack.RequestHandling
         /// <summary>
         /// Gets or sets the tenant id in a multi-tenancy cloud
         /// </summary>
-        [DataMember]
+        [DataMember(Name="tenant_id")]
         public string Tenant_Id { get; set; }
 
         /// <summary>
         /// Gets or sets a time/date stamp for when the server last changed status
         /// </summary>
-        [DataMember]
+        [DataMember(Name="changes_since")]
         public DateTime Changes_since { get; set; }
 
         /// <summary>
         /// Gest or sets the name of the image in URL format
         /// </summary>
-        [DataMember]
+        [DataMember(Name="image")]
         public Uri Image { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the flavor in URL format
         /// </summary>
-        [DataMember]
+        [DataMember(Name="flavor")]
         public Uri Flavor { get; set; }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace DataLayer.OpenStack.RequestHandling
         /// ?name=bob returns both bob and bobb. If you need to match bob only, you can use a regular expression matching the
         /// syntax of the underlying database server implemented for Compute (such as MySQL or PostgreSQL)
         /// </summary>
-        [DataMember]
+        [DataMember(Name="name")]
         public string Name { get; set; }
 
         /// <summary>

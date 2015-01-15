@@ -494,7 +494,7 @@ namespace CloudMarketPlaceService
                 // Gets an authenticated user
                 AuthenticationResponse identity = this.AuthenticateOnOpenStackCloud();
                 IComputeService computeService = new ComputeService(this.computeServiceURL);
-                string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStop.InstanceID, identity.Access);
+                string answer = computeService.StopServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStop.InstanceID, identity.Access);
 
                 stopInstanceResponse.Error = false;
             }
@@ -728,7 +728,7 @@ namespace CloudMarketPlaceService
                 this.computeServiceURL = ConfigurationManager.AppSettings["OpenStackComputeServiceURL"];
                 this.imageServiceURL = ConfigurationManager.AppSettings["OpenStackImageServiceURL"];
 
-                AuthenticationRequest authRequest = new AuthenticationRequest(auth);
+                AuthenticationRequest authRequest = new AuthenticationRequest() { Auth=auth};
 
                 return authRequest;
             }
