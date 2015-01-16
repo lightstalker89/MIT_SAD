@@ -54,6 +54,16 @@ namespace CloudMarketPlaceService
         /// </summary>
         private string imageServiceURL = string.Empty;
 
+        /// <summary>
+        /// Specifies the upload-virtual-machine-behavior of this class.
+        /// </summary>
+        private IUploadVirtualMachineBehavior uploadVirtualMachineBehavior;
+
+        /// <summary>
+        /// This shall be removed.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
@@ -67,6 +77,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public MarketPlaceServiceResponse UploadVirtualMachine(VirtualMachine vMachine, byte[] byteContent)
         {
+            // return this.uploadVirtualMachineBehavior.UploadVirtualMachine(vMachine, byteContent);
             var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
             
             try
