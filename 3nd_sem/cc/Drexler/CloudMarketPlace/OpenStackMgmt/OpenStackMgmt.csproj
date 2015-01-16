@@ -45,6 +45,22 @@
     <Compile Include="IdentityService.cs" />
     <Compile Include="IIdentityService.cs" />
     <Compile Include="IImageService.cs" />
+    <Compile Include="OpenStack\Models\AccessObject.cs" />
+    <Compile Include="OpenStack\Models\EndpointObject.cs" />
+    <Compile Include="OpenStack\Models\MetaDataObject.cs" />
+    <Compile Include="OpenStack\Models\RoleObject.cs" />
+    <Compile Include="OpenStack\Models\ServiceCatalogObject.cs" />
+    <Compile Include="OpenStack\Models\TenantObject.cs" />
+    <Compile Include="OpenStack\Models\TokenObject.cs" />
+    <Compile Include="OpenStack\Models\UserObject.cs" />
+    <Compile Include="OpenStack\RequestHandling\AuthenticationObject.cs" />
+    <Compile Include="OpenStack\RequestHandling\AuthenticationRequest.cs" />
+    <Compile Include="OpenStack\RequestHandling\ListServersObject.cs" />
+    <Compile Include="OpenStack\RequestHandling\PasswordCredentialObject.cs" />
+    <Compile Include="OpenStack\RequestHandling\StartServerRequest.cs" />
+    <Compile Include="OpenStack\RequestHandling\StopServerRequest.cs" />
+    <Compile Include="OpenStack\ResponseHandling\AuthenticationResponse.cs" />
+    <Compile Include="OpenStack\ResponseHandling\ListServersResponseObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

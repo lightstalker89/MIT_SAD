@@ -79,18 +79,22 @@ using System.Text;
                 }
 
                 string message = string.Empty;
-                string relativeStartServerURL = string.Format("{0}/servers/{1}/action/", tenantId, serverId);
+                string relativeStartServerURL = string.Format("{0}/servers/{1}/action", tenantId, serverId);
+                // string relativeStartServerURL = string.Format("ae14d396034245cb93cbaa778a70d733/servers/{0}/action", serverId);
                 string charSign = this.computeServiceURL.PathAndQuery == "/" ? string.Empty : "/";
                 this.computeServiceURL = new Uri(this.computeServiceURL, this.computeServiceURL.PathAndQuery + charSign + relativeStartServerURL);
 
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
                 this.request.Method = "POST";
-                this.request.ContentType = @"application/json; charset=utf-8";
-                this.request.Headers.Add(string.Format("x-auth-token:{0}",identity.Token.Id));
+                this.request.ContentType = "application/json";
+                ((HttpWebRequest)this.request).Accept = "application/json";
+                //this.request.Headers.Add("accept", "application/json");
+                this.request.Headers.Add("x-auth-token", identity.Token.Id);
 
-                KeyValuePair<string, string> requestBody = new KeyValuePair<string,string>("os-start",null);
+                StartServerRequest requestBody = new StartServerRequest();
+                requestBody.OSStart = null;
 
-                this.serializer = new DataContractJsonSerializer(typeof(KeyValuePair<string,string>));
+                this.serializer = new DataContractJsonSerializer(typeof(StartServerRequest));
                 using (var mStream = new MemoryStream())
                 using (this.sReader = new StreamReader(mStream))
                 {
@@ -104,6 +108,7 @@ using System.Text;
                     streamwriter.Write(message);
                 }
 
+               
                 this.response = this.request.GetResponse();
                 this.stream = this.response.GetResponseStream();
                 this.sReader = new StreamReader(this.stream);
@@ -129,18 +134,20 @@ using System.Text;
             try
             {
                 string message = string.Empty;
-                string relativeStartServerURL = string.Format("{0}/servers/{1}/stop/", tenantId, serverId);
+                string relativeStartServerURL = string.Format("{0}/servers/{1}/action", tenantId, serverId);
                 string charSign = this.computeServiceURL.PathAndQuery == "/" ? string.Empty : "/";
                 this.computeServiceURL = new Uri(this.computeServiceURL, this.computeServiceURL.PathAndQuery + charSign + relativeStartServerURL);
 
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
                 this.request.Method = "POST";
-                this.request.ContentType = @"application/json; charset=utf-8";
-                this.request.Headers.Add(string.Format("x-auth-token:{0}", identity.Token.Id));
+                this.request.ContentType = "application/json";
+                ((HttpWebRequest)this.request).Accept = "application/json";
+                this.request.Headers.Add("x-auth-token", identity.Token.Id);
 
-                KeyValuePair<string, string> requestBody = new KeyValuePair<string, string>("os-stop", null);
+                StopServerRequest requestBody = new StopServerRequest();
+                requestBody.OSStop = null;
 
-                this.serializer = new DataContractJsonSerializer(typeof(KeyValuePair<string, string>));
+                this.serializer = new DataContractJsonSerializer(typeof(StopServerRequest));
                 using (var mStream = new MemoryStream())
                 using (this.sReader = new StreamReader(mStream))
                 {
@@ -188,23 +195,24 @@ using System.Text;
                 string message = string.Empty;
 
                 this.request = (HttpWebRequest)WebRequest.Create(this.computeServiceURL);
-                this.request.Method = "POST";
-                this.request.ContentType = @"application/json; charset=utf-8";
-                this.request.Headers.Add(string.Format("x-auth-token:{0}", identity.Token.Id));
+                this.request.Method = "GET";
+                this.request.ContentType = "application/json; charset=utf-8";
+                ((HttpWebRequest)this.request).Accept = "application/json";
+                this.request.Headers.Add("x-auth-token",identity.Token.Id);
 
-                this.serializer = new DataContractJsonSerializer(typeof(ListServersObject));
-                using (var mStream = new MemoryStream())
-                using (this.sReader = new StreamReader(mStream))
-                {
-                    this.serializer.WriteObject(mStream, parameters);
-                    mStream.Position = 0;
-                    message = this.sReader.ReadToEnd();
-                }
+                //this.serializer = new DataContractJsonSerializer(typeof(ListServersObject));
+                //using (var mStream = new MemoryStream())
+                //using (this.sReader = new StreamReader(mStream))
+                //{
+                //    this.serializer.WriteObject(mStream, parameters);
+                //    mStream.Position = 0;
+                //    message = this.sReader.ReadToEnd();
+                //}
 
-                using (var streamwriter = new StreamWriter(this.request.GetRequestStream()))
-                {
-                    streamwriter.Write(message);
-                }
+                //using (var streamwriter = new StreamWriter(this.request.GetRequestStream()))
+                //{
+                //    streamwriter.Write(message);
+                //}
 
                 this.response = this.request.GetResponse();
                 this.stream = this.response.GetResponseStream();

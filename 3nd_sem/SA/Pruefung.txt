@@ -14,5 +14,5 @@
 *) Architektur
 	-) Architekturmittel grob
 	-) Sichten (4+1)
-	-) Bewertung
-	-) Dokumentation
+	-) Bewertung (Qualitätsbaum)
+	-) Dokumentation (Inhaltsverzeichnis Arctemplate, die sichten)

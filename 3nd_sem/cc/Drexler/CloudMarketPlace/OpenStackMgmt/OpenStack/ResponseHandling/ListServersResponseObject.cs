@@ -21,13 +21,13 @@ namespace DataLayer.OpenStack.ResponseHandling
         /// The request-id associated with the request appears in the log lines for that request. 
         /// By default, the middleware configuration ensures the request_id appears in the log files. 
         /// </summary>
-        [DataMember]
-        public string Header { get; set; }
+        //[DataMember(Name="x-c")]
+        //public string Header { get; set; }
 
         /// <summary>
         /// Gets or sets a list of servers
         /// </summary>
-        [DataMember]
+        [DataMember(Name="servers")]
         public List<Server> Servers { get; set; }
     }
 
@@ -40,19 +40,19 @@ namespace DataLayer.OpenStack.ResponseHandling
         /// <summary>
         /// Gets or sets a server id
         /// </summary>
-        [DataMember]
+        [DataMember(Name="id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets links
         /// </summary>
-        [DataMember]
+        [DataMember(Name="links")]
         public List<Link> Links { get; set; }
 
         /// <summary>
         /// Gets or sets a server name
         /// </summary>
-        [DataMember]
+        [DataMember(Name="name")]
         public string Name { get; set; }
     }
 
@@ -65,13 +65,13 @@ namespace DataLayer.OpenStack.ResponseHandling
         /// <summary>
         /// Gets or sets a hyperlink 
         /// </summary>
-        [DataMember]
+        [DataMember(Name="href")]
         public string Href { get; set; }
 
         /// <summary>
         /// Gets or sets self
         /// </summary>
-        [DataMember]
+        [DataMember(Name="self")]
         public string Self { get; set; }
     }
 }

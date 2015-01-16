@@ -78,7 +78,7 @@ namespace OpenStackMgmt
             this.request = WebRequest.Create(identityServiceURL);
             this.request.Method = "POST";
             this.request.ContentType = "application/json; charset=utf-8";
-            this.serializer = new DataContractJsonSerializer(typeof(AuthenticationObject));
+            this.serializer = new DataContractJsonSerializer(typeof(AuthenticationRequest));
 
             if (authInformations == null)
             {

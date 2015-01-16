@@ -54,6 +54,16 @@ namespace CloudMarketPlaceService
         /// </summary>
         private string imageServiceURL = string.Empty;
 
+        /// <summary>
+        /// Specifies the upload-virtual-machine-behavior of this class.
+        /// </summary>
+        private IUploadVirtualMachineBehavior uploadVirtualMachineBehavior;
+
+        /// <summary>
+        /// This shall be removed.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
@@ -67,6 +77,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public MarketPlaceServiceResponse UploadVirtualMachine(VirtualMachine vMachine, byte[] byteContent)
         {
+            // return this.uploadVirtualMachineBehavior.UploadVirtualMachine(vMachine, byteContent);
             var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
             
             try
@@ -494,7 +505,7 @@ namespace CloudMarketPlaceService
                 // Gets an authenticated user
                 AuthenticationResponse identity = this.AuthenticateOnOpenStackCloud();
                 IComputeService computeService = new ComputeService(this.computeServiceURL);
-                string answer = computeService.StartServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStop.InstanceID, identity.Access);
+                string answer = computeService.StopServer(identity.Access.Token.Tenant.Id, vMachineInstanceToStop.InstanceID, identity.Access);
 
                 stopInstanceResponse.Error = false;
             }
@@ -728,7 +739,7 @@ namespace CloudMarketPlaceService
                 this.computeServiceURL = ConfigurationManager.AppSettings["OpenStackComputeServiceURL"];
                 this.imageServiceURL = ConfigurationManager.AppSettings["OpenStackImageServiceURL"];
 
-                AuthenticationRequest authRequest = new AuthenticationRequest(auth);
+                AuthenticationRequest authRequest = new AuthenticationRequest() { Auth=auth};
 
                 return authRequest;
             }
