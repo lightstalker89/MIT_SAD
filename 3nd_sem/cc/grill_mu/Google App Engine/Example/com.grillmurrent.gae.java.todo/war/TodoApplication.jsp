@@ -4,6 +4,7 @@
 <%@ page import="com.google.appengine.api.users.UserService"%>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory"%>
 <%@ page import="com.grillmurrent.gae.java.todo.model.Todo"%>
+<%@ page import="com.grillmurrent.gae.java.todo.model.History"%>
 <%@ page import="com.grillmurrent.gae.java.todo.dao.Dao"%>
 
 <!DOCTYPE html>
@@ -15,12 +16,15 @@
 <head>
 <title>Todos</title>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<script type="text/javascript" src="script/jquery-1.11.2.min.js" ></script>
-<script type="text/javascript" src="script/jquery.tablesorter.min.js" ></script>
+<script type="text/javascript" src="script/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="script/jquery.tablesorter.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		if($("#keywords > tbody > tr").length > 0){
-			$('#keywords').tablesorter();
+		if ($(".keywords.todo > tbody > tr").length > 0) {
+			$('.keywords.todo').tablesorter();
+		}
+		if ($(".keywords.history > tbody > tr").length > 0) {
+			$('.keywords.history').tablesorter();
 		}
 	});
 </script>
@@ -36,11 +40,13 @@
 		String url = userService.createLoginURL(request.getRequestURI());
 		String urlLinktext = "Login";
 		List<Todo> todos = new ArrayList<Todo>();
+		List<History> histories = new ArrayList<History>();
 
 		if (user != null) {
 			url = userService.createLogoutURL(request.getRequestURI());
 			urlLinktext = "Logout";
 			todos = dao.getTodos(user.getUserId());
+			histories = dao.getHistory(user.getUserId());
 		}
 	%>
 	<div style="width: 100%;">
@@ -57,11 +63,9 @@
 	</div>
 
 	<div style="clear: both;" />
-	You have a total number of
-	<%=todos.size()%>
-	Todos.
+	<span style="margin-top:5px"><b>You have a total number of <%=todos.size()%> Todos.</b></span>
 
-	<table id="keywords">
+	<table class="keywords todo">
 		<thead>
 			<tr>
 				<th>Short description</th>
@@ -86,6 +90,31 @@
 		%>
 	</table>
 
+
+	<span style="margin-top:5px"><b>Your finished ToDos <%=histories.size()%></b></span>
+
+	<table class="keywords history">
+		<thead>
+			<tr>
+				<th>Short description</th>
+				<th>Long Description</th>
+				<th>URL</th>
+				<th class="sortable headerSortDown"><span>Importance</span></th>
+			</tr>
+		</thead>
+		<%
+			for (History history : histories) {
+		%>
+		<tr>
+			<td><%=history.getShortDescription()%></td>
+			<td><%=history.getLongDescription()%></td>
+			<td><%=history.getUrl()%></td>
+			<td><%=history.getImportance()%></td>
+		</tr>
+		<%
+			}
+		%>
+	</table>
 
 	<hr />
 
