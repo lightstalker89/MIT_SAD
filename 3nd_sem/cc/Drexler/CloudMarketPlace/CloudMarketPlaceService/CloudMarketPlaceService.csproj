@@ -67,6 +67,16 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\IUploadVirtualMachineBehavior.cs" />
+    <Compile Include="Behaviors\IChangeDescriptionOfVirtualApplianceBehavior.cs" />
+    <Compile Include="Behaviors\IChangeDescriptionOfVirtualMachineBehavior.cs" />
+    <Compile Include="Behaviors\ICommentVirtualMachineBehavior.cs" />
+    <Compile Include="Behaviors\IDownloadVirtualApplianceBehavior.cs" />
+    <Compile Include="Behaviors\IDownloadVirtualMachineBehavior.cs" />
+    <Compile Include="Behaviors\IRateVirtualMachineBehavior.cs" />
+    <Compile Include="Behaviors\ISearchForSpecificVirtualApplianceBehavior.cs" />
+    <Compile Include="Behaviors\ISearchForSpecificVirtualMachineBehavior.cs" />
+    <Compile Include="Behaviors\IUploadVirtualApplianceBehavior.cs" />
     <Compile Include="MarketPlaceService.svc.cs">
       <DependentUpon>MarketPlaceService.svc</DependentUpon>
     </Compile>

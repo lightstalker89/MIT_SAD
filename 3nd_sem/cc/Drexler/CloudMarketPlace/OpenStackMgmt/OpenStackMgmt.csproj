@@ -45,6 +45,7 @@
     <Compile Include="IdentityService.cs" />
     <Compile Include="IIdentityService.cs" />
     <Compile Include="IImageService.cs" />
+    <Compile Include="OpenStackWebRequest.cs" />
     <Compile Include="OpenStack\Models\AccessObject.cs" />
     <Compile Include="OpenStack\Models\EndpointObject.cs" />
     <Compile Include="OpenStack\Models\MetaDataObject.cs" />

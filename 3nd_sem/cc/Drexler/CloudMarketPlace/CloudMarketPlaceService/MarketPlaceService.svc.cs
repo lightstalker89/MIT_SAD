@@ -113,11 +113,17 @@ namespace CloudMarketPlaceService
         /// <summary>
         /// 
         /// </summary>
+        private IUploadVirtualApplianceBehavior uploadVirtualApplianceBehavior;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="vAppliance"></param>
         /// <param name="byteContent"></param>
         /// <returns></returns>
         public MarketPlaceServiceResponse UploadVirtualAppliance(VirtualAppliance vAppliance, byte[] byteContent)
         {
+            // return this.uploadVirtualApplianceBehavior.UploadVirtualAppliance(vAppliance, byteContent);
             var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
 
             try
@@ -150,6 +156,9 @@ namespace CloudMarketPlaceService
             return marketPlaceServiceResponse;
         }
 
+
+        private IChangeDescriptionOfVirtualMachineBehavior changeDescriptionOfVirtualMachineBehavior;
+
         /// <summary>
         /// 
         /// </summary>
@@ -157,6 +166,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public MarketPlaceServiceResponse ChangeDescriptionOfVirtualMachine(VirtualMachine vMachine)
         {
+            // return this.changeDescriptionOfVirtualMachineBehavior.ChangeDescriptionOfVirtualMachine(vMachine);
             var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
 
             if (this.virtualMachineList.Any())
@@ -191,6 +201,8 @@ namespace CloudMarketPlaceService
             return marketPlaceServiceResponse;
         }
 
+        private IChangeDescriptionOfVirtualApplianceBehavior changeDescriptionOfVirtualApplianceBehavior;
+
         /// <summary>
         /// 
         /// </summary>
@@ -198,6 +210,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public MarketPlaceServiceResponse ChangeDescriptionOfVirtualAppliance(VirtualAppliance vAppliance)
         {
+            // return this.changeDescriptionOfVirtualApplianceBehavior.ChangeDescriptionOfVirtualAppliance(vAppliance);
             var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
 
             if (this.virtualApplianceList.Any())
@@ -233,6 +246,8 @@ namespace CloudMarketPlaceService
             return marketPlaceServiceResponse;
         }
 
+        private IDownloadVirtualMachineBehavior downloadVirtualMachineBehavior;
+
         /// <summary>
         /// 
         /// </summary>
@@ -240,6 +255,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public DownloadVirtualMachineResponse DownloadVirtualMachine(VirtualMachine vMachine)
         {
+            //return this.downloadVirtualMachineBehavior.DownloadVirtualMachine(vMachine);
             var downloadVirtualMachineResponse = new DownloadVirtualMachineResponse() { Error = true };
 
             try
@@ -297,10 +313,16 @@ namespace CloudMarketPlaceService
         /// <summary>
         /// 
         /// </summary>
+        private IDownloadVirtualApplianceBehavior downloadVirtualApplianceBehavior;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="vAppliance"></param>
         /// <returns></returns>
         public DownloadVirtualApplianceResponse DownloadVirtualAppliance(VirtualAppliance vAppliance)
         {
+            //return downloadVirtualApplianceBehavior.DownloadVirtualAppliance(vAppliance);
             var downloadVirtualApplianceResponse = new DownloadVirtualApplianceResponse() { Error = true };
 
             try
@@ -354,6 +376,7 @@ namespace CloudMarketPlaceService
 
             return downloadVirtualApplianceResponse;
         }
+        private IRateVirtualMachineBehavior rateVirtualMachineBehavior;
 
         /// <summary>
         /// 
@@ -363,6 +386,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public MarketPlaceServiceResponse RateVirtualMachine(VirtualMachine vMachineRate, byte rate)
         {
+            //return this.rateVirtualMachineBehavior.RateVirtualMachine(vMachineRate, rate);
             var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
 
             foreach (VirtualMachine tmpVirtualMachine in this.virtualMachineList)
@@ -385,11 +409,18 @@ namespace CloudMarketPlaceService
         /// <summary>
         /// 
         /// </summary>
+        private ICommentVirtualMachineBehavior commentVirutalMachineBehavior;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="virtualMachineComment"></param>
         /// <param name="comment"></param>
         /// <returns></returns>
         public MarketPlaceServiceResponse CommentVirtualMachine(VirtualMachine virtualMachineComment, string comment)
         {
+            // return this.commentVirutalMachineBehavior.CommentVirtualMachine(virtualMachineComment, comment);
+
             var marketPlaceServiceResponse = new MarketPlaceServiceResponse() { Error = true };
 
             foreach (VirtualMachine tmpVirtualMachine in this.virtualMachineList)
@@ -409,6 +440,7 @@ namespace CloudMarketPlaceService
 
             return marketPlaceServiceResponse;
         }
+        private ISearchForSpecificVirtualMachineBehavior searchForSpecificVirtualMachineBehavior;
 
         /// <summary>
         /// 
@@ -417,6 +449,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public List<VirtualMachine> SearchForSpecificVirtualMachine(VirtualMachine specificVMachine)
         {
+            // return this.searchForSpecificVirtualMachineBehavior.SearchForSpecificVirtualMachine(specificVMachine);
             var virtualMachines = this.virtualMachineList;
 
             if (!string.IsNullOrEmpty(specificVMachine.OperatingSystemType))
@@ -436,7 +469,7 @@ namespace CloudMarketPlaceService
 
             return virtualMachines;
         }
-
+        private ISearchForSpecificVirtualApplianceBehavior searchForSpecificVirtualApplianceBehavior;
         /// <summary>
         /// 
         /// </summary>
@@ -444,6 +477,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public List<VirtualAppliance> SearchForSpecificVirtualAppliance(VirtualAppliance specificVAppliance)
         {
+            //return this.searchForSpecificVirtualApplianceBehavior.SearchForSpecificVirtualAppliance(specificVAppliance);
             var virtualAppliances = this.virtualApplianceList;
 
             if (!string.IsNullOrEmpty(specificVAppliance.OperatingSystemType))
@@ -463,7 +497,7 @@ namespace CloudMarketPlaceService
 
             return virtualAppliances;
         }
-
+        //private ISt
         /// <summary>
         /// Starts a stopped server and changes its status to ACTIVE.
         /// </summary>
@@ -471,6 +505,7 @@ namespace CloudMarketPlaceService
         /// <returns></returns>
         public MarketPlaceServiceResponse StartInstance(VirtualMachineInstance vMachineInstanceToStart)
         {
+            //return this.
             MarketPlaceServiceResponse startInstanceResponse = new MarketPlaceServiceResponse();
 
             try
