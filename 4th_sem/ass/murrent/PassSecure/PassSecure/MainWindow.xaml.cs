@@ -80,5 +80,10 @@ namespace PassSecure
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         #endregion
+
+        private void LoginButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
