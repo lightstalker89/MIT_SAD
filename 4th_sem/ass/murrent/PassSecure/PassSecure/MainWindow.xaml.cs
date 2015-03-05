@@ -20,6 +20,11 @@ namespace PassSecure
         private static IntPtr hookID = IntPtr.Zero;
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
+        private static TimeSpan buttonDownTime;
+        private static TimeSpan buttonUpTime;
+        private static Keys keyUp;
+        private static Keys keyDown;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,18 +43,25 @@ namespace PassSecure
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
+           
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
+                buttonDownTime = DateTime.Now.TimeOfDay;
                 int vkCode = Marshal.ReadInt32(lParam);
-                Debug.WriteLine(DateTime.Now.TimeOfDay + ": " + (Keys)vkCode + " Key Down");
+                keyDown = (Keys) vkCode;
+                //Debug.WriteLine(DateTime.Now.TimeOfDay + ": " + (Keys)vkCode + " Key Down");
             }
             else if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
             {
+                buttonUpTime = DateTime.Now.TimeOfDay;
                 int vkCode = Marshal.ReadInt32(lParam);
-                Debug.WriteLine(DateTime.Now.TimeOfDay + ": " + (Keys)vkCode + " Key Up");
+                keyUp = (Keys) vkCode;
+                //Debug.WriteLine(DateTime.Now.TimeOfDay + ": " + (Keys)vkCode + " Key Up");
+                Debug.WriteLine(keyUp + ": " + (buttonUpTime.TotalMilliseconds - buttonDownTime.TotalMilliseconds));
             }
             return CallNextHookEx(hookID, nCode, wParam, lParam);
         }
+
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
