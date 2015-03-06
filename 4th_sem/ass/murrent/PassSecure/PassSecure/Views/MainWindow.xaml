@@ -1,0 +1,31 @@
+﻿<Window x:Class="PassSecure.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:securityControls="clr-namespace:SecurityControls;assembly=SecurityControls"
+        xmlns:sparrowToolkit="http://sparrowtoolkit.codeplex.com/wpf"
+        Title="Pass Secure" Height="373.503" Width="527.301">
+    <Grid>
+        <Menu Height="20" Margin="0,0,0.399,0" VerticalAlignment="Top">
+            <MenuItem Header="File"></MenuItem>
+            <MenuItem Header="Mode">
+                <MenuItem Name="MenuItemModeTrain" Header="Train" IsCheckable="True" IsChecked="false" Checked="MenuItemModeTrainChecked">
+                </MenuItem>
+                <MenuItem Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" Checked="MenuItemModeNormalChecked">
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="View"></MenuItem>
+            <MenuItem Header="Help"></MenuItem>
+        </Menu>
+        <Label Content="Password: " Margin="20,76,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66"/>
+        <PasswordBox Name="Password" Height="20" Margin="26,97,26,0" VerticalAlignment="Top" TabIndex="0"/>
+        <Button Name="LoginButton" Content="Login" Margin="0,122,28.318,0" VerticalAlignment="Top" Click="LoginButtonClick" HorizontalAlignment="Right" Width="75"/>
+        <ComboBox Margin="26,54,28.318,0" VerticalAlignment="Top"/>
+        <Label Content="Username:" Margin="20,33,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66"/>
+        <securityControls:PersonalQuestionControl Name="PersonalQuestionControl" Margin="26,165,28.318,0" Height="94" VerticalAlignment="Top" Visibility="Hidden"></securityControls:PersonalQuestionControl>
+       
+        <StatusBar Height="20" Margin="0,0,0.318,-0.347" VerticalAlignment="Bottom">
+            <TextBlock Text="Mode:" FontWeight="Bold"></TextBlock>
+            <TextBlock Name="ModeText" Text="Normal"></TextBlock>
+        </StatusBar>
+    </Grid>
+</Window>

@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using PassSecure.Models;
-
-namespace PassSecure
+﻿namespace PassSecure.Views
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Runtime.InteropServices;
+    using System.Windows;
     using System.Windows.Forms;
+
+
+    using PassSecure.Models;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -15,6 +16,7 @@ namespace PassSecure
     public partial class MainWindow : Window
     {
 
+        private static MainWindow Instance { get; set; }
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_KEYUP = 0x101;
@@ -25,17 +27,18 @@ namespace PassSecure
         private static TimeSpan keyDownTime;
         private static TimeSpan keyUpTime;
         private static Keys keyUp;
-        private static Keys keyDown;
-        private static List<KeyStroke> keyStrokes = new List<KeyStroke>();
+        //private static Keys keyDown;
+        private static readonly List<KeyStroke> keyStrokes = new List<KeyStroke>();
 
         public MainWindow()
         {
             InitializeComponent();
             IntPtr handle = GetConsoleWindow();
             ShowWindow(handle, 5);  // to hide the running application
-            hookID = SetHook(proc);
+            hookID = SetHook(this.proc);
             this.Closing += this.MainWindowClosing;
-            PasswordBox.Focus();
+            this.Password.Focus();
+            Instance = this;
         }
 
         protected void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -45,20 +48,22 @@ namespace PassSecure
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-
-            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            if (Instance.IsFocused && Instance.Password.IsFocused)
             {
-                keyDownTime = DateTime.Now.TimeOfDay;
-                int vkCode = Marshal.ReadInt32(lParam);
-                keyDown = (Keys)vkCode;
-            }
-            else if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
-            {
-                keyUpTime = DateTime.Now.TimeOfDay;
-                int vkCode = Marshal.ReadInt32(lParam);
-                keyUp = (Keys)vkCode;
-                Debug.WriteLine(DateTime.Now.TimeOfDay + " - " + keyUp + "(" + vkCode + "): " + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
-                keyStrokes.Add(new KeyStroke(keyUp){ KeyDownTime =  keyDownTime, KeyUpTime = keyUpTime});
+                if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+                {
+                    keyDownTime = DateTime.Now.TimeOfDay;
+                    int vkCode = Marshal.ReadInt32(lParam);
+                    //keyDown = (Keys)vkCode;
+                }
+                else if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
+                {
+                    keyUpTime = DateTime.Now.TimeOfDay;
+                    int vkCode = Marshal.ReadInt32(lParam);
+                    keyUp = (Keys)vkCode;
+                    Debug.WriteLine(DateTime.Now.TimeOfDay + " - " + keyUp + "(" + vkCode + "): " + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
+                    keyStrokes.Add(new KeyStroke(keyUp) { KeyDownTime = keyDownTime, KeyUpTime = keyUpTime });
+                }
             }
             return CallNextHookEx(hookID, nCode, wParam, lParam);
         }
@@ -97,6 +102,28 @@ namespace PassSecure
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void MenuItemModeTrainChecked(object sender, RoutedEventArgs e)
+        {
+            MenuItemModeNormal.IsChecked = !MenuItemModeTrain.IsChecked;
+            CheckMode();
+        }
+
+        private void MenuItemModeNormalChecked(object sender, RoutedEventArgs e)
+        {
+            MenuItemModeTrain.IsChecked = !MenuItemModeNormal.IsChecked;
+            CheckMode();
+        }
+
+        private void CheckMode()
+        {
+            if (ModeText != null)
+            {
+                ModeText.Text = (MenuItemModeNormal.IsChecked)
+                                   ? MenuItemModeNormal.Header.ToString()
+                                   : MenuItemModeTrain.Header.ToString();
+            }
         }
     }
 }

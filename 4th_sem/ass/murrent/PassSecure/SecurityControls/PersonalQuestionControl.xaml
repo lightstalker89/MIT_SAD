@@ -5,6 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Height="102.451" Width="356.601">
     <Grid>
-            <StackPanel Orientation="Vertical"></StackPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Name="Question"></TextBlock>
+                <TextBox Margin="0,10,0,0" Name="Answer"></TextBox>
+                <Button Name="SubmitButton" Content="Submit" Margin="120,10,120,0"></Button>
+            </StackPanel>
     </Grid>
 </UserControl>

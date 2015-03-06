@@ -16,6 +16,11 @@ namespace SecurityControls
 
         public Dictionary<string, string> PersonalQuestionsAndAnswers { get; set; }
 
+        public void Show()
+        {
+            
+        }
+
         private void CheckAnswer()
         {
             
