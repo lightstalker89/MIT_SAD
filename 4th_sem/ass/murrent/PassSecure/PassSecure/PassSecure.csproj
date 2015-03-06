@@ -97,12 +97,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\CaptchaControl\CaptchaControl.csproj">
-      <Project>{2f95dcb5-e65c-40c6-bfce-a623d4ad92e1}</Project>
-      <Name>CaptchaControl</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Media\boss.jpg" />
     <Resource Include="Media\wohoo.jpg" />
   </ItemGroup>

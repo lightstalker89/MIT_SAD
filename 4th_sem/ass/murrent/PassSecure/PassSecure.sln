@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassSecure", "PassSecure\PassSecure.csproj", "{AA9B62BB-AC7C-4290-B8A1-738D6DBDB720}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassSecure.Test", "PassSecure.Test\PassSecure.Test.csproj", "{A30BFF4F-D810-421A-B498-D198C874553F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaptchaControl", "CaptchaControl\CaptchaControl.csproj", "{2F95DCB5-E65C-40C6-BFCE-A623D4AD92E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{493D710D-6977-40A0-B5B1-4F7559AD39B8}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{493D71
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityControls", "SecurityControls\SecurityControls.csproj", "{9CC2BAC7-953B-4846-9382-502F831DD693}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +30,10 @@ Global
 		{A30BFF4F-D810-421A-B498-D198C874553F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A30BFF4F-D810-421A-B498-D198C874553F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A30BFF4F-D810-421A-B498-D198C874553F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F95DCB5-E65C-40C6-BFCE-A623D4AD92E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F95DCB5-E65C-40C6-BFCE-A623D4AD92E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F95DCB5-E65C-40C6-BFCE-A623D4AD92E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F95DCB5-E65C-40C6-BFCE-A623D4AD92E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CC2BAC7-953B-4846-9382-502F831DD693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC2BAC7-953B-4846-9382-502F831DD693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC2BAC7-953B-4846-9382-502F831DD693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC2BAC7-953B-4846-9382-502F831DD693}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
