@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using PassSecure.Models;
 
 namespace PassSecure
 {
@@ -20,10 +22,11 @@ namespace PassSecure
         private static IntPtr hookID = IntPtr.Zero;
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
-        private static TimeSpan buttonDownTime;
-        private static TimeSpan buttonUpTime;
+        private static TimeSpan keyDownTime;
+        private static TimeSpan keyUpTime;
         private static Keys keyUp;
         private static Keys keyDown;
+        private static List<KeyStroke> keyStrokes = new List<KeyStroke>();
 
         public MainWindow()
         {
@@ -38,26 +41,25 @@ namespace PassSecure
 
         protected void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            UnhookWindowsHookEx(hookID); 
+            UnhookWindowsHookEx(hookID);
         }
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-           
+
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
-                buttonDownTime = DateTime.Now.TimeOfDay;
+                keyDownTime = DateTime.Now.TimeOfDay;
                 int vkCode = Marshal.ReadInt32(lParam);
-                keyDown = (Keys) vkCode;
-                //Debug.WriteLine(DateTime.Now.TimeOfDay + ": " + (Keys)vkCode + " Key Down");
+                keyDown = (Keys)vkCode;
             }
             else if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
             {
-                buttonUpTime = DateTime.Now.TimeOfDay;
+                keyUpTime = DateTime.Now.TimeOfDay;
                 int vkCode = Marshal.ReadInt32(lParam);
-                keyUp = (Keys) vkCode;
-                //Debug.WriteLine(DateTime.Now.TimeOfDay + ": " + (Keys)vkCode + " Key Up");
-                Debug.WriteLine(keyUp + ": " + (buttonUpTime.TotalMilliseconds - buttonDownTime.TotalMilliseconds));
+                keyUp = (Keys)vkCode;
+                Debug.WriteLine(DateTime.Now.TimeOfDay + " - " + keyUp + "(" + vkCode + "): " + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
+                keyStrokes.Add(new KeyStroke(keyUp){ KeyDownTime =  keyDownTime, KeyUpTime = keyUpTime});
             }
             return CallNextHookEx(hookID, nCode, wParam, lParam);
         }
