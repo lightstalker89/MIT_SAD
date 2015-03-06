@@ -36,7 +36,6 @@ namespace PassSecure
             hookID = SetHook(proc);
             this.Closing += this.MainWindowClosing;
             PasswordBox.Focus();
-            CaptchaControl.Hide();
         }
 
         protected void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
