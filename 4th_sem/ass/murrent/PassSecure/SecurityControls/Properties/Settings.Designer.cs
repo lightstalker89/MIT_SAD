@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CaptchaControl.Properties
+namespace SecurityControls.Properties
 {
     
     
