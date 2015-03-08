@@ -6,7 +6,7 @@
     using System.Runtime.InteropServices;
     using System.Windows;
     using System.Windows.Forms;
-
+    using System.Windows.Input;
 
     using PassSecure.Models;
 
@@ -28,7 +28,8 @@
         private static TimeSpan keyUpTime;
         private static Keys keyUp;
         //private static Keys keyDown;
-        private static readonly List<KeyStroke> keyStrokes = new List<KeyStroke>();
+        private static readonly List<KeyStroke> KeyStrokes = new List<KeyStroke>();
+        private static readonly List<UserTraining> UserTrainings = new List<UserTraining>(); 
 
         public MainWindow()
         {
@@ -53,16 +54,21 @@
                 if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
                 {
                     keyDownTime = DateTime.Now.TimeOfDay;
-                    int vkCode = Marshal.ReadInt32(lParam);
-                    //keyDown = (Keys)vkCode;
                 }
                 else if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
                 {
-                    keyUpTime = DateTime.Now.TimeOfDay;
-                    int vkCode = Marshal.ReadInt32(lParam);
-                    keyUp = (Keys)vkCode;
-                    Debug.WriteLine(DateTime.Now.TimeOfDay + " - " + keyUp + "(" + vkCode + "): " + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
-                    keyStrokes.Add(new KeyStroke(keyUp) { KeyDownTime = keyDownTime, KeyUpTime = keyUpTime });
+                    if (keyUp == Keys.Enter)
+                    {
+
+                    }
+                    else
+                    {
+                        keyUpTime = DateTime.Now.TimeOfDay;
+                        int vkCode = Marshal.ReadInt32(lParam);
+                        keyUp = (Keys)vkCode;
+                        Debug.WriteLine(DateTime.Now.TimeOfDay + " - " + keyUp + "(" + vkCode + "): " + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
+                        KeyStrokes.Add(new KeyStroke(keyUp) { KeyDownTime = keyDownTime, KeyUpTime = keyUpTime });
+                    }
                 }
             }
             return CallNextHookEx(hookID, nCode, wParam, lParam);
@@ -123,6 +129,16 @@
                 ModeText.Text = (MenuItemModeNormal.IsChecked)
                                    ? MenuItemModeNormal.Header.ToString()
                                    : MenuItemModeTrain.Header.ToString();
+            }
+        }
+
+        private void AddUserButtonClick(object sender, RoutedEventArgs e)
+        {
+            AddUserWindow addUserWindowWindow = new AddUserWindow();
+            addUserWindowWindow.ShowDialog();
+            if (addUserWindowWindow.DialogResult.HasValue && addUserWindowWindow.DialogResult.Value)
+            {
+                UserTrainings.Add(new UserTraining(){ UserName = addUserWindowWindow.UserName.Text, Password = addUserWindowWindow.Password.Text });
             }
         }
     }
