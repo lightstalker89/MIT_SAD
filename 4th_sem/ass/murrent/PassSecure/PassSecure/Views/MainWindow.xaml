@@ -12,16 +12,16 @@
                 <MenuItem Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" Checked="MenuItemModeNormalChecked" />
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Statistics" />
+                <MenuItem Header="Statistics" Click="OnStatisticsClick"/>
             </MenuItem>
             <MenuItem Header="Help" />
         </Menu>
         <Label Content="Password: " Margin="20,76,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66"/>
         <PasswordBox Name="Password" Height="20" Margin="26,97,26,0" VerticalAlignment="Top" TabIndex="0"/>
         <Button Name="LoginButton" Content="Login" Margin="0,122,25.618,0" VerticalAlignment="Top" Click="LoginButtonClick" HorizontalAlignment="Right" Width="78"/>
-        <ComboBox Margin="26,54,61.618,0" VerticalAlignment="Top"/>
+        <ComboBox Name="UserNames" Margin="26,54,61.618,0" VerticalAlignment="Top" SelectedIndex="0"/>
         <Label Content="Username:" Margin="20,33,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66"/>
-        <securityControls:PersonalQuestionControl Name="PersonalQuestionControl" Margin="26,165,28.318,0" Height="94" VerticalAlignment="Top" Visibility="Hidden" />
+        <securityControls:PersonalQuestionControl Name="PersonalQuestionControl" Margin="26,165,28.318,0" Height="94" VerticalAlignment="Top" Visibility="Hidden"/>
 
         <StatusBar Height="20" Margin="0,0,0.318,-0.347" VerticalAlignment="Bottom">
             <TextBlock Text="Mode:" FontWeight="Bold" />

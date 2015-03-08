@@ -7,6 +7,7 @@
 // </summary>
 // <author>Mario Murrent</author>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace PassSecure.Views
 {
     #region Usings
@@ -25,6 +26,7 @@ namespace PassSecure.Views
         public AddUserWindow()
         {
             InitializeComponent();
+            UserName.Focus();
         }
 
         /// <summary>

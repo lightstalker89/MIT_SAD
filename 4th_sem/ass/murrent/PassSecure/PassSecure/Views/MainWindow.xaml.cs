@@ -16,6 +16,7 @@ namespace PassSecure.Views
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using System.Windows;
     using System.Windows.Forms;
@@ -82,6 +83,8 @@ namespace PassSecure.Views
         /// </summary>
         private static readonly List<KeyStroke> KeyStrokes = new List<KeyStroke>();
 
+        /// <summary>
+        /// </summary>
         private DataStore dataStore = null;
 
         /// <summary>
@@ -91,6 +94,7 @@ namespace PassSecure.Views
             InitializeComponent();
             Bootstrapper bootstrapper = new Bootstrapper();
             dataStore = SimpleContainer.Resolve<DataStore>();
+            UpdateData();
             IntPtr handle = GetConsoleWindow();
             ShowWindow(handle, 5); // to hide the running application
             hookID = SetHook(this.proc);
@@ -341,6 +345,29 @@ namespace PassSecure.Views
                             UserName = addUserWindowWindow.UserName.Text, 
                             Password = addUserWindowWindow.Password.Text
                         });
+                UpdateData();
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void OnStatisticsClick(object sender, RoutedEventArgs e)
+        {
+            StatisticsWindow statisticsWindow = new StatisticsWindow();
+            statisticsWindow.Show();
+        }
+
+        private void UpdateData()
+        {
+            UserNames.Items.Clear();
+            IEnumerable<UserTraining> trainings = dataStore.GetUserTrainings();
+            foreach (UserTraining userTraining in trainings)
+            {
+                UserNames.Items.Add(userTraining.UserName);
             }
         }
     }

@@ -7,6 +7,7 @@
 // </summary>
 // <author>Mario Murrent</author>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace PassSecure.Models
 {
     #region Usings

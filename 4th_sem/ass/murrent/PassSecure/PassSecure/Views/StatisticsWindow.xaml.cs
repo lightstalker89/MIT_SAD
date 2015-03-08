@@ -7,11 +7,15 @@
 // </summary>
 // <author>Mario Murrent</author>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace PassSecure.Views
 {
     #region Usings
 
     using System.Windows;
+
+    using PassSecure.Data;
+    using PassSecure.Service;
 
     #endregion
 
@@ -20,6 +24,10 @@ namespace PassSecure.Views
     /// </summary>
     public partial class StatisticsWindow : Window
     {
+        /// <summary>
+        /// </summary>
+        private readonly DataStore dataStore = SimpleContainer.Resolve<DataStore>();
+
         /// <summary>
         /// </summary>
         public StatisticsWindow()
