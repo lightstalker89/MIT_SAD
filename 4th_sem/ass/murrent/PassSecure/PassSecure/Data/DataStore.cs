@@ -13,6 +13,7 @@ namespace PassSecure.Data
     #region Usings
 
     using System.Collections.Generic;
+    using System.Linq;
 
     using PassSecure.Models;
     using PassSecure.Service;
@@ -56,6 +57,11 @@ namespace PassSecure.Data
         public void UpdateUserTraining(UserTraining userTraining)
         {
             
+        }
+
+        public bool ContainsUserName(string username)
+        {
+            return userTrainings.Any(p => p.UserName.ToLower().Trim() == username.ToLower().Trim());
         }
 
         /// <summary>
