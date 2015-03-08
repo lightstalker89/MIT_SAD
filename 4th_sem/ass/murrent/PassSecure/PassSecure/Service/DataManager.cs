@@ -1,13 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿#region File Header
 // <copyright file="DataManager.cs" company="">
-//   
+// Copyright (c) 2015 Mario Murrent. All rights reserved.
 // </copyright>
 // <summary>
-//   
 // </summary>
 // <author>Mario Murrent</author>
-// --------------------------------------------------------------------------------------------------------------------
-
+#endregion
 namespace PassSecure.Service
 {
     #region Usings

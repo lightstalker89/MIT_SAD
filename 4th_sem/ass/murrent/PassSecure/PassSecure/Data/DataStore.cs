@@ -1,13 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿#region File Header
 // <copyright file="DataStore.cs" company="">
-//   
+// Copyright (c) 2015 Mario Murrent. All rights reserved.
 // </copyright>
 // <summary>
-//   
 // </summary>
 // <author>Mario Murrent</author>
-// --------------------------------------------------------------------------------------------------------------------
-
+#endregion
 namespace PassSecure.Data
 {
     #region Usings
@@ -59,6 +57,12 @@ namespace PassSecure.Data
             
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="username">
+        /// </param>
+        /// <returns>
+        /// </returns>
         public bool ContainsUserName(string username)
         {
             return userTrainings.Any(p => p.UserName.ToLower().Trim() == username.ToLower().Trim());

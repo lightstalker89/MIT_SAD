@@ -5,9 +5,16 @@
 // <summary>
 //   
 // </summary>
-// <author>Mario Murrent</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+#region File Header
+// <copyright file="TrainingEntry.cs" company="">
+// Copyright (c) 2015 Mario Murrent. All rights reserved.
+// </copyright>
+// <summary>
+// </summary>
+// <author>Mario Murrent</author>
+#endregion
 namespace PassSecure.Models
 {
     #region Usings

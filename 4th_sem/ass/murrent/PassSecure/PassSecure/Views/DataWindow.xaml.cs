@@ -1,5 +1,5 @@
 ﻿#region File Header
-// <copyright file="StatisticsWindow.xaml.cs" company="">
+// <copyright file="DataWindow.xaml.cs" company="">
 // Copyright (c) 2015 Mario Murrent. All rights reserved.
 // </copyright>
 // <summary>
@@ -18,19 +18,17 @@ namespace PassSecure.Views
     #endregion
 
     /// <summary>
-    /// Interaction logic for StatisticsWindow.xaml
+    /// Interaction logic for DataWindow.xaml
     /// </summary>
-    public partial class StatisticsWindow : Window
+    public partial class DataWindow : Window
     {
         /// <summary>
         /// </summary>
-        private readonly DataStore dataStore = SimpleContainer.Resolve<DataStore>();
-
-        /// <summary>
-        /// </summary>
-        public StatisticsWindow()
+        public DataWindow()
         {
             InitializeComponent();
+            DataStore dataStore = SimpleContainer.Resolve<DataStore>();
+            DataListView.ItemsSource = dataStore.GetUserTrainings();
         }
 
         /// <summary>

@@ -5,9 +5,16 @@
 // <summary>
 //   
 // </summary>
-// <author>Mario Murrent</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+#region File Header
+// <copyright file="Bootstrapper.cs" company="">
+// Copyright (c) 2015 Mario Murrent. All rights reserved.
+// </copyright>
+// <summary>
+// </summary>
+// <author>Mario Murrent</author>
+#endregion
 namespace PassSecure
 {
     #region Usings
@@ -27,6 +34,7 @@ namespace PassSecure
         {
             SimpleContainer.Register(new DataManager());
             SimpleContainer.Register(new DataStore());
+            SimpleContainer.Register(new KeyLogger());
         }
     }
 }

@@ -80,12 +80,21 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Data\DataStore.cs" />
+    <Compile Include="Events\KeyLogEventArgs.cs" />
     <Compile Include="Service\DataManager.cs" />
+    <Compile Include="Service\KeyLogger.cs" />
     <Compile Include="Service\SimpleContainer.cs" />
+    <Compile Include="Views\DataWindow.xaml.cs">
+      <DependentUpon>DataWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StatisticsWindow.xaml.cs">
       <DependentUpon>StatisticsWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AddUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

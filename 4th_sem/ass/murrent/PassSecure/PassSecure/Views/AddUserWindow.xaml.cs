@@ -1,13 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿#region File Header
 // <copyright file="AddUserWindow.xaml.cs" company="">
-//   
+// Copyright (c) 2015 Mario Murrent. All rights reserved.
 // </copyright>
 // <summary>
-//   
 // </summary>
 // <author>Mario Murrent</author>
-// --------------------------------------------------------------------------------------------------------------------
-
+#endregion
 namespace PassSecure.Views
 {
     #region Usings
@@ -26,9 +24,14 @@ namespace PassSecure.Views
     /// </summary>
     public partial class AddUserWindow : Window
     {
+        /// <summary>
+        /// </summary>
         private DataStore dataStore = null;
 
+        /// <summary>
+        /// </summary>
         private bool userNameAlreadyExists = true;
+
         /// <summary>
         /// </summary>
         public AddUserWindow()
@@ -53,25 +56,31 @@ namespace PassSecure.Views
             else
             {
                 MessageBox.Show(
-                    "Please specify a username and a password",
-                    "Username and Password",
-                    MessageBoxButton.OK,
+                    "Please specify a username and a password", 
+                    "Username and Password", 
+                    MessageBoxButton.OK, 
                     MessageBoxImage.Error);
             }
 
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void UserNameTextChanged(object sender, TextChangedEventArgs e)
         {
             if (dataStore.ContainsUserName(UserName.Text))
             {
                 userNameAlreadyExists = true;
-                UserName.Foreground = new SolidColorBrush(Colors.DarkRed);
+                UserName.Foreground = new SolidColorBrush(Colors.Red);
             }
             else
             {
                 userNameAlreadyExists = false;
-                if (Equals(this.UserName.Foreground, new SolidColorBrush(Colors.DarkRed)))
+                if (Equals(this.UserName.Foreground, new SolidColorBrush(Colors.Red)))
                 {
                     UserName.ClearValue(ForegroundProperty);
                 }

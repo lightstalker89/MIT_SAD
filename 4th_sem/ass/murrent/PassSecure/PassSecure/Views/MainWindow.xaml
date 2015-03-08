@@ -12,6 +12,7 @@
                 <MenuItem Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" Checked="MenuItemModeNormalChecked" />
             </MenuItem>
             <MenuItem Header="View">
+                <MenuItem Header="Data" Click="DataClick"/>
                 <MenuItem Header="Statistics" Click="OnStatisticsClick"/>
             </MenuItem>
             <MenuItem Header="Help" />

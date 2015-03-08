@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Statistics" Height="423.19" Width="621.849">
     <Grid >
-        <TabControl Name="StatisticsTabControl" Margin="10,10,10.225,10.451" />
+        <TabControl Name="StatisticsTabControl" Margin="10,10,10.509,35.098" />
+        <Button Content="Ok" HorizontalAlignment="Right" Margin="0,0,10.509,8.098" VerticalAlignment="Bottom" Width="75" Click="OkClick"/>
     </Grid>
 </Window>
