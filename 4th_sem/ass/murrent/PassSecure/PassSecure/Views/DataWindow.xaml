@@ -6,8 +6,9 @@
         <ListView Name="DataListView" Margin="0,0,-0.145,34.202" BorderBrush="{x:Null}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Username" Width="200" DisplayMemberBinding="{ Binding UserName}" />
-                    <GridViewColumn Header="Password" Width="200" DisplayMemberBinding="{ Binding Password}" />
+                    <GridViewColumn Header="Username" Width="180" DisplayMemberBinding="{ Binding UserName}" />
+                    <GridViewColumn Header="Password" Width="180" DisplayMemberBinding="{ Binding Password}" />
+                    <GridViewColumn Header="Training Entries" Width="100" DisplayMemberBinding="{Binding Trainings.Count}"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

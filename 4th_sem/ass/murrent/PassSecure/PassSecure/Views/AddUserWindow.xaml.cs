@@ -80,7 +80,7 @@ namespace PassSecure.Views
             else
             {
                 userNameAlreadyExists = false;
-                if (Equals(this.UserName.Foreground, new SolidColorBrush(Colors.Red)))
+                if (this.UserName.Foreground.ToString() == new SolidColorBrush(Colors.Red).ToString())
                 {
                     UserName.ClearValue(ForegroundProperty);
                 }

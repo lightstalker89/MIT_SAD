@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TrainingEntry.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region File Header
+﻿#region File Header
 // <copyright file="TrainingEntry.cs" company="">
 // Copyright (c) 2015 Mario Murrent. All rights reserved.
 // </copyright>
@@ -19,7 +10,9 @@ namespace PassSecure.Models
 {
     #region Usings
 
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     #endregion
 
@@ -27,6 +20,10 @@ namespace PassSecure.Models
     /// </summary>
     public class TrainingEntry
     {
+        public TrainingEntry()
+        {
+            KeyStrokes = new List<KeyStroke>();
+        }
         /// <summary>
         /// </summary>
         public int TrainingId { get; set; }
@@ -36,6 +33,11 @@ namespace PassSecure.Models
         public int Errors { get; set; }
 
         /// <summary>
+        /// The total time for one password entry
+        /// </summary>
+        public TimeSpan TotalTime { get; set; }
+
+        /// <summary>
         /// </summary>
         public List<KeyStroke> KeyStrokes { get; set; }
 
@@ -43,7 +45,16 @@ namespace PassSecure.Models
         /// </summary>
         public void Analyze()
         {
-            
+            if (KeyStrokes.Count > 1)
+            {
+                TotalTime = KeyStrokes.Last().KeyUpTime - KeyStrokes.First().KeyDownTime;
+            }
+            for (int i = 1; i < KeyStrokes.Count; i++)
+            {
+                int lastIndex = i - 1;
+                KeyStrokes[i].TimeToLastKeyDown = KeyStrokes[i].KeyDownTime - KeyStrokes[lastIndex].KeyDownTime;
+                KeyStrokes[i].TimeToLastKeyUp = KeyStrokes[i].KeyUpTime - KeyStrokes[lastIndex].KeyUpTime;
+            }
         }
     }
 }

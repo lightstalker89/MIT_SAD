@@ -50,11 +50,9 @@ namespace PassSecure.Data
 
         /// <summary>
         /// </summary>
-        /// <param name="userTraining">
-        /// </param>
-        public void UpdateUserTraining(UserTraining userTraining)
+        public void UpdateUserTraining()
         {
-            
+            Save();
         }
 
         /// <summary>
@@ -75,6 +73,15 @@ namespace PassSecure.Data
         public IEnumerable<UserTraining> GetUserTrainings()
         {
             return this.userTrainings;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public UserTraining GetUserTraining(string username)
+        {
+            return this.userTrainings.SingleOrDefault(p => p.UserName.Equals(username));
         }
 
         /// <summary>

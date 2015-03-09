@@ -11,6 +11,7 @@ namespace PassSecure.Models
     #region Usings
 
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     #endregion
 
@@ -18,6 +19,11 @@ namespace PassSecure.Models
     /// </summary>
     public class UserTraining
     {
+        public UserTraining()
+        {
+            Trainings = new List<TrainingEntry>();
+        }
+
         /// <summary>
         /// </summary>
         public string UserName { get; set; }
@@ -29,5 +35,12 @@ namespace PassSecure.Models
         /// <summary>
         /// </summary>
         public List<TrainingEntry> Trainings { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public void Analyze()
+        {
+            Parallel.ForEach(Trainings, (entry, state) => entry.Analyze());
+        }
     }
 }

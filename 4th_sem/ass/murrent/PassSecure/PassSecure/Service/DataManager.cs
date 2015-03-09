@@ -14,6 +14,7 @@ namespace PassSecure.Service
     using System.IO;
     using System.Web.Script.Serialization;
 
+    using PassSecure.Converter;
     using PassSecure.Models;
 
     #endregion
@@ -29,6 +30,11 @@ namespace PassSecure.Service
         /// <summary>
         /// </summary>
         private readonly JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+
+        public DataManager()
+        {
+            javaScriptSerializer.RegisterConverters(new[] { new TimeSpantoJSONConverter() });
+        }
 
         /// <summary>
         /// </summary>

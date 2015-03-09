@@ -1,21 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainWindow.xaml.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region File Header
-// <copyright file="MainWindow.xaml.cs" company="">
-// Copyright (c) 2015 Mario Murrent. All rights reserved.
-// </copyright>
-// <summary>
-// </summary>
-// <author>Mario Murrent</author>
-#endregion
-#region File Header
+﻿#region File Header
 // <copyright file="MainWindow.xaml.cs" company="">
 // Copyright (c) 2015 Mario Murrent. All rights reserved.
 // </copyright>
@@ -58,7 +41,11 @@ namespace PassSecure.Views
 
         /// <summary>
         /// </summary>
-        private KeyLogger keyLogger;
+        private readonly KeyLogger keyLogger;
+
+        /// <summary>
+        /// </summary>
+        private UserTraining currentUserTraining;
 
         /// <summary>
         /// </summary>
@@ -171,7 +158,7 @@ namespace PassSecure.Views
                 dataStore.AddUserTraining(
                     new UserTraining()
                         {
-                            UserName = addUserWindowWindow.UserName.Text, 
+                            UserName = addUserWindowWindow.UserName.Text,
                             Password = addUserWindowWindow.Password.Text
                         });
                 UpdateData();
@@ -200,6 +187,7 @@ namespace PassSecure.Views
             {
                 UserNames.Items.Add(userTraining.UserName);
             }
+            UserNames.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -218,14 +206,40 @@ namespace PassSecure.Views
         /// </summary>
         public void AddOrCheck()
         {
+            bool allowedToAdd = currentUserTraining != null
+                                  && Password.Password.Equals(currentUserTraining.Password);
             if (MenuItemModeNormal.IsChecked)
             {
 
             }
             else
-            {
-                
+            {    
+                if (allowedToAdd)
+                {
+                    currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
+                    dataStore.UpdateUserTraining();
+                    ClearInput();
+                }
             }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UserNamesSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (UserNames.SelectedItem != null)
+            {
+                string username = UserNames.SelectedItem.ToString();
+                currentUserTraining = dataStore.GetUserTraining(username);
+            }
+        }
+
+        private void ClearInput()
+        {
+            Password.Clear();
+            KeyStrokes.Clear();
         }
     }
 }

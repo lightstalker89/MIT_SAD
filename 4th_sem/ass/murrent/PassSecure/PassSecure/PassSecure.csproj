@@ -79,6 +79,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converter\TimeSpantoJSONConverter.cs" />
     <Compile Include="Data\DataStore.cs" />
     <Compile Include="Events\KeyLogEventArgs.cs" />
     <Compile Include="Service\DataManager.cs" />

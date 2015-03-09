@@ -76,11 +76,11 @@ namespace PassSecure.Service
 
         /// <summary>
         /// </summary>
-        public  event EventHandler<EventArgs> EnterPressed;
+        public event EventHandler<EventArgs> EnterPressed;
 
         /// <summary>
         /// </summary>
-        public  event EventHandler<KeyLogEventArgs> KeyLogPerformed;
+        public event EventHandler<KeyLogEventArgs> KeyLogPerformed;
 
         /// <summary>
         /// </summary>
@@ -126,9 +126,9 @@ namespace PassSecure.Service
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(
-            int idHook, 
-            LowLevelKeyboardProc lpfn, 
-            IntPtr hMod, 
+            int idHook,
+            LowLevelKeyboardProc lpfn,
+            IntPtr hMod,
             uint dwThreadId);
 
         /// <summary>
@@ -220,7 +220,6 @@ namespace PassSecure.Service
                     keyUp = (Keys)vkCode;
                     if (keyUp == Keys.Enter)
                     {
-                        // TODO: trigger event
                         instance.OnEnterPressed();
                     }
                     else
@@ -230,8 +229,6 @@ namespace PassSecure.Service
                             + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
                         KeyStroke keyStroke = new KeyStroke(keyUp) { KeyDownTime = keyDownTime, KeyUpTime = keyUpTime };
                         instance.OnKeyLogPerformend(new KeyLogEventArgs(keyStroke));
-
-                        // TODO: trigger event
                     }
                 }
             }

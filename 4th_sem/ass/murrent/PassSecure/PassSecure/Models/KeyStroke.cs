@@ -19,6 +19,11 @@ namespace PassSecure.Models
     /// </summary>
     public class KeyStroke
     {
+        public KeyStroke()
+        {
+            
+        }
+
         /// <summary>
         /// </summary>
         /// <param name="key">
@@ -59,5 +64,13 @@ namespace PassSecure.Models
         /// <summary>
         /// </summary>
         public TimeSpan TimeBetweenDownAndUp { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public TimeSpan TimeToLastKeyUp { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public TimeSpan TimeToLastKeyDown { get; set; }
     }
 }
