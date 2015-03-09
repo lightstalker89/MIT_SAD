@@ -10,6 +10,7 @@ namespace PassSecure.Models
 {
     #region Usings
 
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -35,6 +36,18 @@ namespace PassSecure.Models
         /// <summary>
         /// </summary>
         public List<TrainingEntry> Trainings { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public TimeSpan AveragePasswordTime { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public TimeSpan AverageKeyUpTime { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public TimeSpan AverageKeyDownTime { get; set; }
 
         /// <summary>
         /// </summary>

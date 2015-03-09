@@ -84,6 +84,7 @@ namespace PassSecure.Views
         protected void KeyLoggerKeyLogPerformed(object sender, KeyLogEventArgs e)
         {
             KeyStrokes.Add(e.KeyStroke);
+            Status.Text = String.Empty;
         }
 
         /// <summary>
@@ -140,6 +141,10 @@ namespace PassSecure.Views
                 ModeText.Text = MenuItemModeNormal.IsChecked
                                     ? MenuItemModeNormal.Header.ToString()
                                     : MenuItemModeTrain.Header.ToString();
+            }
+            if (Status != null)
+            {
+                Status.Text = String.Empty;
             }
         }
 
@@ -213,14 +218,20 @@ namespace PassSecure.Views
 
             }
             else
-            {    
+            {
                 if (allowedToAdd)
                 {
                     currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
+                    currentUserTraining.Analyze();
                     dataStore.UpdateUserTraining();
-                    ClearInput();
+                    Status.Text = "Entry added successfully";
+                }
+                else
+                {
+                    Status.Text = "Wrong password provided. Entry is not added";
                 }
             }
+            ClearInput();
         }
 
         /// <summary>
