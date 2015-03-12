@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-#region File Header
+﻿#region File Header
 // <copyright file="App.xaml.cs" company="">
 // Copyright (c) 2015 Mario Murrent. All rights reserved.
 // </copyright>

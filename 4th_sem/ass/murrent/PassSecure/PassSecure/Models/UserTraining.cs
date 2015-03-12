@@ -20,6 +20,8 @@ namespace PassSecure.Models
     /// </summary>
     public class UserTraining
     {
+        /// <summary>
+        /// </summary>
         public UserTraining()
         {
             Trainings = new List<TrainingEntry>();
@@ -48,6 +50,14 @@ namespace PassSecure.Models
         /// <summary>
         /// </summary>
         public TimeSpan AverageKeyDownTime { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public TimeSpan AverageTotalKeyDownTime { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public TimeSpan AverageTotalKeyUpTime { get; set; }
 
         /// <summary>
         /// </summary>

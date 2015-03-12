@@ -26,6 +26,7 @@ namespace PassSecure
             SimpleContainer.Register(new DataManager());
             SimpleContainer.Register(new DataStore());
             SimpleContainer.Register(new KeyLogger());
+            SimpleContainer.Register(new PasswordAnalyzer());
         }
     }
 }

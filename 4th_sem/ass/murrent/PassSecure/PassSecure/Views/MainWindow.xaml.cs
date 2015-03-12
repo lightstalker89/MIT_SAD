@@ -14,6 +14,7 @@ namespace PassSecure.Views
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Windows;
+    using System.Windows.Controls;
 
     using PassSecure.Data;
     using PassSecure.Events;
@@ -84,7 +85,7 @@ namespace PassSecure.Views
         protected void KeyLoggerKeyLogPerformed(object sender, KeyLogEventArgs e)
         {
             KeyStrokes.Add(e.KeyStroke);
-            Status.Text = String.Empty;
+            Status.Text = string.Empty;
         }
 
         /// <summary>
@@ -142,9 +143,10 @@ namespace PassSecure.Views
                                     ? MenuItemModeNormal.Header.ToString()
                                     : MenuItemModeTrain.Header.ToString();
             }
+
             if (Status != null)
             {
-                Status.Text = String.Empty;
+                Status.Text = string.Empty;
             }
         }
 
@@ -163,7 +165,7 @@ namespace PassSecure.Views
                 dataStore.AddUserTraining(
                     new UserTraining()
                         {
-                            UserName = addUserWindowWindow.UserName.Text,
+                            UserName = addUserWindowWindow.UserName.Text, 
                             Password = addUserWindowWindow.Password.Text
                         });
                 UpdateData();
@@ -192,6 +194,7 @@ namespace PassSecure.Views
             {
                 UserNames.Items.Add(userTraining.UserName);
             }
+
             UserNames.SelectedIndex = 0;
         }
 
@@ -231,14 +234,17 @@ namespace PassSecure.Views
                     Status.Text = "Wrong password provided. Entry is not added";
                 }
             }
+
             ClearInput();
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserNamesSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void UserNamesSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (UserNames.SelectedItem != null)
             {
@@ -247,6 +253,8 @@ namespace PassSecure.Views
             }
         }
 
+        /// <summary>
+        /// </summary>
         private void ClearInput()
         {
             Password.Clear();

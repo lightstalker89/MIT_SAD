@@ -20,10 +20,13 @@ namespace PassSecure.Models
     /// </summary>
     public class TrainingEntry
     {
+        /// <summary>
+        /// </summary>
         public TrainingEntry()
         {
             KeyStrokes = new List<KeyStroke>();
         }
+
         /// <summary>
         /// </summary>
         public int TrainingId { get; set; }
@@ -49,6 +52,7 @@ namespace PassSecure.Models
             {
                 TotalTime = KeyStrokes.Last().KeyUpTime - KeyStrokes.First().KeyDownTime;
             }
+
             for (int i = 1; i < KeyStrokes.Count; i++)
             {
                 int lastIndex = i - 1;

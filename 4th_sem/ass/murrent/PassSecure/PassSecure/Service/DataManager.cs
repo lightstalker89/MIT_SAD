@@ -31,6 +31,8 @@ namespace PassSecure.Service
         /// </summary>
         private readonly JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
 
+        /// <summary>
+        /// </summary>
         public DataManager()
         {
             javaScriptSerializer.RegisterConverters(new[] { new TimeSpantoJSONConverter() });

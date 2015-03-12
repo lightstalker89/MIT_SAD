@@ -77,8 +77,10 @@ namespace PassSecure.Data
 
         /// <summary>
         /// </summary>
-        /// <param name="username"></param>
-        /// <returns></returns>
+        /// <param name="username">
+        /// </param>
+        /// <returns>
+        /// </returns>
         public UserTraining GetUserTraining(string username)
         {
             return this.userTrainings.SingleOrDefault(p => p.UserName.Equals(username));

@@ -8,7 +8,7 @@
                 <GridView>
                     <GridViewColumn Header="Username" Width="180" DisplayMemberBinding="{ Binding UserName}"/>
                     <GridViewColumn Header="Password" Width="180" DisplayMemberBinding="{ Binding Password}" />
-                    <GridViewColumn Header="Training Entries" Width="100" DisplayMemberBinding="{Binding Trainings.Count}"></GridViewColumn>
+                    <GridViewColumn Header="Training Entries" Width="100" DisplayMemberBinding="{Binding Trainings.Count}" />
                 </GridView>
             </ListView.View>
         </ListView>

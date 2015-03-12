@@ -82,9 +82,13 @@
     <Compile Include="Converter\TimeSpantoJSONConverter.cs" />
     <Compile Include="Data\DataStore.cs" />
     <Compile Include="Events\KeyLogEventArgs.cs" />
+    <Compile Include="ExtensionMethods\TimeSpanExtensionMethods.cs" />
+    <Compile Include="Models\PasswordEntry.cs" />
+    <Compile Include="Service\PasswordAnalyzer.cs" />
     <Compile Include="Service\DataManager.cs" />
     <Compile Include="Service\KeyLogger.cs" />
     <Compile Include="Service\SimpleContainer.cs" />
+    <Compile Include="Utils\ArrayUtils.cs" />
     <Compile Include="Views\DataWindow.xaml.cs">
       <DependentUpon>DataWindow.xaml</DependentUpon>
     </Compile>

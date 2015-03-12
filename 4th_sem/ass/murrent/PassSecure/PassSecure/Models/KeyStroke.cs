@@ -19,6 +19,8 @@ namespace PassSecure.Models
     /// </summary>
     public class KeyStroke
     {
+        /// <summary>
+        /// </summary>
         public KeyStroke()
         {
             
