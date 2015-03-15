@@ -82,7 +82,7 @@
     <Compile Include="Converter\TimeSpantoJSONConverter.cs" />
     <Compile Include="Data\DataStore.cs" />
     <Compile Include="Events\KeyLogEventArgs.cs" />
-    <Compile Include="ExtensionMethods\TimeSpanExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\ExtensionMethods.cs" />
     <Compile Include="Models\PasswordEntry.cs" />
     <Compile Include="Service\PasswordAnalyzer.cs" />
     <Compile Include="Service\DataManager.cs" />

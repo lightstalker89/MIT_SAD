@@ -29,5 +29,15 @@ namespace PassSecure.ExtensionMethods
         {
             return BitConverter.GetBytes(span.Ticks);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static byte[] ToByteArray(this double value)
+        {
+            return BitConverter.GetBytes(value);
+        }
     }
 }

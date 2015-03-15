@@ -41,15 +41,19 @@ namespace PassSecure.Models
 
         /// <summary>
         /// </summary>
-        public TimeSpan AveragePasswordTime { get; set; }
+        public double AverageTotalFirstUpLastUpTime { get; set; }
 
         /// <summary>
         /// </summary>
-        public TimeSpan AverageKeyUpTime { get; set; }
+        public double AverageTotalFirstDownLastDownTime { get; set; }
 
         /// <summary>
         /// </summary>
-        public TimeSpan AverageKeyDownTime { get; set; }
+        public TimeSpan AverageTimeBetweenKeyUp { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public TimeSpan AverageTimeBetweenKeyDown { get; set; }
 
         /// <summary>
         /// </summary>

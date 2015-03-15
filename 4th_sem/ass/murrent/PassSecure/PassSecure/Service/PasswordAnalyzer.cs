@@ -39,23 +39,31 @@ namespace PassSecure.Service
         /// </summary>
         /// <param name="username">
         /// </param>
-        /// <param name="currentUserTraining">
+        /// <param name="passwordEntry">
         /// </param>
         /// <returns>
         /// </returns>
-        public bool IsAccepted(string username, UserTraining currentUserTraining)
+        public bool IsAccepted(string username, PasswordEntry passwordEntry)
         {
             bool accepted = false;
             UserTraining userTraining = dataStore.GetUserTraining(username);
             if (userTraining != null)
             {
-                byte[] averageTrainingCriterias = ArrayUtils.ConcatArrays(userTraining.AveragePasswordTime.ToByteArray(), userTraining.AverageKeyDownTime.ToByteArray(), userTraining.AverageKeyUpTime.ToByteArray());
+                byte[] averageTrainingCriterias =
+                    ArrayUtils.ConcatArrays(
+                        userTraining.AverageTimeBetweenKeyUp.ToByteArray(),
+                        userTraining.AverageTimeBetweenKeyDown.ToByteArray(),
+                        userTraining.AverageTotalKeyDownTime.ToByteArray());
                 byte[] currentTrainingCriterias =
                     ArrayUtils.ConcatArrays(
-                        currentUserTraining.AveragePasswordTime.ToByteArray(), 
-                        currentUserTraining.AverageKeyDownTime.ToByteArray(), 
-                        userTraining.AverageKeyUpTime.ToByteArray());
+                        passwordEntry.AverageTimeBetweenKeyUp.ToByteArray(),
+                        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray(),
+                        passwordEntry.TotalKeyDownTime.ToByteArray());
                 double difference = CheckCriteria(currentTrainingCriterias, averageTrainingCriterias);
+                if (difference < 0.3)
+                {
+                    accepted = true;
+                }
             }
 
             return accepted;

@@ -107,6 +107,8 @@ namespace PassSecure.Views
         /// </param>
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
+            Instance.AddOrCheck();
+            Password.Focus();
         }
 
         /// <summary>
