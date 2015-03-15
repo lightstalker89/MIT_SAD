@@ -24,11 +24,11 @@ namespace PassSecure.Models
     {
         /// <summary>
         /// </summary>
-        public TimeSpan TotalFirstUpLastUpTime { get; set; }
+        public double TotalFirstUpLastUpTime { get; set; }
 
         /// <summary>
         /// </summary>
-        public TimeSpan TotalFirstDownLastDownTime { get; set; }
+        public double TotalFirstDownLastDownTime { get; set; }
 
         /// <summary>
         /// </summary>
@@ -56,8 +56,8 @@ namespace PassSecure.Models
         {
             if (KeyStrokes.Count > 1)
             {
-                TotalFirstDownLastDownTime = KeyStrokes.Last().KeyDownTime - KeyStrokes.First().KeyDownTime;
-                TotalFirstUpLastUpTime = KeyStrokes.Last().KeyUpTime - KeyStrokes.First().KeyUpTime;
+                TotalFirstDownLastDownTime = KeyStrokes.Last().KeyDownTime.Ticks - KeyStrokes.First().KeyDownTime.Ticks;
+                TotalFirstUpLastUpTime = KeyStrokes.Last().KeyUpTime.Ticks - KeyStrokes.First().KeyUpTime.Ticks;
             }
 
             for (int i = 1; i < KeyStrokes.Count; i++)

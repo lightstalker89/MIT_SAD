@@ -49,25 +49,36 @@ namespace PassSecure.Models
 
         /// <summary>
         /// </summary>
-        public TimeSpan AverageTimeBetweenKeyUp { get; set; }
+        public double AverageTotalKeyDownTime { get; set; }
 
         /// <summary>
         /// </summary>
-        public TimeSpan AverageTimeBetweenKeyDown { get; set; }
+        public double AverageTotalKeyUpTime { get; set; }
 
         /// <summary>
         /// </summary>
-        public TimeSpan AverageTotalKeyDownTime { get; set; }
+        public double AverageTimeBetweenKeyUp { get; set; }
 
         /// <summary>
         /// </summary>
-        public TimeSpan AverageTotalKeyUpTime { get; set; }
+        public double AverageTimeBetweenKeyDown { get; set; }
 
         /// <summary>
         /// </summary>
         public void Analyze()
         {
-            Parallel.ForEach(Trainings, (entry, state) => entry.Analyze());
+            foreach (TrainingEntry training in Trainings)
+            {
+                training.Analyze();
+                AverageTotalFirstDownLastDownTime += training.TotalFirstDownLastDownTime;
+                AverageTotalFirstUpLastUpTime += training.TotalFirstUpLastUpTime;
+                AverageTimeBetweenKeyUp += training.AverageTimeBetweenKeyUp;
+                AverageTimeBetweenKeyDown += training.AverageTimeBetweenKeyDown;
+            }
+            AverageTotalFirstUpLastUpTime = AverageTotalFirstUpLastUpTime / Trainings.Count;
+            AverageTotalFirstDownLastDownTime = AverageTotalFirstDownLastDownTime / Trainings.Count;
+            AverageTimeBetweenKeyUp = AverageTimeBetweenKeyUp / Trainings.Count;
+            AverageTimeBetweenKeyDown = AverageTimeBetweenKeyDown / Trainings.Count;
         }
     }
 }

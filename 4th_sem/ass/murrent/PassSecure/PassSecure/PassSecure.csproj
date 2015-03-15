@@ -95,6 +95,9 @@
     <Compile Include="Views\StatisticsWindow.xaml.cs">
       <DependentUpon>StatisticsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SuccessWindow.xaml.cs">
+      <DependentUpon>SuccessWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\AddUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +124,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\StatisticsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SuccessWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -156,7 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Media\boss.jpg" />
-    <Resource Include="Media\wohoo.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SecurityControls\SecurityControls.csproj">

@@ -12,6 +12,7 @@ namespace PassSecure.Data
 
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using PassSecure.Models;
     using PassSecure.Service;
@@ -94,6 +95,7 @@ namespace PassSecure.Data
             if (localTrainings != null)
             {
                 userTrainings = localTrainings;
+                Parallel.ForEach(localTrainings, p => p.Analyze());
             }
         }
 

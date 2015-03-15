@@ -50,10 +50,15 @@ namespace PassSecure.Views
 
         /// <summary>
         /// </summary>
+        private readonly PasswordAnalyzer passwordAnalyzer;
+
+        /// <summary>
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             Bootstrapper bootstrapper = new Bootstrapper();
+            passwordAnalyzer = SimpleContainer.Resolve<PasswordAnalyzer>();
             dataStore = SimpleContainer.Resolve<DataStore>();
             keyLogger = SimpleContainer.Resolve<KeyLogger>();
             keyLogger.SetMainWindow(this);
@@ -218,9 +223,19 @@ namespace PassSecure.Views
         {
             bool allowedToAdd = currentUserTraining != null
                                   && Password.Password.Equals(currentUserTraining.Password);
-            if (MenuItemModeNormal.IsChecked)
+            if (MenuItemModeNormal.IsChecked && currentUserTraining != null)
             {
-
+                PasswordEntry passwordEntry = new PasswordEntry()
+                                                  {
+                                                      KeyStrokes =  KeyStrokes
+                                                  };
+                passwordEntry.Analyze();
+                bool accepted = passwordAnalyzer.IsAccepted(UserNames.SelectedItem.ToString(), passwordEntry);
+                if (accepted)
+                {
+                    currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
+                    ShowSuccessWindow();
+                }
             }
             else
             {
@@ -253,6 +268,12 @@ namespace PassSecure.Views
                 string username = UserNames.SelectedItem.ToString();
                 currentUserTraining = dataStore.GetUserTraining(username);
             }
+        }
+
+        private void ShowSuccessWindow()
+        {
+            SuccessWindow successWindow = new SuccessWindow();
+            successWindow.ShowDialog();
         }
 
         /// <summary>

@@ -49,18 +49,26 @@ namespace PassSecure.Service
             UserTraining userTraining = dataStore.GetUserTraining(username);
             if (userTraining != null)
             {
-                byte[] averageTrainingCriterias =
+                byte[] averageTrainingKeyUpDown =
                     ArrayUtils.ConcatArrays(
                         userTraining.AverageTimeBetweenKeyUp.ToByteArray(),
-                        userTraining.AverageTimeBetweenKeyDown.ToByteArray(),
-                        userTraining.AverageTotalKeyDownTime.ToByteArray());
-                byte[] currentTrainingCriterias =
+                        userTraining.AverageTimeBetweenKeyDown.ToByteArray());
+                byte[] currentTrainingKeyUpDown =
                     ArrayUtils.ConcatArrays(
                         passwordEntry.AverageTimeBetweenKeyUp.ToByteArray(),
-                        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray(),
-                        passwordEntry.TotalKeyDownTime.ToByteArray());
+                        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray());
+                double differenceKeyUpDown = CheckCriteria(currentTrainingKeyUpDown, averageTrainingKeyUpDown);
+                byte[] averageTrainingCriterias =
+                   ArrayUtils.ConcatArrays(
+                       userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
+                       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
+                byte[] currentTrainingCriterias =
+                    ArrayUtils.ConcatArrays(
+                        passwordEntry.TotalFirstDownLastDownTime.ToByteArray(),
+                        passwordEntry.TotalFirstUpLastUpTime.ToByteArray());
                 double difference = CheckCriteria(currentTrainingCriterias, averageTrainingCriterias);
-                if (difference < 0.3)
+                double allDifference = (difference + differenceKeyUpDown);
+                if ((allDifference/ 2) <= 0.65)
                 {
                     accepted = true;
                 }
@@ -81,25 +89,22 @@ namespace PassSecure.Service
         {
             double spec1 = 0;
             double spec2 = 0;
-
-            // Accumulate the values in the oldFrame array
             double spec1Sum = AccumulateArray(averageTrainingCriterias);
-
-            // Accumulate the values in the newFrame array
             double spec2Sum = AccumulateArray(entryToMatch);
             double kullbackD1 = 0;
             double kullbackD2 = 0;
 
-            // Calculate the Kullback-Leibler-Divergenz
             for (int i = 0; i < entryToMatch.Length; i++)
             {
-                spec1 = averageTrainingCriterias[i] / spec1Sum;
-                spec2 = entryToMatch[i] / spec2Sum;
-                kullbackD1 += spec1 * Math.Log(spec1 / spec2, 2);
-                kullbackD2 += spec2 * Math.Log(spec2 / spec1, 2);
+                if (entryToMatch[i] != 0)
+                {
+                    spec1 = averageTrainingCriterias[i] / spec1Sum;
+                    spec2 = entryToMatch[i] / spec2Sum;
+                    kullbackD1 += spec1 * Math.Log((spec1 / spec2), 2);
+                    kullbackD2 += spec2 * Math.Log((spec2 / spec1), 2);
+                }
             }
 
-            // Return the Kullback-Leibler-Divergenz
             return (kullbackD1 + kullbackD2) / 2;
         }
 
