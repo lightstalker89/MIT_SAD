@@ -78,11 +78,13 @@ namespace PassSecure.Models
                 AverageTotalFirstUpLastUpTime += training.TotalFirstUpLastUpTime;
                 AverageTimeBetweenKeyUp += training.AverageTimeBetweenKeyUp;
                 AverageTimeBetweenKeyDown += training.AverageTimeBetweenKeyDown;
+                AverageKeyHoldTime += training.AverageHoldTime;
             }
             AverageTotalFirstUpLastUpTime = AverageTotalFirstUpLastUpTime / Trainings.Count;
             AverageTotalFirstDownLastDownTime = AverageTotalFirstDownLastDownTime / Trainings.Count;
             AverageTimeBetweenKeyUp = AverageTimeBetweenKeyUp / Trainings.Count;
             AverageTimeBetweenKeyDown = AverageTimeBetweenKeyDown / Trainings.Count;
+            AverageKeyHoldTime = AverageKeyHoldTime / Trainings.Count;
         }
     }
 }

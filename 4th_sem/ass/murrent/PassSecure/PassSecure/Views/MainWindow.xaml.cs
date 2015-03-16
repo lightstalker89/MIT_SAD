@@ -21,6 +21,8 @@ namespace PassSecure.Views
     using PassSecure.Models;
     using PassSecure.Service;
 
+    using SecurityControls;
+
     #endregion
 
     /// <summary>
@@ -253,11 +255,19 @@ namespace PassSecure.Views
                                                                       }
                                                   };
                 passwordEntry.Analyze();
-                bool accepted = passwordAnalyzer.IsAccepted(UserNames.SelectedItem.ToString(), passwordEntry);
-                if (accepted)
+                Enums.PasswordStatus status = passwordAnalyzer.IsAccepted(UserNames.SelectedItem.ToString(), passwordEntry);
+                if (status == Enums.PasswordStatus.Accepted)
                 {
                     currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
                     ShowSuccessWindow();
+                }
+                else if (status == Enums.PasswordStatus.PartialAccepted)
+                {
+
+                }
+                else if (status == Enums.PasswordStatus.NotAccepted)
+                {
+                    
                 }
             }
             else

@@ -53,27 +53,34 @@ namespace PassSecure.Service
                 byte[] trainingKeyUpData =
                     ArrayUtils.ConcatArrays(
                         userTraining.AverageTimeBetweenKeyUp.ToByteArray(),
-                        userTraining.AverageTimeBetweenKeyDown.ToByteArray());
+                        userTraining.AverageTimeBetweenKeyDown.ToByteArray(),
+                        userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
+                       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
                 byte[] currentKeyUpData =
                     ArrayUtils.ConcatArrays(
                         passwordEntry.AverageTimeBetweenKeyUp.ToByteArray(),
-                        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray());
-                double differenceKeyUpDown = CheckCriteria(currentKeyUpData, trainingKeyUpData);
-                byte[] trainingFirstDownLastDownData =
-                   ArrayUtils.ConcatArrays(
-                       userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
-                       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
-                byte[] currentFirstUpLastUpDate =
-                    ArrayUtils.ConcatArrays(
-                        passwordEntry.AverageTotalFirstDownLastDownTime.ToByteArray(),
+                        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray(),
+                         passwordEntry.AverageTotalFirstDownLastDownTime.ToByteArray(),
                         passwordEntry.AverageTotalFirstUpLastUpTime.ToByteArray());
-                double differenceFirstKeyUpDown = CheckCriteria(currentFirstUpLastUpDate, trainingFirstDownLastDownData);
-                double difference = (differenceKeyUpDown + differenceFirstKeyUpDown) / 2;
-               // double difference = (differenceFirstKeyUpDown + differenceKeyUpDown);
+                double difference = CheckCriteria(currentKeyUpData, trainingKeyUpData);
+                //double differenceKeyUpDown = CheckCriteria(currentKeyUpData, trainingKeyUpData);
+                //byte[] trainingFirstDownLastDownData =
+                //   ArrayUtils.ConcatArrays(
+                //       userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
+                //       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
+                //byte[] currentFirstUpLastUpDate =
+                //    ArrayUtils.ConcatArrays(
+                //        passwordEntry.AverageTotalFirstDownLastDownTime.ToByteArray(),
+                //        passwordEntry.AverageTotalFirstUpLastUpTime.ToByteArray());
+                //double differenceFirstKeyUpDown = CheckCriteria(currentFirstUpLastUpDate, trainingFirstDownLastDownData);
+                //double difference = (differenceKeyUpDown + differenceFirstKeyUpDown) / 2;
+                // double difference = (differenceFirstKeyUpDown + differenceKeyUpDown);
                 Debug.WriteLine("---------");
-                Debug.WriteLine(differenceKeyUpDown);
-                Debug.WriteLine(differenceFirstKeyUpDown);
-                Debug.WriteLine((differenceFirstKeyUpDown + differenceKeyUpDown) / 2);
+                Debug.WriteLine(difference);
+                //Debug.WriteLine(difference / 2);
+                //Debug.WriteLine(differenceKeyUpDown);
+               // Debug.WriteLine(differenceFirstKeyUpDown);
+                //Debug.WriteLine((differenceFirstKeyUpDown + differenceKeyUpDown) / 2);
                 Debug.WriteLine("****");
                 //Debug.WriteLine(difference);
                 //Debug.WriteLine(difference / 2);
@@ -81,7 +88,7 @@ namespace PassSecure.Service
                 {
                     status = Enums.PasswordStatus.Accepted;
                 }
-                else if (difference > 0.5 && difference < 0.7)
+                else if (difference > 0.5 && difference <= 0.6)
                 {
                     status = Enums.PasswordStatus.PartialAccepted;
                 }
@@ -101,7 +108,7 @@ namespace PassSecure.Service
                 //Debug.WriteLine("Time distance KeyUp: " + (userTraining.AverageTotalFirstUpLastUpTime - passwordEntry.TotalFirstUpLastUpTime));
             }
 
-            return accepted;
+            return status;
         }
 
         /// <summary>
@@ -131,6 +138,27 @@ namespace PassSecure.Service
 
             return (kullbackD1 + kullbackD2) / 2;
         }
+
+        ///// <summary>
+        ///// </summary>
+        ///// <param name="averageI"></param>
+        ///// <param name="averageII"></param>
+        ///// <param name="currentI"></param>
+        ///// <param name="currentII"></param>
+        ///// <returns></returns>
+        //private double GetDifference(double averageI, double averageII, double currentI, double currentII)
+        //{
+        //    byte[] averageData =
+        //            ArrayUtils.ConcatArrays(
+        //                averageI.ToByteArray(),
+        //               averageII.ToByteArray());
+        //    byte[] currentData =
+        //        ArrayUtils.ConcatArrays(
+        //           currentI.ToByteArray(),
+        //            currentII.ToByteArray());
+        //    return CheckCriteria(currentData, averageData);
+
+        //}
 
         /// <summary>
         /// </summary>
