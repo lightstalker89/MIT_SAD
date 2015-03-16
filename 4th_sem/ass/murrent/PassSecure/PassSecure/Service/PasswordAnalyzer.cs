@@ -49,29 +49,33 @@ namespace PassSecure.Service
             UserTraining userTraining = dataStore.GetUserTraining(username);
             if (userTraining != null)
             {
-                byte[] averageTrainingKeyUpDown =
-                    ArrayUtils.ConcatArrays(
-                        userTraining.AverageTimeBetweenKeyUp.ToByteArray(),
-                        userTraining.AverageTimeBetweenKeyDown.ToByteArray());
-                byte[] currentTrainingKeyUpDown =
-                    ArrayUtils.ConcatArrays(
-                        passwordEntry.AverageTimeBetweenKeyUp.ToByteArray(),
-                        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray());
-                double differenceKeyUpDown = CheckCriteria(currentTrainingKeyUpDown, averageTrainingKeyUpDown);
-                byte[] averageTrainingCriterias =
-                   ArrayUtils.ConcatArrays(
-                       userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
-                       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
-                byte[] currentTrainingCriterias =
-                    ArrayUtils.ConcatArrays(
-                        passwordEntry.TotalFirstDownLastDownTime.ToByteArray(),
-                        passwordEntry.TotalFirstUpLastUpTime.ToByteArray());
-                double difference = CheckCriteria(currentTrainingCriterias, averageTrainingCriterias);
-                double allDifference = (difference + differenceKeyUpDown);
-                if ((allDifference/ 2) <= 0.65)
-                {
-                    accepted = true;
-                }
+                //byte[] trainingKeyUpData =
+                //    ArrayUtils.ConcatArrays(
+                //        userTraining.AverageTimeBetweenKeyUp.ToByteArray(),
+                //        userTraining.AverageTimeBetweenKeyDown.ToByteArray());
+                //byte[] currentKeyUpData =
+                //    ArrayUtils.ConcatArrays(
+                //        passwordEntry.AverageTimeBetweenKeyUp.ToByteArray(),
+                //        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray());
+                //double differenceKeyUpDown = CheckCriteria(currentKeyUpData, trainingKeyUpData);
+                //byte[] trainingFirstDownLastDownData =
+                //   ArrayUtils.ConcatArrays(
+                //       userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
+                //       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
+                //byte[] currentFirstUpLastUpDate =
+                //    ArrayUtils.ConcatArrays(
+                //        passwordEntry.TotalFirstDownLastDownTime.ToByteArray(),
+                //        passwordEntry.TotalFirstUpLastUpTime.ToByteArray());
+                //double differenceFirstKeyUpDown = CheckCriteria(currentFirstUpLastUpDate, trainingFirstDownLastDownData);
+                //double difference = (differenceFirstKeyUpDown + differenceKeyUpDown);
+                //if (difference / 2 <= 0.65)
+                //{
+                //    accepted = true;
+                //}
+                //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(trainingKeyUpData, currentKeyUpData);
+                //double distanceKeyDown = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(), passwordEntry.TotalFirstDownLastDownTime.ToByteArray());
+                //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstUpLastUpTime.ToByteArray(), passwordEntry.TotalFirstUpLastUpTime.ToByteArray()); 
+
             }
 
             return accepted;
@@ -85,11 +89,11 @@ namespace PassSecure.Service
         /// </param>
         /// <returns>
         /// </returns>
-        private double CheckCriteria(byte[] entryToMatch, byte[] averageTrainingCriterias)
+        private double CheckCriteria(byte[] entryToMatch, byte[] averageTrainingCriteria)
         {
             double spec1 = 0;
             double spec2 = 0;
-            double spec1Sum = AccumulateArray(averageTrainingCriterias);
+            double spec1Sum = AccumulateArray(averageTrainingCriteria);
             double spec2Sum = AccumulateArray(entryToMatch);
             double kullbackD1 = 0;
             double kullbackD2 = 0;
@@ -98,7 +102,7 @@ namespace PassSecure.Service
             {
                 if (entryToMatch[i] != 0)
                 {
-                    spec1 = averageTrainingCriterias[i] / spec1Sum;
+                    spec1 = averageTrainingCriteria[i] / spec1Sum;
                     spec2 = entryToMatch[i] / spec2Sum;
                     kullbackD1 += spec1 * Math.Log((spec1 / spec2), 2);
                     kullbackD2 += spec2 * Math.Log((spec2 / spec1), 2);
@@ -114,7 +118,7 @@ namespace PassSecure.Service
         /// </param>
         /// <returns>
         /// </returns>
-        public double AccumulateArray(byte[] array)
+        private double AccumulateArray(byte[] array)
         {
             return array.Aggregate<byte, double>(0, (current, t) => current + t);
         }
