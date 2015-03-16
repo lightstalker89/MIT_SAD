@@ -11,6 +11,7 @@ namespace PassSecure.Service
     #region Usings
 
     using System;
+    using System.Diagnostics;
     using System.Linq;
 
     using PassSecure.Data;
@@ -43,39 +44,61 @@ namespace PassSecure.Service
         /// </param>
         /// <returns>
         /// </returns>
-        public bool IsAccepted(string username, PasswordEntry passwordEntry)
+        public Enums.PasswordStatus IsAccepted(string username, UserTraining passwordEntry)
         {
-            bool accepted = false;
+            Enums.PasswordStatus status = Enums.PasswordStatus.NotAccepted;
             UserTraining userTraining = dataStore.GetUserTraining(username);
             if (userTraining != null)
             {
-                //byte[] trainingKeyUpData =
-                //    ArrayUtils.ConcatArrays(
-                //        userTraining.AverageTimeBetweenKeyUp.ToByteArray(),
-                //        userTraining.AverageTimeBetweenKeyDown.ToByteArray());
-                //byte[] currentKeyUpData =
-                //    ArrayUtils.ConcatArrays(
-                //        passwordEntry.AverageTimeBetweenKeyUp.ToByteArray(),
-                //        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray());
-                //double differenceKeyUpDown = CheckCriteria(currentKeyUpData, trainingKeyUpData);
-                //byte[] trainingFirstDownLastDownData =
-                //   ArrayUtils.ConcatArrays(
-                //       userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
-                //       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
-                //byte[] currentFirstUpLastUpDate =
-                //    ArrayUtils.ConcatArrays(
-                //        passwordEntry.TotalFirstDownLastDownTime.ToByteArray(),
-                //        passwordEntry.TotalFirstUpLastUpTime.ToByteArray());
-                //double differenceFirstKeyUpDown = CheckCriteria(currentFirstUpLastUpDate, trainingFirstDownLastDownData);
-                //double difference = (differenceFirstKeyUpDown + differenceKeyUpDown);
-                //if (difference / 2 <= 0.65)
-                //{
-                //    accepted = true;
-                //}
+                byte[] trainingKeyUpData =
+                    ArrayUtils.ConcatArrays(
+                        userTraining.AverageTimeBetweenKeyUp.ToByteArray(),
+                        userTraining.AverageTimeBetweenKeyDown.ToByteArray());
+                byte[] currentKeyUpData =
+                    ArrayUtils.ConcatArrays(
+                        passwordEntry.AverageTimeBetweenKeyUp.ToByteArray(),
+                        passwordEntry.AverageTimeBetweenKeyDown.ToByteArray());
+                double differenceKeyUpDown = CheckCriteria(currentKeyUpData, trainingKeyUpData);
+                byte[] trainingFirstDownLastDownData =
+                   ArrayUtils.ConcatArrays(
+                       userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
+                       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
+                byte[] currentFirstUpLastUpDate =
+                    ArrayUtils.ConcatArrays(
+                        passwordEntry.AverageTotalFirstDownLastDownTime.ToByteArray(),
+                        passwordEntry.AverageTotalFirstUpLastUpTime.ToByteArray());
+                double differenceFirstKeyUpDown = CheckCriteria(currentFirstUpLastUpDate, trainingFirstDownLastDownData);
+                double difference = (differenceKeyUpDown + differenceFirstKeyUpDown) / 2;
+               // double difference = (differenceFirstKeyUpDown + differenceKeyUpDown);
+                Debug.WriteLine("---------");
+                Debug.WriteLine(differenceKeyUpDown);
+                Debug.WriteLine(differenceFirstKeyUpDown);
+                Debug.WriteLine((differenceFirstKeyUpDown + differenceKeyUpDown) / 2);
+                Debug.WriteLine("****");
+                //Debug.WriteLine(difference);
+                //Debug.WriteLine(difference / 2);
+                if (difference <= 0.5)
+                {
+                    status = Enums.PasswordStatus.Accepted;
+                }
+                else if (difference > 0.5 && difference < 0.7)
+                {
+                    status = Enums.PasswordStatus.PartialAccepted;
+                }
+                Debug.WriteLine(status);
+
                 //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(trainingKeyUpData, currentKeyUpData);
                 //double distanceKeyDown = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(), passwordEntry.TotalFirstDownLastDownTime.ToByteArray());
-                //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstUpLastUpTime.ToByteArray(), passwordEntry.TotalFirstUpLastUpTime.ToByteArray()); 
+                //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstUpLastUpTime.ToByteArray(), passwordEntry.TotalFirstUpLastUpTime.ToByteArray());
+                //double distanceKeyDownManhattan =
+                //    Accord.Math.Distance.Manhattan(new[] { userTraining.AverageTotalFirstDownLastDownTime }, new[] { passwordEntry.TotalFirstDownLastDownTime });
 
+                //double distanceKeyUpManhattan =
+                //  Accord.Math.Distance.Manhattan(new[] { userTraining.AverageTotalFirstUpLastUpTime, userTraining.AverageTotalFirstDownLastDownTime }, new[] { passwordEntry.TotalFirstUpLastUpTime, passwordEntry.TotalFirstDownLastDownTime });
+                //Debug.WriteLine("KeyDown distance: " + distanceKeyDownManhattan);
+                //Debug.WriteLine("Manhattan Distance: " + distanceKeyUpManhattan);
+                //Debug.WriteLine("Time distance KeyDown: " + (userTraining.AverageTotalFirstDownLastDownTime - passwordEntry.TotalFirstDownLastDownTime));
+                //Debug.WriteLine("Time distance KeyUp: " + (userTraining.AverageTotalFirstUpLastUpTime - passwordEntry.TotalFirstUpLastUpTime));
             }
 
             return accepted;
@@ -83,12 +106,9 @@ namespace PassSecure.Service
 
         /// <summary>
         /// </summary>
-        /// <param name="entryToMatch">
-        /// </param>
-        /// <param name="averageTrainingCriterias">
-        /// </param>
-        /// <returns>
-        /// </returns>
+        /// <param name="entryToMatch"></param>
+        /// <param name="averageTrainingCriteria"></param>
+        /// <returns></returns>
         private double CheckCriteria(byte[] entryToMatch, byte[] averageTrainingCriteria)
         {
             double spec1 = 0;

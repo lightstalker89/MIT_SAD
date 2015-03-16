@@ -61,8 +61,8 @@ namespace PassSecure.Models
         {
             if (KeyStrokes.Count > 1)
             {
-                TotalFirstDownLastDownTime = KeyStrokes.Last().KeyDownTime.Ticks - KeyStrokes.First().KeyDownTime.Ticks;
-                TotalFirstUpLastUpTime = KeyStrokes.Last().KeyUpTime.Ticks - KeyStrokes.First().KeyUpTime.Ticks;
+                TotalFirstDownLastDownTime = KeyStrokes.Last().KeyDownTime.TotalMilliseconds - KeyStrokes.First().KeyDownTime.TotalMilliseconds;
+                TotalFirstUpLastUpTime = KeyStrokes.Last().KeyUpTime.TotalMilliseconds - KeyStrokes.First().KeyUpTime.TotalMilliseconds;
             }
 
             for (int i = 1; i < KeyStrokes.Count; i++)
@@ -70,8 +70,8 @@ namespace PassSecure.Models
                 int lastIndex = i - 1;
                 KeyStrokes[i].TimeToLastKeyDown = KeyStrokes[i].KeyDownTime - KeyStrokes[lastIndex].KeyDownTime;
                 KeyStrokes[i].TimeToLastKeyUp = KeyStrokes[i].KeyUpTime - KeyStrokes[lastIndex].KeyUpTime;
-                AverageTimeBetweenKeyDown += KeyStrokes[i].TimeToLastKeyDown.Ticks;
-                AverageTimeBetweenKeyUp += KeyStrokes[i].TimeToLastKeyUp.Ticks;
+                AverageTimeBetweenKeyDown += KeyStrokes[i].TimeToLastKeyDown.TotalMilliseconds;
+                AverageTimeBetweenKeyUp += KeyStrokes[i].TimeToLastKeyUp.TotalMilliseconds;
             }
             AverageTimeBetweenKeyDown = AverageTimeBetweenKeyDown / KeyStrokes.Count;
             AverageTimeBetweenKeyUp = AverageTimeBetweenKeyUp / KeyStrokes.Count;

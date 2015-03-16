@@ -23,7 +23,7 @@ namespace PassSecure.Models
         /// </summary>
         public KeyStroke()
         {
-            
+
         }
 
         /// <summary>

@@ -101,7 +101,7 @@
     <Compile Include="Data\DataStore.cs" />
     <Compile Include="Events\KeyLogEventArgs.cs" />
     <Compile Include="ExtensionMethods\ExtensionMethods.cs" />
-    <Compile Include="Models\PasswordEntry.cs" />
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Service\PasswordAnalyzer.cs" />
     <Compile Include="Service\DataManager.cs" />
     <Compile Include="Service\KeyLogger.cs" />

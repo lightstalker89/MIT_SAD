@@ -5,10 +5,12 @@
         Title="Pass Secure" Height="373.503" Width="527.301">
     <Grid>
         <Menu Height="20" Margin="0,0,0.399,0" VerticalAlignment="Top">
-            <MenuItem Header="File" />
+            <MenuItem Header="File" >
+                <MenuItem Header="Exit"/>
+            </MenuItem>
             <MenuItem Header="Mode">
-                <MenuItem Name="MenuItemModeTrain" Header="Training" IsCheckable="True" IsChecked="false" Checked="MenuItemModeTrainChecked" />
-                <MenuItem Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" Checked="MenuItemModeNormalChecked" />
+                <MenuItem Name="MenuItemModeTrain" Header="Training" IsCheckable="True" IsChecked="false" Checked="MenuItemModeTrainChecked" Unchecked="MenuItemModeTrainUnchecked" />
+                <MenuItem Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" Checked="MenuItemModeNormalChecked" Unchecked="MenuItemModeNormalUnchecked" />
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Data" Click="DataClick"/>

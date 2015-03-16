@@ -223,9 +223,9 @@ namespace PassSecure.Service
                     }
                     else
                     {
-                        Debug.WriteLine(
-                            DateTime.Now.TimeOfDay + " - " + keyUp + "(" + vkCode + "): "
-                            + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
+                        //Debug.WriteLine(
+                        //    DateTime.Now.TimeOfDay + " - " + keyUp + "(" + vkCode + "): "
+                        //    + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
                         KeyStroke keyStroke = new KeyStroke(keyUp) { KeyDownTime = keyDownTime, KeyUpTime = keyUpTime };
                         instance.OnKeyLogPerformend(new KeyLogEventArgs(keyStroke));
                     }

@@ -41,6 +41,10 @@ namespace PassSecure.Models
 
         /// <summary>
         /// </summary>
+        public double AverageKeyHoldTime { get; set; }
+
+        /// <summary>
+        /// </summary>
         public double AverageTotalFirstUpLastUpTime { get; set; }
 
         /// <summary>

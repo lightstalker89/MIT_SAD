@@ -136,7 +136,27 @@ namespace PassSecure.Views
         /// </param>
         private void MenuItemModeNormalChecked(object sender, RoutedEventArgs e)
         {
-            MenuItemModeTrain.IsChecked = !MenuItemModeNormal.IsChecked;
+            MenuItemModeNormal.IsChecked = !MenuItemModeTrain.IsChecked;
+            CheckMode();
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemModeNormalUnchecked(object sender, RoutedEventArgs e)
+        {
+            MenuItemModeTrain.IsChecked = true;
+            CheckMode();
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemModeTrainUnchecked(object sender, RoutedEventArgs e)
+        {
+            MenuItemModeNormal.IsChecked = true;
             CheckMode();
         }
 
@@ -172,7 +192,7 @@ namespace PassSecure.Views
                 dataStore.AddUserTraining(
                     new UserTraining()
                         {
-                            UserName = addUserWindowWindow.UserName.Text, 
+                            UserName = addUserWindowWindow.UserName.Text,
                             Password = addUserWindowWindow.Password.Text
                         });
                 UpdateData();
@@ -221,13 +241,16 @@ namespace PassSecure.Views
         /// </summary>
         public void AddOrCheck()
         {
-            bool allowedToAdd = currentUserTraining != null
-                                  && Password.Password.Equals(currentUserTraining.Password);
-            if (MenuItemModeNormal.IsChecked && currentUserTraining != null)
+            bool isPasswordEqual = Password.Password.Equals(currentUserTraining.Password);
+            bool allowedToAdd = currentUserTraining != null && isPasswordEqual;
+            if (MenuItemModeNormal.IsChecked && currentUserTraining != null && isPasswordEqual)
             {
-                PasswordEntry passwordEntry = new PasswordEntry()
+                UserTraining passwordEntry = new UserTraining()
                                                   {
-                                                      KeyStrokes =  KeyStrokes
+                                                      Trainings = new List<TrainingEntry>()
+                                                                      {
+                                                                          new TrainingEntry(){ KeyStrokes = KeyStrokes}
+                                                                      }
                                                   };
                 passwordEntry.Analyze();
                 bool accepted = passwordAnalyzer.IsAccepted(UserNames.SelectedItem.ToString(), passwordEntry);
