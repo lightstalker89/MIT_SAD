@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Data" Height="333.295" Width="514.197">
     <Grid>
-        <ListView Name="DataListView" Margin="0,0,-0.145,34.202" BorderBrush="{x:Null}" HorizontalContentAlignment="Center">
+        <!--<ListView Name="DataListView" Margin="0,0,-0.145,34.202" BorderBrush="{x:Null}" HorizontalContentAlignment="Center">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Username" Width="180" DisplayMemberBinding="{ Binding UserName}"/>
@@ -11,7 +11,29 @@
                     <GridViewColumn Header="Training Entries" Width="100" DisplayMemberBinding="{Binding Trainings.Count}" />
                 </GridView>
             </ListView.View>
-        </ListView>
+        </ListView>-->
+        <TreeView x:Name="DataTreeView" Margin="0,10,-0.145,33.202" BorderThickness="0">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate>
+                    <TreeViewItem Header="{ Binding UserName}" FontWeight="SemiBold">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" Width="200">
+                                <TextBlock FontWeight="SemiBold" Text="Password Data Entries:"></TextBlock>
+                                <TextBlock FontWeight="SemiBold"  Text="Username:"></TextBlock>
+                                <TextBlock FontWeight="SemiBold"  Text="Password: "></TextBlock>
+                                <TextBlock FontWeight="SemiBold"  Text="Average Key Hold Time (ms): "></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontWeight="Normal" Text="{Binding Trainings.Count}"></TextBlock>
+                                <TextBlock FontWeight="Normal" Text="{Binding UserName}"></TextBlock>
+                                <TextBlock FontWeight="Normal" Text="{Binding Password}"></TextBlock>
+                                <TextBlock FontWeight="Normal" Text="{Binding AverageKeyHoldTime}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </TreeViewItem>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
         <Button Content="Ok" HorizontalAlignment="Right" Margin="0,0,8.855,7.202" VerticalAlignment="Bottom" Width="75" Click="OkClick"/>
 
     </Grid>

@@ -10,6 +10,8 @@ namespace PassSecure.Views
 {
     #region Usings
     using System.Windows;
+    using System.Windows.Input;
+
     #endregion
 
     /// <summary>
@@ -20,6 +22,7 @@ namespace PassSecure.Views
         public SuccessWindow()
         {
             InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             CloseButton.Focus();
         }
 
@@ -30,6 +33,11 @@ namespace PassSecure.Views
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
+        }
+
+        private void CloseKeyDown(object sender, KeyEventArgs e)
+        {
+           
         }
     }
 }

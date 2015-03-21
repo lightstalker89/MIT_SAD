@@ -28,7 +28,8 @@ namespace PassSecure.Views
         {
             InitializeComponent();
             DataStore dataStore = SimpleContainer.Resolve<DataStore>();
-            DataListView.ItemsSource = dataStore.GetUserTrainings();
+            //DataListView.ItemsSource = dataStore.GetUserTrainings();
+            DataTreeView.ItemsSource = dataStore.GetUserTrainings();
         }
 
         /// <summary>

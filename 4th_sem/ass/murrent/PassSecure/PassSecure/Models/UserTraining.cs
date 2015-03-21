@@ -14,6 +14,8 @@ namespace PassSecure.Models
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using OxyPlot;
+
     #endregion
 
     /// <summary>
@@ -66,6 +68,10 @@ namespace PassSecure.Models
         /// <summary>
         /// </summary>
         public double AverageTimeBetweenKeyDown { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public bool AcceptedUserAttempt { get; set; }
 
         /// <summary>
         /// </summary>

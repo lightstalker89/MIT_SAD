@@ -55,14 +55,34 @@ namespace PassSecure.Service
                         userTraining.AverageTimeBetweenKeyUp.ToByteArray(),
                         userTraining.AverageTimeBetweenKeyDown.ToByteArray(),
                         userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(),
-                       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray());
+                       userTraining.AverageTotalFirstUpLastUpTime.ToByteArray(),
+                       userTraining.AverageKeyHoldTime.ToByteArray());
                 byte[] currentKeyUpData =
                     ArrayUtils.ConcatArrays(
                         passwordEntry.AverageTimeBetweenKeyUp.ToByteArray(),
                         passwordEntry.AverageTimeBetweenKeyDown.ToByteArray(),
                          passwordEntry.AverageTotalFirstDownLastDownTime.ToByteArray(),
-                        passwordEntry.AverageTotalFirstUpLastUpTime.ToByteArray());
+                        passwordEntry.AverageTotalFirstUpLastUpTime.ToByteArray(),
+                        passwordEntry.AverageKeyHoldTime.ToByteArray());
                 double difference = CheckCriteria(currentKeyUpData, trainingKeyUpData);
+                //double[] trainingDoubles = new[]
+                //                               {
+                //                                   userTraining.AverageTimeBetweenKeyUp,
+                //                                   userTraining.AverageTimeBetweenKeyDown,
+                //                                   userTraining.AverageTotalFirstDownLastDownTime,
+                //                                   userTraining.AverageTotalFirstUpLastUpTime
+                //                               };
+                //double[] currentDoubles = new[]
+                //                              {
+                //                                  passwordEntry.AverageTimeBetweenKeyUp,
+                //                                  passwordEntry.AverageTimeBetweenKeyDown,
+                //                                  passwordEntry.AverageTotalFirstDownLastDownTime,
+                //                                  passwordEntry.AverageTotalFirstUpLastUpTime
+                //                              };
+                //double distance = Accord.Math.Distance.Manhattan(trainingDoubles, currentDoubles);
+                //double euclidDistance = Accord.Math.Distance.Euclidean(trainingDoubles, currentDoubles);
+                //Debug.WriteLine("MANHATTAN DISTANCE: " + distance);
+                //Debug.WriteLine("EUCLIDEAN DISTANCE: " + euclidDistance);
                 //double differenceKeyUpDown = CheckCriteria(currentKeyUpData, trainingKeyUpData);
                 //byte[] trainingFirstDownLastDownData =
                 //   ArrayUtils.ConcatArrays(

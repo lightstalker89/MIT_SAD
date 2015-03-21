@@ -4,6 +4,6 @@
         Title="You did it" Height="316.647" Width="222.312" ResizeMode="NoResize">
     <Grid>
         <Image Source="/PassSecure;component/Media/boss.jpg" Margin="0,10,2.971,0" Height="235" VerticalAlignment="Top"/>
-        <Button x:Name="CloseButton" Content="Close" Margin="10,0,9,10" VerticalAlignment="Bottom" Click="CloseButtonClick"/>
+        <Button x:Name="CloseButton" Content="Close" Margin="10,0,9,10" VerticalAlignment="Bottom" Click="CloseButtonClick" KeyDown="CloseKeyDown"/>
     </Grid>
 </Window>

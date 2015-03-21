@@ -10,6 +10,7 @@ namespace PassSecure.Service
 {
     #region Usings
 
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Web.Script.Serialization;
@@ -36,6 +37,7 @@ namespace PassSecure.Service
         public DataManager()
         {
             javaScriptSerializer.RegisterConverters(new[] { new TimeSpantoJSONConverter() });
+            javaScriptSerializer.MaxJsonLength = Int32.MaxValue;
         }
 
         /// <summary>
@@ -55,8 +57,7 @@ namespace PassSecure.Service
 
         /// <summary>
         /// </summary>
-        /// <param name="userTrainings">
-        /// </param>
+        /// <param name="userTrainings">marom
         public void Save(List<UserTraining> userTrainings)
         {
             string json = javaScriptSerializer.Serialize(userTrainings);

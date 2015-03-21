@@ -13,15 +13,20 @@ namespace PassSecure.Views
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Forms;
 
     using PassSecure.Data;
     using PassSecure.Events;
     using PassSecure.Models;
     using PassSecure.Service;
 
-    using SecurityControls;
+    using Application = System.Windows.Application;
+    using MessageBox = System.Windows.Forms.MessageBox;
+    using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
     #endregion
 
@@ -69,6 +74,7 @@ namespace PassSecure.Views
             UpdateData();
             this.Closing += this.MainWindowClosing;
             this.Password.Focus();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Instance = this;
         }
 
@@ -203,18 +209,6 @@ namespace PassSecure.Views
 
         /// <summary>
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void OnStatisticsClick(object sender, RoutedEventArgs e)
-        {
-            StatisticsWindow statisticsWindow = new StatisticsWindow();
-            statisticsWindow.ShowDialog();
-        }
-
-        /// <summary>
-        /// </summary>
         private void UpdateData()
         {
             UserNames.Items.Clear();
@@ -259,6 +253,7 @@ namespace PassSecure.Views
                 if (status == Enums.PasswordStatus.Accepted)
                 {
                     currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
+                    currentUserTraining.AcceptedUserAttempt = true;
                     ShowSuccessWindow();
                 }
                 else if (status == Enums.PasswordStatus.PartialAccepted)
@@ -267,7 +262,7 @@ namespace PassSecure.Views
                 }
                 else if (status == Enums.PasswordStatus.NotAccepted)
                 {
-                    
+                    currentUserTraining.AcceptedUserAttempt = false;
                 }
             }
             else
@@ -275,6 +270,7 @@ namespace PassSecure.Views
                 if (allowedToAdd)
                 {
                     currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
+                    currentUserTraining.AcceptedUserAttempt = false;
                     currentUserTraining.Analyze();
                     dataStore.UpdateUserTraining();
                     Status.Text = "Entry added successfully";
@@ -303,6 +299,8 @@ namespace PassSecure.Views
             }
         }
 
+        /// <summary>
+        /// </summary>
         private void ShowSuccessWindow()
         {
             SuccessWindow successWindow = new SuccessWindow();
@@ -315,6 +313,49 @@ namespace PassSecure.Views
         {
             Password.Clear();
             KeyStrokes.Clear();
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ImportDataClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "";
+            openFileDialog.DefaultExt = ".pss";
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                await Task.Factory.StartNew(
+                    () => File.Copy(openFileDialog.FileName, "data.pss", true));
+                dataStore.ReadLocalData();
+                UpdateData();
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportDataClick(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.DefaultExt = ".pss";
+            saveFileDialog.Filter = "PassSecure File (.pss)|*.pss";
+            DialogResult result = saveFileDialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                if (File.Exists("data.pss"))
+                {
+                    File.Copy("data.pss", saveFileDialog.FileName);
+                }
+            }
+        }
+
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
