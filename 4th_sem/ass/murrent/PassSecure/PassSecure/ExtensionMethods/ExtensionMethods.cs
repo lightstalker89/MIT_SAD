@@ -12,6 +12,10 @@ namespace PassSecure.ExtensionMethods
     #region Usings
 
     using System;
+    using System.Collections.Generic;
+    using System.Windows.Documents;
+
+    using PassSecure.Utils;
 
     #endregion
 
@@ -31,13 +35,28 @@ namespace PassSecure.ExtensionMethods
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public static byte[] ToByteArray(this double value)
         {
             return BitConverter.GetBytes(value);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static byte[] ToByteArray(this List<int> list)
+        {
+            byte[] byteArray = new byte[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                byteArray = ArrayUtils.ConcatArrays(
+                    byteArray,
+                    BitConverter.GetBytes(list[i]));
+            }
+            return byteArray;
         }
     }
 }

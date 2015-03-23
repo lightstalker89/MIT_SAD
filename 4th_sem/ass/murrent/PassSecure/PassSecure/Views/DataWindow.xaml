@@ -3,15 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Data" Height="333.295" Width="514.197">
     <Grid>
-        <!--<ListView Name="DataListView" Margin="0,0,-0.145,34.202" BorderBrush="{x:Null}" HorizontalContentAlignment="Center">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Username" Width="180" DisplayMemberBinding="{ Binding UserName}"/>
-                    <GridViewColumn Header="Password" Width="180" DisplayMemberBinding="{ Binding Password}" />
-                    <GridViewColumn Header="Training Entries" Width="100" DisplayMemberBinding="{Binding Trainings.Count}" />
-                </GridView>
-            </ListView.View>
-        </ListView>-->
         <TreeView x:Name="DataTreeView" Margin="0,10,-0.145,33.202" BorderThickness="0">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate>

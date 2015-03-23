@@ -254,6 +254,7 @@ namespace PassSecure.Views
                 {
                     currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
                     currentUserTraining.AcceptedUserAttempt = true;
+                    dataStore.UpdateUserTraining();
                     ShowSuccessWindow();
                 }
                 else if (status == Enums.PasswordStatus.PartialAccepted)

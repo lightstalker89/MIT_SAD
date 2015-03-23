@@ -25,6 +25,8 @@ namespace PassSecure.Models
         public TrainingEntry()
         {
             KeyStrokes = new List<KeyStroke>();
+            KeyStrokeDownTimes = new List<double>();
+            KeyStrokeUpTimes = new List<double>();
         }
 
         /// <summary>
@@ -61,6 +63,14 @@ namespace PassSecure.Models
 
         /// <summary>
         /// </summary>
+        public List<double> KeyStrokeDownTimes { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public List<double> KeyStrokeUpTimes { get; set; } 
+
+        /// <summary>
+        /// </summary>
         public void Analyze()
         {
             if (KeyStrokes.Count > 1)
@@ -74,13 +84,15 @@ namespace PassSecure.Models
                 int lastIndex = i - 1;
                 KeyStrokes[i].TimeToLastKeyDown = KeyStrokes[i].KeyDownTime - KeyStrokes[lastIndex].KeyDownTime;
                 KeyStrokes[i].TimeToLastKeyUp = KeyStrokes[i].KeyUpTime - KeyStrokes[lastIndex].KeyUpTime;
+                KeyStrokeDownTimes.Add(KeyStrokes[i].TimeToLastKeyDown.TotalMilliseconds);
+                KeyStrokeUpTimes.Add(KeyStrokes[i].TimeToLastKeyUp.TotalMilliseconds);
                 AverageTimeBetweenKeyDown += KeyStrokes[i].TimeToLastKeyDown.TotalMilliseconds;
                 AverageTimeBetweenKeyUp += KeyStrokes[i].TimeToLastKeyUp.TotalMilliseconds;
                 AverageHoldTime += KeyStrokes[i].TimeBetweenDownAndUp.TotalMilliseconds;
             }
-            AverageTimeBetweenKeyDown = AverageTimeBetweenKeyDown / KeyStrokes.Count;
-            AverageTimeBetweenKeyUp = AverageTimeBetweenKeyUp / KeyStrokes.Count;
-            AverageHoldTime = AverageHoldTime / KeyStrokes.Count;
+            AverageTimeBetweenKeyDown = Math.Round((AverageTimeBetweenKeyDown / KeyStrokes.Count), 5);
+            AverageTimeBetweenKeyUp = Math.Round(AverageTimeBetweenKeyUp / KeyStrokes.Count, 5);
+            AverageHoldTime = Math.Round(AverageHoldTime / KeyStrokes.Count, 5);
         }
     }
 }

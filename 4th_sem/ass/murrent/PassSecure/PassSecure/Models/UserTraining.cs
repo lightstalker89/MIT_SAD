@@ -12,9 +12,6 @@ namespace PassSecure.Models
 
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    using OxyPlot;
 
     #endregion
 
@@ -75,6 +72,14 @@ namespace PassSecure.Models
 
         /// <summary>
         /// </summary>
+        public List<double> AverageKeyStrokeDownTimes { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public List<double> AverageKeyStrokeUpTimes { get; set; } 
+
+        /// <summary>
+        /// </summary>
         public void Analyze()
         {
             foreach (TrainingEntry training in Trainings)
@@ -86,11 +91,11 @@ namespace PassSecure.Models
                 AverageTimeBetweenKeyDown += training.AverageTimeBetweenKeyDown;
                 AverageKeyHoldTime += training.AverageHoldTime;
             }
-            AverageTotalFirstUpLastUpTime = AverageTotalFirstUpLastUpTime / Trainings.Count;
-            AverageTotalFirstDownLastDownTime = AverageTotalFirstDownLastDownTime / Trainings.Count;
-            AverageTimeBetweenKeyUp = AverageTimeBetweenKeyUp / Trainings.Count;
-            AverageTimeBetweenKeyDown = AverageTimeBetweenKeyDown / Trainings.Count;
-            AverageKeyHoldTime = AverageKeyHoldTime / Trainings.Count;
+            AverageTotalFirstUpLastUpTime = Math.Round(AverageTotalFirstUpLastUpTime / Trainings.Count, 5);
+            AverageTotalFirstDownLastDownTime = Math.Round(AverageTotalFirstDownLastDownTime / Trainings.Count, 5);
+            AverageTimeBetweenKeyUp = Math.Round(AverageTimeBetweenKeyUp / Trainings.Count, 5);
+            AverageTimeBetweenKeyDown = Math.Round(AverageTimeBetweenKeyDown / Trainings.Count, 5);
+            AverageKeyHoldTime = Math.Round(AverageKeyHoldTime / Trainings.Count, 5);
         }
     }
 }
