@@ -107,8 +107,14 @@ namespace PassSecure.Models
                 {
                     AverageKeyStrokeUpTimes.Insert(i, 0);
                 }
-                AverageKeyStrokeDownTimes[i] += Trainings[i].AverageTimeBetweenKeyDown;
-                AverageKeyStrokeUpTimes[i] += Trainings[i].AverageTimeBetweenKeyUp;
+                for (int x = 0; x < Trainings[i].KeyStrokeDownTimes.Count; x++)
+                {
+                    AverageKeyStrokeDownTimes[i] += Trainings[i].KeyStrokeDownTimes[x];
+                }
+                for (int y = 0; y < Trainings[i].KeyStrokeUpTimes.Count; y++)
+                {
+                    AverageKeyStrokeUpTimes[i] += Trainings[i].KeyStrokeUpTimes[y];                    
+                }
                 AverageTotalFirstDownLastDownTime += Trainings[i].TotalFirstDownLastDownTime;
                 AverageTotalFirstUpLastUpTime += Trainings[i].TotalFirstUpLastUpTime;
                 AverageTimeBetweenKeyUp += Trainings[i].AverageTimeBetweenKeyUp;

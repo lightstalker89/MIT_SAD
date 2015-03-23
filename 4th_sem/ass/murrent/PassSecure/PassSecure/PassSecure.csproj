@@ -101,9 +101,6 @@
     <Compile Include="Views\DataWindow.xaml.cs">
       <DependentUpon>DataWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SuccessWindow.xaml.cs">
-      <DependentUpon>SuccessWindow.xaml</DependentUpon>
-    </Compile>
     <Page Include="Views\AddUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,10 +126,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\SuccessWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\KeyStroke.cs" />

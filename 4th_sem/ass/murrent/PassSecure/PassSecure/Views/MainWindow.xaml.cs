@@ -99,6 +99,8 @@ namespace PassSecure.Views
         {
             KeyStrokes.Add(e.KeyStroke);
             Status.Text = string.Empty;
+            NotAccepted.Visibility = Visibility.Collapsed;
+            Accepted.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -255,7 +257,7 @@ namespace PassSecure.Views
                     currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
                     currentUserTraining.AcceptedUserAttempt = true;
                     dataStore.UpdateUserTraining();
-                    ShowSuccessWindow();
+                    Accepted.Visibility = Visibility.Visible;
                 }
                 else if (status == Enums.PasswordStatus.PartialAccepted)
                 {
@@ -264,6 +266,8 @@ namespace PassSecure.Views
                 else if (status == Enums.PasswordStatus.NotAccepted)
                 {
                     currentUserTraining.AcceptedUserAttempt = false;
+                    Accepted.Visibility = Visibility.Collapsed;
+                    NotAccepted.Visibility = Visibility.Visible;
                 }
             }
             else
@@ -298,14 +302,6 @@ namespace PassSecure.Views
                 string username = UserNames.SelectedItem.ToString();
                 currentUserTraining = dataStore.GetUserTraining(username);
             }
-        }
-
-        /// <summary>
-        /// </summary>
-        private void ShowSuccessWindow()
-        {
-            SuccessWindow successWindow = new SuccessWindow();
-            successWindow.ShowDialog();
         }
 
         /// <summary>
