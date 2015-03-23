@@ -156,28 +156,28 @@ namespace PassSecure.Service
         /// <param name="entryToMatch"></param>
         /// <param name="averageTrainingCriteria"></param>
         /// <returns></returns>
-        private double CheckCriteria(byte[] entryToMatch, byte[] averageTrainingCriteria)
-        {
-            double spec1 = 0;
-            double spec2 = 0;
-            double spec1Sum = AccumulateArray(averageTrainingCriteria);
-            double spec2Sum = AccumulateArray(entryToMatch);
-            double kullbackD1 = 0;
-            double kullbackD2 = 0;
+        //private double CheckCriteria(byte[] entryToMatch, byte[] averageTrainingCriteria)
+        //{
+        //    double spec1 = 0;
+        //    double spec2 = 0;
+        //    double spec1Sum = AccumulateArray(averageTrainingCriteria);
+        //    double spec2Sum = AccumulateArray(entryToMatch);
+        //    double kullbackD1 = 0;
+        //    double kullbackD2 = 0;
 
-            for (int i = 0; i < entryToMatch.Length; i++)
-            {
-                if (entryToMatch[i] != 0)
-                {
-                    spec1 = averageTrainingCriteria[i] / spec1Sum;
-                    spec2 = entryToMatch[i] / spec2Sum;
-                    kullbackD1 += spec1 * Math.Log((spec1 / spec2), 2);
-                    kullbackD2 += spec2 * Math.Log((spec2 / spec1), 2);
-                }
-            }
+        //    for (int i = 0; i < entryToMatch.Length; i++)
+        //    {
+        //        if (entryToMatch[i] != 0)
+        //        {
+        //            spec1 = averageTrainingCriteria[i] / spec1Sum;
+        //            spec2 = entryToMatch[i] / spec2Sum;
+        //            kullbackD1 += spec1 * Math.Log((spec1 / spec2), 2);
+        //            kullbackD2 += spec2 * Math.Log((spec2 / spec1), 2);
+        //        }
+        //    }
 
-            return (kullbackD1 + kullbackD2) / 2;
-        }
+        //    return (kullbackD1 + kullbackD2) / 2;
+        //}
 
         ///// <summary>
         ///// </summary>
