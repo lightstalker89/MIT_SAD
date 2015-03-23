@@ -1,3 +1,6 @@
 pyparsing:
 
 https://pyparsing.wikispaces.com/
+http://pyparsing.wikispaces.com/share/view/924971
+https://pyparsing.wikispaces.com/HowToUsePyparsing
+https://pythonhosted.org/pyparsing/
