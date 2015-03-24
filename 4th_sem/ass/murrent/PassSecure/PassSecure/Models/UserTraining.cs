@@ -27,8 +27,6 @@ namespace PassSecure.Models
         public UserTraining()
         {
             Trainings = new List<TrainingEntry>();
-            AverageKeyStrokeDownTimes = new List<double>();
-            AverageKeyStrokeUpTimes = new List<double>();
         }
 
         /// <summary>
@@ -77,11 +75,11 @@ namespace PassSecure.Models
 
         /// <summary>
         /// </summary>
-        public List<double> AverageKeyStrokeDownTimes { get; set; }
+        public double[] AverageKeyStrokeDownTimes { get; set; }
 
         /// <summary>
         /// </summary>
-        public List<double> AverageKeyStrokeUpTimes { get; set; }
+        public double[] AverageKeyStrokeUpTimes { get; set; }
 
         /// <summary>
         /// </summary>
@@ -99,6 +97,8 @@ namespace PassSecure.Models
         /// </summary>
         public void Analyze()
         {
+            AverageKeyStrokeDownTimes = new double[Password.Length];
+            AverageKeyStrokeUpTimes = new double[Password.Length];
             AverageTotalFirstDownLastDownTime = 0;
             AverageTotalFirstUpLastUpTime = 0;
             AverageTimeBetweenKeyUp = 0;
@@ -110,6 +110,8 @@ namespace PassSecure.Models
             //CheckLists();
             for (int i = 0; i < Trainings.Count; i++)
             {
+                Trainings[i].KeyStrokeUpTimes = new double[Password.Length];
+                Trainings[i].KeyStrokeDownTimes = new double[Password.Length];
                 Trainings[i].Analyze();
                 //double valueDown = AverageKeyStrokeDownTimes.ElementAtOrDefault(i);
                 //double valueUp = AverageKeyStrokeUpTimes.ElementAtOrDefault(i);
@@ -129,6 +131,7 @@ namespace PassSecure.Models
                 //{
                 //    AverageKeyStrokeUpTimes[i] += Trainings[i].KeyStrokeUpTimes[y];                    
                 //}
+                AverageDistance += Trainings[i].Distance;
                 AverageTotalFirstDownLastDownTime += Trainings[i].TotalFirstDownLastDownTime;
                 AverageTotalFirstUpLastUpTime += Trainings[i].TotalFirstUpLastUpTime;
                 AverageTimeBetweenKeyUp += Trainings[i].AverageTimeBetweenKeyUp;
@@ -145,22 +148,23 @@ namespace PassSecure.Models
             AverageTimeBetweenKeyUp = Math.Round(AverageTimeBetweenKeyUp / Trainings.Count, 5);
             AverageTimeBetweenKeyDown = Math.Round(AverageTimeBetweenKeyDown / Trainings.Count, 5);
             AverageKeyHoldTime = Math.Round(AverageKeyHoldTime / Trainings.Count, 5);
+            AverageDistance = AverageDistance / Trainings.Count;
             //CalculateDistance(); //TODO: inspect !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
 
-        /// <summary>
-        /// </summary>
-        private void CalculateDistance()
-        {
-            PasswordAnalyzer passwordAnalyzer = SimpleContainer.Resolve<PasswordAnalyzer>();
-            double[] averageData = new[] { AverageKeyHoldTime, AverageTimeBetweenKeyUp, AverageTimeBetweenKeyDown, AverageTotalFirstDownLastDownTime, AverageTotalFirstUpLastUpTime };
-            AverageDistance = 0;
-            foreach (TrainingEntry training in Trainings)
-            {
-                double[] currentData = new[] { training.AverageHoldTime, training.AverageTimeBetweenKeyUp, training.AverageTimeBetweenKeyDown, training.TotalFirstDownLastDownTime, training.TotalFirstUpLastUpTime };
-                AverageDistance += passwordAnalyzer.CalculateDistance(averageData, currentData);
-            }
-            AverageDistance = AverageDistance / Trainings.Count;
-        }
+        ///// <summary>
+        ///// </summary>
+        //private void CalculateDistance()
+        //{
+        //    PasswordAnalyzer passwordAnalyzer = SimpleContainer.Resolve<PasswordAnalyzer>();
+        //    double[] averageData = new[] { AverageKeyHoldTime, AverageTimeBetweenKeyUp, AverageTimeBetweenKeyDown, AverageTotalFirstDownLastDownTime, AverageTotalFirstUpLastUpTime };
+        //    AverageDistance = 0;
+        //    foreach (TrainingEntry training in Trainings)
+        //    {
+        //        double[] currentData = new[] { training.AverageHoldTime, training.AverageTimeBetweenKeyUp, training.AverageTimeBetweenKeyDown, training.TotalFirstDownLastDownTime, training.TotalFirstUpLastUpTime };
+        //        AverageDistance += passwordAnalyzer.CalculateDistance(averageData, currentData);
+        //    }
+        //    AverageDistance = AverageDistance / Trainings.Count;
+        //}
     }
 }

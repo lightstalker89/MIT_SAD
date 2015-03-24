@@ -6,6 +6,9 @@
 // </summary>
 // <author>Mario Murrent</author>
 #endregion
+
+using System.Diagnostics;
+
 namespace PassSecure.Views
 {
     #region Usings
@@ -246,6 +249,8 @@ namespace PassSecure.Views
             {
                 UserTraining passwordEntry = new UserTraining()
                                                   {
+                                                      Password = currentUserTraining.Password,
+                                                      UserName = currentUserTraining.UserName,
                                                       Trainings = new List<TrainingEntry>()
                                                                       {
                                                                           new TrainingEntry(){ KeyStrokes = KeyStrokes}
@@ -255,9 +260,12 @@ namespace PassSecure.Views
                 Enums.PasswordStatus status = passwordAnalyzer.IsAccepted(UserNames.SelectedItem.ToString(), passwordEntry);
                 if (status == Enums.PasswordStatus.Accepted)
                 {
-                    currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
-                    currentUserTraining.AcceptedUserAttempt = true;
-                    dataStore.UpdateUserTraining();
+                    //TrainingEntry trainingEntry = new TrainingEntry() { KeyStrokes = KeyStrokes };
+                    //trainingEntry.Analyze();
+                    //trainingEntry.Distance = passwordAnalyzer.CalculateDistance(currentUserTraining, trainingEntry);
+                    //currentUserTraining.Trainings.Add(trainingEntry);
+                    //currentUserTraining.AcceptedUserAttempt = true;
+                    //dataStore.UpdateUserTraining();
                     Accepted.Visibility = Visibility.Visible;
                 }
                 else if (status == Enums.PasswordStatus.PartialAccepted)
@@ -275,7 +283,11 @@ namespace PassSecure.Views
             {
                 if (allowedToAdd)
                 {
-                    currentUserTraining.Trainings.Add(new TrainingEntry() { KeyStrokes = KeyStrokes });
+                    TrainingEntry trainingEntry = new TrainingEntry() { KeyStrokes = KeyStrokes };
+                    trainingEntry.Analyze();
+                    trainingEntry.Distance = passwordAnalyzer.CalculateDistance(currentUserTraining, trainingEntry);
+                    Debug.WriteLine("TRAINING DISTANCE: " + trainingEntry.Distance);
+                    currentUserTraining.Trainings.Add(trainingEntry);
                     currentUserTraining.AcceptedUserAttempt = false;
                     currentUserTraining.Analyze();
                     dataStore.UpdateUserTraining();

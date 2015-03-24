@@ -109,29 +109,29 @@ namespace PassSecure.Service
                 //Debug.WriteLine("****");
                 //Debug.WriteLine(difference);
                 //Debug.WriteLine(difference / 2);
-                double[] manhattanData = new[] {    
-                                                    userTraining.AverageKeyHoldTime,
-                                                    userTraining.AverageTimeBetweenKeyUp,
-                                                    userTraining.AverageTimeBetweenKeyDown,
-                                                    userTraining.AverageTotalFirstDownLastDownTime,
-                                                    userTraining.AverageTotalFirstUpLastUpTime,
-                                                    };
-                //manhattanData = ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes.ToArray());
-                //manhattanData = ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes.ToArray());
-                double[] manhattanCurrentData = new[] {
-                                                    passwordEntry.AverageKeyHoldTime, 
-                                                    passwordEntry.AverageTimeBetweenKeyUp,
-                                                  passwordEntry.AverageTimeBetweenKeyDown,
-                                                  passwordEntry.AverageTotalFirstDownLastDownTime,
-                                                  passwordEntry.AverageTotalFirstUpLastUpTime, };
+                //double[] manhattanData = new[] {    
+                //                                    userTraining.AverageKeyHoldTime,
+                //                                    userTraining.AverageTimeBetweenKeyUp,
+                //                                    userTraining.AverageTimeBetweenKeyDown,
+                //                                    userTraining.AverageTotalFirstDownLastDownTime,
+                //                                    userTraining.AverageTotalFirstUpLastUpTime,
+                //                                    };
+                ////manhattanData = ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes.ToArray());
+                ////manhattanData = ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes.ToArray());
+                //double[] manhattanCurrentData = new[] {
+                //                                    passwordEntry.AverageKeyHoldTime, 
+                //                                    passwordEntry.AverageTimeBetweenKeyUp,
+                //                                  passwordEntry.AverageTimeBetweenKeyDown,
+                //                                  passwordEntry.AverageTotalFirstDownLastDownTime,
+                //                                  passwordEntry.AverageTotalFirstUpLastUpTime, };
                 //manhattanCurrentData = ArrayUtils.ConcatArrays(
                 //    manhattanCurrentData,
                 //    passwordEntry.AverageKeyStrokeDownTimes.ToArray());
                 //manhattanCurrentData = ArrayUtils.ConcatArrays(
                 //    manhattanCurrentData,
                 //    passwordEntry.AverageKeyStrokeUpTimes.ToArray());
-                double difference = manhattanData.Manhattan(manhattanCurrentData); /// manhattanData.Length;
-                double diff = new double[] { userTraining.AverageDistance }.Manhattan(new[] { passwordEntry.AverageDistance });
+                double difference = CalculateDistance(userTraining, passwordEntry); /// manhattanData.Length;
+                //double diff = new double[] { userTraining.AverageDistance }.Manhattan(new[] { passwordEntry.AverageDistance });
 
                 if (difference <= 120)
                 {
@@ -145,7 +145,8 @@ namespace PassSecure.Service
 
                 //Debug.WriteLine("Kullback: " + differenceKullback);
                 Debug.WriteLine("Manhattan distance: " + difference);
-                Debug.WriteLine("Calc Manhattan distance: " + diff);
+               // Debug.WriteLine("Calc Manhattan distance: " + diff);
+                Debug.WriteLine("Average manhattan distance: " + userTraining.AverageDistance);
                 //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(trainingKeyUpData, currentKeyUpData);
                 //double distanceKeyDown = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(), passwordEntry.TotalFirstDownLastDownTime.ToByteArray());
                 //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstUpLastUpTime.ToByteArray(), passwordEntry.TotalFirstUpLastUpTime.ToByteArray());
@@ -163,9 +164,40 @@ namespace PassSecure.Service
             return status;
         }
 
-        public double CalculateDistance(double[] average, double[] valuesToCalculate)
+        public double CalculateDistance(UserTraining userTraining, UserTraining passwordEntry)
         {
-            return average.Manhattan(valuesToCalculate);
+            double[] manhattanData = {    
+                                                    userTraining.AverageKeyHoldTime,
+                                                    userTraining.AverageTimeBetweenKeyUp,
+                                                    userTraining.AverageTimeBetweenKeyDown,
+                                                    userTraining.AverageTotalFirstDownLastDownTime,
+                                                    userTraining.AverageTotalFirstUpLastUpTime,
+                                     };
+            double[] manhattanCurrentData =  {
+                                                    passwordEntry.AverageKeyHoldTime, 
+                                                    passwordEntry.AverageTimeBetweenKeyUp,
+                                                  passwordEntry.AverageTimeBetweenKeyDown,
+                                                  passwordEntry.AverageTotalFirstDownLastDownTime,
+                                                  passwordEntry.AverageTotalFirstUpLastUpTime, };
+            return manhattanData.Manhattan(manhattanCurrentData);
+        }
+
+        public double CalculateDistance(UserTraining userTraining, TrainingEntry passwordEntry)
+        {
+            double[] manhattanData = {    
+                                                    userTraining.AverageKeyHoldTime,
+                                                    userTraining.AverageTimeBetweenKeyUp,
+                                                    userTraining.AverageTimeBetweenKeyDown,
+                                                    userTraining.AverageTotalFirstDownLastDownTime,
+                                                    userTraining.AverageTotalFirstUpLastUpTime,
+                                     };
+            double[] manhattanCurrentData =  {
+                                                    passwordEntry.AverageHoldTime, 
+                                                    passwordEntry.AverageTimeBetweenKeyUp,
+                                                  passwordEntry.AverageTimeBetweenKeyDown,
+                                                  passwordEntry.TotalFirstDownLastDownTime,
+                                                  passwordEntry.TotalFirstUpLastUpTime, };
+            return manhattanData.Manhattan(manhattanCurrentData);
         }
 
         ///// <summary>

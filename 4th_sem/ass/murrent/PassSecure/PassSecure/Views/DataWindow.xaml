@@ -8,17 +8,21 @@
                 <HierarchicalDataTemplate>
                     <TreeViewItem Header="{ Binding UserName}" FontWeight="SemiBold">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical" Width="200">
+                            <StackPanel Orientation="Vertical" Width="300">
                                 <TextBlock FontWeight="SemiBold" Text="Password Data Entries:"></TextBlock>
                                 <TextBlock FontWeight="SemiBold"  Text="Username:"></TextBlock>
                                 <TextBlock FontWeight="SemiBold"  Text="Password: "></TextBlock>
                                 <TextBlock FontWeight="SemiBold"  Text="Average Key Hold Time (ms): "></TextBlock>
+                                <TextBlock FontWeight="SemiBold"  Text="Average First KeyUp Last KeyUp Time (ms): "></TextBlock>
+                                <TextBlock FontWeight="SemiBold"  Text="Average First KeyDown Last KeyDown Time (ms): "></TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock FontWeight="Normal" Text="{Binding Trainings.Count}"></TextBlock>
                                 <TextBlock FontWeight="Normal" Text="{Binding UserName}"></TextBlock>
                                 <TextBlock FontWeight="Normal" Text="{Binding Password}"></TextBlock>
                                 <TextBlock FontWeight="Normal" Text="{Binding AverageKeyHoldTime}"></TextBlock>
+                                <TextBlock FontWeight="Normal" Text="{Binding AverageTotalFirstUpLastUpTime}"></TextBlock>
+                                <TextBlock FontWeight="Normal" Text="{Binding AverageTotalFirstDownLastDownTime}"></TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </TreeViewItem>

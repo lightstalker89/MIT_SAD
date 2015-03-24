@@ -26,8 +26,6 @@ namespace PassSecure.Models
         public TrainingEntry()
         {
             KeyStrokes = new List<KeyStroke>();
-            KeyStrokeDownTimes = new List<double>();
-            KeyStrokeUpTimes = new List<double>();
         }
 
         /// <summary>
@@ -64,11 +62,15 @@ namespace PassSecure.Models
 
         /// <summary>
         /// </summary>
-        public List<double> KeyStrokeDownTimes { get; set; }
+        public double[] KeyStrokeDownTimes { get; set; }
 
         /// <summary>
         /// </summary>
-        public List<double> KeyStrokeUpTimes { get; set; } 
+        public double[] KeyStrokeUpTimes { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public double Distance { get; set; }
 
         /// <summary>
         /// </summary>
