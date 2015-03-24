@@ -110,18 +110,29 @@ namespace PassSecure.Service
                 //Debug.WriteLine(difference);
                 //Debug.WriteLine(difference / 2);
                 double[] manhattanData = new[] {    
-                    userTraining.AverageKeyHoldTime,
+                                                    userTraining.AverageKeyHoldTime,
                                                     userTraining.AverageTimeBetweenKeyUp,
                                                     userTraining.AverageTimeBetweenKeyDown,
                                                     userTraining.AverageTotalFirstDownLastDownTime,
-                                                    userTraining.AverageTotalFirstUpLastUpTime};
+                                                    userTraining.AverageTotalFirstUpLastUpTime,
+                                                    };
+                //manhattanData = ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes.ToArray());
+                //manhattanData = ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes.ToArray());
                 double[] manhattanCurrentData = new[] {
-                    passwordEntry.AverageKeyHoldTime, 
+                                                    passwordEntry.AverageKeyHoldTime, 
                                                     passwordEntry.AverageTimeBetweenKeyUp,
                                                   passwordEntry.AverageTimeBetweenKeyDown,
                                                   passwordEntry.AverageTotalFirstDownLastDownTime,
                                                   passwordEntry.AverageTotalFirstUpLastUpTime, };
-                double difference = manhattanData.Manhattan(manhattanCurrentData) / manhattanData.Length;
+                //manhattanCurrentData = ArrayUtils.ConcatArrays(
+                //    manhattanCurrentData,
+                //    passwordEntry.AverageKeyStrokeDownTimes.ToArray());
+                //manhattanCurrentData = ArrayUtils.ConcatArrays(
+                //    manhattanCurrentData,
+                //    passwordEntry.AverageKeyStrokeUpTimes.ToArray());
+                double difference = manhattanData.Manhattan(manhattanCurrentData); /// manhattanData.Length;
+                double diff = new double[] { userTraining.AverageDistance }.Manhattan(new[] { passwordEntry.AverageDistance });
+
                 if (difference <= 120)
                 {
                     status = Enums.PasswordStatus.Accepted;
@@ -134,6 +145,7 @@ namespace PassSecure.Service
 
                 //Debug.WriteLine("Kullback: " + differenceKullback);
                 Debug.WriteLine("Manhattan distance: " + difference);
+                Debug.WriteLine("Calc Manhattan distance: " + diff);
                 //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(trainingKeyUpData, currentKeyUpData);
                 //double distanceKeyDown = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(), passwordEntry.TotalFirstDownLastDownTime.ToByteArray());
                 //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstUpLastUpTime.ToByteArray(), passwordEntry.TotalFirstUpLastUpTime.ToByteArray());
@@ -151,11 +163,16 @@ namespace PassSecure.Service
             return status;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="entryToMatch"></param>
-        /// <param name="averageTrainingCriteria"></param>
-        /// <returns></returns>
+        public double CalculateDistance(double[] average, double[] valuesToCalculate)
+        {
+            return average.Manhattan(valuesToCalculate);
+        }
+
+        ///// <summary>
+        ///// </summary>
+        ///// <param name="entryToMatch"></param>
+        ///// <param name="averageTrainingCriteria"></param>
+        ///// <returns></returns>
         //private double CheckCriteria(byte[] entryToMatch, byte[] averageTrainingCriteria)
         //{
         //    double spec1 = 0;
@@ -200,15 +217,15 @@ namespace PassSecure.Service
 
         //}
 
-        /// <summary>
-        /// </summary>
-        /// <param name="array">
-        /// </param>
-        /// <returns>
-        /// </returns>
-        private double AccumulateArray(byte[] array)
-        {
-            return array.Aggregate<byte, double>(0, (current, t) => current + t);
-        }
+        ///// <summary>
+        ///// </summary>
+        ///// <param name="array">
+        ///// </param>
+        ///// <returns>
+        ///// </returns>
+        //private double AccumulateArray(byte[] array)
+        //{
+        //    return array.Aggregate<byte, double>(0, (current, t) => current + t);
+        //}
     }
 }

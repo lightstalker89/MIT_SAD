@@ -32,7 +32,7 @@ namespace PassSecure.Data
         public DataStore()
         {
             this.dataManager = SimpleContainer.Resolve<DataManager>();
-            ReadLocalData();
+            //ReadLocalData();
         }
 
         /// <summary>

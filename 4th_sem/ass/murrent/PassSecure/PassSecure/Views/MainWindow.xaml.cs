@@ -71,6 +71,7 @@ namespace PassSecure.Views
             keyLogger.SetMainWindow(this);
             keyLogger.KeyLogPerformed += this.KeyLoggerKeyLogPerformed;
             keyLogger.EnterPressed += this.KeyLoggerEnterPressed;
+            dataStore.ReadLocalData();
             UpdateData();
             this.Closing += this.MainWindowClosing;
             this.Password.Focus();
@@ -134,7 +135,7 @@ namespace PassSecure.Views
         /// </param>
         private void MenuItemModeTrainChecked(object sender, RoutedEventArgs e)
         {
-            MenuItemModeNormal.IsChecked = !MenuItemModeTrain.IsChecked;
+            MenuItemModeNormal.IsChecked = false;
             CheckMode();
         }
 
@@ -146,7 +147,7 @@ namespace PassSecure.Views
         /// </param>
         private void MenuItemModeNormalChecked(object sender, RoutedEventArgs e)
         {
-            MenuItemModeNormal.IsChecked = !MenuItemModeTrain.IsChecked;
+            MenuItemModeTrain.IsChecked = false;
             CheckMode();
         }
 
