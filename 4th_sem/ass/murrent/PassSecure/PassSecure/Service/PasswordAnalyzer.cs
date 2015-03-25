@@ -132,12 +132,12 @@ namespace PassSecure.Service
                 //    passwordEntry.AverageKeyStrokeUpTimes.ToArray());
                 double difference = CalculateDistance(userTraining, passwordEntry); /// manhattanData.Length;
                 //double diff = new double[] { userTraining.AverageDistance }.Manhattan(new[] { passwordEntry.AverageDistance });
-
-                if (difference <= 120)
+                double diff = Math.Abs(difference - userTraining.AverageDistance);
+                if (difference <= userTraining.AverageDistance)
                 {
                     status = Enums.PasswordStatus.Accepted;
                 }
-                else if (difference > 120 && difference <= 130)
+                else if (difference > userTraining.AverageDistance && difference <= (userTraining.AverageDistance + userTraining.AverageDistance / 5))
                 {
                     status = Enums.PasswordStatus.PartialAccepted;
                 }
@@ -147,6 +147,7 @@ namespace PassSecure.Service
                 Debug.WriteLine("Manhattan distance: " + difference);
                // Debug.WriteLine("Calc Manhattan distance: " + diff);
                 Debug.WriteLine("Average manhattan distance: " + userTraining.AverageDistance);
+                Debug.WriteLine("Distance: " + diff);
                 //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(trainingKeyUpData, currentKeyUpData);
                 //double distanceKeyDown = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstDownLastDownTime.ToByteArray(), passwordEntry.TotalFirstDownLastDownTime.ToByteArray());
                 //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(userTraining.AverageTotalFirstUpLastUpTime.ToByteArray(), passwordEntry.TotalFirstUpLastUpTime.ToByteArray());
