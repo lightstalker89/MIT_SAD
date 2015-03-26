@@ -9,20 +9,20 @@
 			<ImageBrush/>
 		</Grid.Background>
 		<Menu Height="20" Margin="0,0,0.399,0" VerticalAlignment="Top" Style="{DynamicResource MenuStyle}">
-			<MenuItem Header="File">
-				<MenuItem Header="Import" Click="ImportDataClick"/>
-				<MenuItem Header="Export" Click="ExportDataClick"/>
+			<MenuItem Header="File" Style="{DynamicResource MenuItemStyle}">
+				<MenuItem Header="Import" Click="ImportDataClick" Style="{DynamicResource MenuItemStyle}"/>
+				<MenuItem Header="Export" Click="ExportDataClick" Style="{DynamicResource MenuItemStyle}"/>
 				<Separator/>
-				<MenuItem Header="Exit" Click="ExitClick"/>
+				<MenuItem Header="Exit" Click="ExitClick" Style="{DynamicResource MenuItemStyle}"/>
 			</MenuItem>
-			<MenuItem Header="Mode">
-				<MenuItem x:Name="MenuItemModeTrain" Header="Training" IsCheckable="True" IsChecked="false" Checked="MenuItemModeTrainChecked" Unchecked="MenuItemModeTrainUnchecked" />
-				<MenuItem x:Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" Checked="MenuItemModeNormalChecked" Unchecked="MenuItemModeNormalUnchecked" />
+			<MenuItem Header="Mode" Style="{DynamicResource MenuItemStyle}">
+				<MenuItem x:Name="MenuItemModeTrain" Header="Training" IsCheckable="True" IsChecked="false" Checked="MenuItemModeTrainChecked" Unchecked="MenuItemModeTrainUnchecked"  Style="{DynamicResource MenuItemStyle}"/>
+				<MenuItem x:Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" Checked="MenuItemModeNormalChecked" Unchecked="MenuItemModeNormalUnchecked"  Style="{DynamicResource MenuItemStyle}"/>
 			</MenuItem>
-			<MenuItem Header="View">
-				<MenuItem Header="Data" Click="DataClick"/>
+			<MenuItem Header="View" Style="{DynamicResource MenuItemStyle}">
+				<MenuItem Header="Data" Click="DataClick" Style="{DynamicResource MenuItemStyle}"/>
 			</MenuItem>
-			<MenuItem Header="Help" />
+			<MenuItem Header="Help" Style="{DynamicResource MenuItemStyle}" />
 		</Menu>
 		<Grid x:Name="ControlGrid">
 			<Grid x:Name="Background" Margin="0,20,-0.624,-0.988">
