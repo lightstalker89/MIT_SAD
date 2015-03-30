@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:securityControls="clr-namespace:SecurityControls;assembly=SecurityControls"
         x:Class="PassSecure.Views.MainWindow"
-        Title="Pass Secure" Height="437.358" Width="627.058" WindowStyle="None" ResizeMode="NoResize">
+        Title="Pass Secure" Height="437.358" Width="627.058" WindowStyle="None" ResizeMode="CanMinimize">
     <Window.Resources>
         <RoutedUICommand x:Key="NormalModeCommand" Text="SwitchToNormalMode">
             <RoutedUICommand.InputGestures>
