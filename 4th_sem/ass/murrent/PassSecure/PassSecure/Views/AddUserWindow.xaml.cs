@@ -37,6 +37,7 @@ namespace PassSecure.Views
         public AddUserWindow()
         {
             InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             UserName.Focus();
             dataStore = SimpleContainer.Resolve<DataStore>();
         }

@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Data" Height="333.295" Width="514.197">
     <Grid>
-        <TreeView x:Name="DataTreeView" Margin="0,10,-0.145,33.202" BorderThickness="0">
+        <Grid.Background>
+            <ImageBrush ImageSource="/PassSecure;component/Media/PasswordBiomet1.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <TreeView x:Name="DataTreeView" Margin="0,10,-0.145,33.202" BorderThickness="0" Background="Transparent">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate>
                     <TreeViewItem Header="{ Binding UserName}" FontWeight="SemiBold">

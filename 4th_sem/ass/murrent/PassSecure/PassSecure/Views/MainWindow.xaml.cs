@@ -82,6 +82,12 @@ namespace PassSecure.Views
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Instance = this;
             this.ModeComboBox.SelectedIndex = 0;
+            this.MouseDown += MainWindowMouseDown;
+        }
+
+        protected void MainWindowMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
 
         /// <summary>
@@ -335,6 +341,17 @@ namespace PassSecure.Views
         {
             ModeComboBox.SelectedIndex = 0;
             CheckMode();
+        }
+
+        private void ViewDataCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            DataWindow dataWindow = new DataWindow();
+            dataWindow.ShowDialog();
+        }
+
+        private void CloseApplicationCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            Application.Current.Shutdown(0);
         }
 
         private void ModeComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
