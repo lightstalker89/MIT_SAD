@@ -352,7 +352,7 @@
     	<SolidColorBrush x:Key="MenuItem.Highlight.Background" Color="#66FFFFFF"/>
     	<SolidColorBrush x:Key="MenuItem.Highlight.Border" Color="#FF26A0DA"/>
     	<SolidColorBrush x:Key="Menu.Disabled.Foreground" Color="#FF707070"/>
-    	<SolidColorBrush x:Key="MenuItem.Highlight.Disabled.Background" Color="#0A000000"/>
+    	<SolidColorBrush x:Key="MenuItem.Highlight.Disabled.Background" Color="#66FFFFFF"/>
     	<SolidColorBrush x:Key="MenuItem.Highlight.Disabled.Border" Color="#21000000"/>
     	<SolidColorBrush x:Key="MenuItem.Selected.Border" Color="#FF26A0DA"/>
     	<SolidColorBrush x:Key="MenuItem.Selected.Background" Color="#66FFFFFF"/>

@@ -177,7 +177,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Media\PasswordBiomet1.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

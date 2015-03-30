@@ -8,6 +8,7 @@
 #endregion
 
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace PassSecure.Views
 {
@@ -80,6 +81,7 @@ namespace PassSecure.Views
             this.Password.Focus();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Instance = this;
+            this.ModeComboBox.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -130,49 +132,6 @@ namespace PassSecure.Views
             Password.Focus();
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void MenuItemModeTrainChecked(object sender, RoutedEventArgs e)
-        {
-            MenuItemModeNormal.IsChecked = false;
-            CheckMode();
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void MenuItemModeNormalChecked(object sender, RoutedEventArgs e)
-        {
-            MenuItemModeTrain.IsChecked = false;
-            CheckMode();
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MenuItemModeNormalUnchecked(object sender, RoutedEventArgs e)
-        {
-            MenuItemModeTrain.IsChecked = true;
-            CheckMode();
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MenuItemModeTrainUnchecked(object sender, RoutedEventArgs e)
-        {
-            MenuItemModeNormal.IsChecked = true;
-            CheckMode();
-        }
 
         /// <summary>
         /// </summary>
@@ -180,9 +139,7 @@ namespace PassSecure.Views
         {
             if (ModeText != null)
             {
-                ModeText.Text = MenuItemModeNormal.IsChecked
-                                    ? MenuItemModeNormal.Header.ToString()
-                                    : MenuItemModeTrain.Header.ToString();
+                ModeText.Text = ModeComboBox.SelectedItem.ToString();
             }
 
             if (Status != null)
@@ -245,7 +202,7 @@ namespace PassSecure.Views
         {
             bool isPasswordEqual = Password.Password.Equals(currentUserTraining.Password);
             bool allowedToAdd = currentUserTraining != null && isPasswordEqual;
-            if (MenuItemModeNormal.IsChecked && currentUserTraining != null && isPasswordEqual)
+            if (ModeComboBox.SelectedIndex == 0 && currentUserTraining != null && isPasswordEqual)
             {
                 UserTraining passwordEntry = new UserTraining()
                                                   {
@@ -366,6 +323,30 @@ namespace PassSecure.Views
         private void ExitClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void SwitchToTrainingModeExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ModeComboBox.SelectedIndex = 1;
+            CheckMode();
+        }
+
+        private void SwitchToNormalModeExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ModeComboBox.SelectedIndex = 0;
+            CheckMode();
+        }
+
+        private void ModeComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ModeComboBox.SelectedIndex == 0)
+            {
+                SwitchToNormalModeExecuted(this, null);
+            }
+            else
+            {
+                SwitchToTrainingModeExecuted(this, null);
+            }
         }
     }
 }

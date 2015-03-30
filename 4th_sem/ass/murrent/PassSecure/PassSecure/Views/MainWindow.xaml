@@ -2,48 +2,85 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:securityControls="clr-namespace:SecurityControls;assembly=SecurityControls"
-        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="PassSecure.Views.MainWindow"
-        Title="Pass Secure" Height="402.358" Width="545.058" WindowStyle="ToolWindow">
-	<Grid >
-		<Grid.Background>
-			<ImageBrush/>
-		</Grid.Background>
-		<Menu Height="20" Margin="0,0,0.399,0" VerticalAlignment="Top" Style="{DynamicResource MenuStyle}">
-			<MenuItem Header="File" Style="{DynamicResource MenuItemStyle}">
-				<MenuItem Header="Import" Click="ImportDataClick" Style="{DynamicResource MenuItemStyle}"/>
-				<MenuItem Header="Export" Click="ExportDataClick" Style="{DynamicResource MenuItemStyle}"/>
-				<Separator/>
-				<MenuItem Header="Exit" Click="ExitClick" Style="{DynamicResource MenuItemStyle}"/>
-			</MenuItem>
-			<MenuItem Header="Mode" Style="{DynamicResource MenuItemStyle}">
-				<MenuItem x:Name="MenuItemModeTrain" Header="Training" IsCheckable="True" IsChecked="false" Checked="MenuItemModeTrainChecked" Unchecked="MenuItemModeTrainUnchecked"  Style="{DynamicResource MenuItemStyle}"/>
-				<MenuItem x:Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" Checked="MenuItemModeNormalChecked" Unchecked="MenuItemModeNormalUnchecked"  Style="{DynamicResource MenuItemStyle}"/>
-			</MenuItem>
-			<MenuItem Header="View" Style="{DynamicResource MenuItemStyle}">
-				<MenuItem Header="Data" Click="DataClick" Style="{DynamicResource MenuItemStyle}"/>
-			</MenuItem>
-			<MenuItem Header="Help" Style="{DynamicResource MenuItemStyle}" />
-		</Menu>
-		<Grid x:Name="ControlGrid">
-			<Grid x:Name="Background" Margin="0,20,-0.624,-0.988">
-				<Grid.Background>
-					<ImageBrush ImageSource="/PassSecure;component/Media/PasswordBiomet1.jpg"/>
-				</Grid.Background>
-				<Image x:Name="Accepted" Visibility="Collapsed" Margin="178,117,194,36" Source="/PassSecure;component/Media/boss.jpg"/>
-				<Image x:Name="NotAccepted" Visibility="Collapsed" Margin="178,117,194,36" Source="/PassSecure;component/Media/you-shall-not-pass-79979-530-805.jpg"/>
-			</Grid>
-			<Label Content="Password: " Margin="21,76,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66" Foreground="White"/>
-			<PasswordBox x:Name="Password" Height="20" Margin="26,97,26,0" VerticalAlignment="Top" TabIndex="0" Background="#66FFFFFF" Foreground="#FF00F4FF"/>
-			<Button x:Name="LoginButton" Content="Login" Margin="0,122,25.618,0" VerticalAlignment="Top" Click="LoginButtonClick" HorizontalAlignment="Right" Width="78" Background="#66FFFFFF" Foreground="#FF00F4FF"  AllowDrop="True" Style="{DynamicResource ButtonStyle}"/>
-			<ComboBox x:Name="UserNames" Margin="26,54,61.618,0" VerticalAlignment="Top" SelectedIndex="0" SelectionChanged="UserNamesSelectionChanged" Style="{DynamicResource ComboBoxStyle}"  Foreground="#FF00F4FF" />
-			<Label Content="Username:" Margin="21,33,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66" Foreground="White"/>
-			<securityControls:PersonalQuestionControl x:Name="PersonalQuestionControl" Margin="26,165,28.318,0" Height="94" VerticalAlignment="Top" Visibility="Hidden"/>
-			<Button x:Name="AddUserButton" Content="+" Margin="0,54,25.618,0" VerticalAlignment="Top" Click="AddUserButtonClick" HorizontalAlignment="Right" Width="34" Height="22" Background="#66FFFFFF" Foreground="#FF00F4FF"  Style="{DynamicResource ButtonStyle}"/>
-			<StatusBar Height="23" Margin="0,0,-0.382,-0.844" VerticalAlignment="Bottom" Background="#33FFFFFF">
-				<TextBlock Text="Mode:" FontWeight="Bold" Foreground="#FF00F4FF"/>
-				<TextBlock x:Name="ModeText" Text="Normal" Foreground="#FF00F4FF"/>
-				<TextBlock x:Name="Status" Margin="40,0,0,0" Foreground="#FF902D0D" FontWeight="Bold" Background="#33FFFFFF" Padding="1"/>
-			</StatusBar>
-		</Grid>
-	</Grid>
+    x:Class="PassSecure.Views.MainWindow"
+        Title="Pass Secure" Height="402.358" Width="627.058" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Window.Resources>
+        <RoutedUICommand x:Key="NormalModeCommand" Text="SwitchToNormalMode">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>CTRL+N</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+        <RoutedUICommand x:Key="TrainingModeCommand" Text="SwitchToNormalMode">
+            <RoutedUICommand.InputGestures>
+                <KeyGesture>CTRL+T</KeyGesture>
+            </RoutedUICommand.InputGestures>
+        </RoutedUICommand>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource TrainingModeCommand}" Executed="SwitchToTrainingModeExecuted"/>
+        <CommandBinding Command="{StaticResource NormalModeCommand}" Executed="SwitchToNormalModeExecuted"/>
+    </Window.CommandBindings>
+    <Grid >
+        <Grid.Background>
+            <ImageBrush/>
+        </Grid.Background>
+        <!--<Menu Height="20" Margin="0,0,0.399,0" VerticalAlignment="Top" Style="{DynamicResource MenuStyle}" Background="Transparent">
+            <MenuItem Header="File" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="Import" Click="ImportDataClick" Style="{DynamicResource MenuItemStyle}"/>
+                <MenuItem Header="Export" Click="ExportDataClick" Style="{DynamicResource MenuItemStyle}"/>
+                <Separator/>
+                <MenuItem Header="Exit" Click="ExitClick" Style="{DynamicResource MenuItemStyle}"/>
+            </MenuItem>
+            <MenuItem Header="Mode" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem x:Name="MenuItemModeTrain" Header="Training" IsCheckable="True" IsChecked="false" InputGestureText="CTRL+T" Checked="MenuItemModeTrainChecked" Unchecked="MenuItemModeTrainUnchecked"  Style="{DynamicResource MenuItemStyle}" Command="{StaticResource TrainingModeCommand}"/>
+                <MenuItem x:Name="MenuItemModeNormal" Header="Normal" IsCheckable="True" IsChecked="true" InputGestureText="CTRL+N" Checked="MenuItemModeNormalChecked" Unchecked="MenuItemModeNormalUnchecked"  Style="{DynamicResource MenuItemStyle}" Command="{StaticResource NormalModeCommand}"/>
+            </MenuItem>
+            <MenuItem Header="View" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="Data" Click="DataClick" Style="{DynamicResource MenuItemStyle}"/>
+            </MenuItem>
+        </Menu>-->
+        <Grid x:Name="ControlGrid">
+            <Grid x:Name="BackgroundGrid" Margin="0,0,-1,-1">
+                <Grid.Background>
+                    <ImageBrush ImageSource="/PassSecure;component/Media/PasswordBiomet1.jpg" Stretch="UniformToFill"/>
+                </Grid.Background>
+                <Image x:Name="Accepted" Visibility="Collapsed" Margin="178,117,194,36" Source="/PassSecure;component/Media/boss.jpg"/>
+                <Image x:Name="NotAccepted" Visibility="Collapsed" Margin="178,117,194,36" Source="/PassSecure;component/Media/you-shall-not-pass-79979-530-805.jpg"/>
+            </Grid>
+            <Rectangle Fill="#99000000" Margin="20,32,20,0" Height="124" VerticalAlignment="Top">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="53" Color="#FFDEDEDE" Direction="200" RenderingBias="Quality" ShadowDepth="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Grid x:Name="ContentGrid">
+                <Label Content="Password: " Margin="21,76,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66" Foreground="White"/>
+                <PasswordBox x:Name="Password" Height="20" Margin="26,97,26,0" VerticalAlignment="Top" TabIndex="0" Background="#66FFFFFF" Foreground="#FF00F4FF"/>
+                <Button x:Name="LoginButton" Content="Login" Margin="0,122,25.618,0" VerticalAlignment="Top" Click="LoginButtonClick" HorizontalAlignment="Right" Width="78" Background="#66FFFFFF" Foreground="#FF00F4FF"  AllowDrop="True" Style="{DynamicResource ButtonStyle}"/>
+                <ComboBox x:Name="UserNames" Margin="26,54,61.618,0" VerticalAlignment="Top" SelectedIndex="0" SelectionChanged="UserNamesSelectionChanged" Style="{DynamicResource ComboBoxStyle}"  Foreground="#FF253446" />
+                <Label Content="Username:" Margin="21,33,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="66" Foreground="White"/>
+                <securityControls:PersonalQuestionControl x:Name="PersonalQuestionControl" Margin="26,165,28.318,0" Height="94" VerticalAlignment="Top" Visibility="Hidden"/>
+                <Button x:Name="AddUserButton" Content="+" Margin="0,54,25.618,0" VerticalAlignment="Top" Click="AddUserButtonClick" HorizontalAlignment="Right" Width="34" Height="22" Background="#66FFFFFF" Foreground="#FF00F4FF"  Style="{DynamicResource ButtonStyle}"/>
+            </Grid>
+            <StatusBar Height="23" Margin="0,0,-0.382,-0.844" VerticalAlignment="Bottom" Background="#33FFFFFF">
+                <TextBlock Text="Mode:" FontWeight="Bold" Foreground="#FF00F4FF"/>
+                <TextBlock x:Name="ModeText" Text="Normal" Foreground="#FF00F4FF"/>
+                <TextBlock x:Name="Status" Margin="40,0,0,0" Foreground="#FF902D0D" Text="" FontWeight="Bold" Background="#33FFFFFF" Padding="1">
+                </TextBlock>
+            </StatusBar>
+            <Rectangle Fill="#99000000" Margin="20,179,20,0" Height="124" VerticalAlignment="Top">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="53" Color="#FFDEDEDE" Direction="200" RenderingBias="Quality" ShadowDepth="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Grid  Margin="20,179,20,69">
+                <Label Content="Mode:" Foreground="White" Margin="6,7,0,0" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47"/>
+                <ComboBox x:Name="ModeComboBox" Height="20" Margin="51,10,0,0" VerticalAlignment="Top"  Style="{DynamicResource ComboBoxStyle}" Foreground="#FF253446" HorizontalAlignment="Left" Width="172" ToolTip="Press CTRL+T to switch to training mode and CTRL+n to switch to normal mode" SelectionChanged="ModeComboBoxSelectionChanged">
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="Normal (CTRL+N)"></ComboBoxItem>
+                        <ComboBoxItem Content="Training (CTRL+T)"></ComboBoxItem>
+                    </ComboBox.Items>
+                </ComboBox>
+            </Grid>
+        </Grid>
+    </Grid>
 </Window>
