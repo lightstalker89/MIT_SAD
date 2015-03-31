@@ -6,6 +6,9 @@
 // </summary>
 // <author>Mario Murrent</author>
 #endregion
+
+using System.Windows.Input;
+
 namespace PassSecure.Views
 {
     #region Usings
@@ -27,9 +30,15 @@ namespace PassSecure.Views
         public DataWindow()
         {
             InitializeComponent();
+            this.MouseDown += DataWindowMouseDown;
             DataStore dataStore = SimpleContainer.Resolve<DataStore>();
             //DataListView.ItemsSource = dataStore.GetUserTrainings();
             DataTreeView.ItemsSource = dataStore.GetUserTrainings();
+        }
+
+        protected void DataWindowMouseDown(object sender, MouseButtonEventArgs e)
+        {
+           this.DragMove();
         }
 
         /// <summary>
@@ -39,6 +48,11 @@ namespace PassSecure.Views
         /// <param name="e">
         /// </param>
         private void OkClick(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
+
+        private void CloseWindowCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             this.DialogResult = true;
         }

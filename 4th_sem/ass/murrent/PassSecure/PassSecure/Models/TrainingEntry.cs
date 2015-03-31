@@ -30,6 +30,10 @@ namespace PassSecure.Models
 
         /// <summary>
         /// </summary>
+        public int PasswordLength { get; set; }
+
+        /// <summary>
+        /// </summary>
         public int TrainingId { get; set; }
 
         /// <summary>
@@ -79,8 +83,8 @@ namespace PassSecure.Models
             AverageTimeBetweenKeyUp = 0;
             AverageTimeBetweenKeyDown = 0;
             AverageHoldTime = 0;
-            //KeyStrokeDownTimes = new List<double>();
-            //KeyStrokeUpTimes = new List<double>();
+            KeyStrokeDownTimes = new double[PasswordLength];
+            KeyStrokeUpTimes = new double[PasswordLength];
             if (KeyStrokes.Count > 1)
             {
                 TotalFirstDownLastDownTime = KeyStrokes.Last().KeyDownTime.TotalMilliseconds - KeyStrokes.First().KeyDownTime.TotalMilliseconds;

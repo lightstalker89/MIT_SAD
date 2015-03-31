@@ -6,6 +6,9 @@
 // </summary>
 // <author>Mario Murrent</author>
 #endregion
+
+using System.Windows.Input;
+
 namespace PassSecure.Views
 {
     #region Usings
@@ -26,7 +29,7 @@ namespace PassSecure.Views
     {
         /// <summary>
         /// </summary>
-        private DataStore dataStore = null;
+        private readonly DataStore dataStore = null;
 
         /// <summary>
         /// </summary>
@@ -38,8 +41,14 @@ namespace PassSecure.Views
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            this.MouseDown += AddUserWindowMouseDown;
             UserName.Focus();
             dataStore = SimpleContainer.Resolve<DataStore>();
+        }
+
+        protected void AddUserWindowMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+           this.DragMove();
         }
 
         /// <summary>
@@ -86,6 +95,11 @@ namespace PassSecure.Views
                     UserName.ClearValue(ForegroundProperty);
                 }
             }
+        }
+
+        private void CloseWindowCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.DialogResult = true;
         }
     }
 }
