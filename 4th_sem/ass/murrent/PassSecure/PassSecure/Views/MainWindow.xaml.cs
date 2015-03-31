@@ -288,49 +288,6 @@ namespace PassSecure.Views
             KeyStrokes.Clear();
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void ImportDataClick(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "";
-            openFileDialog.DefaultExt = ".pss";
-            DialogResult result = openFileDialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                await Task.Factory.StartNew(
-                    () => File.Copy(openFileDialog.FileName, "data.pss", true));
-                dataStore.ReadLocalData();
-                UpdateData();
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExportDataClick(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            saveFileDialog.DefaultExt = ".pss";
-            saveFileDialog.Filter = "PassSecure File (.pss)|*.pss";
-            DialogResult result = saveFileDialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                if (File.Exists("data.pss"))
-                {
-                    File.Copy("data.pss", saveFileDialog.FileName);
-                }
-            }
-        }
-
-        private void ExitClick(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
         private void SwitchToTrainingModeExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             ModeComboBox.SelectedIndex = 1;
@@ -352,6 +309,36 @@ namespace PassSecure.Views
         private void CloseApplicationCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             Application.Current.Shutdown(0);
+        }
+
+        private async void ImportDataCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "";
+            openFileDialog.DefaultExt = ".pss";
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                await Task.Factory.StartNew(
+                    () => File.Copy(openFileDialog.FileName, "data.pss", true));
+                dataStore.ReadLocalData();
+                UpdateData();
+            }
+        }
+
+        private void ExportDataCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.DefaultExt = ".pss";
+            saveFileDialog.Filter = "PassSecure File (.pss)|*.pss";
+            DialogResult result = saveFileDialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                if (File.Exists("data.pss"))
+                {
+                    File.Copy("data.pss", saveFileDialog.FileName);
+                }
+            }
         }
 
         private void ModeComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -17,12 +17,16 @@
         </RoutedUICommand>
         <RoutedUICommand x:Key="ViewDataCommand" Text="ViewData"></RoutedUICommand>
         <RoutedUICommand x:Key="CloseApplicationCommand" Text="CloseApplication"></RoutedUICommand>
+        <RoutedUICommand x:Key="ExportDataCommand" Text="ExportData"></RoutedUICommand>
+        <RoutedUICommand x:Key="ImportDataCommand" Text="ImportData"></RoutedUICommand>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource TrainingModeCommand}" Executed="SwitchToTrainingModeExecuted"/>
         <CommandBinding Command="{StaticResource NormalModeCommand}" Executed="SwitchToNormalModeExecuted"/>
         <CommandBinding Command="{StaticResource ViewDataCommand}" Executed="ViewDataCommandExecuted"/>
         <CommandBinding Command="{StaticResource CloseApplicationCommand}" Executed="CloseApplicationCommandExecuted"></CommandBinding>
+        <CommandBinding Command="{StaticResource ExportDataCommand}" Executed="ExportDataCommandExecuted"></CommandBinding>
+        <CommandBinding Command="{StaticResource ImportDataCommand}" Executed="ImportDataCommandExecuted"></CommandBinding>
     </Window.CommandBindings>
     <Grid >
         <Grid.Background>
@@ -79,8 +83,8 @@
                         <ComboBoxItem Content="Training (CTRL+T)"></ComboBoxItem>
                     </ComboBox.Items>
                 </ComboBox>
-                <Grid Height="80" Width="60" Margin="0,25,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent">
-                    <Border BorderBrush="#CCFFFFFF" BorderThickness="0" Margin="0,45,0,-45">
+                <Grid Height="78" Width="60" Margin="0,74,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent">
+                    <Border BorderBrush="#CCFFFFFF" BorderThickness="0" Margin="0,-4,0,-45" Height="80" VerticalAlignment="Top">
                         <Border.InputBindings>
                             <MouseBinding MouseAction="LeftClick" Command="{StaticResource ViewDataCommand}"></MouseBinding>
                         </Border.InputBindings>
@@ -93,14 +97,54 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <StackPanel Orientation="Vertical" Margin="0,6,0,0">
-                            <Image Height="50" Width="50" Source="/PassSecure;component/Media/stats.png" Stretch="UniformToFill" Margin="5,0"/>
+                        <StackPanel Orientation="Vertical" Height="74" VerticalAlignment="Bottom">
+                            <Image Height="50" Width="50" Source="/PassSecure;component/Media/data.png" Stretch="UniformToFill" Margin="5,0"/>
                             <Label Content="View Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center"></Label>
                         </StackPanel>
                     </Border>
                 </Grid>
+                <Grid Height="78" Width="70" Margin="0,74,75,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent">
+                    <Border BorderBrush="#CCFFFFFF" BorderThickness="0" Margin="0,-4,0,-45" Height="80" VerticalAlignment="Top">
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{StaticResource ImportDataCommand}"></MouseBinding>
+                        </Border.InputBindings>
+                        <Border.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <Trigger Property="Border.IsMouseOver" Value="True">
+                                        <Setter Property="Border.Background" Value="#22FFFFFF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel Orientation="Vertical" Height="74" VerticalAlignment="Bottom">
+                            <Image Height="50" Width="50" Source="/PassSecure;component/Media/database.png" Stretch="UniformToFill" Margin="5,0"/>
+                            <Label Content="Import Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid Height="78" Width="70" Margin="0,74,150,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent">
+                    <Border BorderBrush="#CCFFFFFF" BorderThickness="0" Margin="0,-4,0,-45" Height="80" VerticalAlignment="Top">
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{StaticResource ExportDataCommand}"></MouseBinding>
+                        </Border.InputBindings>
+                        <Border.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <Trigger Property="Border.IsMouseOver" Value="True">
+                                        <Setter Property="Border.Background" Value="#22FFFFFF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel Orientation="Vertical" Height="74" VerticalAlignment="Bottom">
+                            <Image Height="50" Width="50" Source="/PassSecure;component/Media/database.png" Stretch="UniformToFill" Margin="5,0"/>
+                            <Label Content="Export Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </Grid>
-            <Label Content="PassSecure" HorizontalAlignment="Left" Margin="268,17,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Foreground="#FF72DAF2"/>
+            <Label Content="PassSecure" HorizontalAlignment="Left" Margin="268,20,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Foreground="#FF72DAF2" FontFamily="matrix"/>
         </Grid>
     </Grid>
 </Window>
