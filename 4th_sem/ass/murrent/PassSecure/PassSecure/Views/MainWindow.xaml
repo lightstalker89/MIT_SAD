@@ -56,18 +56,18 @@
                 </Rectangle.Effect>
             </Rectangle>
             <Grid x:Name="ContentGrid" Margin="0,0,115,0">
-                <Label Content="Password: " Margin="21,121,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="81" Foreground="White" FontFamily="Quartz MS"/>
+                <Label Content="Password: " Margin="21,121,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="81" Foreground="White" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
                 <PasswordBox x:Name="Password" Height="20" Margin="26,142,26,0" VerticalAlignment="Top" TabIndex="0" Background="#66FFFFFF" Foreground="#FF00F4FF"/>
-                <Button x:Name="LoginButton" Content="Login" Margin="0,167,26,0" VerticalAlignment="Top" Click="LoginButtonClick" HorizontalAlignment="Right" Width="78" Background="#66FFFFFF" Foreground="#FF00F4FF"  AllowDrop="True" Style="{DynamicResource ButtonStyle}" FontFamily="Quartz MS"/>
+                <Button x:Name="LoginButton" Content="Login" Margin="0,167,26,0" VerticalAlignment="Top" Click="LoginButtonClick" HorizontalAlignment="Right" Width="78" Background="#66FFFFFF" Foreground="#FF00F4FF"  AllowDrop="True" Style="{DynamicResource ButtonStyle}" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
                 <ComboBox x:Name="UserNames" Margin="26,99,62,0" VerticalAlignment="Top" SelectedIndex="0" SelectionChanged="UserNamesSelectionChanged" Style="{DynamicResource ComboBoxStyle}"  Foreground="#FF253446" />
-                <Label Content="Username:" Margin="21,78,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="81" Foreground="White" FontFamily="Quartz MS"/>
+                <Label Content="Username:" Margin="21,78,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="81" Foreground="White" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
                 <securityControls:PersonalQuestionControl x:Name="PersonalQuestionControl" Margin="26,165,28.318,0" Height="94" VerticalAlignment="Top" Visibility="Hidden"/>
-                <Button x:Name="AddUserButton" Content="+" Margin="0,99,26,0" VerticalAlignment="Top" Click="AddUserButtonClick" HorizontalAlignment="Right" Width="34" Height="22" Background="#66FFFFFF" Foreground="#FF00F4FF"  Style="{DynamicResource ButtonStyle}"/>
+                <Button x:Name="AddUserButton" Content="+" Margin="0,99,26,0" VerticalAlignment="Top" Click="AddUserButtonClick" ToolTip="Add New User" HorizontalAlignment="Right" Width="34" Height="22" Background="#66FFFFFF" Foreground="#FF00F4FF"  Style="{DynamicResource ButtonStyle}"/>
             </Grid>
-            <StatusBar Height="23" Margin="0,0,-0.382,-0.844" VerticalAlignment="Bottom" Background="#33FFFFFF">
-                <TextBlock Text="Mode:" FontWeight="Bold" Foreground="#FF00F4FF" FontFamily="Quartz MS"/>
-                <TextBlock x:Name="ModeText" Text="Normal" Foreground="#FF00F4FF" FontFamily="Quartz MS"/>
-                <TextBlock x:Name="Status" Margin="40,0,0,0" Foreground="#FF902D0D" Text="" FontWeight="Bold" Background="#33FFFFFF" Padding="1" FontFamily="Quartz MS">
+            <StatusBar Height="23" Margin="0,0,-0.382,-0.844" VerticalAlignment="Bottom" Background="#99000000">
+                <TextBlock Text="Mode:" FontWeight="Bold" Foreground="#FF00F4FF" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
+                <TextBlock x:Name="ModeText" Text="Normal" Foreground="#FF00F4FF" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
+                <TextBlock x:Name="Status" Margin="40,0,0,0" Foreground="#FF902D0D" Text="" FontWeight="Bold" Padding="1" FontFamily="/PassSecure;component/Resources/#QuartzL">
                 </TextBlock>
             </StatusBar>
             <Rectangle Fill="#99000000" Margin="20,224,20,0" Height="124" VerticalAlignment="Top">
@@ -78,8 +78,8 @@
             <Image x:Name="Accepted" Visibility="Collapsed" Margin="504,85,26,244" Source="/PassSecure;component/Media/boss.jpg"/>
             <Image x:Name="NotAccepted" Visibility="Collapsed" Margin="512,80,10,240" Source="/PassSecure;component/Media/you-shall-not-pass-79979-530-805.jpg"/>
             <Grid  Margin="20,179,20,69">
-                <Label Content="Mode:" Foreground="White" Margin="6,52,0,0" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47" FontFamily="Quartz MS"/>
-                <ComboBox x:Name="ModeComboBox" Height="20" Margin="51,55,0,0" VerticalAlignment="Top"  Style="{DynamicResource ComboBoxStyle}" Foreground="#FF253446" HorizontalAlignment="Left" Width="172" ToolTip="Press CTRL+T to switch to training mode and CTRL+n to switch to normal mode" SelectionChanged="ModeComboBoxSelectionChanged">
+                <Label Content="Mode:" Foreground="White" Margin="6,52,0,0" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
+                <ComboBox x:Name="ModeComboBox" Height="20" Margin="51,55,0,0" VerticalAlignment="Top"  Style="{DynamicResource ComboBoxStyle}" Foreground="#FF253446" HorizontalAlignment="Left" Width="172" ToolTip="Press CTRL+T to switch to training mode and CTRL+n to switch to normal mode" SelectionChanged="ModeComboBoxSelectionChanged" FontFamily="Segore UI">
                     <ComboBox.Items>
                         <system:String>Normal (CTRL+N)</system:String>
                         <system:String>Training (CTRL+T)</system:String>
@@ -101,7 +101,7 @@
                         </Border.Style>
                         <StackPanel Orientation="Vertical" Height="74" VerticalAlignment="Bottom">
                             <Image Height="50" Width="50" Source="/PassSecure;component/Media/data.png" Stretch="UniformToFill" Margin="5,0"/>
-                            <Label Content="View Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Quartz MS"></Label>
+                            <Label Content="View Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="/PassSecure;component/Resources/#QuartzL"></Label>
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -121,7 +121,7 @@
                         </Border.Style>
                         <StackPanel Orientation="Vertical" Height="74" VerticalAlignment="Bottom">
                             <Image Height="50" Width="50" Source="/PassSecure;component/Media/database.png" Stretch="UniformToFill" Margin="5,0"/>
-                            <Label Content="Import Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Quartz MS"></Label>
+                            <Label Content="Import Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="/PassSecure;component/Resources/#QuartzL"></Label>
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -141,12 +141,12 @@
                         </Border.Style>
                         <StackPanel Orientation="Vertical" Height="74" VerticalAlignment="Bottom">
                             <Image Height="50" Width="50" Source="/PassSecure;component/Media/database.png" Stretch="UniformToFill" Margin="5,0"/>
-                            <Label Content="Export Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Quartz MS"></Label>
+                            <Label Content="Export Data" FontSize="10" Foreground="White" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="/PassSecure;component/Resources/#QuartzL"></Label>
                         </StackPanel>
                     </Border>
                 </Grid>
             </Grid>
-            <Label Content="PassSecure" Margin="233,18,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Foreground="#FF72DAF2" FontFamily="Quartz MS" HorizontalAlignment="Left" Width="161"/>
+            <Label Content="PassSecure" Margin="233,20,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Foreground="#FF72DAF2" FontFamily="/PassSecure;component/Resources/#QuartzL" HorizontalAlignment="Left" Width="161"/>
         </Grid>
     </Grid>
 </Window>

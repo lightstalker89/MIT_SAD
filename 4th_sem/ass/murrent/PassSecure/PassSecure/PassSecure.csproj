@@ -154,6 +154,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Content Include="Resources\QUARTZL-REGULAR.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\TYPEWRITERA602________.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="SampleData\data.pss">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

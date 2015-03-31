@@ -83,40 +83,22 @@ namespace PassSecure.Models
             AverageTimeBetweenKeyUp = 0;
             AverageTimeBetweenKeyDown = 0;
             AverageHoldTime = 0;
-            KeyStrokeDownTimes = new double[PasswordLength];
-            KeyStrokeUpTimes = new double[PasswordLength];
+            KeyStrokeDownTimes = new double[PasswordLength - 1];
+            KeyStrokeUpTimes = new double[PasswordLength - 1];
             if (KeyStrokes.Count > 1)
             {
                 TotalFirstDownLastDownTime = KeyStrokes.Last().KeyDownTime.TotalMilliseconds - KeyStrokes.First().KeyDownTime.TotalMilliseconds;
                 TotalFirstUpLastUpTime = KeyStrokes.Last().KeyUpTime.TotalMilliseconds - KeyStrokes.First().KeyUpTime.TotalMilliseconds;
             }
-            //double valueZeroUp = KeyStrokeUpTimes.ElementAtOrDefault(0);
-            //if (valueZeroUp == 0.0)
-            //{
-            //    KeyStrokeUpTimes.Insert(0, 0);
-            //}
-            //double valueZeroDown = KeyStrokeDownTimes.ElementAtOrDefault(0);
-            //if (valueZeroDown == 0.0)
-            //{
-            //    KeyStrokeDownTimes.Insert(0, 0);
-            //}
             for (int i = 1; i < KeyStrokes.Count; i++)
             {
                 int lastIndex = i - 1;
                 KeyStrokes[i].TimeToLastKeyDown = KeyStrokes[i].KeyDownTime - KeyStrokes[lastIndex].KeyDownTime;
                 KeyStrokes[i].TimeToLastKeyUp = KeyStrokes[i].KeyUpTime - KeyStrokes[lastIndex].KeyUpTime;
-                //double valueDown = KeyStrokeDownTimes.ElementAtOrDefault(i);
-                //double valueUp = KeyStrokeUpTimes.ElementAtOrDefault(i);
-                //if (valueDown == 0.0)
-                //{
-                //    KeyStrokeDownTimes.Insert(i, 0);
-                //}
-                //if (valueUp == 0.0)
-                //{
-                //    KeyStrokeUpTimes.Insert(i, 0);
-                //}
-                //KeyStrokeDownTimes.Insert(i, KeyStrokes[i].TimeToLastKeyDown.TotalMilliseconds);
-                //KeyStrokeUpTimes.Insert(i, KeyStrokes[i].TimeToLastKeyUp.TotalMilliseconds);
+                KeyStrokeDownTimes[i - 1] += KeyStrokes[i].KeyDownTime.TotalMilliseconds
+                                            - KeyStrokes[i - 1].KeyDownTime.TotalMilliseconds;
+                KeyStrokeUpTimes[i - 1] += KeyStrokes[i].KeyUpTime.TotalMilliseconds
+                                          - KeyStrokes[i - 1].KeyUpTime.TotalMilliseconds;
                 AverageTimeBetweenKeyDown += KeyStrokes[i].TimeToLastKeyDown.TotalMilliseconds;
                 AverageTimeBetweenKeyUp += KeyStrokes[i].TimeToLastKeyUp.TotalMilliseconds;
                 AverageHoldTime += KeyStrokes[i].TimeBetweenDownAndUp.TotalMilliseconds;

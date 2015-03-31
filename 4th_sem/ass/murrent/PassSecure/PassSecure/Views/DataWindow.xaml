@@ -22,12 +22,12 @@
                 <MouseBinding MouseAction="LeftClick" Command="{StaticResource CloseWindowCommand}"></MouseBinding>
             </Image.InputBindings>
         </Image>
-        <TreeView x:Name="DataTreeView" Margin="25,37,22,43" BorderThickness="0" Background="Transparent">
+        <TreeView x:Name="DataTreeView" Margin="10,37,22.405,42.503" BorderThickness="0" Background="Transparent" FontFamily="/PassSecure;component/Resources/#Typewriter - a602 (dead postman 2004)">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate>
                     <TreeViewItem Header="{ Binding UserName}" FontWeight="SemiBold" Foreground="White">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical" Width="300">
+                            <StackPanel Orientation="Vertical" Width="280">
                                 <TextBlock FontWeight="SemiBold" Text="Password Data Entries:"></TextBlock>
                                 <TextBlock FontWeight="SemiBold"  Text="Username:"></TextBlock>
                                 <TextBlock FontWeight="SemiBold"  Text="Password: "></TextBlock>
@@ -48,7 +48,7 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <Button Content="Ok" HorizontalAlignment="Right" Margin="0,0,11,10" VerticalAlignment="Bottom" Width="75" Click="OkClick"  Background="#66FFFFFF" Foreground="#FF00F4FF"  AllowDrop="True" Style="{DynamicResource ButtonStyle}" />
+        <Button Content="Ok" HorizontalAlignment="Right" Margin="0,0,11,10" VerticalAlignment="Bottom" Width="75" Click="OkClick"  Background="#66FFFFFF" Foreground="#FF00F4FF"  AllowDrop="True" Style="{DynamicResource ButtonStyle}" FontFamily="/PassSecure;component/Resources/#QuartzL" />
 
     </Grid>
 </Window>

@@ -85,14 +85,6 @@ namespace PassSecure.Models
         /// </summary>
         public double AverageDistance { get; set; }
 
-        ///// <summary>
-        ///// </summary>
-        //private void CheckLists()
-        //{
-        //    if (AverageKeyStrokeDownTimes == null) { AverageKeyStrokeDownTimes = new List<double>();}
-        //    if (AverageKeyStrokeUpTimes == null) { AverageKeyStrokeUpTimes = new List<double>();}
-        //}
-
         /// <summary>
         /// </summary>
         public void Analyze()
@@ -105,44 +97,24 @@ namespace PassSecure.Models
             AverageTimeBetweenKeyDown = 0;
             AverageKeyHoldTime = 0;
             AverageDistance = 0;
-            //AverageKeyStrokeDownTimes = new List<double>();
-            //AverageKeyStrokeUpTimes = new List<double>();
-            //CheckLists();
             for (int i = 0; i < Trainings.Count; i++)
             {
                 Trainings[i].PasswordLength = Password.Length;
-                Trainings[i].KeyStrokeUpTimes = new double[Password.Length];
-                Trainings[i].KeyStrokeDownTimes = new double[Password.Length];
+                Trainings[i].KeyStrokeUpTimes = new double[Password.Length - 1];
+                Trainings[i].KeyStrokeDownTimes = new double[Password.Length - 1];
                 Trainings[i].Analyze();
-                //double valueDown = AverageKeyStrokeDownTimes.ElementAtOrDefault(i);
-                //double valueUp = AverageKeyStrokeUpTimes.ElementAtOrDefault(i);
-                //if (valueDown == 0.0)
-                //{
-                //    AverageKeyStrokeDownTimes.Insert(i, 0);
-                //}
-                //if (valueUp == 0.0)
-                //{
-                //    AverageKeyStrokeUpTimes.Insert(i, 0);
-                //}
-                //for (int x = 0; x < Trainings[i].KeyStrokeDownTimes.Count; x++)
-                //{
-                //    AverageKeyStrokeDownTimes[i] += Trainings[i].KeyStrokeDownTimes[x];
-                //}
-                //for (int y = 0; y < Trainings[i].KeyStrokeUpTimes.Count; y++)
-                //{
-                //    AverageKeyStrokeUpTimes[i] += Trainings[i].KeyStrokeUpTimes[y];                    
-                //}
                 AverageDistance += Trainings[i].Distance;
                 AverageTotalFirstDownLastDownTime += Trainings[i].TotalFirstDownLastDownTime;
                 AverageTotalFirstUpLastUpTime += Trainings[i].TotalFirstUpLastUpTime;
                 AverageTimeBetweenKeyUp += Trainings[i].AverageTimeBetweenKeyUp;
                 AverageTimeBetweenKeyDown += Trainings[i].AverageTimeBetweenKeyDown;
                 AverageKeyHoldTime += Trainings[i].AverageHoldTime;
-                //if (i == Trainings.Count - 1)
-                //{
-                //    AverageKeyStrokeDownTimes[i] = AverageKeyStrokeDownTimes[i] / Trainings[i].KeyStrokeDownTimes.Count;
-                //    AverageKeyStrokeUpTimes[i] = AverageKeyStrokeUpTimes[i] / Trainings[i].KeyStrokeUpTimes.Count;
-                //}
+                for (int x = 0; x < Password.Length - 1; x++)
+                {
+                    AverageKeyStrokeDownTimes[x] += Trainings[i].KeyStrokeDownTimes[x];
+                    AverageKeyStrokeUpTimes[x] += Trainings[i].KeyStrokeUpTimes[x];
+                }
+             
             }
             AverageTotalFirstUpLastUpTime = Math.Round(AverageTotalFirstUpLastUpTime / Trainings.Count, 5);
             AverageTotalFirstDownLastDownTime = Math.Round(AverageTotalFirstDownLastDownTime / Trainings.Count, 5);
@@ -150,6 +122,11 @@ namespace PassSecure.Models
             AverageTimeBetweenKeyDown = Math.Round(AverageTimeBetweenKeyDown / Trainings.Count, 5);
             AverageKeyHoldTime = Math.Round(AverageKeyHoldTime / Trainings.Count, 5);
             AverageDistance = AverageDistance / Trainings.Count;
+            for (int y = 0; y < Password.Length - 1; y++)
+            {
+                AverageKeyStrokeDownTimes[y] = AverageKeyStrokeDownTimes[y] / Trainings.Count;
+                AverageKeyStrokeUpTimes[y] = AverageKeyStrokeUpTimes[y] / Trainings.Count;
+            }
         }
     }
 }

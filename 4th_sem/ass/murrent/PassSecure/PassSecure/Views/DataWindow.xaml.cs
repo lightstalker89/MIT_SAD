@@ -54,7 +54,7 @@ namespace PassSecure.Views
 
         private void CloseWindowCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            this.DialogResult = true;
+            this.DialogResult = false;
         }
     }
 }

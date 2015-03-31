@@ -40,7 +40,6 @@ namespace PassSecure.Views
         public AddUserWindow()
         {
             InitializeComponent();
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             this.MouseDown += AddUserWindowMouseDown;
             UserName.Focus();
             dataStore = SimpleContainer.Resolve<DataStore>();
@@ -99,7 +98,7 @@ namespace PassSecure.Views
 
         private void CloseWindowCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            this.DialogResult = true;
+            this.DialogResult = false;
         }
     }
 }

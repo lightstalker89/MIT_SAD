@@ -145,7 +145,7 @@ namespace PassSecure.Service
 
                 //Debug.WriteLine("Kullback: " + differenceKullback);
                 Debug.WriteLine("Manhattan distance: " + difference);
-               // Debug.WriteLine("Calc Manhattan distance: " + diff);
+                // Debug.WriteLine("Calc Manhattan distance: " + diff);
                 Debug.WriteLine("Average manhattan distance: " + userTraining.AverageDistance);
                 Debug.WriteLine("Distance: " + diff);
                 //double distanceKeyUp = Accord.Math.Distance.BitwiseHamming(trainingKeyUpData, currentKeyUpData);
@@ -172,14 +172,18 @@ namespace PassSecure.Service
                                                     userTraining.AverageTimeBetweenKeyUp,
                                                     userTraining.AverageTimeBetweenKeyDown,
                                                     userTraining.AverageTotalFirstDownLastDownTime,
-                                                    userTraining.AverageTotalFirstUpLastUpTime,
+                                                    userTraining.AverageTotalFirstUpLastUpTime
                                      };
+            ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes);
+            ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes);
             double[] manhattanCurrentData =  {
                                                     passwordEntry.AverageKeyHoldTime, 
                                                     passwordEntry.AverageTimeBetweenKeyUp,
                                                   passwordEntry.AverageTimeBetweenKeyDown,
                                                   passwordEntry.AverageTotalFirstDownLastDownTime,
-                                                  passwordEntry.AverageTotalFirstUpLastUpTime, };
+                                                  passwordEntry.AverageTotalFirstUpLastUpTime };
+            ArrayUtils.ConcatArrays(manhattanData, passwordEntry.AverageKeyStrokeDownTimes);
+            ArrayUtils.ConcatArrays(manhattanData, passwordEntry.AverageKeyStrokeUpTimes);
             return manhattanData.Manhattan(manhattanCurrentData);
         }
 
@@ -192,12 +196,16 @@ namespace PassSecure.Service
                                                     userTraining.AverageTotalFirstDownLastDownTime,
                                                     userTraining.AverageTotalFirstUpLastUpTime,
                                      };
+            ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes);
+            ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes);
             double[] manhattanCurrentData =  {
                                                     passwordEntry.AverageHoldTime, 
                                                     passwordEntry.AverageTimeBetweenKeyUp,
                                                   passwordEntry.AverageTimeBetweenKeyDown,
                                                   passwordEntry.TotalFirstDownLastDownTime,
                                                   passwordEntry.TotalFirstUpLastUpTime, };
+            ArrayUtils.ConcatArrays(manhattanData, passwordEntry.KeyStrokeDownTimes);
+            ArrayUtils.ConcatArrays(manhattanData, passwordEntry.KeyStrokeUpTimes);
             return manhattanData.Manhattan(manhattanCurrentData);
         }
 

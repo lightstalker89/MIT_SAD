@@ -17,11 +17,11 @@
                 <MouseBinding MouseAction="LeftClick" Command="{StaticResource CloseWindowCommand}"></MouseBinding>
             </Image.InputBindings>
         </Image>
-        <Label Content="Password: " Margin="20,58,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="84" Height="23" Foreground="White" FontFamily="Quartz MS"/>
+        <Label Content="Password: " Margin="20,58,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="84" Height="23" Foreground="White" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
         <TextBox x:Name="Password" Height="20" Margin="24,78,18.37,0" VerticalAlignment="Top" TabIndex="0" Background="#66FFFFFF" Foreground="#FF00F4FF"  FontFamily="Segore UI"/>
-        <Button x:Name="AddButton" Content="Add" Margin="0,103,18.37,0" VerticalAlignment="Top" Click="AddButtonClick" HorizontalAlignment="Right" Width="51" Height="20"  Background="#66FFFFFF" Foreground="#FF00F4FF"  AllowDrop="True" Style="{DynamicResource ButtonStyle}" FontFamily="Quartz MS"/>
+        <Button x:Name="AddButton" Content="Add" Margin="0,103,18.37,0" VerticalAlignment="Top" Click="AddButtonClick" HorizontalAlignment="Right" Width="51" Height="20"  Background="#66FFFFFF" Foreground="#FF00F4FF"  AllowDrop="True" Style="{DynamicResource ButtonStyle}" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
         <TextBox Name="UserName" Margin="24,40,20.37,0" VerticalAlignment="Top" Height="20" TextChanged="UserNameTextChanged"  Background="#66FFFFFF" Foreground="#FF00F4FF" FontFamily="Segore UI"/>
-        <Label Content="Username:" Margin="20,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="84" Height="23" Foreground="White" FontFamily="Quartz MS"/>
+        <Label Content="Username:" Margin="20,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="84" Height="23" Foreground="White" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
 
     </Grid>
 </Window>
