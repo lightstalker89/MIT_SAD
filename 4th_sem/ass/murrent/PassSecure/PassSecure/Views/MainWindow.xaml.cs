@@ -109,6 +109,7 @@ namespace PassSecure.Views
         /// </param>
         protected void KeyLoggerKeyLogPerformed(object sender, KeyLogEventArgs e)
         {
+            //TODO: Make sure that only password keys are added
             KeyStrokes.Add(e.KeyStroke);
             Status.Text = string.Empty;
             NotAccepted.Visibility = Visibility.Collapsed;
@@ -192,18 +193,6 @@ namespace PassSecure.Views
 
         /// <summary>
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void DataClick(object sender, RoutedEventArgs e)
-        {
-            DataWindow dataWindow = new DataWindow();
-            dataWindow.ShowDialog();
-        }
-
-        /// <summary>
-        /// </summary>
         public void AddOrCheck()
         {
             bool isPasswordEqual = Password.Password.Equals(currentUserTraining.Password);
@@ -223,12 +212,6 @@ namespace PassSecure.Views
                 Enums.PasswordStatus status = passwordAnalyzer.IsAccepted(UserNames.SelectedItem.ToString(), passwordEntry);
                 if (status == Enums.PasswordStatus.Accepted)
                 {
-                    //TrainingEntry trainingEntry = new TrainingEntry() { KeyStrokes = KeyStrokes };
-                    //trainingEntry.Analyze();
-                    //trainingEntry.Distance = passwordAnalyzer.CalculateDistance(currentUserTraining, trainingEntry);
-                    //currentUserTraining.Trainings.Add(trainingEntry);
-                    //currentUserTraining.AcceptedUserAttempt = true;
-                    //dataStore.UpdateUserTraining();
                     Accepted.Visibility = Visibility.Visible;
                 }
                 else if (status == Enums.PasswordStatus.PartialAccepted)
@@ -246,7 +229,7 @@ namespace PassSecure.Views
             {
                 if (allowedToAdd)
                 {
-                    TrainingEntry trainingEntry = new TrainingEntry() { KeyStrokes = KeyStrokes };
+                    TrainingEntry trainingEntry = new TrainingEntry() { KeyStrokes = KeyStrokes, PasswordLength = currentUserTraining.Password.Length};
                     trainingEntry.Analyze();
                     trainingEntry.Distance = passwordAnalyzer.CalculateDistance(currentUserTraining, trainingEntry);
                     Debug.WriteLine("TRAINING DISTANCE: " + trainingEntry.Distance);
@@ -313,9 +296,7 @@ namespace PassSecure.Views
 
         private async void ImportDataCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "";
-            openFileDialog.DefaultExt = ".pss";
+            OpenFileDialog openFileDialog = new OpenFileDialog { Filter = "", DefaultExt = ".pss" };
             DialogResult result = openFileDialog.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
@@ -328,9 +309,14 @@ namespace PassSecure.Views
 
         private void ExportDataCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            saveFileDialog.DefaultExt = ".pss";
-            saveFileDialog.Filter = "PassSecure File (.pss)|*.pss";
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog
+                                                                     {
+                                                                         DefaultExt
+                                                                             =
+                                                                             ".pss",
+                                                                         Filter =
+                                                                             "PassSecure File (.pss)|*.pss"
+                                                                     };
             DialogResult result = saveFileDialog.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
