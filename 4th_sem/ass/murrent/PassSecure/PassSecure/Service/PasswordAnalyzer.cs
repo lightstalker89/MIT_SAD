@@ -11,8 +11,12 @@ namespace PassSecure.Service
     #region Usings
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Windows.Documents;
+    using System.Windows.Forms;
 
     using Accord.Math;
 
@@ -27,6 +31,7 @@ namespace PassSecure.Service
     /// </summary>
     public class PasswordAnalyzer
     {
+
         /// <summary>
         /// </summary>
         private readonly DataStore dataStore;
@@ -79,16 +84,22 @@ namespace PassSecure.Service
                                                     userTraining.AverageTotalFirstDownLastDownTime,
                                                     userTraining.AverageTotalFirstUpLastUpTime
                                      };
-            ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes);
-            ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes);
+            if (userTraining.AverageKeyStrokeDownTimes != null && userTraining.AverageKeyStrokeUpTimes != null)
+            {
+                ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes);
+                ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes);
+            }
             double[] manhattanCurrentData =  {
                                                     passwordEntry.AverageKeyHoldTime, 
                                                     passwordEntry.AverageTimeBetweenKeyUp,
                                                   passwordEntry.AverageTimeBetweenKeyDown,
                                                   passwordEntry.AverageTotalFirstDownLastDownTime,
                                                   passwordEntry.AverageTotalFirstUpLastUpTime };
-            ArrayUtils.ConcatArrays(manhattanData, passwordEntry.AverageKeyStrokeDownTimes);
-            ArrayUtils.ConcatArrays(manhattanData, passwordEntry.AverageKeyStrokeUpTimes);
+            if (passwordEntry.AverageKeyStrokeDownTimes != null && passwordEntry.AverageKeyStrokeUpTimes != null)
+            {
+                ArrayUtils.ConcatArrays(manhattanData, passwordEntry.AverageKeyStrokeDownTimes);
+                ArrayUtils.ConcatArrays(manhattanData, passwordEntry.AverageKeyStrokeUpTimes);
+            }
             return manhattanData.Manhattan(manhattanCurrentData);
         }
 
@@ -101,16 +112,22 @@ namespace PassSecure.Service
                                                     userTraining.AverageTotalFirstDownLastDownTime,
                                                     userTraining.AverageTotalFirstUpLastUpTime,
                                      };
-            ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes);
-            ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes);
+            if (userTraining.AverageKeyStrokeDownTimes != null && userTraining.AverageKeyStrokeUpTimes != null)
+            {
+                ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeDownTimes);
+                ArrayUtils.ConcatArrays(manhattanData, userTraining.AverageKeyStrokeUpTimes);
+            }
             double[] manhattanCurrentData =  {
                                                     passwordEntry.AverageHoldTime, 
                                                     passwordEntry.AverageTimeBetweenKeyUp,
                                                   passwordEntry.AverageTimeBetweenKeyDown,
                                                   passwordEntry.TotalFirstDownLastDownTime,
                                                   passwordEntry.TotalFirstUpLastUpTime, };
-            ArrayUtils.ConcatArrays(manhattanData, passwordEntry.KeyStrokeDownTimes);
-            ArrayUtils.ConcatArrays(manhattanData, passwordEntry.KeyStrokeUpTimes);
+            if (passwordEntry.KeyStrokeDownTimes != null && passwordEntry.KeyStrokeUpTimes != null)
+            {
+                ArrayUtils.ConcatArrays(manhattanData, passwordEntry.KeyStrokeDownTimes);
+                ArrayUtils.ConcatArrays(manhattanData, passwordEntry.KeyStrokeUpTimes);
+            }
             return manhattanData.Manhattan(manhattanCurrentData);
         }
     }

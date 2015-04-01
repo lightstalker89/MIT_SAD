@@ -20,7 +20,6 @@ namespace PassSecure.Models
     /// </summary>
     public class TrainingEntry
     {
-
         /// <summary>
         /// </summary>
         public TrainingEntry()

@@ -11,7 +11,7 @@ namespace PassSecure.Models
     #region Usings
 
     using System;
-    using System.Windows.Forms;
+    using System.Windows.Input;
 
     #endregion
 
@@ -30,14 +30,14 @@ namespace PassSecure.Models
         /// </summary>
         /// <param name="key">
         /// </param>
-        public KeyStroke(Keys key)
+        public KeyStroke(Key key)
         {
             this.Key = key;
         }
 
         /// <summary>
         /// </summary>
-        public Keys Key { get; set; }
+        public Key Key { get; set; }
 
         /// <summary>
         /// </summary>

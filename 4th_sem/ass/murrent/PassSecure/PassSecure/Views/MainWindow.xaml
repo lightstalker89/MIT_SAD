@@ -6,24 +6,12 @@
         x:Class="PassSecure.Views.MainWindow"
         Title="Pass Secure" Height="437.358" Width="627.058" WindowStyle="None" ResizeMode="CanMinimize">
     <Window.Resources>
-        <RoutedUICommand x:Key="NormalModeCommand" Text="SwitchToNormalMode">
-            <RoutedUICommand.InputGestures>
-                <KeyGesture>CTRL+N</KeyGesture>
-            </RoutedUICommand.InputGestures>
-        </RoutedUICommand>
-        <RoutedUICommand x:Key="TrainingModeCommand" Text="SwitchToNormalMode">
-            <RoutedUICommand.InputGestures>
-                <KeyGesture>CTRL+T</KeyGesture>
-            </RoutedUICommand.InputGestures>
-        </RoutedUICommand>
         <RoutedUICommand x:Key="ViewDataCommand" Text="ViewData"></RoutedUICommand>
         <RoutedUICommand x:Key="CloseApplicationCommand" Text="CloseApplication"></RoutedUICommand>
         <RoutedUICommand x:Key="ExportDataCommand" Text="ExportData"></RoutedUICommand>
         <RoutedUICommand x:Key="ImportDataCommand" Text="ImportData"></RoutedUICommand>
     </Window.Resources>
     <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource TrainingModeCommand}" Executed="SwitchToTrainingModeExecuted"/>
-        <CommandBinding Command="{StaticResource NormalModeCommand}" Executed="SwitchToNormalModeExecuted"/>
         <CommandBinding Command="{StaticResource ViewDataCommand}" Executed="ViewDataCommandExecuted"/>
         <CommandBinding Command="{StaticResource CloseApplicationCommand}" Executed="CloseApplicationCommandExecuted"></CommandBinding>
         <CommandBinding Command="{StaticResource ExportDataCommand}" Executed="ExportDataCommandExecuted"></CommandBinding>
@@ -81,8 +69,8 @@
                 <Label Content="Mode:" Foreground="White" Margin="6,52,0,0" Height="27" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47" FontFamily="/PassSecure;component/Resources/#QuartzL"/>
                 <ComboBox x:Name="ModeComboBox" Height="20" Margin="51,55,0,0" VerticalAlignment="Top"  Style="{DynamicResource ComboBoxStyle}" Foreground="#FF253446" HorizontalAlignment="Left" Width="172" ToolTip="Press CTRL+T to switch to training mode and CTRL+n to switch to normal mode" SelectionChanged="ModeComboBoxSelectionChanged" FontFamily="Segore UI">
                     <ComboBox.Items>
-                        <system:String>Normal (CTRL+N)</system:String>
-                        <system:String>Training (CTRL+T)</system:String>
+                        <system:String>Normal</system:String>
+                        <system:String>Training</system:String>
                     </ComboBox.Items>
                 </ComboBox>
                 <Grid Height="78" Width="65" Margin="0,74,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent">

@@ -19,9 +19,10 @@ namespace PassSecure.Service
     #region Usings
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Runtime.InteropServices;
-    using System.Windows.Forms;
+    using System.Windows.Input;
 
     using PassSecure.Events;
     using PassSecure.Models;
@@ -33,6 +34,12 @@ namespace PassSecure.Service
     /// </summary>
     public class KeyLogger
     {
+        private readonly List<Key> ignoredKeys = new List<Key> { Key.Back, Key.LeftCtrl, Key.RightCtrl, Key.RightAlt, Key.LeftAlt, Key.F1, Key.F2, Key.F3, Key.F4, Key.F5, Key.F6, Key.F7, Key.F8, Key.F9, Key.F10, Key.F11, Key.F12, Key.F13, Key.F14, Key.F15, Key.F16, Key.F18, Key.F19, Key.F20, Key.F21, Key.F22, Key.F23, Key.F24 };
+
+        private static bool isCapsLockEnabled = false;
+
+        private static bool isShiftKeyPressed = false;
+
         /// <summary>
         /// </summary>
         private static KeyLogger instance;
@@ -71,7 +78,9 @@ namespace PassSecure.Service
 
         /// <summary>
         /// </summary>
-        private static Keys keyUp;
+        private static Key keyUp;
+
+        private static Key keyDown;
 
         /// <summary>
         /// </summary>
@@ -125,9 +134,9 @@ namespace PassSecure.Service
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(
-            int idHook, 
-            LowLevelKeyboardProc lpfn, 
-            IntPtr hMod, 
+            int idHook,
+            LowLevelKeyboardProc lpfn,
+            IntPtr hMod,
             uint dwThreadId);
 
         /// <summary>
@@ -211,21 +220,34 @@ namespace PassSecure.Service
                 if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
                 {
                     keyDownTime = DateTime.Now.TimeOfDay;
+                    int vkCode = Marshal.ReadInt32(lParam);
+                    //keyDown = (Keys)vkCode;
+                    keyDown = KeyInterop.KeyFromVirtualKey(vkCode);
+                    if (keyDown == Key.LeftShift || keyDown == Key.RightShift)
+                    {
+                        isShiftKeyPressed = true;
+                    }
                 }
                 else if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
                 {
                     keyUpTime = DateTime.Now.TimeOfDay;
                     int vkCode = Marshal.ReadInt32(lParam);
-                    keyUp = (Keys)vkCode;
-                    if (keyUp == Keys.Enter)
+                    //keyUp = (Keys)vkCode;
+                    keyUp = KeyInterop.KeyFromVirtualKey(vkCode);
+                    if (keyUp == Key.Enter)
                     {
                         instance.OnEnterPressed();
                     }
+                    else if (keyUp == Key.LeftShift || keyUp == Key.RightShift)
+                    {
+                        isShiftKeyPressed = false;
+                    }
+                    else if (keyUp == Key.CapsLock)
+                    {
+                        isCapsLockEnabled = !isCapsLockEnabled;
+                    }
                     else
                     {
-                        //Debug.WriteLine(
-                        //    DateTime.Now.TimeOfDay + " - " + keyUp + "(" + vkCode + "): "
-                        //    + (keyUpTime.TotalMilliseconds - keyDownTime.TotalMilliseconds));
                         KeyStroke keyStroke = new KeyStroke(keyUp) { KeyDownTime = keyDownTime, KeyUpTime = keyUpTime };
                         instance.OnKeyLogPerformend(new KeyLogEventArgs(keyStroke));
                     }

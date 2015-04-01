@@ -39,6 +39,7 @@ namespace PassSecure.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+
         /// <summary>
         /// </summary>
         private static MainWindow Instance { get; set; }
@@ -109,7 +110,6 @@ namespace PassSecure.Views
         /// </param>
         protected void KeyLoggerKeyLogPerformed(object sender, KeyLogEventArgs e)
         {
-            //TODO: Make sure that only password keys are added
             KeyStrokes.Add(e.KeyStroke);
             Status.Text = string.Empty;
             NotAccepted.Visibility = Visibility.Collapsed;
@@ -229,7 +229,7 @@ namespace PassSecure.Views
             {
                 if (allowedToAdd)
                 {
-                    TrainingEntry trainingEntry = new TrainingEntry() { KeyStrokes = KeyStrokes, PasswordLength = currentUserTraining.Password.Length};
+                    TrainingEntry trainingEntry = new TrainingEntry() { KeyStrokes = KeyStrokes, PasswordLength = currentUserTraining.Password.Length };
                     trainingEntry.Analyze();
                     trainingEntry.Distance = passwordAnalyzer.CalculateDistance(currentUserTraining, trainingEntry);
                     Debug.WriteLine("TRAINING DISTANCE: " + trainingEntry.Distance);
