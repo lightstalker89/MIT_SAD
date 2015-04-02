@@ -88,7 +88,14 @@ namespace PassSecure.Views
 
         protected void MainWindowMouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            try
+            {
+                this.DragMove();
+            }
+            catch (InvalidOperationException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>

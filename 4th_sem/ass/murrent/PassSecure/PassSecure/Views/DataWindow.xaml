@@ -34,6 +34,8 @@
                                 <TextBlock FontWeight="SemiBold"  Text="Average Key Hold Time (ms): "></TextBlock>
                                 <TextBlock FontWeight="SemiBold"  Text="Average First KeyUp Last KeyUp Time (ms): "></TextBlock>
                                 <TextBlock FontWeight="SemiBold"  Text="Average First KeyDown Last KeyDown Time (ms): "></TextBlock>
+                                <TextBlock FontWeight="SemiBold" Text="Average Key Up Time (ms): "></TextBlock>
+                                <TextBlock FontWeight="SemiBold" Text="Average Key Down Time (ms): "></TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock FontWeight="Normal" Text="{Binding Trainings.Count}"></TextBlock>
@@ -42,6 +44,8 @@
                                 <TextBlock FontWeight="Normal" Text="{Binding AverageKeyHoldTime}"></TextBlock>
                                 <TextBlock FontWeight="Normal" Text="{Binding AverageTotalFirstUpLastUpTime}"></TextBlock>
                                 <TextBlock FontWeight="Normal" Text="{Binding AverageTotalFirstDownLastDownTime}"></TextBlock>
+                                <TextBlock FontWeight="Normal" Text="{Binding AverageTimeBetweenKeyUp}"></TextBlock>
+                                <TextBlock FontWeight="Normal" Text="{Binding AverageTimeBetweenKeyDown}"></TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </TreeViewItem>
