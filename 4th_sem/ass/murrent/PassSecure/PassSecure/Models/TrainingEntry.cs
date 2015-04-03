@@ -94,6 +94,8 @@ namespace PassSecure.Models
                 int lastIndex = i - 1;
                 KeyStrokes[i].TimeToLastKeyDown = KeyStrokes[i].KeyDownTime - KeyStrokes[lastIndex].KeyDownTime;
                 KeyStrokes[i].TimeToLastKeyUp = KeyStrokes[i].KeyUpTime - KeyStrokes[lastIndex].KeyUpTime;
+                
+                
                 KeyStrokeDownTimes[i - 1] += KeyStrokes[i].KeyDownTime.TotalMilliseconds
                                             - KeyStrokes[i - 1].KeyDownTime.TotalMilliseconds;
                 KeyStrokeUpTimes[i - 1] += KeyStrokes[i].KeyUpTime.TotalMilliseconds

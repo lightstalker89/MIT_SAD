@@ -34,7 +34,7 @@ namespace PassSecure.Service
     /// </summary>
     public class KeyLogger
     {
-        private readonly List<Key> ignoredKeys = new List<Key> { Key.Back, Key.LeftCtrl, Key.RightCtrl, Key.RightAlt, Key.LeftAlt, Key.F1, Key.F2, Key.F3, Key.F4, Key.F5, Key.F6, Key.F7, Key.F8, Key.F9, Key.F10, Key.F11, Key.F12, Key.F13, Key.F14, Key.F15, Key.F16, Key.F18, Key.F19, Key.F20, Key.F21, Key.F22, Key.F23, Key.F24 };
+        private static readonly List<Key> IgnoredKeys = new List<Key> { Key.Back, Key.LeftCtrl, Key.RightCtrl, Key.RightAlt, Key.LeftAlt, Key.F1, Key.F2, Key.F3, Key.F4, Key.F5, Key.F6, Key.F7, Key.F8, Key.F9, Key.F10, Key.F11, Key.F12, Key.F13, Key.F14, Key.F15, Key.F16, Key.F18, Key.F19, Key.F20, Key.F21, Key.F22, Key.F23, Key.F24 };
 
         private static bool isCapsLockEnabled = false;
 
@@ -248,8 +248,15 @@ namespace PassSecure.Service
                     }
                     else
                     {
-                        KeyStroke keyStroke = new KeyStroke(keyUp) { KeyDownTime = keyDownTime, KeyUpTime = keyUpTime };
-                        instance.OnKeyLogPerformend(new KeyLogEventArgs(keyStroke));
+                        if (IgnoredKeys.Contains(keyUp))
+                        {
+                            KeyStroke keyStroke = new KeyStroke(keyUp)
+                                                      {
+                                                          KeyDownTime = keyDownTime,
+                                                          KeyUpTime = keyUpTime
+                                                      };
+                            instance.OnKeyLogPerformend(new KeyLogEventArgs(keyStroke));
+                        }
                     }
                 }
             }

@@ -40,6 +40,7 @@
 %	HYPERLINKS
 %----------------------------------------------------------------------------------------
 
+\usepackage{float}
 \usepackage{hyperref} % Required for hyperlinks
 \hypersetup{hidelinks,colorlinks,breaklinks=true,urlcolor=color2,citecolor=color1,linkcolor=color1,bookmarksopen=false,pdftitle={Title},pdfauthor={Author}}
 
@@ -86,115 +87,47 @@
 
 \addcontentsline{toc}{section}{Introduction} % Adds this section to the table of contents
 
-\lipsum[1-3] % Dummy text
- and some mathematics $\cos\pi=-1$ and $\alpha$ in the text\footnote{And some mathematics $\cos\pi=-1$ and $\alpha$ in the text.}.
+\paragraph{PassSecure}The purpose is to develop a simple password application which uses machine learning to detect if a password entered by the user is indeed from a genuine user or not. An application to test the selected algorithm is developed and described
 
 %------------------------------------------------
 
-\section{Methods}
+\section{Algorithms}
 
-\begin{figure*}[ht]\centering % Using \begin{figure*} makes the figure take up the entire width of the page
-\includegraphics[width=\linewidth]{view}
-\caption{Wide Picture}
-\label{fig:view}
-\end{figure*}
+This section will describe all tested algorithms.
 
-\lipsum[4] % Dummy text
+\subsection{Kullback Leibler divergence}
+The Kullback Leibler divergence is a non symmetric measure of the difference between two probability distributions P and Q.\cite{kullback} This method will give you a number between 0 and 1, but the problem is that is does not take into account if the password typing speed varies. In fact that algorithm is not suitable for this specific purpose.
 
-\begin{equation}
-\cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
-\label{eq:refname2}
-\end{equation}
+\subsection{Manhattan Distance}
+The Manhattan distance function computes the distance that would be traveled to get from one data point to the other if a grid-like path is followed. The Manhattan distance between two items is the sum of the differences of their corresponding components\cite{manhattan}.
+\newline
+The Manhattan distance is according to the paper "Comparing Anomaly-Detection Algorithms for Keystroke Dynamic" \cite{Figueredo:2009dg} on of the best algorithms. 
 
-\lipsum[5] % Dummy text
-
-\begin{enumerate}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
-\item First item in a list
-\item Second item in a list
-\item Third item in a list
-\end{enumerate}
-
-\subsection{Subsection}
-
-\lipsum[6] % Dummy text
-
-\paragraph{Paragraph} \lipsum[7] % Dummy text
-\paragraph{Paragraph} \lipsum[8] % Dummy text
-
-\subsection{Subsection}
-
-\lipsum[9] % Dummy text
-
-\begin{figure}[ht]\centering
-\includegraphics[width=\linewidth]{results}
-\caption{In-text Picture}
-\label{fig:results}
-\end{figure}
-
-Reference to Figure \ref{fig:results}.
-
-%------------------------------------------------
-
-\section{Results and Discussion}
-
-\lipsum[10] % Dummy text
-
-\subsection{Subsection}
-
-\lipsum[11] % Dummy text
-
-\begin{table}[hbt]
-\caption{Table of Grades}
-\centering
-\begin{tabular}{llr}
-\toprule
-\multicolumn{2}{c}{Name} \\
-\cmidrule(r){1-2}
-First name & Last Name & Grade \\
-\midrule
-John & Doe & $7.5$ \\
-Richard & Miles & $2$ \\
-\bottomrule
-\end{tabular}
-\label{tab:label}
-\end{table}
-
-\subsubsection{Subsubsection}
-
-\lipsum[12] % Dummy text
-
-\begin{description}
-\item[Word] Definition
-\item[Concept] Explanation
-\item[Idea] Text
-\end{description}
-
-\subsubsection{Subsubsection}
-
-\lipsum[13] % Dummy text
-
-\begin{itemize}[noitemsep] % [noitemsep] removes whitespace between the items for a compact look
-\item First item in a list
-\item Second item in a list
-\item Third item in a list
+\section{Implementation Details}
+During the training mode all necessary data is collected including:
+\begin{itemize}
+  \item Total time between first key up and last key up
+  \item Total time between first key down and last key down
+  \item Time between each key up
+  \item Time between each key down
+  \item Average key down time
+  \item Average key up time
+  \item Manhattan distance
 \end{itemize}
+The complete training consists of a set of training entries. After an entry is added the average time are calculated.
 
-\subsubsection{Subsubsection}
-
-\lipsum[14] % Dummy text
-
-\subsection{Subsection}
-
-\lipsum[15-23] % Dummy text
-
-%------------------------------------------------
-\phantomsection
-\section*{Acknowledgments} % The \section*{} command stops section numbering
-
-\addcontentsline{toc}{section}{Acknowledgments} % Adds this section to the table of contents
-
-So long and thanks for all the fish \cite{Figueredo:2009dg}.
-
+\section{Application}
+The application is designed to test the used algorithm to detect if a password entered by the user is indeed from a genuine user or not. It is possible to enter multiple users with specific passwords. Every user is evaluated separately. It is also possible to import or export data which has been recorded.
+\begin{figure}[!htb]
+\includegraphics[scale=0.5]{application}
+ \caption{A screenshot of applications main window.}
+\end{figure}
+The data windows is designed to view data which is used for evaluation.
+\begin{figure}[!htb]
+\includegraphics[scale=0.6]{viewData}
+ \caption{A screenshot of the data window.}
+\end{figure}
+The application has two modes: Training \& Normal. During the training mode all necessary data is collected. In the normal mode the current password is checked against the captured data. A picture on the right side indicates whether the password is accepted or not. Partially accepted means that if might not be the user.
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------

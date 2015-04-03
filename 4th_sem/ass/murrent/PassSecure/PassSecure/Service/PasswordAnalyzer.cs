@@ -58,6 +58,7 @@ namespace PassSecure.Service
             if (userTraining != null)
             {
                 double difference = CalculateDistance(userTraining, passwordEntry);
+                //double difference = CalculateEuclideanDistance(userTraining, passwordEntry);
                 double diff = Math.Abs(difference - userTraining.AverageDistance);
                 if (difference <= userTraining.AverageDistance)
                 {
@@ -68,8 +69,9 @@ namespace PassSecure.Service
                     status = Enums.PasswordStatus.PartialAccepted;
                 }
                 Debug.WriteLine(status);
-                Debug.WriteLine("Manhattan distance: " + difference);
-                Debug.WriteLine("Average manhattan distance: " + userTraining.AverageDistance);
+                Debug.WriteLine("Euclidean distance: " + difference);
+                Debug.WriteLine("Average euclidean distance: " + userTraining.AverageDistance);
+                //Debug.WriteLine("Euclidean distance: " + eucDifference);
             }
 
             return status;
@@ -103,6 +105,34 @@ namespace PassSecure.Service
             return manhattanData.Manhattan(manhattanCurrentData);
         }
 
+        public double CalculateEuclideanDistance(UserTraining userTraining, UserTraining passwordEntry)
+        {
+            double[] euclideanData = {    
+                                                    userTraining.AverageKeyHoldTime,
+                                                    userTraining.AverageTimeBetweenKeyUp,
+                                                    userTraining.AverageTimeBetweenKeyDown,
+                                                    userTraining.AverageTotalFirstDownLastDownTime,
+                                                    userTraining.AverageTotalFirstUpLastUpTime
+                                     };
+            if (userTraining.AverageKeyStrokeDownTimes != null && userTraining.AverageKeyStrokeUpTimes != null)
+            {
+                ArrayUtils.ConcatArrays(euclideanData, userTraining.AverageKeyStrokeDownTimes);
+                ArrayUtils.ConcatArrays(euclideanData, userTraining.AverageKeyStrokeUpTimes);
+            }
+            double[] euclideanCurrentData =  {
+                                                    passwordEntry.AverageKeyHoldTime, 
+                                                    passwordEntry.AverageTimeBetweenKeyUp,
+                                                  passwordEntry.AverageTimeBetweenKeyDown,
+                                                  passwordEntry.AverageTotalFirstDownLastDownTime,
+                                                  passwordEntry.AverageTotalFirstUpLastUpTime };
+            if (passwordEntry.AverageKeyStrokeDownTimes != null && passwordEntry.AverageKeyStrokeUpTimes != null)
+            {
+                ArrayUtils.ConcatArrays(euclideanData, passwordEntry.AverageKeyStrokeDownTimes);
+                ArrayUtils.ConcatArrays(euclideanData, passwordEntry.AverageKeyStrokeUpTimes);
+            }
+            return euclideanData.Euclidean(euclideanCurrentData);
+        }
+
         public double CalculateDistance(UserTraining userTraining, TrainingEntry passwordEntry)
         {
             double[] manhattanData = {    
@@ -129,6 +159,34 @@ namespace PassSecure.Service
                 ArrayUtils.ConcatArrays(manhattanData, passwordEntry.KeyStrokeUpTimes);
             }
             return manhattanData.Manhattan(manhattanCurrentData);
+        }
+
+        public double CalculateEuclideanDistance(UserTraining userTraining, TrainingEntry passwordEntry)
+        {
+            double[] euclideanData = {    
+                                                    userTraining.AverageKeyHoldTime,
+                                                    userTraining.AverageTimeBetweenKeyUp,
+                                                    userTraining.AverageTimeBetweenKeyDown,
+                                                    userTraining.AverageTotalFirstDownLastDownTime,
+                                                    userTraining.AverageTotalFirstUpLastUpTime,
+                                     };
+            if (userTraining.AverageKeyStrokeDownTimes != null && userTraining.AverageKeyStrokeUpTimes != null)
+            {
+                ArrayUtils.ConcatArrays(euclideanData, userTraining.AverageKeyStrokeDownTimes);
+                ArrayUtils.ConcatArrays(euclideanData, userTraining.AverageKeyStrokeUpTimes);
+            }
+            double[] euclideanCurrentData =  {
+                                                    passwordEntry.AverageHoldTime, 
+                                                    passwordEntry.AverageTimeBetweenKeyUp,
+                                                  passwordEntry.AverageTimeBetweenKeyDown,
+                                                  passwordEntry.TotalFirstDownLastDownTime,
+                                                  passwordEntry.TotalFirstUpLastUpTime, };
+            if (passwordEntry.KeyStrokeDownTimes != null && passwordEntry.KeyStrokeUpTimes != null)
+            {
+                ArrayUtils.ConcatArrays(euclideanData, passwordEntry.KeyStrokeDownTimes);
+                ArrayUtils.ConcatArrays(euclideanData, passwordEntry.KeyStrokeUpTimes);
+            }
+            return euclideanData.Euclidean(euclideanCurrentData);
         }
     }
 }
