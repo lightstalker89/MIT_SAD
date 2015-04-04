@@ -114,7 +114,12 @@ During the training mode all necessary data is collected including:
   \item Average key up time
   \item Manhattan distance
 \end{itemize}
-The complete training consists of a set of training entries. After an entry is added the average time are calculated.
+The complete training consists of a set of training entries. On adding a new training entry the distance to the training set is calculated and the training set is analyzed. Analyzing a training set means recalculating all average values.
+
+\subsection{Used Libraries}
+\begin{itemize}
+  \item Accord - Image Processing \& Machine Learning Framework (\url{http://accord-framework.net/intro.html})
+\end{itemize}
 
 \section{Application}
 The application is designed to test the used algorithm to detect if a password entered by the user is indeed from a genuine user or not. It is possible to enter multiple users with specific passwords. Every user is evaluated separately. It is also possible to import or export data which has been recorded.
