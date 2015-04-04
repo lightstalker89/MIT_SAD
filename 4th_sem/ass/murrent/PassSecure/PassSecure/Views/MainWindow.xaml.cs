@@ -202,7 +202,7 @@ namespace PassSecure.Views
         /// </summary>
         public void AddOrCheck()
         {
-            bool isPasswordEqual = Password.Password.Equals(currentUserTraining.Password);
+            bool isPasswordEqual = Password.Password.Equals(currentUserTraining.Password) && Password.Password.Length == KeyStrokes.Count;
             bool allowedToAdd = currentUserTraining != null && isPasswordEqual;
             if (ModeComboBox.SelectedIndex == 0 && currentUserTraining != null && isPasswordEqual)
             {

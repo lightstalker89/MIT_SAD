@@ -69,8 +69,8 @@ namespace PassSecure.Service
                     status = Enums.PasswordStatus.PartialAccepted;
                 }
                 Debug.WriteLine(status);
-                Debug.WriteLine("Euclidean distance: " + difference);
-                Debug.WriteLine("Average euclidean distance: " + userTraining.AverageDistance);
+                Debug.WriteLine("Manhattan distance: " + difference);
+                Debug.WriteLine("Average manhattan distance: " + userTraining.AverageDistance);
                 //Debug.WriteLine("Euclidean distance: " + eucDifference);
             }
 

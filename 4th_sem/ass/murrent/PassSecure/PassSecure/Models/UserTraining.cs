@@ -114,18 +114,21 @@ namespace PassSecure.Models
                     AverageKeyStrokeDownTimes[x] += Trainings[i].KeyStrokeDownTimes[x];
                     AverageKeyStrokeUpTimes[x] += Trainings[i].KeyStrokeUpTimes[x];
                 }
-             
+
             }
-            AverageTotalFirstUpLastUpTime = Math.Round(AverageTotalFirstUpLastUpTime / Trainings.Count, 5);
-            AverageTotalFirstDownLastDownTime = Math.Round(AverageTotalFirstDownLastDownTime / Trainings.Count, 5);
-            AverageTimeBetweenKeyUp = Math.Round(AverageTimeBetweenKeyUp / Trainings.Count, 5);
-            AverageTimeBetweenKeyDown = Math.Round(AverageTimeBetweenKeyDown / Trainings.Count, 5);
-            AverageKeyHoldTime = Math.Round(AverageKeyHoldTime / Trainings.Count, 5);
-            AverageDistance = AverageDistance / Trainings.Count;
-            for (int y = 0; y < Password.Length - 1; y++)
+            if (Trainings.Count > 0)
             {
-                AverageKeyStrokeDownTimes[y] = AverageKeyStrokeDownTimes[y] / Trainings.Count;
-                AverageKeyStrokeUpTimes[y] = AverageKeyStrokeUpTimes[y] / Trainings.Count;
+                AverageTotalFirstUpLastUpTime = Math.Round(AverageTotalFirstUpLastUpTime / Trainings.Count, 5);
+                AverageTotalFirstDownLastDownTime = Math.Round(AverageTotalFirstDownLastDownTime / Trainings.Count, 5);
+                AverageTimeBetweenKeyUp = Math.Round(AverageTimeBetweenKeyUp / Trainings.Count, 5);
+                AverageTimeBetweenKeyDown = Math.Round(AverageTimeBetweenKeyDown / Trainings.Count, 5);
+                AverageKeyHoldTime = Math.Round(AverageKeyHoldTime / Trainings.Count, 5);
+                AverageDistance = AverageDistance / Trainings.Count;
+                for (int y = 0; y < Password.Length - 1; y++)
+                {
+                    AverageKeyStrokeDownTimes[y] = AverageKeyStrokeDownTimes[y] / Trainings.Count;
+                    AverageKeyStrokeUpTimes[y] = AverageKeyStrokeUpTimes[y] / Trainings.Count;
+                }
             }
         }
     }

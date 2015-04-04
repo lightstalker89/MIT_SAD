@@ -248,7 +248,7 @@ namespace PassSecure.Service
                     }
                     else
                     {
-                        if (IgnoredKeys.Contains(keyUp))
+                        if (!IgnoredKeys.Contains(keyUp))
                         {
                             KeyStroke keyStroke = new KeyStroke(keyUp)
                                                       {
