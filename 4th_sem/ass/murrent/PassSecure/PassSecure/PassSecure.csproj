@@ -159,10 +159,10 @@
     </None>
     <AppDesigner Include="Properties\" />
     <Content Include="Resources\PresentationFramework.Aero.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PresentationFramework.Aero2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\QUARTZL-REGULAR.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
