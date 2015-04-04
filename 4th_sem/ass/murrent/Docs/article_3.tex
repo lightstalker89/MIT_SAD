@@ -87,7 +87,7 @@
 
 \addcontentsline{toc}{section}{Introduction} % Adds this section to the table of contents
 
-\paragraph{PassSecure}The purpose is to develop a simple password application which uses machine learning to detect if a password entered by the user is indeed from a genuine user or not. An application to test the selected algorithm is developed and described
+\paragraph{PassSecure}The purpose is to develop a simple password application which uses machine learning to detect if a password entered by the user is indeed from a genuine user or not. An application to test the selected algorithm is developed and described.
 
 %------------------------------------------------
 
@@ -121,6 +121,9 @@ The complete training consists of a set of training entries. A training entry is
   \item Accord - Image Processing \& Machine Learning Framework (\url{http://accord-framework.net/intro.html})
 \end{itemize}
 
+\subsection{Restrictions}
+The algorithm is tested with normal user input and not with any password management software.
+
 \section{Application}
 The application is designed to test the used algorithm to detect if a password entered by the user is indeed from a genuine user or not. It is possible to enter multiple users with specific passwords. Every user is evaluated separately. It is also possible to import or export data which has been recorded.
 \begin{figure}[!htb]
@@ -132,7 +135,8 @@ The data windows is designed to view data which is used for evaluation.
 \includegraphics[scale=0.6]{viewData}
  \caption{A screenshot of the data window.}
 \end{figure}
-The application has two modes: Training \& Normal. During the training mode all necessary data is collected. In the normal mode the current password is checked against the captured data. A picture on the right side indicates whether the password is accepted or not. Partially accepted means that if might not be the user.
+The application has two modes: Training \& Normal. During the training mode all necessary data is collected. In the normal mode the current password is checked against the captured data. A picture on the right side of the login controls indicates whether the password is accepted or not. Partially accepted means that if might not be the user.
+
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
