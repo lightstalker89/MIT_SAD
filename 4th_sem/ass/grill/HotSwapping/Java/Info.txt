@@ -1,0 +1,4 @@
+https://theholyjava.wordpress.com/2011/09/07/practical-introduction-into-code-injection-with-aspectj-javassist-and-java-proxy/
+http://www.csg.ci.i.u-tokyo.ac.jp/~chiba/javassist/
+https://wikis.oracle.com/display/mlvm/HotSwap
+http://zeroturnaround.com/software/jrebel/
