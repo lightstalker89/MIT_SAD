@@ -1,0 +1,6 @@
+http://www.csg.ci.i.u-tokyo.ac.jp/~chiba/javassist/html/javassist/util/HotSwapper.html
+
+Use tools.jar for HotSwapper
+
+http://www.csg.ci.i.u-tokyo.ac.jp/~chiba/javassist/tutorial/tutorial.html
+-> Have to defrost class

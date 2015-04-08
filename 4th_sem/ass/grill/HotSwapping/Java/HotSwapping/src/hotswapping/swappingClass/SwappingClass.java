@@ -6,14 +6,21 @@
 
 package hotswapping.swappingClass;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 /**
  *
  * @author Flo
  */
 public class SwappingClass {
     
-    public void swappMe(){
-        
+    public void swappingMethod(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("This was a Dialog from the standard code");
+        alert.setContentText("Try to swapp some byte code!");
+
+        alert.showAndWait();
     }
-    
 }
