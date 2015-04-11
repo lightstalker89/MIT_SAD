@@ -1,40 +1,43 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using PostSharp;
 using PostSharp.Extensibility;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Advices;
-using System.Diagnostics;
-using System.Xml;
 
-[assembly: PostSharpExample.AllCounter1(AttributeTargetTypes = "PostSharpExample.Animal")]
 
-namespace PostSharpExample
+[assembly: ClassDiagram.AspectPersonMethodCalls(AttributeTargetTypes= "ClassDiagram.Person")]
+
+namespace ClassDiagram
 {
-    [Serializable]
-    [AllCounter1(AttributeExclude = true)]
-    public class AllCounter1 : TypeLevelAspect
-    {
-        private int methodCounter = 0;
+	[Serializable]
+	[AspectPersonMethodCalls(AttributeExclude = true)]
+	public class AspectPersonMethodCalls : TypeLevelAspect
+	{
+		private int methodCounter = 0;
 
-        [OnMethodEntryAdvice, MulticastPointcut(Targets = MulticastTargets.Method, MemberName="regex:^(?!.ctor|.cctor|Finalize).+")]
-        public void OnEntry(MethodExecutionArgs args)
-        {
-           
-            if(!args.Method.IsConstructor)
-            {
-                ++this.methodCounter;
-            }
+        /// <summary>
+        /// Handles privileged access to ressources for threads
+        /// </summary>
+        private static Mutex mutex = new Mutex();
 
-            // Access/Create background thread to add a new filesystemwatcher for the log file 
+		[OnMethodEntryAdvice, MulticastPointcut(Targets = MulticastTargets.Method, MemberName="regex:^(?!.ctor|.cctor|Finalize).+")]
+		public void OnEntry(MethodExecutionArgs args)
+		{          
+			if(!args.Method.IsConstructor)
+			{
+				++this.methodCounter;
+			}
 
-            this.LogToXML(@"C:\Temp", "AspectLog.xml");
-        }
+			this.LogToXML(@"C:\Temp", "AspectLog.xml");
+		}
 
         /// <summary>
         /// Create a new xml file if not exist and log the values. If the file already exist
@@ -60,7 +63,7 @@ namespace PostSharpExample
                     {
                         xWriter.WriteStartDocument();
                         xWriter.WriteStartElement("Objects");
-                        xWriter.WriteStartElement("Animal");
+                        xWriter.WriteStartElement("Person");
                         xWriter.WriteElementString("MethodCallsCounter", this.methodCounter.ToString());
                         xWriter.WriteEndElement();
                         xWriter.WriteEndElement();
@@ -69,24 +72,33 @@ namespace PostSharpExample
                 }
                 else
                 {
+					mutex.WaitOne();
                     XmlDocument doc = new XmlDocument();
                     doc.Load(@"C:\Temp\AspectLog.xml");
                     XmlNode root = doc.DocumentElement;
-                    XmlNode myNode = root.SelectSingleNode("descendant::MethodCallsCounter");
+					XmlNode classNode = root.SelectSingleNode("descendant::Person");
+
+					if(classNode == null)
+					{
+						XmlElement newObject = doc.CreateElement("Person");
+						root.AppendChild(newObject);
+						classNode = root.SelectSingleNode("descendant::Person");
+					}
+
+                    XmlNode myNode = classNode.SelectSingleNode("descendant::MethodCallsCounter");
                     if (myNode != null && myNode.HasChildNodes)
                     {
                         myNode.FirstChild.Value = this.methodCounter.ToString();
                     }
                     else
                     {
-                        XmlNode animalNode = root.SelectSingleNode("descendant::Animal");
                         XmlElement element = doc.CreateElement("MethodCallsCounter");
                         element.InnerXml = this.methodCounter.ToString();
-                        //element.AppendChild();
-                        animalNode.AppendChild(element);
+                        classNode.AppendChild(element);
                     }
 
                     doc.Save(@"C:\Temp\AspectLog.xml");
+					mutex.ReleaseMutex();
                 }
             }
             catch (Exception ex)
@@ -94,5 +106,5 @@ namespace PostSharpExample
                 Debug.WriteLine(ex.Message);
             }
         }
-    }
+	}
 }

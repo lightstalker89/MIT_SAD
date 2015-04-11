@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using PostSharp;
@@ -43,6 +44,11 @@ namespace ClassDiagram
 	public class <#= @AspectClassName #> : TypeLevelAspect
 	{
 		private int methodCounter = 0;
+
+        /// <summary>
+        /// Handles privileged access to ressources for threads
+        /// </summary>
+        private static Mutex mutex = new Mutex();
 
 		[OnMethodEntryAdvice, MulticastPointcut(Targets = MulticastTargets.Method, MemberName="regex:^(?!.ctor|.cctor|Finalize).+")]
 		public void OnEntry(MethodExecutionArgs args)
@@ -79,7 +85,7 @@ namespace ClassDiagram
                     {
                         xWriter.WriteStartDocument();
                         xWriter.WriteStartElement("Objects");
-                        xWriter.WriteStartElement("<#= @AspectClassName#>");
+                        xWriter.WriteStartElement("<#= @ClassName#>");
                         xWriter.WriteElementString("MethodCallsCounter", this.methodCounter.ToString());
                         xWriter.WriteEndElement();
                         xWriter.WriteEndElement();
@@ -88,24 +94,33 @@ namespace ClassDiagram
                 }
                 else
                 {
+					mutex.WaitOne();
                     XmlDocument doc = new XmlDocument();
                     doc.Load(@"C:\Temp\AspectLog.xml");
                     XmlNode root = doc.DocumentElement;
-                    XmlNode myNode = root.SelectSingleNode("descendant::MethodCallsCounter");
+					XmlNode classNode = root.SelectSingleNode("descendant::<#= @ClassName#>");
+
+					if(classNode == null)
+					{
+						XmlElement newObject = doc.CreateElement("<#= @ClassName#>");
+						root.AppendChild(newObject);
+						classNode = root.SelectSingleNode("descendant::<#= @ClassName#>");
+					}
+
+                    XmlNode myNode = classNode.SelectSingleNode("descendant::MethodCallsCounter");
                     if (myNode != null && myNode.HasChildNodes)
                     {
                         myNode.FirstChild.Value = this.methodCounter.ToString();
                     }
                     else
                     {
-                        XmlNode animalNode = root.SelectSingleNode("descendant::<#= @AspectClassName#>");
                         XmlElement element = doc.CreateElement("MethodCallsCounter");
                         element.InnerXml = this.methodCounter.ToString();
-                        //element.AppendChild();
-                        animalNode.AppendChild(element);
+                        classNode.AppendChild(element);
                     }
 
                     doc.Save(@"C:\Temp\AspectLog.xml");
+					mutex.ReleaseMutex();
                 }
             }
             catch (Exception ex)

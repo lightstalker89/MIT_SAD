@@ -1,50 +1,95 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms;
-using System.Xml;
-
-using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Presentation;
-using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml;
-using Microsoft.VisualStudio.Modeling.ExtensionEnablement;
-using Microsoft.VisualStudio.Uml.Classes;
-using Microsoft.VisualStudio.Modeling.Diagrams;
-
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="UpdateModelCommand.cs" company="MD Development">
+//     Copyright (c) MD Development. All rights reserved.
+// </copyright>
+// <author>Michael Drexler</author>
+//-----------------------------------------------------------------------
 namespace ClassLibrary1
 {
-    // Custom context menu command extension
-    // See http://msdn.microsoft.com/en-us/library/ee329481(v=vs.120).aspx
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.ComponentModel;
+    using System.ComponentModel.Composition;
+    using System.IO;
+    using System.Threading;
+    using System.Windows.Forms;
+    using System.Xml;
+    using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Presentation;
+    using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml;
+    using Microsoft.VisualStudio.Modeling.ExtensionEnablement;
+    using Microsoft.VisualStudio.Uml.Classes;
+    using Microsoft.VisualStudio.Modeling.Diagrams;
+
+    /// <summary>
+    /// Custom context menu command extension
+    /// See http://msdn.microsoft.com/en-us/library/ee329481(v=vs.120).aspx
+    /// </summary>
     [Export(typeof(ICommandExtension))]
     [ClassDesignerExtension] // TODO: Add other diagram types if needed
     class UpdateModelCommand : ICommandExtension
     {
+        /// <summary>
+        /// Background thread which updates the GUI (class diagram)
+        /// </summary>
         private Thread updateThread;
 
+        /// <summary>
+        /// Flag whether the background thread should update the GUI or not
+        /// </summary>
         private static bool isAutomaticallyUpdateActivated = false;
+
+        /// <summary>
+        /// Flag to see if the log file has changed and the GUI has to be updated
+        /// </summary>
         private static bool areUpdatesAvailable = false;
+
+        /// <summary>
+        /// Handles privileged access to ressources for threads
+        /// </summary>
         private static Mutex mutex = new Mutex();
 
+        /// <summary>
+        /// Delegate for the UIThreadHolder of the class diagram
+        /// </summary>
+        /// <param name="xmlFile"></param>
+        /// <param name="comments"></param>
         public delegate void UpdateModelDelegate(XmlDocument xmlFile, IEnumerable<IComment> comments);
 
-        //public ConcurrentQueue<T> UpdateQueue { get; set; }
-
+        /// <summary>
+        /// Gets or sets the diagram context
+        /// </summary>
         [Import]
-        IDiagramContext context { get; set; }
+        public IDiagramContext context { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value for the linked undo context
+        /// </summary>
         [Import]
-        ILinkedUndoContext linkedUndoContext { get; set; }
+        public ILinkedUndoContext linkedUndoContext { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value of the menu command text
+        /// </summary>
+        public string Text
+        {
+            get { return "Activate Update Model"; }
+        }
+
+        /// <summary>
+        /// Method to show error messages to the user
+        /// </summary>
+        /// <param name="ex"></param>
         private void DisplayErrorMessage(Exception ex)
         {
             MessageBox.Show(ex.Message, "Ein Fehler ist aufgetreten!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        /// <summary>
+        /// Thread functionality to process
+        /// </summary>
+        /// <param name="obj"></param>
         private void DoWork(object obj)
         {
             FileSystemWatcher watcher = new FileSystemWatcher(@"C:\Temp", "AspectLog.xml");
@@ -70,22 +115,38 @@ namespace ClassLibrary1
             }
         }
 
+        /// <summary>
+        /// Update all comment shapes with the logged informations for the annotated classes.
+        /// </summary>
+        /// <param name="logFile"></param>
+        /// <param name="comments"></param>
         public static void UpdateClassDiagram(XmlDocument logFile, IEnumerable<IComment> comments)
         {
             foreach (var comment in comments)
             {
                 XmlNode classNode = logFile.SelectSingleNode(string.Format("descendant::{0}", comment.Description));
-                XmlNode instanceCounter = classNode.SelectSingleNode("descendant::InstanceCounter");
-                XmlNode methodCounter = classNode.SelectSingleNode("descendant::MethodCallsCounter");
-                comment.Body = comment.Description;
-                if(instanceCounter != null)
-                comment.Body += string.Concat(Environment.NewLine,"InstanceCounter: ", instanceCounter.InnerText, Environment.NewLine);
+                if (classNode != null)
+                {
+                    XmlNode instanceCounter = classNode.SelectSingleNode("descendant::InstanceCounter");
+                    XmlNode methodCounter = classNode.SelectSingleNode("descendant::MethodCallsCounter");
+                    comment.Body = comment.Description;
+                    if (instanceCounter != null)
+                    {
+                        comment.Body += string.Concat(Environment.NewLine, "InstanceCounter: ", instanceCounter.InnerText, Environment.NewLine);
+                    }
 
-                if(methodCounter != null)
-                comment.Body += string.Concat("MethodCounter: ", methodCounter.InnerText);
+                    if (methodCounter != null)
+                    {
+                        comment.Body += string.Concat("MethodCounter: ", methodCounter.InnerText);
+                    }
+                }
             }
         }
 
+        /// <summary>
+        /// Get all comment shapes from the model store
+        /// </summary>
+        /// <returns></returns>
         private IEnumerable<IComment> ReadCommentsFromUMLClassDiagram()
         {
             try
@@ -105,13 +166,15 @@ namespace ClassLibrary1
             return null;
         }
 
+        /// <summary>
+        /// Read the log file
+        /// </summary>
+        /// <returns></returns>
         private XmlDocument ReadLogFile()
         {
             mutex.WaitOne();
-
             XmlDocument doc = new XmlDocument();
             doc.Load(@"C:\Temp\AspectLog.xml");
-
             mutex.ReleaseMutex();
 
             return doc;
@@ -124,20 +187,19 @@ namespace ClassLibrary1
         /// <param name="e"></param>
         void watcher_Changed(object sender, FileSystemEventArgs e)
         {
+            // Better to add jobs the a queue which will be processed from a thread?
             mutex.WaitOne();
             areUpdatesAvailable = true;
             mutex.ReleaseMutex();
-            // TODO Read Log File
-            // TODO Get all IComments from ModelStore
-            // TODO Write the right information to the right comments via UIThread
         }
 
+        /// <summary>
+        /// Executes the update class diagram logic
+        /// </summary>
+        /// <param name="command"></param>
         public void Execute(IMenuCommand command)
         {
-            //DiagramView uiThreadHolder = context.CurrentDiagram.GetObject<Diagram>().ActiveDiagramView;
-            //uiThreadHolder.Invoke(new UpdateModelDelegate(DoSomething), context);
-
-            // Update the UML Class diagram with the informations from the Aspect
+            // Start a background thread to update the GUI (class diagram)
             try
             {
                 if(updateThread == null)
@@ -190,15 +252,14 @@ namespace ClassLibrary1
             }
         }
 
+        /// <summary>
+        /// Handles the visibility of the MenuCommand item
+        /// </summary>
+        /// <param name="command"></param>
         public void QueryStatus(IMenuCommand command)
         {
             command.Visible = command.Enabled = true;
             command.Text = isAutomaticallyUpdateActivated ? "Deactivate Update Model" : "Activate Update Model";
-        }
-
-        public string Text
-        {
-            get { return "Activate Update Model"; }
         }
     }
 }

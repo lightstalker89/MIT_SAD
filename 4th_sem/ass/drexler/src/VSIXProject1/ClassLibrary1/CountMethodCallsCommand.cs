@@ -25,8 +25,12 @@ namespace VSIXProject1
     [ClassDesignerExtension] // TODO: Add other diagram types if needed
     public class CountMethodCallsCommand : ICommandExtension
     {
+        private static string generatedAspectFilePath = string.Empty;
+
+        private Dictionary<string, bool> isCountMethodCallsActivated = new Dictionary<string, bool>();
+
         [Import]
-        IDiagramContext context { get; set; }
+        public IDiagramContext context { get; set; }
 
         [Import]
         public SVsServiceProvider ServiceProvider { get; set; }
@@ -34,6 +38,10 @@ namespace VSIXProject1
         [Import]
         public IVsSelectionContext sContext { get; set; }
 
+        /// <summary>
+        /// Executes the method calls counter functionality
+        /// </summary>
+        /// <param name="command"></param>
         public void Execute(IMenuCommand command)
         {
             try
@@ -52,103 +60,106 @@ namespace VSIXProject1
                 #endregion
 
                 IEnumerable<IComment> comments = store.AllInstances<IComment>();
-
-                if(selClass != null)
+                
+                if (!isCountMethodCallsActivated.Where(m => m.Key == selClass.Name).Select(m => m.Value).SingleOrDefault())
                 {
-                    #region OldCode
-                    //Microsoft.VisualStudio.Uml.Profiles.IProperty prop;
-
-                    //if (stereoTypes != null && stereoTypes.Count() > 0)
-                    //{
-                    //    stereoType = stereoTypes.Where(m => m.Name == "class").Select(m => m).FirstOrDefault();
-                    //    prop = stereoType.Properties
-                    //        .Where(m => m.Name.ToLower() == "clrattributes")
-                    //        .Select(m => m).FirstOrDefault();
-                    //} 
-                    #endregion
-
-                    var com = comments.Where(m => m.Description == (selClass.GetId().ToString())).Select(m => m).FirstOrDefault();
-
-                    if (com == null)
+                    if (selClass != null)
                     {
-                        // Check if CountInstances already is activated
-                        IComment comment = rootPackage.CreateComment();
-                        comment.Description = (selClass.Name);
-                        comment.AnnotatedElements.Add(selClass);
-                        comment.Body = ((IClass)selShape.GetElement()).Name;
-                        comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}, {4}Average Associations:{5}",
-                            Environment.NewLine,
-                            "0",
-                            Environment.NewLine,
-                            "0",
-                            Environment.NewLine,
-                            "0");
-
-
                         #region OldCode
-                        //var implementedAndInherited = Enumerable.Union<IType>(aspectClass.SuperClasses, aspectClass.InterfaceRealizations.Select(ir => ir.Contract));
-                        //var types = implementedAndInherited.Where(type => type != null);
+                        //Microsoft.VisualStudio.Uml.Profiles.IProperty prop;
 
-                        //foreach (IType type in types)
+                        //if (stereoTypes != null && stereoTypes.Count() > 0)
                         //{
-                        //    IClassifier baseClassifier = type as IClassifier;
-                        //    if (baseClassifier != null)
-                        //    {
-                        //        ITemplateBinding templateBinding = GetTemplateBinding(baseClassifier);
-                        //        IClassifier bindingClassifier = GetBindingClassifier(templateBinding);
-                        //        if (bindingClassifier != null)
-                        //        {
-                        //            baseClassifier = bindingClassifier;
-                        //        }
-
-                        //        foreach (IOperation operationInBase in GetOwnedOperations(baseClassifier))
-                        //        {
-                        //            //bool isInheritedMember = IsInheritedMember(operationInBase, operation, templateBinding);
-                        //            //if (isInheritedMember)
-                        //            //{
-                        //            //    return true;
-                        //            //}
-                        //        }
-                        //    }
-                        //}
-
-                        //aspectClass.TemplateBindings.ToList().Add();
-
-                        //foreach (var item in stereoType.Properties)
-                        //{
-                        //    comment.Body += "\n";
-                        //    comment.Body += string.Format("PropName:{0}, DefaultValue:{1}; \n", item.Name, item.DefaultValue);
-                        //}
+                        //    stereoType = stereoTypes.Where(m => m.Name == "class").Select(m => m).FirstOrDefault();
+                        //    prop = stereoType.Properties
+                        //        .Where(m => m.Name.ToLower() == "clrattributes")
+                        //        .Select(m => m).FirstOrDefault();
+                        //} 
                         #endregion
 
-                        diagram.Display(comment);
-                        command.Text = string.Format("Deactivate Count Method Calls of class '{0}'", selClass.Name);
+                        var com = comments.Where(m => m.Description == selClass.Name).Select(m => m).FirstOrDefault();
+
+                        // Check if CountMethodCalls already is activated
+                        if (com == null)
+                        {
+                            IComment comment = rootPackage.CreateComment();
+                            comment.Description = selClass.Name;
+                            comment.AnnotatedElements.Add(selClass);
+                            comment.Body = selClass.Name;
+                            comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}, {4}Average Associations:{5}",
+                                Environment.NewLine,
+                                "0",
+                                Environment.NewLine,
+                                "0",
+                                Environment.NewLine,
+                                "0");
+
+                            #region OldCode
+                            //var implementedAndInherited = Enumerable.Union<IType>(aspectClass.SuperClasses, aspectClass.InterfaceRealizations.Select(ir => ir.Contract));
+                            //var types = implementedAndInherited.Where(type => type != null);
+
+                            //foreach (IType type in types)
+                            //{
+                            //    IClassifier baseClassifier = type as IClassifier;
+                            //    if (baseClassifier != null)
+                            //    {
+                            //        ITemplateBinding templateBinding = GetTemplateBinding(baseClassifier);
+                            //        IClassifier bindingClassifier = GetBindingClassifier(templateBinding);
+                            //        if (bindingClassifier != null)
+                            //        {
+                            //            baseClassifier = bindingClassifier;
+                            //        }
+
+                            //        foreach (IOperation operationInBase in GetOwnedOperations(baseClassifier))
+                            //        {
+                            //            //bool isInheritedMember = IsInheritedMember(operationInBase, operation, templateBinding);
+                            //            //if (isInheritedMember)
+                            //            //{
+                            //            //    return true;
+                            //            //}
+                            //        }
+                            //    }
+                            //}
+
+                            //aspectClass.TemplateBindings.ToList().Add();
+
+                            //foreach (var item in stereoType.Properties)
+                            //{
+                            //    comment.Body += "\n";
+                            //    comment.Body += string.Format("PropName:{0}, DefaultValue:{1}; \n", item.Name, item.DefaultValue);
+                            //}
+                            #endregion
+
+                            diagram.Display(comment);
+                            command.Text = string.Format("Deactivate Count Method Calls of class '{0}'", selClass.Name);
+                        }
+
+                        var isCreated = GenerateAspectCodeFile(selClass);
+                        isCountMethodCallsActivated[selClass.Name] = true;
                     }
                     else
                     {
-                        //com.Delete();
-                        //command.Text = string.Format("Activate Count Method Calls of class '{0}'", selClass.Name);
+                        MessageBox.Show("No Shape selected!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-
-                    var isCreated = GenerateAspectCodeFile(selClass);
                 }
                 else
                 {
-                    MessageBox.Show("No Shape selected!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                    // Delete Aspect code file or notification?
+                    string aspectCodeFileName = string.Concat("Aspect", selClass.Name, "MethodCalls.cs");
+                    if (!string.IsNullOrEmpty(generatedAspectFilePath))
+                    {
+                        string generatedAspectFileFullPath = Path.Combine(generatedAspectFilePath, aspectCodeFileName);
+                        File.Delete(generatedAspectFileFullPath);
+                        MessageBox.Show("Count Method Calls annotation removed!");
+                    }
 
-                // Initialize the template with the Model Store.
-                VdmGen generator = new VdmGen(context.CurrentDiagram.ModelStore);
-                // Generate the text and write it.
-                /*System.IO.File.WriteAllText(
-                    System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),"Generated.txt")
-                   , generator.TransformText());*/
+                    isCountMethodCallsActivated[selClass.Name] = false;
+                }
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        
         }
 
         /// <summary>
@@ -163,9 +174,15 @@ namespace VSIXProject1
 
             if(selClass != null)
             {
-                command.Text = string.Format("Activate Count Method Calls of class '{0}'", selClass.Name);
+                // if dictionary doesn´t contain this annotation - add it
+                if (!isCountMethodCallsActivated.ContainsKey(selClass.Name))
+                {
+                    isCountMethodCallsActivated.Add(selClass.Name, false);
+                }
+
                 command.Visible = true;
                 command.Enabled = true;
+                command.Text = !isCountMethodCallsActivated[selClass.Name] ? string.Format("Activate Count Method Calls of class '{0}'", selClass.Name) : string.Format("Deactivate Count Method Calls of class '{0}'", selClass.Name);
             }
         }
 
@@ -194,13 +211,13 @@ namespace VSIXProject1
             try
             {
                 // Get cs project path to which the new aspect file should be generated
-                string csProjectFilePath = CSProjectFromOpenDialog();
+                string csProjectFilePath = this.CSProjectFromOpenDialog();
                 string parentDir = Directory.GetParent(csProjectFilePath).FullName;
-                string pathGeneratedAspects = Path.Combine(parentDir, "GeneratedAspects");
+                generatedAspectFilePath = Path.Combine(parentDir, "GeneratedAspects");
 
-                if (!Directory.Exists(pathGeneratedAspects))
+                if (!Directory.Exists(generatedAspectFilePath))
                 {
-                    Directory.CreateDirectory(pathGeneratedAspects);
+                    Directory.CreateDirectory(generatedAspectFilePath);
                 }
 
                 // Get Namespace from anywhere
@@ -218,7 +235,7 @@ namespace VSIXProject1
                 string result = t4.ProcessTemplate("AspectCountMethodCalls.tt", System.IO.File.ReadAllText(filePath));
 
                 string aspectCodeFileName = string.Concat("Aspect", selClass.Name, "MethodCalls.cs");
-                string aspectCodeFullName = Path.Combine(pathGeneratedAspects, aspectCodeFileName);
+                string aspectCodeFullName = Path.Combine(generatedAspectFilePath, aspectCodeFileName);
                 using (StreamWriter sw = new StreamWriter(aspectCodeFullName, false))
                 {
                     sw.Write(result);
