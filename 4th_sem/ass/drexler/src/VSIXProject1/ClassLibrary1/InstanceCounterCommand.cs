@@ -260,7 +260,8 @@ namespace VSIXProject1
                 sessionHost.Session["AspectClassName"] = string.Concat("Aspect", selClass.Name, "CountInstances");
                 sessionHost.Session["ClassName"] = selClass.Name;
 
-                string filePath = string.Concat(Environment.CurrentDirectory, @"\AspectCountInstances.tt");
+                //string filePath = string.Concat(Environment.CurrentDirectory, @"\AspectCountInstances.tt");
+                string filePath = string.Concat(@"C:\Temp", @"\AspectCountInstances.tt");
                 // Process a text template:
 
                 string result = t4.ProcessTemplate("AspectCountInstances.tt", System.IO.File.ReadAllText(filePath));

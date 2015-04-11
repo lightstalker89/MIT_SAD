@@ -62,9 +62,7 @@
     <Compile Include="CountMethodCallsCommand.cs" />
     <Compile Include="InstanceCounterCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs" />
     <Compile Include="UpdateModelCommand.cs" />
-    <Compile Include="VdmGen.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

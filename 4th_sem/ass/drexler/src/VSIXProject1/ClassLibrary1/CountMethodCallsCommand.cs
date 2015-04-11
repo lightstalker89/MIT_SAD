@@ -229,7 +229,8 @@ namespace VSIXProject1
                 sessionHost.Session["AspectClassName"] = string.Concat("Aspect", selClass.Name, "MethodCalls");
                 sessionHost.Session["ClassName"] = selClass.Name;
 
-                string filePath = string.Concat(Environment.CurrentDirectory, @"\AspectCountMethodCalls.tt");
+                //string filePath = string.Concat(Environment.CurrentDirectory, @"\AspectCountMethodCalls.tt");
+                string filePath = string.Concat(@"C:\Temp", @"\AspectCountMethodCalls.tt");
                 // Process a text template:
 
                 string result = t4.ProcessTemplate("AspectCountMethodCalls.tt", System.IO.File.ReadAllText(filePath));
