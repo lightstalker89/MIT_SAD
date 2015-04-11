@@ -8,13 +8,10 @@ package hotswapping;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import hotswapping.swappingClass.SwappingClass;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javassist.CannotCompileException;
@@ -34,6 +31,8 @@ public class FXMLDocumentController {
     private HotSwapper swap;
     
     @FXML
+    private Label javassistSwappingError;
+    @FXML
     private Label javassistError;
     @FXML
     private TextArea javassistTextArea; 
@@ -51,37 +50,36 @@ public class FXMLDocumentController {
 
     @FXML
     private void handleJavassistButton(ActionEvent event) throws IllegalConnectorArgumentsException {
-        if(!javassistTextArea.getText().equals("") && this.swap != null){
+        if(!javassistTextArea.getText().equals("")){
             javassistError.setVisible(false);
-            ClassPool pool = ClassPool.getDefault();
-            try {
-                
-                CtClass target = pool.get("hotswapping.swappingClass.SwappingClass");
-                target.defrost();
-                CtMethod targetMethod = target.getDeclaredMethod("swappingMethod");
-                targetMethod.setBody(javassistTextArea.getText());
-                
-                swap.reload("hotswapping.swappingClass.SwappingClass", target.toBytecode());
-                //CtClass base = pool.get("hotswapping.additionalClasses.ConsoleWriter");
-                //target.setSuperclass(base);
-                //  translates the CtClass object into a class file and writes it on a local disk
-                //target.writeFile();
-            } catch (CannotCompileException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NotFoundException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SecurityException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalArgumentException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            if(this.swap != null){
+                ClassPool pool = ClassPool.getDefault();
+                try {
+
+                    CtClass target = pool.get("hotswapping.swappingClass.SwappingClass");
+                    target.defrost();
+                    CtMethod targetMethod = target.getDeclaredMethod("swappingMethod");
+                    targetMethod.setBody(javassistTextArea.getText());
+                    swap.reload("hotswapping.swappingClass.SwappingClass", target.toBytecode());
+                } catch (CannotCompileException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NotFoundException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SecurityException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else{
+                javassistSwappingError.setVisible(true);
             }
         } else{
             javassistError.setVisible(true);
         }
     }
-
+    
     @FXML
     private void executeCode(ActionEvent event) {
         swappingClass.swappingMethod();

@@ -10,10 +10,10 @@
     <jfx:javafx-runtime version="2.2+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
   </resources>
   <resources>
-    <j2se version="1.6+" java-vm-args="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000 "  href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="HotSwapping.jar" size="24493" download="eager" />
-    <jar href="lib/javassist.jar" size="765653" download="eager" />
-    <jar href="lib/tools.jar" size="18645431" download="eager" />
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="HotSwapping.jar" size="25088" download="eager" />
+    <jar href="lib/javassist.jar" size="765655" download="eager" />
+    <jar href="lib/tools.jar" size="18645433" download="eager" />
   </resources>
 <security>
   <all-permissions/>

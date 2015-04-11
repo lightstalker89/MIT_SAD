@@ -1,6 +1,23 @@
+*Javassist*
+
 http://www.csg.ci.i.u-tokyo.ac.jp/~chiba/javassist/html/javassist/util/HotSwapper.html
 
 Use tools.jar for HotSwapper
 
 http://www.csg.ci.i.u-tokyo.ac.jp/~chiba/javassist/tutorial/tutorial.html
 -> Have to defrost class
+--> Muss beim starten der jar aufgedreht sein http://de.wikipedia.org/wiki/Java_Platform_Debugger_Architecture
+
+-> http://www.csg.ci.i.u-tokyo.ac.jp/~chiba/javassist/html/javassist/util/HotSwapper.html
+
+*Other*
+
+http://en.wikipedia.org/wiki/Da_Vinci_Machine
+
+*JavaAgent*
+
+http://hotswapagent.org/
+
+*ByteBuddy*
+
+http://bytebuddy.net/#/tutorial
