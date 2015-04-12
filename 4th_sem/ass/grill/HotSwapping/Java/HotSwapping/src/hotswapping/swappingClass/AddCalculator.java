@@ -3,15 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hotswapping.additionalClasses;
+
+package hotswapping.swappingClass;
 
 /**
  *
  * @author Flo
  */
-public class ConsoleWriter {
+public class AddCalculator {
     
-    public void writeOutputToConsole(String msg){
-        System.out.println(msg);
+    public int calc(int a, int b){
+        int result = a + b;
+        System.out.println("AddCalculator result is: " + result);
+        return result;
     }
+    
 }

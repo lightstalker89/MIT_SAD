@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : 07.04.2015, 19:24:35
     Author     : Flo
 */
-#javaAssistPanel {
+#javaAssistPanel, #byteBuddyPanel {
     -fx-border-width: 1;
     -fx-border-color: black;
 }

@@ -20,6 +20,7 @@ public class HotSwappingJavaAgent {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //ByteBuddyAgent.installOnOpenJDK();
         for (int i = 0; i < 15; i++) {
             System.out.println("Test meesk");
             System.out.println("12");
