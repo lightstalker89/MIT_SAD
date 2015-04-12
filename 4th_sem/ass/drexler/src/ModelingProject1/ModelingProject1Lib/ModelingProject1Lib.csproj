@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8A260C65-C650-4B19-8263-369AEF0F3A6C}</ProjectGuid>
+    <ProjectGuid>{86553189-19CE-4AAB-94C4-0E6D4BC7750D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ModelingProject1Lib</RootNamespace>
@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="GeneratedAspects\AspectAnimalCountInstances.cs" />
     <Compile Include="GeneratedAspects\AspectAnimalMethodCalls.cs" />
+    <Compile Include="GeneratedAspects\AspectPersonCountInstances.cs" />
+    <Compile Include="GeneratedAspects\AspectPersonMethodCalls.cs" />
     <Compile Include="GeneratedCode\ClassDiagram\Animal.cs" />
     <Compile Include="GeneratedCode\ClassDiagram\Bird.cs" />
     <Compile Include="GeneratedCode\ClassDiagram\Cat.cs" />
@@ -57,6 +59,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\PostSharp.4.1.10\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.4.1.10\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">

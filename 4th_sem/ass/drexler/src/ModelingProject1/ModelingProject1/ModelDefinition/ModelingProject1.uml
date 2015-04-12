@@ -5,16 +5,28 @@
   name="ModelingProject1" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <ownedCommentsInternal>
     <comment
-      Id="3164fc6a-0758-4477-8fe3-290d2e8e6795">
+      Id="f6eefd56-4246-47ed-b18d-3eb5f9b75785">
       <description>Animal</description>
       <body>Animal
-Instances:0, 
-MethodCalls:0, 
-Average Associations:0</body>
+InstanceCounter: 99
+MethodCounter: 22</body>
       <annotatedElements>
         <classMoniker
           Id="b08aca62-527d-4a07-9498-afae8a7d890b"
           LastKnownName="Animal"
+          LastKnownLocation="Package_0917.uml" />
+      </annotatedElements>
+    </comment>
+    <comment
+      Id="ffb2615a-d19e-4ae3-91fa-ac5ec70c5641">
+      <description>Person</description>
+      <body>Person
+InstanceCounter: 11
+MethodCounter: 11</body>
+      <annotatedElements>
+        <classMoniker
+          Id="b1f7b151-c148-475b-90f7-1d54f994a7c4"
+          LastKnownName="Person"
           LastKnownLocation="Package_0917.uml" />
       </annotatedElements>
     </comment>

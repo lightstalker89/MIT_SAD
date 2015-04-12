@@ -62,16 +62,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextTemplate1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TextTemplate1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VdmGen.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>VdmGen.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="AspectCountMethodCalls.tt">
@@ -84,14 +74,6 @@
     </None>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="TextTemplate1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TextTemplate1.cs</LastGenOutput>
-    </None>
-    <None Include="VdmGen.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>VdmGen.cs</LastGenOutput>
     </None>
     <None Include="VSTextGenerationFiles\CSharpCommentHelpers.t4">
       <LastGenOutput>CSharpCommentHelpers.cs</LastGenOutput>

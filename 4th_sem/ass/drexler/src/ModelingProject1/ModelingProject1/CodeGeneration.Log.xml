@@ -6,39 +6,38 @@
   <MessageClass Name="Error" Label="Error" Option="Show errors" />
   <MessageClass Name="Property" Label="Property" Option="Show metadata" />
   <MessageClass Name="Diagnostic" Label="Message" Option="Show diagnostic messages" />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="High" Text="Code generation or text transformation started." />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="Diagnostic" Text="Name = ClassTemplate" />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="Diagnostic" Text="Overwrite = True" />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="Diagnostic" Text="ProjectPath = ..\ModelingProject1Lib\ModelingProject1Lib.csproj" />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="Diagnostic" Text="TargetName = {Name}" />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
-  <Message Timestamp="2015-04-08T20:50:20" Importance="Medium" Text="ModelingProject1's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'ModelingProject1::ClassDiagram::Person' -  (Class), 'ModelingProject1::ClassDiagram::Animal' -  (Class), 'ModelingProject1::ClassDiagram::Dog' -  (Class), 'ModelingProject1::ClassDiagram::Cat' -  (Class), 'ModelingProject1::ClassDiagram::Bird' -  (Class) " />
-  <Message Timestamp="2015-04-08T20:50:27" Importance="Medium" Text="Project Added: C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\ModelingProject1Lib.csproj" />
-  <Message Timestamp="2015-04-08T20:50:27" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Person' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Person.cs" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Animal' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Animal.cs" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Dog' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Dog.cs" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Cat' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Cat.cs" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Bird' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Bird.cs" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Diagnostic" Text="Name = StructTemplate" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Diagnostic" Text="Overwrite = True" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Diagnostic" Text="ProjectPath = ..\ModelingProject1Lib\ModelingProject1Lib.csproj" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Diagnostic" Text="TargetName = {Name}" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
-  <Message Timestamp="2015-04-08T20:50:28" Importance="Medium" Text="ModelingProject1's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'ModelingProject1::ClassDiagram::Person' -  (Class), 'ModelingProject1::ClassDiagram::Animal' -  (Class), 'ModelingProject1::ClassDiagram::Dog' -  (Class), 'ModelingProject1::ClassDiagram::Cat' -  (Class), 'ModelingProject1::ClassDiagram::Bird' -  (Class) " />
-  <Message Timestamp="2015-04-08T20:50:29" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Person' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2015-04-08T20:50:29" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Animal' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2015-04-08T20:50:29" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Dog' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2015-04-08T20:50:29" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Cat' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2015-04-08T20:50:29" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Bird' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
-  <Message Timestamp="2015-04-08T20:50:30" Importance="Diagnostic" Text="The selection included 5 elements which were not bound to a template." />
-  <Message Timestamp="2015-04-08T20:50:30" Importance="Diagnostic" Text="'dc7fda31-78cc-492a-9a67-4385aa92e921' -  (Comment): no bound template." />
-  <Message Timestamp="2015-04-08T20:50:30" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::' -  (Association): no bound template." />
-  <Message Timestamp="2015-04-08T20:50:30" Importance="Diagnostic" Text="'404d776c-4fa0-467a-b162-a90d8e08acdc' -  (Generalization): no bound template." />
-  <Message Timestamp="2015-04-08T20:50:30" Importance="Diagnostic" Text="'3a00cfa1-f581-4ae1-93b1-31aac53e5768' -  (Generalization): no bound template." />
-  <Message Timestamp="2015-04-08T20:50:30" Importance="Diagnostic" Text="'d0fabebc-26c1-46ca-8a7a-29ac3534369c' -  (Generalization): no bound template." />
-  <Message Timestamp="2015-04-08T20:50:30" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="High" Text="Code generation or text transformation started." />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="Diagnostic" Text="Name = ClassTemplate" />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="Diagnostic" Text="ProjectPath = ..\ModelingProject1Lib\ModelingProject1Lib.csproj" />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2015-04-11T12:53:38" Importance="Medium" Text="ModelingProject1's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'ModelingProject1::ClassDiagram::Person' -  (Class), 'ModelingProject1::ClassDiagram::Animal' -  (Class), 'ModelingProject1::ClassDiagram::Dog' -  (Class), 'ModelingProject1::ClassDiagram::Cat' -  (Class), 'ModelingProject1::ClassDiagram::Bird' -  (Class) " />
+  <Message Timestamp="2015-04-11T12:53:45" Importance="Medium" Text="Project Added: C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\ModelingProject1Lib.csproj" />
+  <Message Timestamp="2015-04-11T12:53:45" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Person' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Person.cs" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Animal' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Animal.cs" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Dog' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Dog.cs" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Cat' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Cat.cs" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Medium" Text="'ModelingProject1::ClassDiagram::Bird' -  (Class) : success (file created) - C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1Lib\GeneratedCode\ClassDiagram\Bird.cs" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Diagnostic" Text="Name = StructTemplate" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Diagnostic" Text="ProjectPath = ..\ModelingProject1Lib\ModelingProject1Lib.csproj" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2015-04-11T12:53:46" Importance="Medium" Text="ModelingProject1's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'ModelingProject1::ClassDiagram::Person' -  (Class), 'ModelingProject1::ClassDiagram::Animal' -  (Class), 'ModelingProject1::ClassDiagram::Dog' -  (Class), 'ModelingProject1::ClassDiagram::Cat' -  (Class), 'ModelingProject1::ClassDiagram::Bird' -  (Class) " />
+  <Message Timestamp="2015-04-11T12:53:47" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Person' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-04-11T12:53:47" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Animal' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-04-11T12:53:47" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Dog' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-04-11T12:53:47" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Cat' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-04-11T12:53:47" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::Bird' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2015-04-11T12:53:48" Importance="Diagnostic" Text="The selection included 4 elements which were not bound to a template." />
+  <Message Timestamp="2015-04-11T12:53:48" Importance="Diagnostic" Text="'ModelingProject1::ClassDiagram::' -  (Association): no bound template." />
+  <Message Timestamp="2015-04-11T12:53:48" Importance="Diagnostic" Text="'404d776c-4fa0-467a-b162-a90d8e08acdc' -  (Generalization): no bound template." />
+  <Message Timestamp="2015-04-11T12:53:48" Importance="Diagnostic" Text="'3a00cfa1-f581-4ae1-93b1-31aac53e5768' -  (Generalization): no bound template." />
+  <Message Timestamp="2015-04-11T12:53:48" Importance="Diagnostic" Text="'d0fabebc-26c1-46ca-8a7a-29ac3534369c' -  (Generalization): no bound template." />
+  <Message Timestamp="2015-04-11T12:53:48" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
 </Log>

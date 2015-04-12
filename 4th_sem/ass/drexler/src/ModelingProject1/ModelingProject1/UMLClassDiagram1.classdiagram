@@ -1,14 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="ffeb6c87-c2e2-4aca-b750-a12ee70a4b30" name="UMLClassDiagram1" linkedPackageId="a9fd40b8-ccce-44d1-a2f2-50c4308ef901" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <ownedCommentsInternal>
-    <comment Id="cc546351-ab27-4599-a919-37bb3d85ad10">
-      <elementDefinition Id="3164fc6a-0758-4477-8fe3-290d2e8e6795" />
+    <comment Id="0bbaa887-49e4-48d9-8c55-1aef277f9e9a">
+      <elementDefinition Id="f6eefd56-4246-47ed-b18d-3eb5f9b75785" />
       <body>Animal
-Instances:0, 
-MethodCalls:0, 
-Average Associations:0</body>
+InstanceCounter: 99
+MethodCounter: 22</body>
       <annotatedElements>
         <classMoniker Id="f2798723-85c0-4dc4-ad54-b7d215697fdb" LastKnownName="Animal" />
+      </annotatedElements>
+    </comment>
+    <comment Id="73dcae6f-3b86-453a-83c2-d942f79d0ba1">
+      <elementDefinition Id="ffb2615a-d19e-4ae3-91fa-ac5ec70c5641" />
+      <body>Person
+InstanceCounter: 11
+MethodCounter: 11</body>
+      <annotatedElements>
+        <classMoniker Id="0e5c43a7-b781-49a2-a9e4-ede59930b96c" LastKnownName="Person" />
       </annotatedElements>
     </comment>
   </ownedCommentsInternal>

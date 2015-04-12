@@ -42,6 +42,8 @@ namespace ClassDiagram
             this.Animal = new Animal();
 		}
 
+        ~Person()
+        { }
 	}
 }
 

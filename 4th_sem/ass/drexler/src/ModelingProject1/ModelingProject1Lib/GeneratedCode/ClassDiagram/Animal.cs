@@ -11,12 +11,6 @@ namespace ClassDiagram
 	using System.Linq;
 	using System.Text;
 
-	/// <remarks>
-	/// Animal
-	/// Instances:0, 
-	/// MethodCalls:0, 
-	/// Average Associations:0
-	/// </remarks>
 	public class Animal
 	{
 		public virtual object Name
@@ -38,7 +32,6 @@ namespace ClassDiagram
 
         ~Animal()
         { }
-
 	}
 }
 

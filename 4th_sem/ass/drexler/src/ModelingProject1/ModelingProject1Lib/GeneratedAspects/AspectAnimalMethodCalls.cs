@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using PostSharp;
@@ -21,6 +22,11 @@ namespace ClassDiagram
 	public class AspectAnimalMethodCalls : TypeLevelAspect
 	{
 		private int methodCounter = 0;
+
+        /// <summary>
+        /// Handles privileged access to ressources for threads
+        /// </summary>
+        private static Mutex mutex = new Mutex();
 
 		[OnMethodEntryAdvice, MulticastPointcut(Targets = MulticastTargets.Method, MemberName="regex:^(?!.ctor|.cctor|Finalize).+")]
 		public void OnEntry(MethodExecutionArgs args)
@@ -66,24 +72,33 @@ namespace ClassDiagram
                 }
                 else
                 {
+					mutex.WaitOne();
                     XmlDocument doc = new XmlDocument();
                     doc.Load(@"C:\Temp\AspectLog.xml");
                     XmlNode root = doc.DocumentElement;
-                    XmlNode myNode = root.SelectSingleNode("descendant::MethodCallsCounter");
+					XmlNode classNode = root.SelectSingleNode("descendant::Animal");
+
+					if(classNode == null)
+					{
+						XmlElement newObject = doc.CreateElement("Animal");
+						root.AppendChild(newObject);
+						classNode = root.SelectSingleNode("descendant::Animal");
+					}
+
+                    XmlNode myNode = classNode.SelectSingleNode("descendant::MethodCallsCounter");
                     if (myNode != null && myNode.HasChildNodes)
                     {
                         myNode.FirstChild.Value = this.methodCounter.ToString();
                     }
                     else
                     {
-                        XmlNode animalNode = root.SelectSingleNode("descendant::Animal");
                         XmlElement element = doc.CreateElement("MethodCallsCounter");
                         element.InnerXml = this.methodCounter.ToString();
-                        //element.AppendChild();
-                        animalNode.AppendChild(element);
+                        classNode.AppendChild(element);
                     }
 
                     doc.Save(@"C:\Temp\AspectLog.xml");
+					mutex.ReleaseMutex();
                 }
             }
             catch (Exception ex)

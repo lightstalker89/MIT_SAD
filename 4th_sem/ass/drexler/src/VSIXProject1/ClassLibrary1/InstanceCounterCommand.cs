@@ -1,39 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel.Composition;
-using System.Windows.Forms;
-using ClassLibrary1;
-using EnvDTE;
-using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Presentation;
-using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml;
-using Microsoft.VisualStudio.Modeling.ExtensionEnablement;
-using Microsoft.VisualStudio.Uml.AuxiliaryConstructs;
-using Microsoft.VisualStudio.Uml.Classes;
-using Microsoft.VisualStudio.Uml.Profiles;
-using Microsoft.VisualStudio.TextTemplating.VSHost;
-using Microsoft.VisualStudio.TextTemplating;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Modeling.Diagrams.ExtensionEnablement;
-using System.IO;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="InstanceCounterCommand.cs" company="MD Development">
+//     Copyright (c) MD Development. All rights reserved.
+// </copyright>
+// <author>Michael Drexler</author>
+//-----------------------------------------------------------------------
 namespace VSIXProject1
 {
-    // Custom context menu command extension
-    // See http://msdn.microsoft.com/en-us/library/ee329481(v=vs.120).aspx
+    using EnvDTE;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.ComponentModel.Composition;
+    using System.Windows.Forms;
+    using System.IO;
+    using ClassLibrary1;
+    using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Presentation;
+    using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml;
+    using Microsoft.VisualStudio.Modeling.ExtensionEnablement;
+    using Microsoft.VisualStudio.Uml.AuxiliaryConstructs;
+    using Microsoft.VisualStudio.Uml.Classes;
+    using Microsoft.VisualStudio.Uml.Profiles;
+    using Microsoft.VisualStudio.TextTemplating.VSHost;
+    using Microsoft.VisualStudio.TextTemplating;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Modeling.Diagrams.ExtensionEnablement;
+
+    /// <summary>
+    /// Custom context menu command extension 
+    /// See http://msdn.microsoft.com/en-us/library/ee329481(v=vs.120).aspx
+    /// </summary>
     [Export(typeof(ICommandExtension))]
-    [ClassDesignerExtension] // TODO: Add other diagram types if needed
+    [ClassDesignerExtension]
     public class InstanceCounterCommand : ICommandExtension
     {
+        /// <summary>
+        /// The directory for all the generated aspects
+        /// </summary>
+        private static string generatedAspectFilePath = string.Empty;
+
+        /// <summary>
+        /// Flag to see whether the instance counter annotation is activated or not
+        /// </summary>
+        private Dictionary<string, bool> isInstanceCounterActivated = new Dictionary<string, bool>();
+
+        /// <summary>
+        /// Gets or sets the value of the diagram context
+        /// </summary>
         [Import]
         IDiagramContext context { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value of the Visual Studio Service Provider
+        /// </summary>
         [Import]
         public SVsServiceProvider ServiceProvider { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value of the Visual Studio selection context
+        /// </summary>
         [Import]
         public IVsSelectionContext sContext { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value of the menu command text
+        /// </summary>
+        public string Text
+        {
+            get { return "Count Instances of class {not selected}"; }
+        }
+
+        /// <summary>
+        /// Executes the instance counter functionality
+        /// </summary>
+        /// <param name="command"></param>
         public void Execute(IMenuCommand command)
         {
             try
@@ -53,103 +92,111 @@ namespace VSIXProject1
 
                 IEnumerable<IComment> comments = store.AllInstances<IComment>();
 
-                if(selClass != null)
+                if (!isInstanceCounterActivated.Where(m => m.Key == selClass.Name).Select(m => m.Value).SingleOrDefault())
                 {
-                    #region OldCode
-                    //Microsoft.VisualStudio.Uml.Profiles.IProperty prop;
-
-                    //if (stereoTypes != null && stereoTypes.Count() > 0)
-                    //{
-                    //    stereoType = stereoTypes.Where(m => m.Name == "class").Select(m => m).FirstOrDefault();
-                    //    prop = stereoType.Properties
-                    //        .Where(m => m.Name.ToLower() == "clrattributes")
-                    //        .Select(m => m).FirstOrDefault();
-                    //} 
-                    #endregion
-
-                    var com = comments.Where(m => m.Description == (selClass.GetId().ToString())).Select(m => m).FirstOrDefault();
-
-                    if (com == null)
+                    if (selClass != null)
                     {
-                        // Check if CountInstances already is activated
-                        IComment comment = rootPackage.CreateComment();
-                        comment.Description = (selClass.Name);
-                        comment.AnnotatedElements.Add(selClass);
-                        comment.Body = ((IClass)selShape.GetElement()).Name;
-                        comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}, {4}Average Associations:{5}",
-                            Environment.NewLine,
-                            "0",
-                            Environment.NewLine,
-                            "0",
-                            Environment.NewLine,
-                            "0");
-
-
                         #region OldCode
-                        //var implementedAndInherited = Enumerable.Union<IType>(aspectClass.SuperClasses, aspectClass.InterfaceRealizations.Select(ir => ir.Contract));
-                        //var types = implementedAndInherited.Where(type => type != null);
+                        //Microsoft.VisualStudio.Uml.Profiles.IProperty prop;
 
-                        //foreach (IType type in types)
+                        //if (stereoTypes != null && stereoTypes.Count() > 0)
                         //{
-                        //    IClassifier baseClassifier = type as IClassifier;
-                        //    if (baseClassifier != null)
-                        //    {
-                        //        ITemplateBinding templateBinding = GetTemplateBinding(baseClassifier);
-                        //        IClassifier bindingClassifier = GetBindingClassifier(templateBinding);
-                        //        if (bindingClassifier != null)
-                        //        {
-                        //            baseClassifier = bindingClassifier;
-                        //        }
-
-                        //        foreach (IOperation operationInBase in GetOwnedOperations(baseClassifier))
-                        //        {
-                        //            //bool isInheritedMember = IsInheritedMember(operationInBase, operation, templateBinding);
-                        //            //if (isInheritedMember)
-                        //            //{
-                        //            //    return true;
-                        //            //}
-                        //        }
-                        //    }
-                        //}
-
-                        //aspectClass.TemplateBindings.ToList().Add();
-
-                        //foreach (var item in stereoType.Properties)
-                        //{
-                        //    comment.Body += "\n";
-                        //    comment.Body += string.Format("PropName:{0}, DefaultValue:{1}; \n", item.Name, item.DefaultValue);
-                        //}
+                        //    stereoType = stereoTypes.Where(m => m.Name == "class").Select(m => m).FirstOrDefault();
+                        //    prop = stereoType.Properties
+                        //        .Where(m => m.Name.ToLower() == "clrattributes")
+                        //        .Select(m => m).FirstOrDefault();
+                        //} 
                         #endregion
 
-                        diagram.Display(comment);
+                        var com = comments.Where(m => m.Description == selClass.Name).Select(m => m).FirstOrDefault();
+
+                        if (com == null)
+                        {
+                            // Check if CountInstances already is activated
+                            IComment comment = rootPackage.CreateComment();
+                            comment.Description = (selClass.Name);
+                            comment.AnnotatedElements.Add(selClass);
+                            comment.Body = ((IClass)selShape.GetElement()).Name;
+                            comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}, {4}Average Associations:{5}",
+                                Environment.NewLine,
+                                "0",
+                                Environment.NewLine,
+                                "0",
+                                Environment.NewLine,
+                                "0");
+
+                            #region OldCode
+                            //var implementedAndInherited = Enumerable.Union<IType>(aspectClass.SuperClasses, aspectClass.InterfaceRealizations.Select(ir => ir.Contract));
+                            //var types = implementedAndInherited.Where(type => type != null);
+
+                            //foreach (IType type in types)
+                            //{
+                            //    IClassifier baseClassifier = type as IClassifier;
+                            //    if (baseClassifier != null)
+                            //    {
+                            //        ITemplateBinding templateBinding = GetTemplateBinding(baseClassifier);
+                            //        IClassifier bindingClassifier = GetBindingClassifier(templateBinding);
+                            //        if (bindingClassifier != null)
+                            //        {
+                            //            baseClassifier = bindingClassifier;
+                            //        }
+
+                            //        foreach (IOperation operationInBase in GetOwnedOperations(baseClassifier))
+                            //        {
+                            //            //bool isInheritedMember = IsInheritedMember(operationInBase, operation, templateBinding);
+                            //            //if (isInheritedMember)
+                            //            //{
+                            //            //    return true;
+                            //            //}
+                            //        }
+                            //    }
+                            //}
+
+                            //aspectClass.TemplateBindings.ToList().Add();
+
+                            //foreach (var item in stereoType.Properties)
+                            //{
+                            //    comment.Body += "\n";
+                            //    comment.Body += string.Format("PropName:{0}, DefaultValue:{1}; \n", item.Name, item.DefaultValue);
+                            //}
+                            #endregion
+
+                            diagram.Display(comment);
+                            
+                        }
+
+                        var isCreated = GenerateAspectCodeFile(selClass);
                         command.Text = string.Format("Deactivate Count Instances of class '{0}'", selClass.Name);
-                        
+                        isInstanceCounterActivated[selClass.Name] = true;
                     }
                     else
                     {
-                        //com.Delete();
-                        //command.Text = string.Format("Activate Count Instances of class '{0}'", selClass.Name);
+                        MessageBox.Show("No Shape selected!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-
-                    var isCreated = GenerateAspectCodeFile(selClass);
                 }
                 else
                 {
-                    MessageBox.Show("No Shape selected!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                    // Delete Aspect code file or notification?
+                    string aspectCodeFileName = string.Concat("Aspect", selClass.Name, "CountInstances.cs");
+                    if (!string.IsNullOrEmpty(generatedAspectFilePath))
+                    {
+                        string generatedAspectFileFullPath = Path.Combine(generatedAspectFilePath, aspectCodeFileName);
+                        if(File.Exists(generatedAspectFileFullPath))
+                        {
+                            File.Delete(generatedAspectFileFullPath);
+                        }
+                        
+                        MessageBox.Show("Instance Counter annotation removed!");
+                    }
 
-                // Initialize the template with the Model Store.
-                VdmGen generator = new VdmGen(context.CurrentDiagram.ModelStore);
-                // Generate the text and write it.
-                /*System.IO.File.WriteAllText(
-                    System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),"Generated.txt")
-                   , generator.TransformText());*/
+                    command.Text = string.Format("Activate Count Instances of class '{0}'", selClass.Name);
+                    isInstanceCounterActivated[selClass.Name] = false;
+                }
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        
         }
 
         /// <summary>
@@ -164,17 +211,17 @@ namespace VSIXProject1
 
             if(selClass != null)
             {
-                command.Text = string.Format("Activate Count Instances of class '{0}'", selClass.Name);
+                // if dictionary doesn´t contain this annotation - add it
+                if (!isInstanceCounterActivated.ContainsKey(selClass.Name))
+                {
+                    isInstanceCounterActivated.Add(selClass.Name, false);
+                }
+
+                command.Text = !isInstanceCounterActivated[selClass.Name] ? string.Format("Activate Count Instances of class '{0}'", selClass.Name) : string.Format("Deactivate Count Instances of class '{0}'", selClass.Name);
                 command.Visible = true;
                 command.Enabled = true;
             }
         }
-
-        public string Text
-        {
-            get { return "Count Instances of class {not selected}"; }
-        }
-
 
         /// <summary>
         /// Transforms the text template file to the given output file
@@ -197,11 +244,11 @@ namespace VSIXProject1
                 // Get cs project path to which the new aspect file should be generated
                 string csProjectFilePath = CSProjectFromOpenDialog();
                 string parentDir = Directory.GetParent(csProjectFilePath).FullName;
-                string pathGeneratedAspects = Path.Combine(parentDir, "GeneratedAspects");
+                generatedAspectFilePath = Path.Combine(parentDir, "GeneratedAspects");
 
-                if (!Directory.Exists(pathGeneratedAspects))
+                if (!Directory.Exists(generatedAspectFilePath))
                 {
-                    Directory.CreateDirectory(pathGeneratedAspects);
+                    Directory.CreateDirectory(generatedAspectFilePath);
                 }
 
                 // Get Namespace from anywhere
@@ -213,13 +260,14 @@ namespace VSIXProject1
                 sessionHost.Session["AspectClassName"] = string.Concat("Aspect", selClass.Name, "CountInstances");
                 sessionHost.Session["ClassName"] = selClass.Name;
 
-                string filePath = string.Concat(Environment.CurrentDirectory, @"\AspectCountInstances.tt");
+                //string filePath = string.Concat(Environment.CurrentDirectory, @"\AspectCountInstances.tt");
+                string filePath = string.Concat(@"C:\Temp", @"\AspectCountInstances.tt");
                 // Process a text template:
 
                 string result = t4.ProcessTemplate("AspectCountInstances.tt", System.IO.File.ReadAllText(filePath));
 
                 string aspectCodeFileName = string.Concat("Aspect", selClass.Name, "CountInstances.cs");
-                string aspectCodeFullName = Path.Combine(pathGeneratedAspects, aspectCodeFileName);
+                string aspectCodeFullName = Path.Combine(generatedAspectFilePath, aspectCodeFileName);
                 using (StreamWriter sw = new StreamWriter(aspectCodeFullName, false))
                 {
                     sw.Write(result);
@@ -243,138 +291,6 @@ namespace VSIXProject1
             var openFileDialog = new OpenFileDialog() { Filter = "C# Project (*.csproj)|*.csproj" };
             DialogResult dialogValid = openFileDialog.ShowDialog();
             return dialogValid != DialogResult.OK ? null : openFileDialog.FileName;
-        }
-
-        /// <summary>
-        /// Gets the template binding of the given classifier.
-        /// </summary>
-        /// <param name="classifier">The classifier</param>
-        /// <returns>The template binding of the classifier if any</returns>
-        private static ITemplateBinding GetTemplateBinding(IClassifier classifier)
-        {
-            System.Diagnostics.Debug.Assert(classifier != null, "classifier is null!");
-            if (classifier != null)
-            {
-                IEnumerable<ITemplateBinding> templateBindings = classifier.TemplateBindings;
-                return templateBindings.FirstOrDefault();
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the binding classifier of the given template binding.
-        /// </summary>
-        /// <param name="templateBinding">The template binding</param>
-        /// <returns>The binding classifier</returns>
-        private static IClassifier GetBindingClassifier(ITemplateBinding templateBinding)
-        {
-            if (templateBinding != null)
-            {
-                IRedefinableTemplateSignature signature = templateBinding.Target as IRedefinableTemplateSignature;
-                if (signature != null)
-                {
-                    IClassifier bindingClassifier = signature.Classifier as IClassifier;
-                    System.Diagnostics.Debug.Assert(bindingClassifier != null, "binding classifier is null!");
-                    if (bindingClassifier != null)
-                    {
-                        return bindingClassifier;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the owned operations for the given classifier.
-        /// </summary>
-        /// <param name="classifier">The classifier</param>
-        /// <returns>The owned operations</returns>
-        private static IEnumerable<IOperation> GetOwnedOperations(IClassifier classifier)
-        {
-            if (classifier is IClass)
-            {
-                return ((IClass)classifier).OwnedOperations;
-            }
-            else if (classifier is IInterface)
-            {
-                return ((IInterface)classifier).OwnedOperations;
-            }
-
-            return Enumerable.Empty<IOperation>();
-        }
-
-        /// <summary>
-        /// Checks if the property is an inherited member.
-        /// </summary>
-        /// <param name="property">The property</param>
-        /// <param name="owner">The owner class of the property</param>
-        /// <returns>true if the property is an inherited member.</returns>
-        private static bool IsInheritedMember(Microsoft.VisualStudio.Uml.Classes.IProperty property, IClass owner)
-        {
-            var types = ImplementedOrInheritedTypes(owner);
-            foreach (IType type in types)
-            {
-                IClassifier baseClassifier = type as IClassifier;
-                if (baseClassifier != null)
-                {
-                    ITemplateBinding templateBinding = GetTemplateBinding(baseClassifier);
-                    IClassifier bindingClassifier = GetBindingClassifier(templateBinding);
-                    if (bindingClassifier != null)
-                    {
-                        baseClassifier = bindingClassifier;
-                    }
-
-                    //foreach (IProperty propertyInBase in GetOwnedProperties(baseClassifier))
-                    //{
-                    //    bool isInheritedMember = IsInheritedMember(propertyInBase, property, templateBinding);
-                    //    if (isInheritedMember)
-                    //    {
-                    //        return true;
-                    //    }
-                    //}
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Gets the list of types that the classifier references. Including super-types, realized/inherited interfaces.
-        /// </summary>
-        /// <param name="classifier">model element to query</param>
-        /// <returns>types implemented or/and inherited by the specified classifier</returns>
-        private static IEnumerable<IType> ImplementedOrInheritedTypes(IClassifier classifier)
-        {
-            var implementedOrInheritedTypes = Enumerable.Empty<IType>();
-            if (classifier is IInterface)
-            {
-                implementedOrInheritedTypes = ((IInterface)classifier).Generals.OfType<IType>().Where(type => type != null);
-            }
-            else if (classifier is IClass)
-            {
-                implementedOrInheritedTypes = ImplementedAndInheritedTypes((IClass)classifier);
-            }
-
-            return implementedOrInheritedTypes;
-        }
-
-        /// <summary>
-        /// Get the implemented and inherited types of the given class
-        /// </summary>
-        /// <param name="aClass">The given class</param>
-        /// <returns>implementedAndInherted types</returns>
-        public static IEnumerable<IType> ImplementedAndInheritedTypes(IClass aClass)
-        {
-            // if aClass is stereotyped as a "struct", we should ignore superclasses;
-            //bool isStruct = GetStereotype(aClass) == "struct";
-            //if (isStruct)
-            //{
-            //    return aClass.InterfaceRealizations.Select(ir => ir.Contract).Where(type => type != null);
-            //}
-            var implementedAndInherited = Enumerable.Union<IType>(aClass.SuperClasses, aClass.InterfaceRealizations.Select(ir => ir.Contract));
-            return implementedAndInherited.Where(type => type != null);
         }
     }
 }

@@ -1,22 +1,3 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ assembly name="Microsoft.VisualStudio.Uml" #>
-<#@ assembly name="PostSharp" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Threading.Tasks" #>
-<#@ Import Namespace="Microsoft.VisualStudio.Uml.AuxiliaryConstructs" #>
-<#@ Import Namespace="Microsoft.VisualStudio.Uml.Classes" #>
-<#@ Import Namespace="Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml" #>
-<#@ import namespace="PostSharp.Extensibility" #>
-<#@ import namespace="PostSharp.Aspects" #>
-<#@ import namespace="PostSharp.Aspects.Advices" #>
-<#@ output extension=".cs" #>
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,18 +11,15 @@ using PostSharp;
 using PostSharp.Extensibility;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Advices;
-<#@parameter type="System.String" name="AttributeTargetTypes"#>
-<#@parameter type="System.String" name="AspectClassName"#>
-<#@parameter type="System.String" name="ClassName"#>
 
 
-[assembly: ClassDiagram.<#= @AspectClassName#>(AttributeTargetTypes= "<#= @AttributeTargetTypes #>")]
+[assembly: ClassDiagram.AspectPersonCountInstances(AttributeTargetTypes= "ClassDiagram.Person")]
 
 namespace ClassDiagram
 {
     [Serializable]
-    [<#= @AspectClassName#>(AttributeExclude = true)]
-    public class <#= @AspectClassName #> : TypeLevelAspect
+    [AspectPersonCountInstances(AttributeExclude = true)]
+    public class AspectPersonCountInstances : TypeLevelAspect
     {
         private int instanceCounter = 0;
 
@@ -93,7 +71,7 @@ namespace ClassDiagram
                     {
                         xWriter.WriteStartDocument();
                         xWriter.WriteStartElement("Objects");
-                        xWriter.WriteStartElement("<#= @ClassName#>");
+                        xWriter.WriteStartElement("Person");
                         xWriter.WriteElementString("InstanceCounter", this.instanceCounter.ToString());
                         xWriter.WriteEndElement();
                         xWriter.WriteEndElement();
@@ -106,13 +84,13 @@ namespace ClassDiagram
                     XmlDocument doc = new XmlDocument();
                     doc.Load(@"C:\Temp\AspectLog.xml");
                     XmlNode root = doc.DocumentElement;
-					XmlNode classNode = root.SelectSingleNode("descendant::<#= @ClassName#>");
+					XmlNode classNode = root.SelectSingleNode("descendant::Person");
 
 					if(classNode == null)
 					{
-						XmlElement newObject = doc.CreateElement("<#= @ClassName#>");
+						XmlElement newObject = doc.CreateElement("Person");
 						root.AppendChild(newObject);
-						classNode = root.SelectSingleNode("descendant::<#= @ClassName#>");
+						classNode = root.SelectSingleNode("descendant::Person");
 					}
 
                     XmlNode myNode = classNode.SelectSingleNode("descendant::InstanceCounter");
