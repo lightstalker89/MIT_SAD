@@ -183,12 +183,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SecurityControls\SecurityControls.csproj">
-      <Project>{bbae77c8-d427-4cd8-ae17-04773afc9e9f}</Project>
-      <Name>SecurityControls</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Media\you-shall-not-pass-79979-530-805.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
