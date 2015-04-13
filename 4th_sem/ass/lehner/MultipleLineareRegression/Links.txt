@@ -20,3 +20,5 @@ http://www.programiz.com/python-programming/examples/multiply-matrix
 http://www.kosbie.net/cmu/fall-11/15-112/handouts/matrices.py
 https://www.youtube.com/watch?v=w2t9VADaw10
 http://www.vikparuchuri.com/blog/inverting-your-very-own-matrix/
+http://matrix.reshish.com/inverCalculation.php
+https://www.youtube.com/watch?v=7UHxz8IzCEE

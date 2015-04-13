@@ -30,7 +30,7 @@ dsl = keyword + leftBracket + alpha + tild + variables + delimiter + dataTerms +
 
 #result = dsl.parseString("lm(y ~ x1+2, x2, x3 | csv=mydata,sql=asdf);")
 # result = dsl.parseString(r"lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising.csv);")
-result = dsl.parseString(r"lm(Sales ~ TV * 2, Radio, Newspaper ^ 2 | csv=advertising.csv);")
+result = dsl.parseString(r"lm(Sales ~ TV * 2, Radio, Newspaper ^ 2 | csv=advertising_test.csv);")
 print result.alpha
 print result.variables
 print result.beta
@@ -43,10 +43,12 @@ for dataSource in result.dataTerms:
 			dataArray.append(CSVParser.csvDataFromKey(key[0], dataSource[1]))
 		xArray = []
 		for i in range(len(dataArray)):
-			if i > 0:
-				xArray.append(dataArray[i])
-		MLRCalc.calcCoeff(dataArray[0], xArray)
+			xArray.append(dataArray[i])
+		MLRCalc.calcCoeff(CSVParser.csvDataFromKey(result.alpha, dataSource[1]), xArray)
 		# MLRCalc.calcCoeff([3], [[3,7,4,2], [6,7,3,9]])
+		# result = MLRCalc.invert([[2,1,1], [3,2,1], [2,1,2]])
+		# print "Inverted Matrix:"
+		# print result
 	elif dataSource[0] == 'sql':
 		print 'asdf'
 	elif dataSource[0] == 'excel':	
