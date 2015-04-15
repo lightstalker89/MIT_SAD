@@ -74,17 +74,6 @@ def calcCoeff(yArray, xArray):
     # for element in range(len(yArray)):
     #     matrixY[element].append(yArray[element])
 
-    print "X^T:"
-    print transponierteMatrixX
-    print "matrix X:"
-    print matrixX
-    print "matrix Y:"
-    print matrixY
-    print "multiply matrix"
-    print multiplyMatrix(transponierteMatrixX, matrixX)
-    print "iverse Matrix"
-    print invert(multiplyMatrix(transponierteMatrixX, matrixX))
-
 	# calc (X^T*X)^-1
     firstTerm = invert(multiplyMatrix(transponierteMatrixX, matrixX))
 
@@ -93,7 +82,11 @@ def calcCoeff(yArray, xArray):
 
     # result
     result = multiplyMatrix(firstTerm, secondTerm)
-    print result
+    print "Coefficient Result:"
+    idx = 0
+    while idx < len(result):
+        print "Beta " + str(idx) + ": " + str(result[idx][0])
+        idx += 1
 
 
 	

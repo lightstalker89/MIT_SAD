@@ -26,31 +26,38 @@ term = (Optional(beta) + Optional(termExpr) + Optional(beta))
 variables = delimitedList(term("variables*"))
 
 
-dsl = keyword + leftBracket + alpha + tild + variables + delimiter + dataTerms + rightBracket + semicolon
+dsl = keyword + leftBracket + alpha + tild + variables + delimiter + dataTerms + rightBracket
+inputString = delimitedList(dsl("inputString*"), delim=semicolon)
 
 #result = dsl.parseString("lm(y ~ x1+2, x2, x3 | csv=mydata,sql=asdf);")
 # result = dsl.parseString(r"lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising.csv);")
-result = dsl.parseString(r"lm(Sales ~ TV * 2, Radio, Newspaper ^ 2 | csv=advertising_test.csv);")
+code = """
+lm(Sales ~ TV * 2, Radio, Newspaper ^ 2 | csv=advertising_test.csv);
+lm(Sales ~ TV * 2, Radio, Newspaper ^ 2 | csv=advertising.csv);
+"""
+
+result = inputString.parseString(code)
+print result.inputString
 print result.alpha
 print result.variables
 print result.beta
 
-
-for dataSource in result.dataTerms:
-	if dataSource[0] == 'csv':
-		dataArray = []
-		for key in result.variables:
-			dataArray.append(CSVParser.csvDataFromKey(key[0], dataSource[1]))
-		xArray = []
-		for i in range(len(dataArray)):
-			xArray.append(dataArray[i])
-		MLRCalc.calcCoeff(CSVParser.csvDataFromKey(result.alpha, dataSource[1]), xArray)
-		# MLRCalc.calcCoeff([3], [[3,7,4,2], [6,7,3,9]])
-		# result = MLRCalc.invert([[2,1,1], [3,2,1], [2,1,2]])
-		# print "Inverted Matrix:"
-		# print result
-	elif dataSource[0] == 'sql':
-		print 'asdf'
-	elif dataSource[0] == 'excel':	
-		print 'asdf'
-print result.dataTerms[0][0]
+for linearRegression in result.inputString:
+	for dataSource in linearRegression.dataTerms:
+		if dataSource[0] == 'csv':
+			dataArray = []
+			for key in linearRegression.variables:
+				dataArray.append(CSVParser.csvDataFromKey(key[0], dataSource[1]))
+			xArray = []
+			for i in range(len(dataArray)):
+				xArray.append(dataArray[i])
+			MLRCalc.calcCoeff(CSVParser.csvDataFromKey(linearRegression.alpha, dataSource[1]), xArray)
+			# MLRCalc.calcCoeff([3], [[3,7,4,2], [6,7,3,9]])
+			# result = MLRCalc.invert([[2,1,1], [3,2,1], [2,1,2]])
+			# print "Inverted Matrix:"
+			# print result
+		elif dataSource[0] == 'sql':
+			print 'asdf'
+		elif dataSource[0] == 'excel':	
+			print 'asdf'
+	print linearRegression.dataTerms[0][0]
