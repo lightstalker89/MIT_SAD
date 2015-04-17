@@ -64,10 +64,10 @@ namespace PassSecure.Service
                 {
                     status = Enums.PasswordStatus.Accepted;
                 }
-                else if (difference > userTraining.AverageDistance && difference <= (userTraining.AverageDistance + userTraining.AverageDistance / 5))
-                {
-                    status = Enums.PasswordStatus.PartialAccepted;
-                }
+                //else if (difference > userTraining.AverageDistance && difference <= (userTraining.AverageDistance + userTraining.AverageDistance / 5))
+                //{
+                //    status = Enums.PasswordStatus.PartialAccepted;
+                //}
                 Debug.WriteLine(status);
                 Debug.WriteLine("Manhattan distance: " + difference);
                 Debug.WriteLine("Average manhattan distance: " + userTraining.AverageDistance);

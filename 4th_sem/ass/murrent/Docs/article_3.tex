@@ -87,7 +87,7 @@
 
 \addcontentsline{toc}{section}{Introduction} % Adds this section to the table of contents
 
-\paragraph{PassSecure}The purpose is to develop a simple password application which uses machine learning to detect if a password entered by the user is indeed from a genuine user or not. An application to test the selected algorithm is developed and described.
+\paragraph{PassSecure}The purpose is to develop a simple password application which uses machine learning to detect if a password entered by the user is indeed from a genuine user or not. An application to test the selected algorithm is developed and described. The application is based on the users unique typing rythm.
 
 %------------------------------------------------
 
@@ -136,6 +136,9 @@ The data windows is designed to view data which is used for evaluation.
  \caption{A screenshot of the data window.}
 \end{figure}
 The application has two modes: Training \& Normal. During the training mode all necessary data is collected. In the normal mode the current password is checked against the captured data. A picture on the right side of the login controls indicates whether the password is accepted or not. Partially accepted means that if might not be the user.
+
+\section{Summary and outlook}
+The algorithm used to analyze the keystrokes seems to be quite good. Basically it is possible to check if the password which is entered is from a genuine user or not, but you need alot of training data. The algorithm is tested with a few unit tests which cover some special cases but definitely not all.
 
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
