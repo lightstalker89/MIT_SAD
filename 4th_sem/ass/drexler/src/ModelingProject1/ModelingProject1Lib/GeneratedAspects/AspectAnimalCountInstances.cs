@@ -22,6 +22,7 @@ namespace ClassDiagram
     public class AspectAnimalCountInstances : TypeLevelAspect
     {
         private int instanceCounter = 0;
+		private Type type;
 
         /// <summary>
         /// Handles privileged access to ressources for threads
@@ -35,16 +36,18 @@ namespace ClassDiagram
             if(args.Method.IsConstructor)
             {
                 ++this.instanceCounter;
+				type = Type.Constructor;
             }
             else
             {
                 if(args.Method.Name.ToLower() == "finalize")
                 {
                     --this.instanceCounter;
+					type = Type.Destructor;
                 }
             }
 
-			this.LogToXML(@"C:\Temp", "AspectLog.xml");
+			this.LogToXML(@"C:\Temp", "AspectLog.xml", type.ToString(), args.Method.Name, args.Instance.ToString());
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace ClassDiagram
         /// </summary>
         /// <param name="directory"></param>
         /// <param name="fileName"></param>
-        private void LogToXML(string directory, string fileName)
+        private void LogToXML(string directory, string fileName, string type, string methodName, string typeName)
         {
             try
             {
@@ -70,43 +73,36 @@ namespace ClassDiagram
                     using (XmlWriter xWriter = XmlWriter.Create(filePath))
                     {
                         xWriter.WriteStartDocument();
-                        xWriter.WriteStartElement("Objects");
-                        xWriter.WriteStartElement("Animal");
-                        xWriter.WriteElementString("InstanceCounter", this.instanceCounter.ToString());
+                        xWriter.WriteStartElement("AspectLogs");
+                        xWriter.WriteStartElement("LogEntry");
+                        xWriter.WriteAttributeString("TypeName", methodName);
+                        xWriter.WriteAttributeString("ClassName", typeName);
+                        xWriter.WriteAttributeString("Type", type);
+                        xWriter.WriteAttributeString("Datetime", DateTime.Now.ToString("r"));
                         xWriter.WriteEndElement();
                         xWriter.WriteEndElement();
                         xWriter.WriteEndDocument();
+                        xWriter.Flush();
+                        xWriter.Close();
                     }
                 }
                 else
                 {
-					mutex.WaitOne();
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(@"C:\Temp\AspectLog.xml");
-                    XmlNode root = doc.DocumentElement;
-					XmlNode classNode = root.SelectSingleNode("descendant::Animal");
+                    mutex.WaitOne();
+                    XmlDocument xmlDoc = new XmlDocument();
+                    xmlDoc.Load(filePath);
+                    XmlNode rootNode = xmlDoc.SelectSingleNode("AspectLogs");
+                    rootNode = (rootNode == null) ? xmlDoc.CreateElement("AspectLogs") : rootNode;
 
-					if(classNode == null)
-					{
-						XmlElement newObject = doc.CreateElement("Animal");
-						root.AppendChild(newObject);
-						classNode = root.SelectSingleNode("descendant::Animal");
-					}
-
-                    XmlNode myNode = classNode.SelectSingleNode("descendant::InstanceCounter");
-                    if (myNode != null && myNode.HasChildNodes)
-                    {
-                        myNode.FirstChild.Value = this.instanceCounter.ToString();
-                    }
-                    else
-                    {
-                        XmlElement element = doc.CreateElement("InstanceCounter");
-                        element.InnerXml = this.instanceCounter.ToString();
-                        classNode.AppendChild(element);
-                    }
-
-                    doc.Save(filePath);
-					mutex.ReleaseMutex();
+                    XmlElement newElement = xmlDoc.CreateElement("LogEntry");
+                    newElement.SetAttribute("TypeName", methodName);
+                    newElement.SetAttribute("ClassName", typeName);
+                    newElement.SetAttribute("Type", type);
+                    newElement.SetAttribute("Datetime", DateTime.Now.ToString("r"));
+                    rootNode.AppendChild(newElement);
+    
+                    xmlDoc.Save(filePath);
+                    mutex.ReleaseMutex();
                 }
             }
             catch (Exception ex)
@@ -114,5 +110,15 @@ namespace ClassDiagram
                 Debug.WriteLine(ex.Message);
             }
         }
+    }
+
+    /// <summary>
+    /// Call type which is intercepted
+    /// </summary>
+    public enum Type
+    {
+        Constructor = 1,
+        Destructor = 2,
+        Method = 3
     }
 }

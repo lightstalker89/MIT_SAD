@@ -16,6 +16,7 @@ namespace ClassLibrary1
     using System.Threading;
     using System.Windows.Forms;
     using System.Xml;
+    using System.Xml.Linq;
     using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Presentation;
     using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml;
     using Microsoft.VisualStudio.Modeling.ExtensionEnablement;
@@ -55,7 +56,7 @@ namespace ClassLibrary1
         /// </summary>
         /// <param name="xmlFile"></param>
         /// <param name="comments"></param>
-        public delegate void UpdateModelDelegate(XmlDocument xmlFile, IEnumerable<IComment> comments);
+        public delegate void UpdateModelDelegate(XElement xmlFile, IEnumerable<IComment> comments);
 
         /// <summary>
         /// Gets or sets the diagram context
@@ -102,7 +103,7 @@ namespace ClassLibrary1
             {
                 if(areUpdatesAvailable)
                 {
-                    XmlDocument logFile = this.ReadLogFile();
+                    XElement logFile = this.ReadLogFile();
                     IEnumerable<IComment> comments = this.ReadCommentsFromUMLClassDiagram();
                     uiThreadHolder.Invoke(new UpdateModelDelegate(UpdateClassDiagram), logFile, comments);
 
@@ -120,26 +121,43 @@ namespace ClassLibrary1
         /// </summary>
         /// <param name="logFile"></param>
         /// <param name="comments"></param>
-        public static void UpdateClassDiagram(XmlDocument logFile, IEnumerable<IComment> comments)
+        public static void UpdateClassDiagram(XElement logFile, IEnumerable<IComment> comments)
         {
+            string nameSpace = string.Empty;
+            string[] nameSpaceParts;
+
+
+            //var data = from item in logFile.Descendants("LogEntry")
+            //           where (item.Attribute("ClassName").Value == "ClassLibrary1.Animal" && item.Attribute("Type").Value == "Constructor")
+            //           select item;
+
+            // TODO Group and count constructor and destructor logs of specific type
+            // TODO Group and count method calls of specific type and method
+
             foreach (var comment in comments)
             {
-                XmlNode classNode = logFile.SelectSingleNode(string.Format("descendant::{0}", comment.Description));
-                if (classNode != null)
-                {
-                    XmlNode instanceCounter = classNode.SelectSingleNode("descendant::InstanceCounter");
-                    XmlNode methodCounter = classNode.SelectSingleNode("descendant::MethodCallsCounter");
-                    comment.Body = comment.Description;
-                    if (instanceCounter != null)
-                    {
-                        comment.Body += string.Concat(Environment.NewLine, "InstanceCounter: ", instanceCounter.InnerText, Environment.NewLine);
-                    }
 
-                    if (methodCounter != null)
-                    {
-                        comment.Body += string.Concat("MethodCounter: ", methodCounter.InnerText);
-                    }
-                }
+                var data = from item in logFile.Descendants("LogEntry")
+                           where (item.Attribute("ClassName").Value == "ClassLibrary1.Animal" && item.Attribute("Type").Value == "Constructor")
+                           select item;
+
+                comment.Body = data.FirstOrDefault().Value;
+                //XmlNode classNode = logFile.SelectSingleNode(string.Format("descendant::{0}", comment.Description));
+                //if (classNode != null)
+                //{
+                //    XmlNode instanceCounter = classNode.SelectSingleNode("descendant::InstanceCounter");
+                //    XmlNode methodCounter = classNode.SelectSingleNode("descendant::MethodCallsCounter");
+                //    comment.Body = comment.Description;
+                //    if (instanceCounter != null)
+                //    {
+                //        comment.Body += string.Concat(Environment.NewLine, "InstanceCounter: ", instanceCounter.InnerText, Environment.NewLine);
+                //    }
+
+                //    if (methodCounter != null)
+                //    {
+                //        comment.Body += string.Concat("MethodCounter: ", methodCounter.InnerText);
+                //    }
+                //}
             }
         }
 
@@ -170,11 +188,10 @@ namespace ClassLibrary1
         /// Read the log file
         /// </summary>
         /// <returns></returns>
-        private XmlDocument ReadLogFile()
+        private XElement ReadLogFile()
         {
             mutex.WaitOne();
-            XmlDocument doc = new XmlDocument();
-            doc.Load(@"C:\Temp\AspectLog.xml");
+            XElement doc = XElement.Load(@"C:\Temp\AspectLog.xml");
             mutex.ReleaseMutex();
 
             return doc;

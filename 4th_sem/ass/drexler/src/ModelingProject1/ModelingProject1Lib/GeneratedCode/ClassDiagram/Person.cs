@@ -33,7 +33,7 @@ namespace ClassDiagram
 
 		public virtual void PlayWithAnimal()
 		{
-            Console.WriteLine("Play with Animal");
+            Console.WriteLine("Play animal");
             this.Animal.MakeNoice();
 		}
 
@@ -42,8 +42,6 @@ namespace ClassDiagram
             this.Animal = new Animal();
 		}
 
-        ~Person()
-        { }
 	}
 }
 

@@ -27,7 +27,7 @@ namespace ClassDiagram
 
 		public virtual void MakeNoice()
 		{
-            Console.WriteLine("Wau Wau");
+            Console.WriteLine("Wau");
 		}
 
         ~Animal()

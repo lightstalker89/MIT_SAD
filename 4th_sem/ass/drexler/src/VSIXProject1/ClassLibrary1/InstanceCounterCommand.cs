@@ -96,18 +96,6 @@ namespace VSIXProject1
                 {
                     if (selClass != null)
                     {
-                        #region OldCode
-                        //Microsoft.VisualStudio.Uml.Profiles.IProperty prop;
-
-                        //if (stereoTypes != null && stereoTypes.Count() > 0)
-                        //{
-                        //    stereoType = stereoTypes.Where(m => m.Name == "class").Select(m => m).FirstOrDefault();
-                        //    prop = stereoType.Properties
-                        //        .Where(m => m.Name.ToLower() == "clrattributes")
-                        //        .Select(m => m).FirstOrDefault();
-                        //} 
-                        #endregion
-
                         var com = comments.Where(m => m.Description == selClass.Name).Select(m => m).FirstOrDefault();
 
                         if (com == null)
@@ -125,44 +113,7 @@ namespace VSIXProject1
                                 Environment.NewLine,
                                 "0");
 
-                            #region OldCode
-                            //var implementedAndInherited = Enumerable.Union<IType>(aspectClass.SuperClasses, aspectClass.InterfaceRealizations.Select(ir => ir.Contract));
-                            //var types = implementedAndInherited.Where(type => type != null);
-
-                            //foreach (IType type in types)
-                            //{
-                            //    IClassifier baseClassifier = type as IClassifier;
-                            //    if (baseClassifier != null)
-                            //    {
-                            //        ITemplateBinding templateBinding = GetTemplateBinding(baseClassifier);
-                            //        IClassifier bindingClassifier = GetBindingClassifier(templateBinding);
-                            //        if (bindingClassifier != null)
-                            //        {
-                            //            baseClassifier = bindingClassifier;
-                            //        }
-
-                            //        foreach (IOperation operationInBase in GetOwnedOperations(baseClassifier))
-                            //        {
-                            //            //bool isInheritedMember = IsInheritedMember(operationInBase, operation, templateBinding);
-                            //            //if (isInheritedMember)
-                            //            //{
-                            //            //    return true;
-                            //            //}
-                            //        }
-                            //    }
-                            //}
-
-                            //aspectClass.TemplateBindings.ToList().Add();
-
-                            //foreach (var item in stereoType.Properties)
-                            //{
-                            //    comment.Body += "\n";
-                            //    comment.Body += string.Format("PropName:{0}, DefaultValue:{1}; \n", item.Name, item.DefaultValue);
-                            //}
-                            #endregion
-
-                            diagram.Display(comment);
-                            
+                            diagram.Display(comment);                 
                         }
 
                         var isCreated = GenerateAspectCodeFile(selClass);

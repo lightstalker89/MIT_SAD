@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModelingProject1Lib\ModelingProject1Lib.csproj">
-      <Project>{86553189-19ce-4aab-94c4-0e6d4bc7750d}</Project>
+      <Project>{b17ae894-bc9c-4359-af25-dc9b25b8bf13}</Project>
       <Name>ModelingProject1Lib</Name>
     </ProjectReference>
   </ItemGroup>
