@@ -51,13 +51,8 @@ namespace VSIXProject1
                 IPackage rootPackage = store.Root;
                 IShape selShape = diagram.SelectedShapes.FirstOrDefault();
                 IClass selClass = selShape != null ? (IClass)selShape.GetElement() : null;
-                
-                #region OldCode
-                //diagram.ModelStore.ProfileManager.AllProfiles
-                //IProfile profile = diagram.ModelStore.ProfileManager.GetProfileByName("CSharpProfile");
-                //IEnumerable<IStereotype> stereoTypes = profile != null ? profile.Stereotypes : null;
-                //IStereotype stereoType = null;
-                #endregion
+                string fullNamespaceNameWithType = string.Concat(selClass.Namespace.Name, '.', selClass.Name);
+
 
                 IEnumerable<IComment> comments = store.AllInstances<IComment>();
                 
@@ -77,13 +72,13 @@ namespace VSIXProject1
                         //} 
                         #endregion
 
-                        var com = comments.Where(m => m.Description == selClass.Name).Select(m => m).FirstOrDefault();
+                        var com = comments.Where(m => m.Description == fullNamespaceNameWithType).Select(m => m).FirstOrDefault();
 
                         // Check if CountMethodCalls already is activated
                         if (com == null)
                         {
                             IComment comment = rootPackage.CreateComment();
-                            comment.Description = selClass.Name;
+                            comment.Description = fullNamespaceNameWithType;
                             comment.AnnotatedElements.Add(selClass);
                             comment.Body = selClass.Name;
                             comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}, {4}Average Associations:{5}",

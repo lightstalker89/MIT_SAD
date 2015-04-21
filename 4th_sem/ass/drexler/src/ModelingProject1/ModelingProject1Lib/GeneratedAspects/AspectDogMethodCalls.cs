@@ -1,22 +1,3 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ assembly name="Microsoft.VisualStudio.Uml" #>
-<#@ assembly name="PostSharp" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Threading.Tasks" #>
-<#@ Import Namespace="Microsoft.VisualStudio.Uml.AuxiliaryConstructs" #>
-<#@ Import Namespace="Microsoft.VisualStudio.Uml.Classes" #>
-<#@ Import Namespace="Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml" #>
-<#@ import namespace="PostSharp.Extensibility" #>
-<#@ import namespace="PostSharp.Aspects" #>
-<#@ import namespace="PostSharp.Aspects.Advices" #>
-<#@ output extension=".cs" #>
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,20 +11,17 @@ using PostSharp;
 using PostSharp.Extensibility;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Advices;
-<#@parameter type="System.String" name="AttributeTargetTypes"#>
-<#@parameter type="System.String" name="AspectClassName"#>
-<#@parameter type="System.String" name="ClassName"#>
 
 
-[assembly: ClassDiagram.<#= @AspectClassName#>(AttributeTargetTypes= "<#= @AttributeTargetTypes #>")]
+[assembly: ClassDiagram.AspectDogMethodCalls(AttributeTargetTypes= "ClassDiagram.Dog")]
 
 namespace ClassDiagram
 {
-    [Serializable]
-    [<#= @AspectClassName#>(AttributeExclude = true)]
-    public class <#= @AspectClassName #> : TypeLevelAspect
-    {
-        private int instanceCounter = 0;
+	[Serializable]
+	[AspectDogMethodCalls(AttributeExclude = true)]
+	public class AspectDogMethodCalls : TypeLevelAspect
+	{
+		private int methodCounter = 0;
 		private Type type;
 
         /// <summary>
@@ -51,26 +29,17 @@ namespace ClassDiagram
         /// </summary>
         private static Mutex mutex = new Mutex();
 
-		[OnMethodEntryAdvice, MulticastPointcut(MemberName="regex:.ctor|.cctor|Finalize")]
-        public void OnEntry(MethodExecutionArgs args)
-        {
-           
-            if(args.Method.IsConstructor)
-            {
-                ++this.instanceCounter;
-				type = Type.Constructor;
-            }
-            else
-            {
-                if(args.Method.Name.ToLower() == "finalize")
-                {
-                    --this.instanceCounter;
-					type = Type.Destructor;
-                }
-            }
+		[OnMethodEntryAdvice, MulticastPointcut(Targets = MulticastTargets.Method, MemberName="regex:^(?!.ctor|.cctor|Finalize).+")]
+		public void OnEntry(MethodExecutionArgs args)
+		{          
+			if(!args.Method.IsConstructor)
+			{
+				++this.methodCounter;
+				type = Type.Method;
+			}
 
 			this.LogToXML(@"C:\Temp", "AspectLog.xml", type.ToString(), args.Method.Name, args.Instance.ToString());
-        }
+		}
 
         /// <summary>
         /// Create a new xml file if not exist and log the values. If the file already exist
@@ -145,5 +114,5 @@ namespace ClassDiagram
 			Destructor = 2,
 			Method = 3
 		}
-    }
+	}
 }

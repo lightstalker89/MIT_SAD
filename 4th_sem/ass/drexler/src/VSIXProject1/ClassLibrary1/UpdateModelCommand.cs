@@ -124,8 +124,11 @@ namespace ClassLibrary1
         public static void UpdateClassDiagram(XElement logFile, IEnumerable<IComment> comments)
         {
             string nameSpace = string.Empty;
-            string[] nameSpaceParts;
 
+            int constructorCounts = 0;
+            int destructorCounts = 0;
+            int instanceCount = 0;
+            Dictionary<string, int> methodCallCounts = new Dictionary<string,int>();
 
             //var data = from item in logFile.Descendants("LogEntry")
             //           where (item.Attribute("ClassName").Value == "ClassLibrary1.Animal" && item.Attribute("Type").Value == "Constructor")
@@ -136,12 +139,52 @@ namespace ClassLibrary1
 
             foreach (var comment in comments)
             {
-
                 var data = from item in logFile.Descendants("LogEntry")
-                           where (item.Attribute("ClassName").Value == "ClassLibrary1.Animal" && item.Attribute("Type").Value == "Constructor")
+                           where (item.Attribute("ClassName").Value == comment.Description && 
+                                  item.Attribute("Type").Value == "Constructor")
                            select item;
 
-                comment.Body = data.FirstOrDefault().Value;
+                var dataDestructor = from item in logFile.Descendants("LogEntry")
+                                     where (item.Attribute("ClassName").Value == comment.Description &&
+                                            item.Attribute("Type").Value == "Destructor")
+                                     select item;
+
+                var dataMethods = from item in logFile.Descendants("LogEntry")
+                                  where (item.Attribute("ClassName").Value == comment.Description &&
+                                         item.Attribute("Type").Value == "Method")
+                                  select item;
+
+                constructorCounts = data != null ? data.ToList().Count : 0;
+                destructorCounts = data != null ? dataDestructor.ToList().Count : 0;
+                instanceCount = constructorCounts - destructorCounts;
+
+                if(dataMethods != null && dataMethods.Count() > 0)
+                {
+                    foreach (var item in dataMethods)
+                    {
+                        string methodName = item.Attribute("TypeName").Value;
+
+                        if(!methodCallCounts.Keys.Contains(methodName))
+                        {
+                            methodCallCounts.Add(methodName, 1);
+                        }
+                        else
+                        {
+                            methodCallCounts[methodName] = ++methodCallCounts[methodName];
+                        }
+                    }
+                }
+
+                comment.Body = comment.Description;
+                comment.Body += string.Concat(Environment.NewLine, "InstanceCounter: ", instanceCount.ToString(), Environment.NewLine);
+                comment.Body += string.Concat("Methods: ", Environment.NewLine);
+
+                foreach (var item in methodCallCounts)
+                {
+                    comment.Body += string.Concat(item.Key, ": ", item.Value.ToString(), Environment.NewLine);
+                }
+
+                #region oldCode
                 //XmlNode classNode = logFile.SelectSingleNode(string.Format("descendant::{0}", comment.Description));
                 //if (classNode != null)
                 //{
@@ -158,6 +201,7 @@ namespace ClassLibrary1
                 //        comment.Body += string.Concat("MethodCounter: ", methodCounter.InnerText);
                 //    }
                 //}
+                #endregion
             }
         }
 

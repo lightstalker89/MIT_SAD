@@ -1,22 +1,3 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ assembly name="Microsoft.VisualStudio.Uml" #>
-<#@ assembly name="PostSharp" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Threading.Tasks" #>
-<#@ Import Namespace="Microsoft.VisualStudio.Uml.AuxiliaryConstructs" #>
-<#@ Import Namespace="Microsoft.VisualStudio.Uml.Classes" #>
-<#@ Import Namespace="Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml" #>
-<#@ import namespace="PostSharp.Extensibility" #>
-<#@ import namespace="PostSharp.Aspects" #>
-<#@ import namespace="PostSharp.Aspects.Advices" #>
-<#@ output extension=".cs" #>
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,18 +11,15 @@ using PostSharp;
 using PostSharp.Extensibility;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Advices;
-<#@parameter type="System.String" name="AttributeTargetTypes"#>
-<#@parameter type="System.String" name="AspectClassName"#>
-<#@parameter type="System.String" name="ClassName"#>
 
 
-[assembly: ClassDiagram.<#= @AspectClassName#>(AttributeTargetTypes= "<#= @AttributeTargetTypes #>")]
+[assembly: ClassDiagram.AspectDogCountInstances(AttributeTargetTypes= "ClassDiagram.Dog")]
 
 namespace ClassDiagram
 {
     [Serializable]
-    [<#= @AspectClassName#>(AttributeExclude = true)]
-    public class <#= @AspectClassName #> : TypeLevelAspect
+    [AspectDogCountInstances(AttributeExclude = true)]
+    public class AspectDogCountInstances : TypeLevelAspect
     {
         private int instanceCounter = 0;
 		private Type type;

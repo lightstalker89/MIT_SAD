@@ -56,6 +56,9 @@ namespace ClassDiagram
         /// </summary>
         /// <param name="directory"></param>
         /// <param name="fileName"></param>
+        /// <param name="type"></param>
+        /// <param name="methodName"></param>
+        /// <param name="typeName"></param>
         private void LogToXML(string directory, string fileName, string type, string methodName, string typeName)
         {
             try
@@ -110,15 +113,15 @@ namespace ClassDiagram
                 Debug.WriteLine(ex.Message);
             }
         }
-    }
 
-    /// <summary>
-    /// Call type which is intercepted
-    /// </summary>
-    public enum Type
-    {
-        Constructor = 1,
-        Destructor = 2,
-        Method = 3
+		/// <summary>
+		/// Call type which is intercepted
+		/// </summary>
+		public enum Type
+		{
+			Constructor = 1,
+			Destructor = 2,
+			Method = 3
+		}
     }
 }

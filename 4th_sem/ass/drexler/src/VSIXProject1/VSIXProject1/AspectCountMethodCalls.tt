@@ -126,15 +126,15 @@ namespace ClassDiagram
                 Debug.WriteLine(ex.Message);
             }
         }
-	}
 
-    /// <summary>
-    /// Call type which is intercepted
-    /// </summary>
-    public enum Type
-    {
-        Constructor = 1,
-        Destructor = 2,
-        Method = 3
-    }
+		/// <summary>
+		/// Call type which is intercepted
+		/// </summary>
+		public enum Type
+		{
+			Constructor = 1,
+			Destructor = 2,
+			Method = 3
+		}
+	}
 }

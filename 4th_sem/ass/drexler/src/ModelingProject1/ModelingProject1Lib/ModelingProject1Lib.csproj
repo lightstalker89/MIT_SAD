@@ -46,6 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeneratedAspects\AspectAnimalCountInstances.cs" />
+    <Compile Include="GeneratedAspects\AspectAnimalMethodCalls.cs" />
+    <Compile Include="GeneratedAspects\AspectDogCountInstances.cs" />
+    <Compile Include="GeneratedAspects\AspectDogMethodCalls.cs" />
+    <Compile Include="GeneratedAspects\AspectPersonCountInstances.cs" />
+    <Compile Include="GeneratedAspects\AspectPersonMethodCalls.cs" />
     <Compile Include="GeneratedCode\ClassDiagram\Animal.cs" />
     <Compile Include="GeneratedCode\ClassDiagram\Bird.cs" />
     <Compile Include="GeneratedCode\ClassDiagram\Cat.cs" />
