@@ -21,7 +21,7 @@ dataTerm = data + equal + path
 dataTerms = delimitedList(dataTerm("dataTerms*"))
 
 termPart  = nestedExpr() | nestedExpr('{','}') | integer | operator
-termExpr  = OneOrMore(termPart).setParseAction(keepOriginalText)
+termExpr  = OneOrMore(termPart)
 term = (Optional(beta) + Optional(termExpr) + Optional(beta))
 variables = delimitedList(term("variables*"))
 
@@ -32,26 +32,29 @@ inputString = delimitedList(dsl("inputString*"), delim=semicolon)
 #result = dsl.parseString("lm(y ~ x1+2, x2, x3 | csv=mydata,sql=asdf);")
 # result = dsl.parseString(r"lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising.csv);")
 code = """
-lm(Sales ~ TV * 2, Radio, Newspaper ^ 2 | csv=advertising_test.csv);
-lm(Sales ~ TV * 2, Radio, Newspaper ^ 2 | csv=advertising.csv);
+lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising_test.csv);
+lm(Sales ~ TV, Radio, Newspaper | csv=advertising.csv)
 """
 
-result = inputString.parseString(code)
-print result.inputString
-print result.alpha
-print result.variables
-print result.beta
 
+result = inputString.parseString(code)
+test = code.split(';')
+# print result.inputString
+# print result.alpha
+# print result.variables
+# print result.beta
+idx = 0
 for linearRegression in result.inputString:
+	print test[idx].strip()
 	for dataSource in linearRegression.dataTerms:
 		if dataSource[0] == 'csv':
 			dataArray = []
-			for key in linearRegression.variables:
-				dataArray.append(CSVParser.csvDataFromKey(key[0], dataSource[1]))
+			for term in linearRegression.variables:
+				dataArray.append(CSVParser.csvDataFromTerm(term, dataSource[1]))
 			xArray = []
 			for i in range(len(dataArray)):
 				xArray.append(dataArray[i])
-			MLRCalc.calcCoeff(CSVParser.csvDataFromKey(linearRegression.alpha, dataSource[1]), xArray)
+			MLRCalc.calcCoeff(CSVParser.csvDataFromTerm([linearRegression.alpha], dataSource[1]), xArray)
 			# MLRCalc.calcCoeff([3], [[3,7,4,2], [6,7,3,9]])
 			# result = MLRCalc.invert([[2,1,1], [3,2,1], [2,1,2]])
 			# print "Inverted Matrix:"
@@ -60,4 +63,4 @@ for linearRegression in result.inputString:
 			print 'asdf'
 		elif dataSource[0] == 'excel':	
 			print 'asdf'
-	print linearRegression.dataTerms[0][0]
+	idx += 1
