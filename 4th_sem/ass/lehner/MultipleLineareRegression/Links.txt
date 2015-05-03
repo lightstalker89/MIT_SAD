@@ -22,3 +22,8 @@ https://www.youtube.com/watch?v=w2t9VADaw10
 http://www.vikparuchuri.com/blog/inverting-your-very-own-matrix/
 http://matrix.reshish.com/inverCalculation.php
 https://www.youtube.com/watch?v=7UHxz8IzCEE
+
+http://stackoverflow.com/questions/23879784/parse-mathematical-expressions-with-pyparsing
+https://pyparsing.wikispaces.com/file/view/SimpleCalc.py
+https://pyparsing.wikispaces.com/file/view/simpleArith.py
+https://pyparsing.wikispaces.com/file/view/fourFn.py
