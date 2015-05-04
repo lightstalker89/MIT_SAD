@@ -32,3 +32,11 @@ def replaceKeys(term, dataArray):
 		else:
 			resultTerm.append(replaceKeys(key, dataArray))
 	return resultTerm
+
+def getKeys(path):
+	try:
+		with open(path, 'rb') as csvfile:
+			csvData = csv.DictReader(csvfile)
+			return csvData.fieldnames
+	except KeyError:
+		print 'could not open file'
