@@ -140,7 +140,6 @@ namespace HotSwapping
             {
                 ApplicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
                 ShadowCopyFiles = "true",
-                // CachePath = @"C:\Users\Flo\Desktop\HotSwapping\HotSwapping\bin\Debug\Test",
                 ShadowCopyDirectories = PathHelper.getAssemblyPath(),
             };
             AppDomain newDomain = AppDomain.CreateDomain("tempDomain", null, setup); // Create an instance of loader class in new appdomain

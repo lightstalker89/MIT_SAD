@@ -19,7 +19,7 @@ public class SwappingClass {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText("This was a Dialog from the standard code");
-        alert.setContentText("Try to swapp some the byte code!");
+        alert.setContentText("Try to swapp the byte code!");
 
         alert.showAndWait();
     }
