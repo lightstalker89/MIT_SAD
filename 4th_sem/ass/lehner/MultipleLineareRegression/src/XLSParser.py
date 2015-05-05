@@ -53,4 +53,5 @@ def getColumnForKey(key, sheet):
 		if rowKey.value == key:
 			return idx
 		idx += 1
+	# -1: column for key not found
 	return -1
