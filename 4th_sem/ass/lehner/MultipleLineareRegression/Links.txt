@@ -27,3 +27,9 @@ http://stackoverflow.com/questions/23879784/parse-mathematical-expressions-with-
 https://pyparsing.wikispaces.com/file/view/SimpleCalc.py
 https://pyparsing.wikispaces.com/file/view/simpleArith.py
 https://pyparsing.wikispaces.com/file/view/fourFn.py
+
+Excel parsing:
+
+http://www.youlikeprogramming.com/2012/03/examples-reading-excel-xls-documents-using-pythons-xlrd/
+https://pypi.python.org/pypi/xlrd
+https://blogs.law.harvard.edu/rprasad/2014/06/16/reading-excel-with-python-xlrd/

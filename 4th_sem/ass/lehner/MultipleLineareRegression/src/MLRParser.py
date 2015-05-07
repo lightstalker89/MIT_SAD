@@ -2,6 +2,7 @@
 
 from pyparsing import *
 import CSVParser
+import XLSParser
 import MLRCalc
 
 keyword = Literal("lm").suppress()
@@ -51,7 +52,7 @@ def isKeyDuplicate(variables, sources):
 			elif source[0] == 'sql':
 				print "sql"
 			elif source[0] == 'excel':
-				print "excel"
+				keys = XLSParser.getKeys(source[1])
 
 			if variable.beta:
 				if variable.beta in keys:
@@ -78,7 +79,7 @@ def getDataSourceFromKey(key, dataSources):
 		elif dataSource[0] == 'sql':
 			keys = [] #TODO SQL Parser
 		elif dataSource[0] == 'excel':	
-			keys = [] #TODO excel Parser
+			keys = XLSParser.getKeys(dataSource[1])
 
 		if isinstance(key, basestring) is not True:
 			for keyValue in key:
@@ -93,7 +94,7 @@ def getDataSourceFromKey(key, dataSources):
 #result = dsl.parseString("lm(y ~ x1+2, x2, x3 | csv=mydata,sql=asdf);")
 # result = dsl.parseString(r"lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising.csv);")
 code = """
-lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising_sourceA.csv, csv=advertising_sourceB.csv);
+lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | excel=advertising_sourceA.xlsx, csv=advertising_sourceB.csv);
 lm(Sales ~ TV, Radio, Newspaper | csv=advertising.csv)
 """
 
@@ -118,7 +119,7 @@ for linearRegression in result.inputString:
 				elif data[0] == 'sql':
 					print 'sql'
 				elif data[0] == 'excel':
-					print 'excel'
+					dataArray.append(XLSParser.xlsDataFromTerm(term, data[1]))
 
 	xArray = []
 	for i in range(len(dataArray)):
@@ -132,7 +133,7 @@ for linearRegression in result.inputString:
 		elif alphaDataSource[0] == 'sql':
 			print 'sql'
 		elif alphaDataSource[0] == 'excel':
-			print 'excel'
+			data = XLSParser.xlsDataFromTerm([linearRegression.alpha], alphaDataSource[1])
 		MLRCalc.calcCoeff(data, xArray)
 	else:
 		raise KeyNotFoundError('Key not found in sources: ' + linearRegression.alpha)
