@@ -3,6 +3,7 @@
 from pyparsing import *
 import CSVParser
 import XLSParser
+import SQLParser
 import MLRCalc
 
 keyword = Literal("lm").suppress()
@@ -50,7 +51,7 @@ def isKeyDuplicate(variables, sources):
 			if source[0] == 'csv':
 				keys = CSVParser.getKeys(source[1])
 			elif source[0] == 'sql':
-				print "sql"
+				keys = SQLParser.getKeys(source[1])
 			elif source[0] == 'excel':
 				keys = XLSParser.getKeys(source[1])
 
@@ -77,7 +78,7 @@ def getDataSourceFromKey(key, dataSources):
 		if dataSource[0] == 'csv':
 			keys = CSVParser.getKeys(dataSource[1])
 		elif dataSource[0] == 'sql':
-			keys = [] #TODO SQL Parser
+			keys = SQLParser.getKeys(dataSource[1])
 		elif dataSource[0] == 'excel':	
 			keys = XLSParser.getKeys(dataSource[1])
 
@@ -94,7 +95,7 @@ def getDataSourceFromKey(key, dataSources):
 #result = dsl.parseString("lm(y ~ x1+2, x2, x3 | csv=mydata,sql=asdf);")
 # result = dsl.parseString(r"lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising.csv);")
 code = """
-lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | excel=advertising_sourceA.xlsx, csv=advertising_sourceB.csv);
+lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | sql=testDB.db, csv=advertising_sourceB.csv);
 lm(Sales ~ TV, Radio, Newspaper | csv=advertising.csv)
 """
 
@@ -117,7 +118,7 @@ for linearRegression in result.inputString:
 				if data[0] == 'csv':
 					dataArray.append(CSVParser.csvDataFromTerm(term, data[1]))
 				elif data[0] == 'sql':
-					print 'sql'
+					dataArray.append(SQLParser.sqlDataFromTerm(term, data[1]))
 				elif data[0] == 'excel':
 					dataArray.append(XLSParser.xlsDataFromTerm(term, data[1]))
 
@@ -131,7 +132,7 @@ for linearRegression in result.inputString:
 		if alphaDataSource[0] == 'csv':
 			data = CSVParser.csvDataFromTerm([linearRegression.alpha], alphaDataSource[1])
 		elif alphaDataSource[0] == 'sql':
-			print 'sql'
+			data = SQLParser.sqlDataFromTerm([linearRegression.alpha], alphaDataSource[1])
 		elif alphaDataSource[0] == 'excel':
 			data = XLSParser.xlsDataFromTerm([linearRegression.alpha], alphaDataSource[1])
 		MLRCalc.calcCoeff(data, xArray)
