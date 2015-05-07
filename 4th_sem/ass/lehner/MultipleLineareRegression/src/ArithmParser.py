@@ -19,15 +19,3 @@ def parse( s ):
         else:
             calcArray.append(parse(component))
     return float(opn[operator](calcArray[0], calcArray[1]))
-            
-    # op = s.pop()
-    # print "op"
-    # print op
-    # if op == 'unary -':
-    #     return -evaluateStack( s )
-    # if op in "+-*/^":
-    #     op2 = evaluateStack( s )
-    #     op1 = evaluateStack( s )
-    #     return opn[op]( op1, op2 )
-    # else:
-    #     return float( op )
