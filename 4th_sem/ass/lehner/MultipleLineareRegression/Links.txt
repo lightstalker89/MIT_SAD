@@ -33,3 +33,6 @@ Excel parsing:
 http://www.youlikeprogramming.com/2012/03/examples-reading-excel-xls-documents-using-pythons-xlrd/
 https://pypi.python.org/pypi/xlrd
 https://blogs.law.harvard.edu/rprasad/2014/06/16/reading-excel-with-python-xlrd/
+
+sql parsing:
+https://docs.python.org/2/library/sqlite3.html
