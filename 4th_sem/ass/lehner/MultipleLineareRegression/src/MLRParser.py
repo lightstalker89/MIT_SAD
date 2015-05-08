@@ -1,35 +1,11 @@
 #!/usr/bin/python
 
 from pyparsing import *
+import sys
 import CSVParser
 import XLSParser
 import SQLParser
 import MLRCalc
-
-keyword = Literal("lm").suppress()
-leftBracket,rightBracket,semicolon,comma,equal,tild = map(Suppress, "();,=~")
-# variable = Regex('[a-zA-Z_][a-zA-Z_0-9]*')
-variable = Word(alphas)
-integer = Regex('([+-]?(([1-9][0-9]*)|0+))')
-
-delimiter = Literal("|").suppress()
-operator = oneOf("+ - * / [ ] . ^ { } %")
-
-alpha = variable("alpha")
-beta = variable("beta")
-data = oneOf("csv sql excel")
-path = Regex(r'([A-Z][:][\\])?[a-zA-Z_0-9.\\]*')
-dataTerm = data + equal + path
-dataTerms = delimitedList(dataTerm("dataTerms*"))
-
-termPart  = nestedExpr() | nestedExpr('{','}') | integer | operator
-termExpr  = OneOrMore(termPart)
-term = (Optional(beta) + Optional(termExpr) + Optional(beta))
-variables = delimitedList(term("variables*"))
-
-
-dsl = keyword + leftBracket + alpha + tild + variables + delimiter + dataTerms + rightBracket
-inputString = delimitedList(dsl("inputString*"), delim=semicolon)
 
 class DuplicateKeysError(Exception):
 	def __init__(self, msg):
@@ -91,54 +67,93 @@ def getDataSourceFromKey(key, dataSources):
 				return dataSource
 	return ''
 		
+def parseFile(code):
+	keyword = Literal("lm").suppress()
+	leftBracket,rightBracket,semicolon,comma,equal,tild = map(Suppress, "();,=~")
+	# variable = Regex('[a-zA-Z_][a-zA-Z_0-9]*')
+	variable = Word(alphas)
+	integer = Regex('([+-]?(([1-9][0-9]*)|0+))')
 
-#result = dsl.parseString("lm(y ~ x1+2, x2, x3 | csv=mydata,sql=asdf);")
-# result = dsl.parseString(r"lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising.csv);")
-code = """
-lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | sql=testDB.db, csv=advertising_sourceB.csv);
-lm(Sales ~ TV, Radio, Newspaper | csv=advertising.csv)
-"""
+	delimiter = Literal("|").suppress()
+	operator = oneOf("+ - * / [ ] . ^ { } %")
 
-result = inputString.parseString(code)
-test = code.split(';')
-# print result.inputString
-# print result.alpha
-# print result.variables
-# print result.beta
-idx = 0
-for linearRegression in result.inputString:
-	isKeyDuplicate(linearRegression.variables, linearRegression.dataTerms)
-	print ''
-	print test[idx].strip()
-	dataArray = []
-	for term in linearRegression.variables:
-		for key in term:
-			data = getDataSourceFromKey(key, linearRegression.dataTerms)
-			if data:
-				if data[0] == 'csv':
-					dataArray.append(CSVParser.csvDataFromTerm(term, data[1]))
-				elif data[0] == 'sql':
-					dataArray.append(SQLParser.sqlDataFromTerm(term, data[1]))
-				elif data[0] == 'excel':
-					dataArray.append(XLSParser.xlsDataFromTerm(term, data[1]))
+	alpha = variable("alpha")
+	beta = variable("beta")
+	data = oneOf("csv sql excel")
+	path = Regex(r'([A-Z][:][\\])?[a-zA-Z_0-9.\\]*')
+	dataTerm = data + equal + path
+	dataTerms = delimitedList(dataTerm("dataTerms*"))
 
-	xArray = []
-	for i in range(len(dataArray)):
-		xArray.append(dataArray[i])
+	termPart  = nestedExpr() | nestedExpr('{','}') | integer | operator
+	termExpr  = OneOrMore(termPart)
+	term = (Optional(beta) + Optional(termExpr) + Optional(beta))
+	variables = delimitedList(term("variables*"))
 
-	alphaDataSource = getDataSourceFromKey(linearRegression.alpha, linearRegression.dataTerms)
-	if alphaDataSource:
-		data = []
-		if alphaDataSource[0] == 'csv':
-			data = CSVParser.csvDataFromTerm([linearRegression.alpha], alphaDataSource[1])
-		elif alphaDataSource[0] == 'sql':
-			data = SQLParser.sqlDataFromTerm([linearRegression.alpha], alphaDataSource[1])
-		elif alphaDataSource[0] == 'excel':
-			data = XLSParser.xlsDataFromTerm([linearRegression.alpha], alphaDataSource[1])
-		MLRCalc.calcCoeff(data, xArray)
+
+	dsl = keyword + leftBracket + alpha + tild + variables + delimiter + dataTerms + rightBracket
+	inputString = delimitedList(dsl("inputString*"), delim=semicolon)
+	#result = dsl.parseString("lm(y ~ x1+2, x2, x3 | csv=mydata,sql=asdf);")
+	# result = dsl.parseString(r"lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising.csv);")
+	# code = """
+	# lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | sql=testDB.db, csv=advertising_sourceB.csv);
+	# lm(Sales ~ TV, Radio, Newspaper | csv=advertising.csv)
+	# """
+
+	result = inputString.parseString(code)
+	test = code.split(';')
+	# print result.inputString
+	# print result.alpha
+	# print result.variables
+	# print result.beta
+	idx = 0
+	for linearRegression in result.inputString:
+		isKeyDuplicate(linearRegression.variables, linearRegression.dataTerms)
+		print ''
+		print test[idx].strip()
+		dataArray = []
+		for term in linearRegression.variables:
+			for key in term:
+				data = getDataSourceFromKey(key, linearRegression.dataTerms)
+				if data:
+					if data[0] == 'csv':
+						dataArray.append(CSVParser.csvDataFromTerm(term, data[1]))
+					elif data[0] == 'sql':
+						dataArray.append(SQLParser.sqlDataFromTerm(term, data[1]))
+					elif data[0] == 'excel':
+						dataArray.append(XLSParser.xlsDataFromTerm(term, data[1]))
+
+		xArray = []
+		for i in range(len(dataArray)):
+			xArray.append(dataArray[i])
+
+		alphaDataSource = getDataSourceFromKey(linearRegression.alpha, linearRegression.dataTerms)
+		if alphaDataSource:
+			data = []
+			if alphaDataSource[0] == 'csv':
+				data = CSVParser.csvDataFromTerm([linearRegression.alpha], alphaDataSource[1])
+			elif alphaDataSource[0] == 'sql':
+				data = SQLParser.sqlDataFromTerm([linearRegression.alpha], alphaDataSource[1])
+			elif alphaDataSource[0] == 'excel':
+				data = XLSParser.xlsDataFromTerm([linearRegression.alpha], alphaDataSource[1])
+			MLRCalc.calcCoeff(data, xArray)
+		else:
+			raise KeyNotFoundError('Key not found in sources: ' + linearRegression.alpha)
+		idx += 1
+
+try:
+	if len(sys.argv) == 2:
+		filepath = str(sys.argv[1])
+		f = open(filepath, "r")
+		parseFile(f.read())
 	else:
-		raise KeyNotFoundError('Key not found in sources: ' + linearRegression.alpha)
-	idx += 1
+		print "Incorrect Argument!"
+except IOError as e:
+    print "I/O error({0}): {1}".format(e.errno, e.strerror)
+except ValueError:
+    print "Could not read data from file."
+except:
+    print "Unexpected error:", sys.exc_info()[0]
+    raise
 
 
 
