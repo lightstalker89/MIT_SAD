@@ -6,6 +6,7 @@ import CSVParser
 import XLSParser
 import SQLParser
 import MLRCalc
+import platform
 
 class DuplicateKeysError(Exception):
 	def __init__(self, msg):
@@ -80,7 +81,10 @@ def parseFile(code):
 	alpha = variable("alpha")
 	beta = variable("beta")
 	data = oneOf("csv sql excel")
-	path = Regex(r'([A-Z][:][\\])?[a-zA-Z_0-9.\\]*')
+	if platform.system() == "Windows":
+		path = Regex(r'([A-Z][:][\\d])?[a-zA-Z_0-9.\\]*')
+	else:
+		path = Regex(r'[/a-zA-Z_0-9.]*')
 	dataTerm = data + equal + path
 	dataTerms = delimitedList(dataTerm("dataTerms*"))
 
@@ -140,6 +144,7 @@ def parseFile(code):
 			raise KeyNotFoundError('Key not found in sources: ' + linearRegression.alpha)
 		idx += 1
 
+# entry level
 try:
 	if len(sys.argv) == 2:
 		filepath = str(sys.argv[1])

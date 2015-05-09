@@ -1,2 +1,0 @@
-lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | sql=testDB.db, csv=advertising_sourceB.csv);
-lm(Sales ~ TV, Radio, Newspaper | csv=advertising.csv);
