@@ -5,4 +5,4 @@ class ModuleClass(object):
 
     # this method can be changed at runtime
     def doSomething():
-        print("Reloadssjjjgshh")
+        print("You can change the module but please don't produce runtime errors")
