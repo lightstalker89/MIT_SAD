@@ -71,9 +71,6 @@ def calcCoeff(yArray, xArray):
     for element in yArray:
         matrixY.append([element])
 
-    # for element in range(len(yArray)):
-    #     matrixY[element].append(yArray[element])
-
 	# calc (X^T*X)^-1
     firstTerm = invert(multiplyMatrix(transponierteMatrixX, matrixX))
 

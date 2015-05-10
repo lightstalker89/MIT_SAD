@@ -71,7 +71,7 @@ def getDataSourceFromKey(key, dataSources):
 def parseFile(code):
 	keyword = Literal("lm").suppress()
 	leftBracket,rightBracket,semicolon,comma,equal,tild = map(Suppress, "();,=~")
-	# variable = Regex('[a-zA-Z_][a-zA-Z_0-9]*')
+
 	variable = Word(alphas)
 	integer = Regex('([+-]?(([1-9][0-9]*)|0+))')
 
@@ -124,7 +124,7 @@ def parseFile(code):
 					elif data[0] == 'sql':
 						dataArray.append(SQLParser.sqlDataFromTerm(term, data[1]))
 					elif data[0] == 'excel':
-						dataArray.append(XLSParser.xlsDataFromTerm(term, data[1]))
+						dataArray.append(XLSParser.xlsDataFromTerm(term, data[1]))				
 
 		xArray = []
 		for i in range(len(dataArray)):
