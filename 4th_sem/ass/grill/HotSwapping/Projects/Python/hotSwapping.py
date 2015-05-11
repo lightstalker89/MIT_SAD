@@ -5,16 +5,25 @@ from importedModule import ModuleClass
 
 def main():
    while True:
-      inputValue = input("Run again? (y/ n): ")
+      inputValue = input("Want to execute program? (y/ n): ")
       if inputValue == "n":
           break;
       # dynamically load module
+      dynamicExecute()
+      # reload loaded module
+      reloadExecute()
+
+def dynamicExecute():
+      # Dynamically read source before executing and assign it to variable module
       module = imp.load_source("importedModule", "./importedModule.py")
+      # Execute method from loaded source
       module.ModuleClass.doSomething()
-      # Does not work with this method
+
+def reloadExecute():
+      global ModuleClass
+      # Reload already loaded ModuleClass
+      ModuleClass = importlib.reload(sys.modules['importedModule']).ModuleClass
+      # Execute method from imported module
       ModuleClass.doSomething()
-      # Does not work with this method
-      test = importlib.reload(sys.modules['importedModule']).ModuleClass
-      test.doSomething()
 
 if  __name__ =='__main__':main()

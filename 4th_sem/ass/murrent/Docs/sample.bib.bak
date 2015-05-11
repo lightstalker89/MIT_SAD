@@ -1,0 +1,31 @@
+% This file was created with JabRef 2.8.1.
+% Encoding: Cp1252
+
+@ARTICLE{Figueredo:2009dg,
+  author = {Figueredo, A.~J. and Wolf, P. S.~A.},
+  title = {Assortative pairing and life history strategy - a cross-cultural
+	study.},
+  journal = {Human Nature},
+  year = {2009},
+  volume = {20},
+  pages = {317-330}
+}
+
+@MISC{kullback,
+  title = {Kullback Leibler Divergence},
+  howpublished = {\url{http://en.wikipedia.org/wiki/Kullback-Leibler_divergence}},
+  note = {Accessed: 2010-09-30}
+}
+
+@MISC{manhattan,
+  title = {Manhattan Distance},
+  howpublished = {\url{http://www.improvedoutcomes.com/docs/WebSiteDocs/Clustering/Clustering_Parameters/Manhattan_Distance_Metric.htm}},
+  note = {Accessed: 2010-09-30}
+}
+
+@MISC{manhattan,
+  title = {Manhattan Distance},
+  howpublished = {\url{http://en.wiktionary.org/wiki/Manhattan_distance}},
+  note = {Zugriff: 04.05.2015}
+}
+
