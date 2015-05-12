@@ -103,6 +103,12 @@ The Manhattan distance function computes the distance that would be traveled to 
 \newline
 The Manhattan distance is according to the paper "Comparing Anomaly-Detection Algorithms for Keystroke Dynamic" \cite{Figueredo:2009dg} on of the best algorithms. 
 
+\begin{figure}[!htb]
+\center
+\includegraphics[scale=0.75]{manhattan}
+ \caption{Red: Manhattan distance. Green: diagonal, straight-line distance. Blue, yellow: equivalent Manhattan distances.\cite{manhattan}}
+\end{figure}
+
 \section{Implementation Details}
 During the training mode all necessary data is collected including:
 \begin{itemize}
@@ -138,7 +144,9 @@ The data windows is designed to view data which is used for evaluation.
 The application has two modes: Training \& Normal. During the training mode all necessary data is collected. In the normal mode the current password is checked against the captured data. A picture on the right side of the login controls indicates whether the password is accepted or not. Partially accepted means that if might not be the user.
 
 \section{Summary and outlook}
-The algorithm used to analyze the keystrokes seems to be quite good. Basically it is possible to check if the password which is entered is from a genuine user or not, but you need alot of training data. The algorithm is tested with a few unit tests which cover some special cases but definitely not all.
+The algorithm used to analyze the keystrokes seems to be quite good. Basically it is possible to check if the password which is entered is from a genuine user or not, but you need alot of training data. The test data used to test the algorithm contains about 1200 traiing entries. The algorithm is tested with a few unit tests which cover some special cases but definitely not all.
+\newline
+The algorithm used just covers some basic cases. Another algorithm should be implemented and compared to the Manhattan Distance algorithm.
 
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
