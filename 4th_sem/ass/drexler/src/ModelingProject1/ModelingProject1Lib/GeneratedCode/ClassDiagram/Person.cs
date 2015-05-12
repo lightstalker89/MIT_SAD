@@ -37,9 +37,19 @@ namespace ClassDiagram
             this.Animal.MakeNoice();
 		}
 
+        public virtual void PlayWithDog()
+        {
+            Console.WriteLine("Play with dog!");
+
+            if(this.Animal != null && this.Animal is Dog)
+            {
+                ((Dog)this.Animal).ToBark();
+            }
+        }
+
 		public virtual void BuyDog()
 		{
-            this.Animal = new Animal();
+            this.Animal = new Dog();
 		}
 
 	}

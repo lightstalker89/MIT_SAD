@@ -931,6 +931,7 @@
             sourceEndRoleName="Person"
             targetEndRoleName="Animal"
             isLeaf="false"
+            name="PersonAnimal"
             isAbstract="false">
             <classMoniker
               Id="b08aca62-527d-4a07-9498-afae8a7d890b"

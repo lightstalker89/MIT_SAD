@@ -99,9 +99,7 @@ namespace VSIXProject1
                             comment.Description = fullNamespaceNameWithType;
                             comment.AnnotatedElements.Add(selClass);
                             comment.Body = ((IClass)selShape.GetElement()).Name;
-                            comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}, {4}Average Associations:{5}",
-                                Environment.NewLine,
-                                "0",
+                            comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}",
                                 Environment.NewLine,
                                 "0",
                                 Environment.NewLine,

@@ -9,33 +9,28 @@ namespace ClassLibrary1
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
     using System.ComponentModel;
     using System.ComponentModel.Composition;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
     using System.Xml;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Presentation;
     using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml;
+    using Microsoft.VisualStudio.Modeling.Diagrams;
     using Microsoft.VisualStudio.Modeling.ExtensionEnablement;
     using Microsoft.VisualStudio.Uml.Classes;
-    using Microsoft.VisualStudio.Modeling.Diagrams;
 
     /// <summary>
     /// Custom context menu command extension
     /// See http://msdn.microsoft.com/en-us/library/ee329481(v=vs.120).aspx
     /// </summary>
     [Export(typeof(ICommandExtension))]
-    [ClassDesignerExtension] // TODO: Add other diagram types if needed
-    class UpdateModelCommand : ICommandExtension
+    [ClassDesignerExtension]
+    public class UpdateModelCommand : ICommandExtension
     {
-        /// <summary>
-        /// Background thread which updates the GUI (class diagram)
-        /// </summary>
-        private Thread updateThread;
-
         /// <summary>
         /// Flag whether the background thread should update the GUI or not
         /// </summary>
@@ -52,10 +47,15 @@ namespace ClassLibrary1
         private static Mutex mutex = new Mutex();
 
         /// <summary>
+        /// Background thread which updates the GUI (class diagram)
+        /// </summary>
+        private Thread updateThread;
+
+        /// <summary>
         /// Delegate for the UIThreadHolder of the class diagram
         /// </summary>
-        /// <param name="xmlFile"></param>
-        /// <param name="comments"></param>
+        /// <param name="xmlFile">Log file created by the aspect(s)</param>
+        /// <param name="comments">Comment Shapes from the UML class diagram</param>
         public delegate void UpdateModelDelegate(XElement xmlFile, IEnumerable<IComment> comments);
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace ClassLibrary1
         public ILinkedUndoContext linkedUndoContext { get; set; }
 
         /// <summary>
-        /// Gets or sets the value of the menu command text
+        /// Gets the value of the menu command text
         /// </summary>
         public string Text
         {
@@ -79,102 +79,31 @@ namespace ClassLibrary1
         }
 
         /// <summary>
-        /// Method to show error messages to the user
-        /// </summary>
-        /// <param name="ex"></param>
-        private void DisplayErrorMessage(Exception ex)
-        {
-            MessageBox.Show(ex.Message, "Ein Fehler ist aufgetreten!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        /// <summary>
-        /// Thread functionality to process
-        /// </summary>
-        /// <param name="obj"></param>
-        private void DoWork(object obj)
-        {
-            FileSystemWatcher watcher = new FileSystemWatcher(@"C:\Temp", "AspectLog.xml");
-            watcher.EnableRaisingEvents = isAutomaticallyUpdateActivated;
-            watcher.Created += watcher_Changed;
-            watcher.Changed += watcher_Changed;
-            DiagramView uiThreadHolder = context.CurrentDiagram.GetObject<Diagram>().ActiveDiagramView;
-
-            while (isAutomaticallyUpdateActivated)
-            {
-                if(areUpdatesAvailable)
-                {
-                    XElement logFile = this.ReadLogFile();
-                    IEnumerable<IComment> comments = this.ReadCommentsFromUMLClassDiagram();
-                    uiThreadHolder.Invoke(new UpdateModelDelegate(UpdateClassDiagram), logFile, comments);
-
-                    mutex.WaitOne();
-                    areUpdatesAvailable = false;
-                    mutex.ReleaseMutex();
-                }
-
-                Thread.Sleep(5000);
-            }
-        }
-
-        /// <summary>
         /// Update all comment shapes with the logged informations for the annotated classes.
         /// </summary>
-        /// <param name="logFile"></param>
-        /// <param name="comments"></param>
-        public static void UpdateClassDiagram(XElement logFile, IEnumerable<IComment> comments)
+        /// <param name="logFile">Log file created by the aspect(s)</param>
+        /// <param name="comments">Comment shapes from the UML class diagram</param>
+        public void UpdateClassDiagram(XElement logFile, IEnumerable<IComment> comments)
         {
-            string nameSpace = string.Empty;
-
-            int constructorCounts = 0;
-            int destructorCounts = 0;
-            int instanceCount = 0;
-            Dictionary<string, int> methodCallCounts = new Dictionary<string,int>();
-
-            //var data = from item in logFile.Descendants("LogEntry")
-            //           where (item.Attribute("ClassName").Value == "ClassLibrary1.Animal" && item.Attribute("Type").Value == "Constructor")
-            //           select item;
-
-            // TODO Group and count constructor and destructor logs of specific type
-            // TODO Group and count method calls of specific type and method
-
             foreach (var comment in comments)
             {
-                var data = from item in logFile.Descendants("LogEntry")
-                           where (item.Attribute("ClassName").Value == comment.Description && 
-                                  item.Attribute("Type").Value == "Constructor")
-                           select item;
+                int constructorCounts = 0;
+                int destructorCounts = 0;
+                int instanceCount = 0;
+                Dictionary<string, int> methodCallCounts = new Dictionary<string, int>();
 
-                var dataDestructor = from item in logFile.Descendants("LogEntry")
-                                     where (item.Attribute("ClassName").Value == comment.Description &&
-                                            item.Attribute("Type").Value == "Destructor")
-                                     select item;
+                // get the data from the log file for a specific class and annotation
+                var data = this.QueryDataFromLogFile(logFile, "Constructor", comment.Description);
+                var dataDestructor = this.QueryDataFromLogFile(logFile, "Destructor", comment.Description);
+                var dataMethods = this.QueryDataFromLogFile(logFile, "Method", comment.Description);
 
-                var dataMethods = from item in logFile.Descendants("LogEntry")
-                                  where (item.Attribute("ClassName").Value == comment.Description &&
-                                         item.Attribute("Type").Value == "Method")
-                                  select item;
-
+                // count the log entries
                 constructorCounts = data != null ? data.ToList().Count : 0;
                 destructorCounts = data != null ? dataDestructor.ToList().Count : 0;
                 instanceCount = constructorCounts - destructorCounts;
+                methodCallCounts = this.GroupMethodCalls(dataMethods);
 
-                if(dataMethods != null && dataMethods.Count() > 0)
-                {
-                    foreach (var item in dataMethods)
-                    {
-                        string methodName = item.Attribute("TypeName").Value;
-
-                        if(!methodCallCounts.Keys.Contains(methodName))
-                        {
-                            methodCallCounts.Add(methodName, 1);
-                        }
-                        else
-                        {
-                            methodCallCounts[methodName] = ++methodCallCounts[methodName];
-                        }
-                    }
-                }
-
+                // update comment shape within the model with the measured values
                 comment.Body = comment.Description;
                 comment.Body += string.Concat(Environment.NewLine, "InstanceCounter: ", instanceCount.ToString(), Environment.NewLine);
                 comment.Body += string.Concat("Methods: ", Environment.NewLine);
@@ -183,44 +112,153 @@ namespace ClassLibrary1
                 {
                     comment.Body += string.Concat(item.Key, ": ", item.Value.ToString(), Environment.NewLine);
                 }
-
-                #region oldCode
-                //XmlNode classNode = logFile.SelectSingleNode(string.Format("descendant::{0}", comment.Description));
-                //if (classNode != null)
-                //{
-                //    XmlNode instanceCounter = classNode.SelectSingleNode("descendant::InstanceCounter");
-                //    XmlNode methodCounter = classNode.SelectSingleNode("descendant::MethodCallsCounter");
-                //    comment.Body = comment.Description;
-                //    if (instanceCounter != null)
-                //    {
-                //        comment.Body += string.Concat(Environment.NewLine, "InstanceCounter: ", instanceCounter.InnerText, Environment.NewLine);
-                //    }
-
-                //    if (methodCounter != null)
-                //    {
-                //        comment.Body += string.Concat("MethodCounter: ", methodCounter.InnerText);
-                //    }
-                //}
-                #endregion
             }
+        }
+
+        /// <summary>
+        /// Update UML ClassDiagram if a log file was created or changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            // Better to add jobs to a queue which will be processed from a thread?
+            mutex.WaitOne();
+            areUpdatesAvailable = true;
+            mutex.ReleaseMutex();
+        }
+
+        /// <summary>
+        /// Executes the update class diagram logic
+        /// </summary>
+        /// <param name="command">Current menu diagram</param>
+        public void Execute(IMenuCommand command)
+        {
+            // Start a background thread to update the GUI (class diagram)
+            try
+            {
+                if (this.updateThread == null)
+                {
+                    this.updateThread = new Thread(new ParameterizedThreadStart(this.DoWork));
+                    this.updateThread.IsBackground = true;
+                    this.updateThread.Name = "UpdateUMLClassDiagramThread";
+                }
+
+                if (!isAutomaticallyUpdateActivated)
+                {
+                    isAutomaticallyUpdateActivated = true;
+                    MessageBox.Show("Update is activated!", "Info", MessageBoxButtons.OK);
+
+                    if (!this.updateThread.IsAlive)
+                    {
+                        this.updateThread.Start();
+                    }
+                    else
+                    {
+                        this.updateThread.Resume();
+                    }
+                }
+                else
+                {
+                    if (this.updateThread.IsAlive)
+                    {
+                        this.updateThread.Suspend();
+                    }
+
+                    isAutomaticallyUpdateActivated = false;
+                    MessageBox.Show("Update is deactivated!", "Info", MessageBoxButtons.OK);
+                }
+            }
+            catch (ThreadStartException ex)
+            {
+                this.DisplayErrorMessage(ex);
+            }
+            catch (ThreadAbortException ex)
+            {
+                this.DisplayErrorMessage(ex);
+            }
+            catch (ThreadInterruptedException ex)
+            {
+                this.DisplayErrorMessage(ex);
+            }
+            catch (ThreadStateException ex)
+            {
+                this.DisplayErrorMessage(ex);
+            }
+        }
+
+        /// <summary>
+        /// Handles the visibility of the MenuCommand item
+        /// </summary>
+        /// <param name="command">Current menu command</param>
+        public void QueryStatus(IMenuCommand command)
+        {
+            command.Visible = command.Enabled = true;
+            command.Text = isAutomaticallyUpdateActivated ? "Deactivate Update Model" : "Activate Update Model";
+        }
+
+        /// <summary>
+        /// Query data for the given type and class name from the log file
+        /// </summary>
+        /// <param name="logFile">XML representation of the log file</param>
+        /// <param name="type">Constructor, Destructor or Method</param>
+        /// <param name="className">Class name of the object or method</param>
+        /// <returns>All found entries for the given type and class name</returns>
+        private IEnumerable<XElement> QueryDataFromLogFile(XElement logFile, string type, string className)
+        {
+            var data = from item in logFile.Descendants("LogEntry")
+                       where (item.Attribute("ClassName").Value == className &&
+                              item.Attribute("Type").Value == type)
+                       select item;
+
+            return data;
+        }
+
+        /// <summary>
+        /// Group all method call log entries and count the method calls
+        /// </summary>
+        /// <param name="methodCallLogEntries">All log entries for method calls</param>
+        /// <returns>All method names of a class with the count of method calls</returns>
+        private Dictionary<string, int> GroupMethodCalls(IEnumerable<XElement> methodCallLogEntries)
+        {
+            Dictionary<string, int> methodCallCounts = new Dictionary<string, int>();
+
+            if (methodCallLogEntries != null && methodCallLogEntries.Count() > 0)
+            {
+                foreach (var item in methodCallLogEntries)
+                {
+                    string methodName = item.Attribute("TypeName").Value;
+
+                    if (!methodCallCounts.Keys.Contains(methodName))
+                    {
+                        methodCallCounts.Add(methodName, 1);
+                    }
+                    else
+                    {
+                        methodCallCounts[methodName] = ++methodCallCounts[methodName];
+                    }
+                }
+            }
+
+            return methodCallCounts;
         }
 
         /// <summary>
         /// Get all comment shapes from the model store
         /// </summary>
-        /// <returns></returns>
+        /// <returns>All comment shapes from the model store</returns>
         private IEnumerable<IComment> ReadCommentsFromUMLClassDiagram()
         {
             try
             {
-                IClassDiagram diagram = context.CurrentDiagram as IClassDiagram;
+                IClassDiagram diagram = this.context.CurrentDiagram as IClassDiagram;
                 IModelStore store = diagram.ModelStore;
                 IPackage rootPackage = store.Root;
                 IEnumerable<IComment> comments = store.AllInstances<IComment>();
 
                 return comments;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.DisplayErrorMessage(ex);
             }
@@ -231,7 +269,7 @@ namespace ClassLibrary1
         /// <summary>
         /// Read the log file
         /// </summary>
-        /// <returns></returns>
+        /// <returns>XML representation of the log file</returns>
         private XElement ReadLogFile()
         {
             mutex.WaitOne();
@@ -242,85 +280,50 @@ namespace ClassLibrary1
         }
 
         /// <summary>
-        /// Update UML ClassDiagram if a log file was created or changed
+        /// Method to show error messages to the user
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void watcher_Changed(object sender, FileSystemEventArgs e)
+        /// <param name="ex">Exception message thrown</param>
+        private void DisplayErrorMessage(Exception ex)
         {
-            // Better to add jobs the a queue which will be processed from a thread?
-            mutex.WaitOne();
-            areUpdatesAvailable = true;
-            mutex.ReleaseMutex();
+            MessageBox.Show(ex.Message, "Ein Fehler ist aufgetreten!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>
-        /// Executes the update class diagram logic
+        /// Thread functionality to process
         /// </summary>
-        /// <param name="command"></param>
-        public void Execute(IMenuCommand command)
+        /// <param name="obj">Passed object to the thread method</param>
+        private void DoWork(object obj)
         {
-            // Start a background thread to update the GUI (class diagram)
-            try
+            FileSystemWatcher watcher = new FileSystemWatcher(@"C:\Temp", "AspectLog.xml");
+            watcher.EnableRaisingEvents = isAutomaticallyUpdateActivated;
+            watcher.Created += this.watcher_Changed;
+            watcher.Changed += this.watcher_Changed;
+            DiagramView uiThreadHolder = this.context.CurrentDiagram.GetObject<Diagram>().ActiveDiagramView;
+
+            while (isAutomaticallyUpdateActivated)
             {
-                if(updateThread == null)
+                if (areUpdatesAvailable)
                 {
-                    updateThread = new Thread(new ParameterizedThreadStart(DoWork));
-                    updateThread.IsBackground = true;
-                    updateThread.Name = "UpdateUMLClassDiagramThread";
+                    try
+                    {
+                        XElement logFile = this.ReadLogFile();
+                        IEnumerable<IComment> comments = this.ReadCommentsFromUMLClassDiagram();
+                        uiThreadHolder.Invoke(new UpdateModelDelegate(this.UpdateClassDiagram), logFile, comments);
+                    }
+                    catch(Exception ex)
+                    {
+                        this.DisplayErrorMessage(ex);
+                    }
+                    finally
+                    {
+                        mutex.WaitOne();
+                        areUpdatesAvailable = false;
+                        mutex.ReleaseMutex();
+                    }
                 }
 
-                if (!isAutomaticallyUpdateActivated)
-                {
-                    isAutomaticallyUpdateActivated = true;
-                    MessageBox.Show("Update is activated!", "Info", MessageBoxButtons.OK);
-
-                    if(!updateThread.IsAlive)
-                    {
-                        updateThread.Start();
-                    }
-                    else
-                    {
-                        updateThread.Resume();
-                    }
-                }
-                else
-                {
-                    if (updateThread.IsAlive)
-                    {
-                        updateThread.Suspend();
-                    }
-
-                    isAutomaticallyUpdateActivated = false;
-                    MessageBox.Show("Update is deactivated!", "Info", MessageBoxButtons.OK);
-                }
+                Thread.Sleep(5000);
             }
-            catch(ThreadStartException ex)
-            {
-                this.DisplayErrorMessage(ex);
-            }
-            catch(ThreadAbortException ex)
-            {
-                this.DisplayErrorMessage(ex);
-            }
-            catch(ThreadInterruptedException ex)
-            {
-                this.DisplayErrorMessage(ex);
-            }
-            catch(ThreadStateException ex)
-            {
-                this.DisplayErrorMessage(ex);
-            }
-        }
-
-        /// <summary>
-        /// Handles the visibility of the MenuCommand item
-        /// </summary>
-        /// <param name="command"></param>
-        public void QueryStatus(IMenuCommand command)
-        {
-            command.Visible = command.Enabled = true;
-            command.Text = isAutomaticallyUpdateActivated ? "Deactivate Update Model" : "Activate Update Model";
         }
     }
 }

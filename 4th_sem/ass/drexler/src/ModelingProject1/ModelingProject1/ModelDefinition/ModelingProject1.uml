@@ -3,64 +3,6 @@
   dslVersion="1.0.0.0"
   Id="49aebefa-925c-4be1-bee1-a2b2b1504299"
   name="ModelingProject1" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
-  <ownedCommentsInternal>
-    <comment
-      Id="c8d7b03c-70e3-440b-9164-fcf5a9da55d0">
-      <description>ClassDiagram.Animal</description>
-      <body>ClassDiagram.Animal
-InstanceCounter: 2
-Methods: 
-BuyDog: 2
-set_Animal: 2
-PlayWithAnimal: 1
-get_Animal: 1
-MakeNoice: 1
-</body>
-      <annotatedElements>
-        <classMoniker
-          Id="b08aca62-527d-4a07-9498-afae8a7d890b"
-          LastKnownName="Animal"
-          LastKnownLocation="Package_0917.uml" />
-      </annotatedElements>
-    </comment>
-    <comment
-      Id="21080dde-64ab-46c5-93b5-217989e709e7">
-      <description>ClassDiagram.Person</description>
-      <body>ClassDiagram.Person
-InstanceCounter: 2
-Methods: 
-BuyDog: 2
-set_Animal: 2
-PlayWithAnimal: 1
-get_Animal: 1
-</body>
-      <annotatedElements>
-        <classMoniker
-          Id="b1f7b151-c148-475b-90f7-1d54f994a7c4"
-          LastKnownName="Person"
-          LastKnownLocation="Package_0917.uml" />
-      </annotatedElements>
-    </comment>
-    <comment
-      Id="71b6539b-d682-41d5-a3f8-6c119f8fd242">
-      <description>ClassDiagram.Dog</description>
-      <body>ClassDiagram.Dog
-InstanceCounter: 0
-Methods: 
-BuyDog: 2
-set_Animal: 2
-PlayWithAnimal: 1
-get_Animal: 1
-MakeNoice: 1
-</body>
-      <annotatedElements>
-        <classMoniker
-          Id="3506d2ef-f527-4137-b0f9-ace1db930a53"
-          LastKnownName="Dog"
-          LastKnownLocation="Package_0917.uml" />
-      </annotatedElements>
-    </comment>
-  </ownedCommentsInternal>
   <appliedStereotypesInternal>
     <stereotypeInstance
       Id="e4f1a17a-8c1c-4d29-8582-3dff6fff979f"

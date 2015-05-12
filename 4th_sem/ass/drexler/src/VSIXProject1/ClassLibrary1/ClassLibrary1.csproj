@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AverageAssociationCount.cs" />
     <Compile Include="CountMethodCallsCommand.cs" />
     <Compile Include="InstanceCounterCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
