@@ -1,13 +1,21 @@
-﻿using ClassDiagram;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="MD Development">
+//     Copyright (c) MD Development. All rights reserved.
+// </copyright>
+// <author>Michael Drexler</author>
+//-----------------------------------------------------------------------
 namespace ConsoleApplication1
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using ClassDiagram;
+
+    /// <summary>
+    /// Test applicaton
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
@@ -19,8 +27,9 @@ namespace ConsoleApplication1
 
             Console.WriteLine("Press 'A' to add a new animal");
             Console.WriteLine("Press 'P' to add a new person");
-            Console.WriteLine("Press 'B' to buy a new animal");
+            Console.WriteLine("Press 'B' to buy a new dog");
             Console.WriteLine("Press 'U' to play with the animal");
+            Console.WriteLine("Press 'L' to play with the dog");
             Console.WriteLine("Press 'K' to kill the animal");
 
             do
@@ -39,46 +48,59 @@ namespace ConsoleApplication1
                         Console.WriteLine("Animal added");
                         break;
                     case ConsoleKey.B:
-                        pList.FirstOrDefault().BuyDog();
-                        Console.WriteLine("First Person baught animal");
+                        Person firstPerson = pList.FirstOrDefault();
+                        if (firstPerson != null)
+                        {
+                            firstPerson.BuyDog();
+                            Console.WriteLine("First Person baught a dog!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No person found!");
+                        }
+                        
+                        break;
+                    case ConsoleKey.L:
+                        Person firstPerson2 = pList.FirstOrDefault();
+                        if(firstPerson2 != null)
+                        {
+                            firstPerson2.PlayWithDog();
+                        }
+                        else
+                        {
+                            Console.WriteLine("No person found!");
+                        }
+
                         break;
                     case ConsoleKey.U:
-                        pList.FirstOrDefault().PlayWithAnimal();
-                        Console.WriteLine("First Person plays with animal");
+                        Person firstPerson1 = pList.FirstOrDefault();
+                        if (firstPerson1 != null)
+                        {
+                            firstPerson1.PlayWithAnimal();
+                            Console.WriteLine("First Person plays with animal");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No person found!");
+                        }
+                        
                         break;
                     case ConsoleKey.K:
-                        pList.FirstOrDefault().Animal = null;
-                        GC.Collect();
-                        Console.WriteLine("Animal of first person was killed");
+                        if(pList.FirstOrDefault() != null)
+                        {
+                            pList.FirstOrDefault().Animal = null;
+                            GC.Collect();
+                            Console.WriteLine("Animal of first person was killed");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No animal to kill!");
+                        }
+                        
                         break;
                 }
             }
             while (cki.Key != ConsoleKey.Escape);
-
-            //Console.WriteLine("Geben Sie bitte den Pfad für ein ModelingProject (ModelingProject1.modelproj) an");
-            //string projectPath = Console.ReadLine();
-            //Console.WriteLine("Geben Sie bitte den Dateinamen des Class Diagram an");
-            //string diagramFileName = Console.ReadLine();
-
-            //if (string.IsNullOrEmpty(projectPath))
-            //{
-            //    projectPath = @"C:\Users\Michael Drexler\Desktop\FHWN\MIT13_CodeSharing\4th_sem\ass\drexler\src\ModelingProject1\ModelingProject1\ModelingProject1.modelproj";
-            //}
-
-            //if (string.IsNullOrEmpty(diagramFileName))
-            //{
-            //    diagramFileName = @"UMLClassDiagram1.classdiagram";
-            //}
-
-            //try
-            //{
-            //    ModelReader mReader = new ModelReader();
-            //    mReader.ReadClassDiagram(projectPath, diagramFileName);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
 
             Console.ReadLine();
         }

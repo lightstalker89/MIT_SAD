@@ -1,40 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel.Composition;
-using System.Windows.Forms;
-using ClassLibrary1;
-using EnvDTE;
-using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Presentation;
-using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml;
-using Microsoft.VisualStudio.Modeling.ExtensionEnablement;
-using Microsoft.VisualStudio.Uml.AuxiliaryConstructs;
-using Microsoft.VisualStudio.Uml.Classes;
-using Microsoft.VisualStudio.Uml.Profiles;
-using Microsoft.VisualStudio.TextTemplating.VSHost;
-using Microsoft.VisualStudio.TextTemplating;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Modeling.Diagrams.ExtensionEnablement;
-using System.IO;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="CountMethodCallsCommand.cs" company="MD Development">
+//     Copyright (c) MD Development. All rights reserved.
+// </copyright>
+// <author>Michael Drexler</author>
+//-----------------------------------------------------------------------
 namespace VSIXProject1
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.ComponentModel.Composition;
+    using System.Windows.Forms;
+    using ClassLibrary1;
+    using EnvDTE;
+    using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Presentation;
+    using Microsoft.VisualStudio.ArchitectureTools.Extensibility.Uml;
+    using Microsoft.VisualStudio.Modeling.ExtensionEnablement;
+    using Microsoft.VisualStudio.Uml.AuxiliaryConstructs;
+    using Microsoft.VisualStudio.Uml.Classes;
+    using Microsoft.VisualStudio.Uml.Profiles;
+    using Microsoft.VisualStudio.TextTemplating.VSHost;
+    using Microsoft.VisualStudio.TextTemplating;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Modeling.Diagrams.ExtensionEnablement;
+    using System.IO;
+
     // Custom context menu command extension
     // See http://msdn.microsoft.com/en-us/library/ee329481(v=vs.120).aspx
     [Export(typeof(ICommandExtension))]
-    [ClassDesignerExtension] // TODO: Add other diagram types if needed
+    [ClassDesignerExtension]
     public class CountMethodCallsCommand : ICommandExtension
     {
+        /// <summary>
+        /// File path to save the generated aspects
+        /// </summary>
         private static string generatedAspectFilePath = string.Empty;
 
+        /// <summary>
+        /// Keep in mind which UML Class are already annotated to count method calls
+        /// </summary>
         private Dictionary<string, bool> isCountMethodCallsActivated = new Dictionary<string, bool>();
 
+        /// <summary>
+        /// Gets or sets the value for the diagram context
+        /// </summary>
         [Import]
         public IDiagramContext context { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value for the service provider
+        /// </summary>
         [Import]
         public SVsServiceProvider ServiceProvider { get; set; }
 
+        /// <summary>
+        /// Gets or sets the value for the selection context
+        /// </summary>
         [Import]
         public IVsSelectionContext sContext { get; set; }
 
@@ -60,18 +81,6 @@ namespace VSIXProject1
                 {
                     if (selClass != null)
                     {
-                        #region OldCode
-                        //Microsoft.VisualStudio.Uml.Profiles.IProperty prop;
-
-                        //if (stereoTypes != null && stereoTypes.Count() > 0)
-                        //{
-                        //    stereoType = stereoTypes.Where(m => m.Name == "class").Select(m => m).FirstOrDefault();
-                        //    prop = stereoType.Properties
-                        //        .Where(m => m.Name.ToLower() == "clrattributes")
-                        //        .Select(m => m).FirstOrDefault();
-                        //} 
-                        #endregion
-
                         var com = comments.Where(m => m.Description == fullNamespaceNameWithType).Select(m => m).FirstOrDefault();
 
                         // Check if CountMethodCalls already is activated
@@ -81,9 +90,7 @@ namespace VSIXProject1
                             comment.Description = fullNamespaceNameWithType;
                             comment.AnnotatedElements.Add(selClass);
                             comment.Body = selClass.Name;
-                            comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}, {4}Average Associations:{5}",
-                                Environment.NewLine,
-                                "0",
+                            comment.Body += string.Format("{0}Instances:{1}, {2}MethodCalls:{3}",
                                 Environment.NewLine,
                                 "0",
                                 Environment.NewLine,
@@ -181,6 +188,9 @@ namespace VSIXProject1
             }
         }
 
+        /// <summary>
+        /// Gets the value for the command text
+        /// </summary>
         public string Text
         {
             get { return "Count Method Calls of class {not selected}"; }

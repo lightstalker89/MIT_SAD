@@ -21,9 +21,11 @@ namespace ClassDiagram
 
 		public virtual void ToBark()
 		{
-			throw new System.NotImplementedException();
+            Console.WriteLine("Wau Wau!");
 		}
 
+        ~Dog()
+        { }
 	}
 }
 
