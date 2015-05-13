@@ -90,7 +90,7 @@ public class FXMLDocumentController implements Initializable {
                     CtClass target = pool.get("hotswapping.swappingClass.SwappingClass");
                     target.defrost();
                     CtMethod targetMethod = target.getDeclaredMethod("swappingMethod");
-                    targetMethod.setBody(javassistTextArea.getText());
+                    targetMethod.setBody("{" + javassistTextArea.getText() + "}");
                     swap.reload("hotswapping.swappingClass.SwappingClass", target.toBytecode());
                 } catch (CannotCompileException ex) {
                     javassistSwappingError.setVisible(true);
@@ -104,6 +104,7 @@ public class FXMLDocumentController implements Initializable {
                     javassistSwappingError.setVisible(true);
                 }
             } else{
+                System.out.println("Error");
                 javassistSwappingError.setVisible(true);
             }
         } else{

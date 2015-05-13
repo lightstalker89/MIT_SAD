@@ -8,12 +8,12 @@
   </information>
   <resources>
     <j2se version="1.6+" java-vm-args="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000 "  href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="HotSwapping.jar" size="12687" download="eager" />
-    <jar href="lib/byte-buddy-0.5.6.jar" size="1397092" download="eager" />
-    <jar href="lib/byte-buddy-agent-0.5.6.jar" size="8582" download="eager" />
-    <jar href="lib/byte-buddy-dep-0.5.6.jar" size="1293758" download="eager" />
-    <jar href="lib/javassist.jar" size="765678" download="eager" />
-    <jar href="lib/tools.jar" size="18645374" download="eager" />
+    <jar href="HotSwapping.jar" size="12837" download="eager" />
+    <jar href="lib/byte-buddy-0.5.6.jar" size="1397096" download="eager" />
+    <jar href="lib/byte-buddy-agent-0.5.6.jar" size="8588" download="eager" />
+    <jar href="lib/byte-buddy-dep-0.5.6.jar" size="1293765" download="eager" />
+    <jar href="lib/javassist.jar" size="765684" download="eager" />
+    <jar href="lib/tools.jar" size="18645377" download="eager" />
   </resources>
 <security>
   <all-permissions/>
