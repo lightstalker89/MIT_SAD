@@ -73,7 +73,7 @@ def parseFile(code):
 	leftBracket,rightBracket,semicolon,comma,equal,tild = map(Suppress, "();,=~")
 
 	variable = Word(alphas)
-	integer = Regex('[1-9][0-9]*')
+	digit = Regex('[1-9][0-9]*')
 
 	delimiter = Literal("|").suppress()
 	operator = oneOf("+ - * / [ ] . ^ { } %")
@@ -88,7 +88,7 @@ def parseFile(code):
 	dataTerm = data + equal + path
 	dataTerms = delimitedList(dataTerm("dataTerms*"))
 
-	termPart  = nestedExpr() | integer | operator
+	termPart  = nestedExpr() | digit | operator
 	termExpr  = OneOrMore(termPart)
 	term = (Optional(beta) + Optional(termExpr) + Optional(beta))
 	variables = delimitedList(term("variables*"))
