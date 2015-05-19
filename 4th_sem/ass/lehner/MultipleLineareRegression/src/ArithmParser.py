@@ -7,6 +7,12 @@ opn = { "+" : operator.add,
         "/" : operator.truediv,
         "^" : operator.pow }
 
+class FalseTermError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+    def __str__(self):
+        return repr(self.msg)
+
 def parse( s ):
     operator = ''
     calcArray = []
@@ -18,4 +24,12 @@ def parse( s ):
                 calcArray.append(float(component))
         else:
             calcArray.append(parse(component))
-    return float(opn[operator](calcArray[0], calcArray[1]))
+
+    if len(calcArray) <= 1 :
+        if len(calcArray) != 0:
+            if operator == "+" or operator == "-":
+                return abs(float(opn[operator](0, calcArray[0])))
+            else :
+                raise FalseTermError("Term Exception: ({} {}) false combination. Only + or - supported!".format(operator, calcArray[0]))
+    else :
+        return abs(float(opn[operator](calcArray[0], calcArray[1])))
