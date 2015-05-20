@@ -8,6 +8,7 @@ import SQLParser
 import MLRCalc
 import platform
 
+# error classes
 class DuplicateKeysError(Exception):
 	def __init__(self, msg):
 		self.msg = msg
@@ -20,6 +21,7 @@ class KeyNotFoundError(Exception):
 	def __str__(self):
 		return repr(self.msg)
 
+# check if key/variable is duplicate
 def isKeyDuplicate(variables, sources):
 	for variable in variables:
 		trueCount = 0
@@ -42,13 +44,13 @@ def isKeyDuplicate(variables, sources):
 						for key in var:
 							if key in keys:
 								trueCount += 1
-		#print trueCount
 		if trueCount > 1:
 			msg = 'Duplicated x-value found in sources: '
 			for sourceString in sources:
 				msg += ' ' + sourceString[1]
 			raise DuplicateKeysError(msg)
 
+# get the corresponding datasource for the key/variable
 def getDataSourceFromKey(key, dataSources):
 	for dataSource in dataSources:
 		keys = []
@@ -67,7 +69,8 @@ def getDataSourceFromKey(key, dataSources):
 			if key in keys:
 				return dataSource
 	return ''
-		
+
+# definition of the DSL and parsing of the input string
 def parseFile(code):
 	keyword = Literal("lm").suppress()
 	leftBracket,rightBracket,semicolon,comma,equal,tild = map(Suppress, "();,=~")
@@ -96,24 +99,16 @@ def parseFile(code):
 
 	dsl = keyword + leftBracket + alpha + tild + variables + delimiter + dataTerms + rightBracket
 	inputString = delimitedList(dsl("inputString*"), delim=semicolon)
-	#result = dsl.parseString("lm(y ~ x1+2, x2, x3 | csv=mydata,sql=asdf);")
-	# result = dsl.parseString(r"lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | csv=advertising.csv);")
-	# code = """
-	# lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | sql=testDB.db, csv=advertising_sourceB.csv);
-	# lm(Sales ~ TV, Radio, Newspaper | csv=advertising.csv)
-	# """
 
 	result = inputString.parseString(code)
-	test = code.split(';')
-	# print result.inputString
-	# print result.alpha
-	# print result.variables
-	# print result.beta
+	rawInput = code.split(';')
+
+	# get values for the key/variables from corresponding datasource
 	idx = 0
 	for linearRegression in result.inputString:
 		isKeyDuplicate(linearRegression.variables, linearRegression.dataTerms)
 		print ''
-		print test[idx].strip()
+		print rawInput[idx].strip()
 		dataArray = []
 		for term in linearRegression.variables:
 			for key in term:
@@ -130,6 +125,7 @@ def parseFile(code):
 		for i in range(len(dataArray)):
 			xArray.append(dataArray[i])
 
+		# get data for the Y key/variable
 		alphaDataSource = getDataSourceFromKey(linearRegression.alpha, linearRegression.dataTerms)
 		if alphaDataSource:
 			data = []

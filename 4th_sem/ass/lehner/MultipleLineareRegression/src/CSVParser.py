@@ -15,8 +15,6 @@ def csvDataFromTerm( term, path ):
 					result = ArithmParser.parse(resultTerm)
 				else:
 					result = float(resultTerm[0])
-				# print resultTerm
-				# print result
 				resultData.append(result)
 			return resultData
 	except KeyError:
