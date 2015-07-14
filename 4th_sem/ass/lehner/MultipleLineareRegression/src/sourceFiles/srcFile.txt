@@ -1,2 +1,0 @@
-lm(Sales ~ TV * 2, 4 / Radio, 3 * (Newspaper ^ 2) | sql=/Users/Roli/vmshare/MIT_SAD/4th_sem/ass/lehner/MultipleLineareRegression/src/sourceFiles/testDB.db, csv=/Users/Roli/vmshare/MIT_SAD/4th_sem/ass/lehner/MultipleLineareRegression/src/sourceFiles/advertising_sourceB.csv);
-lm(Sales ~ TV, Radio, Newspaper | csv=/Users/Roli/vmshare/MIT_SAD/4th_sem/ass/lehner/MultipleLineareRegression/src/sourceFiles/advertising_test.csv);
